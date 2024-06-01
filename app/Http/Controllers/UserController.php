@@ -27,11 +27,9 @@ class UserController extends Controller
           if(!$user || !Hash::check($data['password'], $user->password)){
              return response()->json(['success'=>false, 'message'=>'Invalid Credentials'],401);
           }
-        //   $cookie = cookie('token', $token, 60, '/', '.yourdomain.com', true, true, false, 'none');
        
           $token = $user->createToken($data['email'])->plainTextToken;
-          $cookie = cookie('token', $token, 7 * 24 * 60, '/',null, true, true, false, 'none');
-         // $cookie = cookie('token', $token, 60, '/', null, true, true, false, 'none');
+          $cookie = cookie('token', $token, 1140,'/',null, true, true, false, 'none');
 
           return response()->json(['success'=>true, 'message'=>'login successfull', 'user'=>$user], 200)->withCookie($cookie);
 

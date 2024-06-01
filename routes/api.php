@@ -27,6 +27,7 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
 });
 Route::post('/profile', [ProfileController::class, 'CreateProfile']);
 
+
 Route::post('/beneficiary', [BeneficiaryController::class, 'CreateBeneficiary']);
 Route::post('/Charity', [CharityController::class, 'CreateCharity']);
 
