@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Profile;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -24,6 +25,11 @@ class User extends Authenticatable
         'role',
         'password',
     ];
+
+     public function profile(){
+        return $this->hasOne(Profile::class, 'user_id');
+     }
+
 
     /**
      * The attributes that should be hidden for serialization.
