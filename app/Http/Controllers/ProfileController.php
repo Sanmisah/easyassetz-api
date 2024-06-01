@@ -9,10 +9,10 @@ use Illuminate\Http\Request;
 class ProfileController extends Controller
 {
     public function CreateProfile(Request $request)
-    {   $aadharFileNameToStore =null;
-      $panFileNameToStore = null;
-      $paasportFileNameToStore = null;
-      $dlFileNameToStore = null;
+    {  // $aadharFileNameToStore =null;
+    //   $panFileNameToStore = null;
+    //   $paasportFileNameToStore = null;
+    //   $dlFileNameToStore = null;
       $validator = Validator::make($request->all(),[
             'user_id' => 'required|exists:users,id',
             'fullLegalName'=>'required|string',
@@ -71,30 +71,52 @@ class ProfileController extends Controller
 
 
       //  aadhar card file uploads
-      if($request->hasFile('adharFile')){
-        //get file name with extention
+      // if($request->hasFile('adharFile')){
+      //   //get file name with extention
 
-        $aadharFileNameWithExt = $request->file('adharFile')->getClientOriginalImage();
-        //get just filename
+      //   $aadharFileNameWithExt = $request->file('adharFile')->getClientOriginalName();
+      //   //get just filename
+      //   $aadharFilename = pathinfo($aadharFileNameWithExt, PATHINFO_FILENAME);
+      //   //GET just ext
+      //   $aadharExtention = $request->file('adharFile')->getClientOriginalExtension();
+
+      //   $aadharFileNameToStore = $aadharFilename.'_'.time().'.'.$aadharExtention;
+      //   //upload image
+      //   $path = $request->file('adharFile')->storeAs('public/adharFiles', $aadharFileNameToStore);
+
+      // }
+      $aadharFileNameToStore = null;
+      $panFileNameToStore = null;
+$paasportFileNameToStore = null;
+$dlFileNameToStore = null;
+
+      if ($request->hasFile('adharFile')) {
+        // Get file name with extension
+        $aadharFileNameWithExt = $request->file('adharFile')->getClientOriginalName();
+        
+        // Get just filename
         $aadharFilename = pathinfo($aadharFileNameWithExt, PATHINFO_FILENAME);
-        //GET just ext
-        $aadharExtention = $request->file('adharFile')->getClientOriginalExtention();
-
-        $aadharFileNameToStore = $aadharFilename.'_'.time().'.'.$aadharExtention;
-        //upload image
+        
+        // Get just extension
+        $aadharExtension = $request->file('adharFile')->getClientOriginalExtension();
+    
+        // Concatenate filename with timestamp and extension to create a unique filename
+        $aadharFileNameToStore = $aadharFilename . '_' . time() . '.' . $aadharExtension;
+        
+        // Upload image to the specified path
         $path = $request->file('adharFile')->storeAs('public/adharFiles', $aadharFileNameToStore);
-
-      }
+    }
+    
 
             //  pan card file uploads
       if($request->hasFile('panFile')){
         //get file name with extention
 
-        $panFileNameWithExt = $request->file('panFile')->getClientOriginalImage();
+        $panFileNameWithExt = $request->file('panFile')->getClientOriginalName();
         //get just filename
         $panFilename = pathinfo($panFileNameWithExt, PATHINFO_FILENAME);
         //GET just ext
-        $panExtention = $request->file('panFile')->getClientOriginalExtention();
+        $panExtention = $request->file('panFile')->getClientOriginalExtension();
 
         $panFileNameToStore = $panFilename.'_'.time().'.'.$panExtention;
         //upload image
@@ -107,11 +129,11 @@ class ProfileController extends Controller
        if($request->hasFile('passportFile')){
         //get file name with extention
 
-        $paasportFileNameWithExt = $request->file('passportFile')->getClientOriginalImage();
+        $paasportFileNameWithExt = $request->file('passportFile')->getClientOriginalName();
         //get just filename
         $paasportFilename = pathinfo($paasportFileNameWithExt, PATHINFO_FILENAME);
         //GET just ext
-        $paasportExtention = $request->file('passportFile')->getClientOriginalExtention();
+        $paasportExtention = $request->file('passportFile')->getClientOriginalExtension();
 
         $paasportFileNameToStore = $paasportFilename.'_'.time().'.'.$paasportExtention;
         //upload image
@@ -124,11 +146,11 @@ class ProfileController extends Controller
        if($request->hasFile('drivingLicenceFile')){
         //get file name with extention
 
-        $dlFileNameWithExt = $request->file('drivingLicenceFile')->getClientOriginalImage();
+        $dlFileNameWithExt = $request->file('drivingLicenceFile')->getClientOriginalName();
         //get just filename
         $dlFilename = pathinfo($dlFileNameWithExt, PATHINFO_FILENAME);
         //GET just ext
-        $dlExtention = $request->file('drivingLicenceFile')->getClientOriginalExtention();
+        $dlExtention = $request->file('drivingLicenceFile')->getClientOriginalExtension();
 
         $dlFileNameToStore = $dlFilename.'_'.time().'.'.$dlExtention;
         //upload image
@@ -137,64 +159,108 @@ class ProfileController extends Controller
       }
       
 
-    //  $profile = Profile::create($request->all()); //changes need in this line
-    $fillableAttributes = $request->only([
-      'user_id',
-      'fullLegalName',
-      'gender',
-      'dob',
-      'nationality',
-      'countryOfResidence',
-      'religion',
-      'maritalStatus',
-      'marriedUnderSpecialAct',
-      'correspondenceEmail',
-      'permanentHouseFlatNo',
-      'permanentAddressLine1',
-      'permanentAddressLine2',
-      'permanentPincode',
-      'permanentCity',
-      'permanentState',
-      'permanentCountry',
-     // 'current_address',
-      'currentHouseFlatNo',
-      'currentAddressLine1',
-      'currentAddressLine2',
-      'currentPincode',
-      'currentCity',
-      'currentState',
-      'currentCountry',
-     // 'identification_details',
-      'adharNumber',
-      'aadharName',
-      'panNumber',
-      'panName',
-      'passportNumber',
-      'passportName',
-      'passportExpiryDate',
-      'placeOfIssue',
-      'drivingLicenceNumber',
-      'drivingLicenceName',
-      'drivingLicenceExpiryDate',
-      'drivingLicencePlaceOfIssue',
-  ]);
+  //   //  $profile = Profile::create($request->all()); //changes need in this line
+  //   $fillableAttributes = $request->only([
+  //     'user_id',
+  //     'fullLegalName',
+  //     'gender',
+  //     'dob',
+  //     'nationality',
+  //     'countryOfResidence',
+  //     'religion',
+  //     'maritalStatus',
+  //     'marriedUnderSpecialAct',
+  //     'correspondenceEmail',
+  //     'permanentHouseFlatNo',
+  //     'permanentAddressLine1',
+  //     'permanentAddressLine2',
+  //     'permanentPincode',
+  //     'permanentCity',
+  //     'permanentState',
+  //     'permanentCountry',
+  //    // 'current_address',
+  //     'currentHouseFlatNo',
+  //     'currentAddressLine1',
+  //     'currentAddressLine2',
+  //     'currentPincode',
+  //     'currentCity',
+  //     'currentState',
+  //     'currentCountry',
+  //    // 'identification_details',
+  //     'adharNumber',
+  //     'aadharName',
+  //     'panNumber',
+  //     'panName',
+  //     'passportNumber',
+  //     'passportName',
+  //     'passportExpiryDate',
+  //     'placeOfIssue',
+  //     'drivingLicenceNumber',
+  //     'drivingLicenceName',
+  //     'drivingLicenceExpiryDate',
+  //     'drivingLicencePlaceOfIssue',
+  // ]);
 
     
-   // Manually set other attributes
-   $additionalAttributes = [
+//    // Manually set other attributes
+//    $additionalAttributes = [
+//     'adharFile' => $aadharFileNameToStore,
+//     'panFile' => $panFileNameToStore,
+//     'passportFile' => $paasportFileNameToStore,
+//     'drivingLicenceFile' => $dlFileNameToStore,
+// ];
+
+
+  // Merge both sets of attributes
+ // $attributes = array_merge($fillableAttributes, $additionalAttributes);
+
+  // Create user
+//  $profile = Profile::create($attributes);
+
+
+
+ $profile =  Profile::create([
+    'user_id' => $request->input('user_id'),
+    'fullLegalName' => $request->input('fullLegalName'),
+    'gender' => $request->input('gender'),
+    'dob' => $request->input('dob'),
+    'nationality' => $request->input('nationality'),
+    'countryOfResidence' => $request->input('countryOfResidence'),
+    'religion' => $request->input('religion'),
+    'maritalStatus' => $request->input('maritalStatus'),
+    'marriedUnderSpecialAct' => $request->input('marriedUnderSpecialAct'),
+    'correspondenceEmail' => $request->input('correspondenceEmail'),
+    'permanentHouseFlatNo' => $request->input('permanentHouseFlatNo'),
+    'permanentAddressLine1' => $request->input('permanentAddressLine1'),
+    'permanentAddressLine2' => $request->input('permanentAddressLine2'),
+    'permanentPincode' => $request->input('permanentPincode'),
+    'permanentCity' => $request->input('permanentCity'),
+    'permanentState' => $request->input('permanentState'),
+    'permanentCountry' => $request->input('permanentCountry'),
+    'currentHouseFlatNo' => $request->input('currentHouseFlatNo'),
+    'currentAddressLine1' => $request->input('currentAddressLine1'),
+    'currentAddressLine2' => $request->input('currentAddressLine2'),
+    'currentPincode' => $request->input('currentPincode'),
+    'currentCity' => $request->input('currentCity'),
+    'currentState' => $request->input('currentState'),
+    'currentCountry' => $request->input('currentCountry'),
+    'adharNumber' => $request->input('adharNumber'),
+    'aadharName' => $request->input('aadharName'),
+    'panNumber' => $request->input('panNumber'),
+    'panName' => $request->input('panName'),
+    'passportNumber' => $request->input('passportNumber'),
+    'passportName' => $request->input('passportName'),
+    'passportExpiryDate' => $request->input('passportExpiryDate'),
+    'placeOfIssue' => $request->input('placeOfIssue'),
+    'drivingLicenceNumber' => $request->input('drivingLicenceNumber'),
+    'drivingLicenceName' => $request->input('drivingLicenceName'),
+    'drivingLicenceExpiryDate' => $request->input('drivingLicenceExpiryDate'),
+    'drivingLicencePlaceOfIssue' => $request->input('drivingLicencePlaceOfIssue'),
     'adharFile' => $aadharFileNameToStore,
     'panFile' => $panFileNameToStore,
     'passportFile' => $paasportFileNameToStore,
     'drivingLicenceFile' => $dlFileNameToStore,
-];
-
-
-  // Merge both sets of attributes
-  $attributes = array_merge($fillableAttributes, $additionalAttributes);
-
-  // Create user
-  $profile = Profile::create($attributes);
-
+]);
 
   return response()->json(['success'=>true, 'message'=> 'Profie details added successfully', 'profile'=>$profile],201);
 
