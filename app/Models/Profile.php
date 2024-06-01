@@ -37,7 +37,7 @@ class Profile extends Model
         'currentCountry',
        // 'identification_details',
         'adharNumber',
-        'aadharName',
+        'adharName',
         'adharFile',
         'panNumber',
         'panName',

@@ -49,7 +49,7 @@ return new class extends Migration
               // KYC details
             //$table->string('identification_details');  //enum
             $table->string('adharNumber')->nullable();
-            $table->string('aadharName')->nullable();
+            $table->string('adharName')->nullable();
             $table->string('adharFile')->nullable();
             $table->string('panNumber')->nullable();
             $table->string('panName')->nullable();
