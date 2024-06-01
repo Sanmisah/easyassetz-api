@@ -12,7 +12,7 @@ class ProfileController extends Controller
     {  
       $validator = Validator::make($request->all(),[
             'user_id' => 'required|exists:users,id',
-            'fullLegalName'=>'required|string',
+            'fullLegalName'=>'required|string|max:255',
             'gender' => 'required',
             'dob' => 'required',
             'nationality' => 'required|string',
