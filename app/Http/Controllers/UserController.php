@@ -29,9 +29,9 @@ class UserController extends Controller
           }
        
           $token = $user->createToken($data['email'])->plainTextToken;
-          $cookie = cookie('token', $token, 1140,'/',null, true, true, false, 'none');
+         // $cookie = cookie('token', $token, 1140,'/',null, true, true, false, 'none');
 
-          return response()->json(['success'=>true, 'message'=>'login successfull', 'user'=>$user], 200)->withCookie($cookie);
+          return response()->json(['success'=>true, 'message'=>'login successfull', 'user'=>$user, 'sanctum_token'=>$token], 200);
 
     }
 

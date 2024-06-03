@@ -25,6 +25,7 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
 
 
 });
+
 Route::post('/profile', [ProfileController::class, 'CreateProfile']);
 
 

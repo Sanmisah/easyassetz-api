@@ -63,6 +63,11 @@ class ProfileController extends Controller
            return response()->json(['success'=>false, 'message'=>$validator->errors()], 401);
       }
 
+      $aadharFileNameToStore = null;
+      $panFileNameToStore = null;
+      $paasportFileNameToStore = null;
+      $dlFileNameToStore = null;
+
 
       if ($request->hasFile('adharFile')) {
         // Get file name with extension
