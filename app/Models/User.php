@@ -19,14 +19,14 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'full_name',
+        'name',
         'email',
-        'mobile_number',
+        'mobile',
         'password',
     ];
 
     public function profile(){
-        return $this->hasMany(Profile::class, 'used_id');
+        return $this->hasOne(Profile::class, 'user_id');
     }
 
     /**

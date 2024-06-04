@@ -2,9 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\UserController;
-use App\Http\Controllers\API\ProfileController;
-use App\Http\Controllers\API\BeneficiaryController;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\BeneficiaryController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();

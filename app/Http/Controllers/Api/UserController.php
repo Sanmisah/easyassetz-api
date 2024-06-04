@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\Api;
 
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -8,7 +8,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Validator;
-use App\Http\Controllers\API\BaseController;
+use App\Http\Controllers\Api\BaseController;
 
 class UserController extends BaseController
 {
@@ -21,26 +21,25 @@ class UserController extends BaseController
     public function register(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-             'full_name'=>'required|string|max:255',
-             'email'=>'required|email|string|max:255|unique:users',
-             'mobile_number'=>'required|string|max:15|unique:users',
+             'name'=>'required|string|max:255',
+             'email'=>['required', 'email:rfc,dns', 'unique:users'],
+             'mobile'=>['required', 'regex:/^(\+?[0-9]{1,3})?([0-9]{10})$/', 'unique:users'],
              'password'=>'required|string|min:8|confirmed',
              'password_confirmation'=>'required'
         ]);
-   
+
         if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+            return $this->sendError('Validation Error.', $validator->errors());
         }
-   
+
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
-        //$success['token'] =  $user->createToken('MyApp')->plainTextToken;
-        $success['full_name'] =  $user->full_name;
-   
+        $success['name'] =  $user->name;
+
         return $this->sendResponse($success, 'User register successfully.');
     }
-   
+
 
      /**
      * Login api
@@ -53,24 +52,23 @@ class UserController extends BaseController
             'email'=>'required|email|string|max:255',
             'password'=>'required|string|min:8',
        ]);
-  
+
        if($validator->fails()){
-           return $this->sendError('Validation Error.', $validator->errors());       
+           return $this->sendError('Validation Error.', $validator->errors());
        }
 
-        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){ 
-            $user = Auth::user(); 
-            $success['token'] =  $user->createToken($user->full_name)->plainTextToken; 
-            $success['full_name'] =  $user->full_name;
-   
+        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
+            $user = Auth::user()->load('profile');
+            $success['token'] =  $user->createToken($user->name)->plainTextToken;
+            $success['user']  = $user;
+
             return $this->sendResponse($success, 'User login successfully.');
-        } 
-        else{ 
+        } else{
             return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
-        } 
+        }
     }
 
-    
 
-   
+
+
 }
