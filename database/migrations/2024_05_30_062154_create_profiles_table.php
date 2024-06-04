@@ -13,59 +13,46 @@ return new class extends Migration
     {
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
-                       // foreign key
-            $table->foreignId('user_id')->contrained()->onDelete('cascade');
-                        // User details
-            $table->text('fullLegalName');
-            $table->string('gender');   //enum
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->text('full_legal_name');
+            $table->string('gender');   
             $table->string('dob');
-            $table->string('nationality');  //enum
-            $table->string('countryOfResidence');
-            $table->string('religion');        //enum
-            $table->string('maritalStatus')->nullable();   //enum
-            $table->string('marriedUnderSpecialAct')->default('No');
-
-            // Contact details (permenent address)
-            $table->string('correspondenceEmail')->unique();
-            $table->string('permanentHouseFlatNo');
-            $table->longText('permanentAddressLine1');
-            $table->longText('permanentAddressLine2')->nullable();
-            $table->string('permanentPincode');
-            $table->string('permanentCity');
-            $table->string('permanentState')->nullable();
-            $table->string('permanentCountry')->nullable();
-            //$table->boolean('current_address')->default(false);
-      
-            // (current address)
-            $table->string('currentHouseFlatNo');
-            $table->longtext('currentAddressLine1');
-            $table->longtext('currentAddressLine2')->nullable();
-            $table->string('currentPincode');
-            $table->string('currentCity');
-            $table->string('currentState')->nullable();
-            $table->string('currentCountry')->nullable();
-
-
-              // KYC details
-            //$table->string('identification_details');  //enum
-            $table->string('adharNumber')->nullable();
-            $table->string('adharName')->nullable();
-            $table->string('adharFile')->nullable();
-            $table->string('panNumber')->nullable();
-            $table->string('panName')->nullable();
-            $table->string('panFile')->nullable();
-            $table->string('passportNumber')->nullable();
-            $table->string('passportName')->nullable();
-            $table->date('passportExpiryDate')->nullable();
-            $table->string('passportPlaceOfIssue')->nullable();
-            $table->string('passportFile')->nullable();
-            $table->string('drivingLicenceNumber')->nullable();
-            $table->string('drivingLicenceName')->nullable();
-            $table->date('drivingLicenceExpiryDate')->nullable();
-            $table->string('drivingLicencePlaceOfIssue')->nullable();
-            $table->string('drivingLicenceFile')->nullable();
-
-
+            $table->string('nationality');  
+            $table->string('country_of_residence');
+            $table->string('religion');        
+            $table->string('marital_status')->nullable();  
+            $table->string('married_under_special_act')->default('No');
+            $table->string('correspondence_email')->unique();
+            $table->string('permanent_house_flat_no');
+            $table->longText('permanent_address_line_1');
+            $table->longText('permanent_address_line_2')->nullable();
+            $table->string('permanent_pincode');
+            $table->string('permanent_city');
+            $table->string('permanent_state')->nullable();
+            $table->string('permanent_country')->nullable();
+            $table->string('current_house_flat_no');
+            $table->longtext('current_address_line_1');
+            $table->longtext('current_address_line_2')->nullable();
+            $table->string('current_pincode');
+            $table->string('current_city');
+            $table->string('current_state')->nullable();
+            $table->string('current_country')->nullable();
+            $table->string('adhar_number')->nullable();
+            $table->string('adhar_name')->nullable();
+            $table->string('adhar_file')->nullable();
+            $table->string('pan_number')->nullable();
+            $table->string('pan_name')->nullable();
+            $table->string('pan_file')->nullable();
+            $table->string('passport_number')->nullable();
+            $table->string('passport_name')->nullable();
+            $table->date('passport_expiry_date')->nullable();
+            $table->string('passport_place_of_issue')->nullable();
+            $table->string('passport_file')->nullable();
+            $table->string('driving_licence_number')->nullable();
+            $table->string('driving_licence_name')->nullable();
+            $table->date('driving_licence_expiry_date')->nullable();
+            $table->string('driving_licence_place_of_issue')->nullable();
+            $table->string('driving_licence_file')->nullable();
             $table->timestamps();
         });
     }

@@ -2,10 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\CharityController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\BeneficiaryController;
+use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\ProfileController;
+use App\Http\Controllers\API\BeneficiaryController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -13,38 +12,11 @@ use App\Http\Controllers\BeneficiaryController;
 
 
 Route::group(['middleware'=>['auth.guest']], function(){
-
     Route::post('/register', [UserController::class, 'register']);
     Route::post('/login', [UserController::class, 'login']);
-
 });
-
-
 
 Route::group(['middleware'=>['auth:sanctum']], function(){
-
-
+    Route::resource('profiles', ProfileController::class);
+    Route::resource('beneficiaries', BeneficiaryController::class);
 });
-
-Route::post('/profile', [ProfileController::class, 'CreateProfile']);
-
-
-Route::post('/beneficiary', [BeneficiaryController::class, 'CreateBeneficiary']);
-Route::post('/charity', [CharityController::class, 'CreateCharity']);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

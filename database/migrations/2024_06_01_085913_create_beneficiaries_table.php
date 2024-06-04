@@ -13,36 +13,39 @@ return new class extends Migration
     {
         Schema::create('beneficiaries', function (Blueprint $table) {
             $table->id();
-            // relationship
             $table->foreignId('profile_id')->constrained()->onDelete('cascade');
-            $table->string('fullLegalName');
-            $table->string('relationship');
-            $table->string('gender');
-            $table->string('dob');
-            
-            // guardian details 
-            $table->string('guardianFullLegalName')->nullable();
-            $table->string('guardianMobileNumber');
-            $table->string('guardianEmail')->nullable();
-            $table->string('guardianCity');
-            $table->string('guardianState');
-
-            // optional info
-            $table->string('adharNumber')->nullable();
-            $table->string('panNumber')->nullable();
-            $table->string('passportNumber')->nullable();
-            $table->string('drivingLicenceNumber')->nullable();
+            $table->string('full_legal_name')->nullable();
+            $table->string('relationship')->nullable();
+            $table->string('gender')->nullable();
+            $table->string('dob')->nullable();
+            $table->string('guardian_full_legal_name')->nullable();
+            $table->string('guardian_mobile_number')->nullable();
+            $table->string('guardian_email')->nullable();
+            $table->string('guardian_city')->nullable();
+            $table->string('guardian_state')->nullable();
+            $table->string('adhar_number')->nullable();
+            $table->string('pan_number')->nullable();
+            $table->string('passport_number')->nullable();
+            $table->string('driving_licence_number')->nullable();
             $table->string('religion')->nullable();
             $table->string('nationality')->nullable();
-
-            // address information
-            $table->string('houseFlatNo');
-            $table->longText('addressLine1');
-            $table->longText('addressLine2')->nullable();
-            $table->string('pincode');
-            $table->string('beneficiaryCity');
-            $table->string('beneficiaryState')->nullable();
-            $table->string('country')->nullable();
+            $table->string('house_flat_no')->nullable();
+            $table->longText('address_line_1')->nullable();
+            $table->longText('address_line_2')->nullable();
+            $table->string('pincode')->nullable();
+            $table->string('beneficiary_city')->nullable();
+            $table->string('beneficiary_state')->nullable();
+            $table->string('beneficiary_country')->nullable();
+            $table->text('charity_name')->nullable();
+            $table->longText('charity_address_1')->nullable();
+            $table->longText('charity_address_2')->nullable();
+            $table->string('charity_city')->nullable();
+            $table->string('chariy_state')->nullable();
+            $table->string('charity_phone_number')->nullable();
+            $table->string('charity_email')->nullable();
+            $table->string('charity_contact_person')->nullable();
+            $table->text('charity_website')->nullable();
+            $table->longText('charity_specific_instruction')->nullable();
             $table->timestamps();
         });
     }
