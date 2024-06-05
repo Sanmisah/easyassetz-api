@@ -4,9 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use App\Http\Controllers\API\BaseController;
 use Symfony\Component\HttpFoundation\Response;
 
-class GuestMiddleware
+class GuestMiddleware extends BaseController
 {
     /**
      * Handle an incoming request.
@@ -18,7 +19,7 @@ class GuestMiddleware
        
         $user = auth()->user();
         if($user){
-            return response()->josn(['success'=>false, 'authenticated User can not access this resource'], 401);
+            return $this->sendError('Unauthorised.', ['error'=>'authenticated User can not access this resource']);
         }
 
         return $next($request);

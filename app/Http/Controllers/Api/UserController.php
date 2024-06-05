@@ -25,7 +25,7 @@ class UserController extends BaseController
         $validator = Validator::make($request->all(), [
              'name'=>'required|string|max:255',
              'email'=>['required', 'email:rfc,dns', 'unique:users'],
-             'mobile'=>['required','unique:users'],
+             'mobile'=>['required', 'unique:users'],  
              'password'=>'required|string|min:8|confirmed',
              'password_confirmation'=>'required'
         ]);
@@ -36,13 +36,20 @@ class UserController extends BaseController
 
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
-        $user = User::create($input);
-         
-        $profile = new Profile();
-        $profile->user_id = $user->id;
-        $profile->save();
+       // $user = User::create($input);
+       $user = new User();
+       $user->name = $input['name'];
+       $user->mobile = $input['mobile'];
+       $user->email = $input['email'];
+       $user->password = $input['password'];
+       $user->save();
 
-        return $this->sendResponse(['user'=>new UserResource($user), 'profile'=>$profile], 'User register successfully.');
+         
+        // $profile = new Profile();
+        // $profile->user_id = $user->id;
+        // $profile->save();
+
+        return $this->sendResponse(['user'=>new UserResource($user)], 'User register successfully.');
     }
 
 
@@ -72,8 +79,5 @@ class UserController extends BaseController
             return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
         }
     }
-
-
-
 
 }

@@ -19,4 +19,6 @@ Route::group(['middleware'=>['auth.guest']], function(){
 Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('profiles', ProfileController::class);
     Route::resource('beneficiaries', BeneficiaryController::class);
+    Route::get('/logout', [UserController::class, 'logout']);
+
 });

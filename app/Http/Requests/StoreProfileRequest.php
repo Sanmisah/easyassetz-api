@@ -24,11 +24,11 @@ class StoreProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => ['required','exists:users,id'],
-            'full_legal_name' => ['required','string','max:255'],
-            'correspondence_email' => ['required','email:rfc,dns','unique:profiles'],
-            'adhar_number' => ['sometimes','string','max:12'],
-            'pan_number' => ['sometimes','string',],
+            //'user_id' => ['required','exists:users,id'],
+            'fullLegalName' => ['required','string','max:255'],
+            'correspondencEmail' => ['required','email:rfc,dns'],
+            'adharNumber' => ['sometimes','string','max:12'],
+            'panNumber' => ['sometimes','string',],
         ];
     }
 

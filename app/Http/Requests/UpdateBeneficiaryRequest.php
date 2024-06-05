@@ -25,11 +25,11 @@ class UpdateBeneficiaryRequest extends FormRequest
     {
         return [
             'profile_id' => ['required', 'exists:profiles,id'],
-            'full_legal_name' => ['sometimes', 'string', 'max:255'],
-            'guardian_email' => ['nullable', 'email:ref,dns'],
-            'adhar_number' => ['nullable', 'string', 'max:12'],
-            'pan_number' => ['nullable', 'string', 'max:10'],
-            'charity_name' => ['sometimes', 'string', 'max:255'],
+            'fullLegalName' => ['sometimes', 'string', 'max:255'],
+            'guardianEmail' => ['nullable', 'email:ref,dns'],
+            'adharNumber' => ['nullable', 'string', 'max:12'],
+            'panNumber' => ['nullable', 'string', 'max:10'],
+            'charityName' => ['sometimes', 'string', 'max:255'],
         ];
     }
 

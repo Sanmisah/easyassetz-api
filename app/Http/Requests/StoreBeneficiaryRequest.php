@@ -24,12 +24,13 @@ class StoreBeneficiaryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'profile_id' => ['required', 'exists:profiles,id'],
-            'full_legal_name' => ['sometimes', 'string', 'max:255'],
-            'guardian_email' => ['nullable', 'email:ref,dns'],
-            'adhar_number' => ['nullable', 'string', 'max:12'],
-            'pan_number' => ['nullable', 'string', 'max:10'],
-            'charity_name' => ['sometimes', 'string', 'max:255'],
+            'profile_id'=>['required','exists:profiles,id'],
+            'fullLegalName'=>['sometimes','string','max:255'],
+            'guardianFullLegalName'=>['sometimes','string'],
+            'guardianNumber'=>['sometimes','phone:strict'],  //'regex:/^\+\d{1,3}\d{3,14}$/'
+            'guardianEmail'=>['nullable','email:ref,dns'],
+            'guardianCity'=>['sometimes','string'],
+            'guardianState'=>['nullable','string'],
         ];
     }
 
