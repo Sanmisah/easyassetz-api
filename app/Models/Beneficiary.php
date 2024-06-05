@@ -9,9 +9,4 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Beneficiary extends Model
 {
     use HasFactory;
-
-    public function profile(){
-        return $this->belongsTo(Profile::class, 'profile_id');
-    }
-
 }

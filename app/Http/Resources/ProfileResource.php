@@ -56,8 +56,8 @@ class ProfileResource extends JsonResource
             'driving_licence_expiry_date' => $this->driving_licence_expiry_date,
             'driving_licence_place_of_issue' => $this->driving_licence_place_of_issue,
             'driving_licence_file' => $this->driving_licence_file,
-            'created_at' => $this->created_at->format('d/m/y'),
-            'updated_at' => $this->updated_at->format('d/m/y'),
+           // 'created_at' => $this->created_at->format('d/m/y'),
+            //'updated_at' => $this->updated_at->format('d/m/y'),
         ];
     }
 }

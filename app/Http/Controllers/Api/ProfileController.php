@@ -90,7 +90,7 @@ class ProfileController extends BaseController
      * Update the specified resource in storage.
      */
     public function update(UpdateProfileRequest $request, Profile $profile)
-    {
+    {   
         $profile->full_legal_name = $request->input('full_legal_name');
         $profile->gender = $request->input('gender');
         $profile->dob = $request->input('dob');

@@ -36,7 +36,7 @@ return new class extends Migration
             $table->string('beneficiary_city')->nullable();
             $table->string('beneficiary_state')->nullable();
             $table->string('beneficiary_country')->nullable();
-            $table->text('charity_name')->nullable();
+            $table->string('charity_name')->nullable();
             $table->longText('charity_address_1')->nullable();
             $table->longText('charity_address_2')->nullable();
             $table->string('charity_city')->nullable();
@@ -44,9 +44,10 @@ return new class extends Migration
             $table->string('charity_phone_number')->nullable();
             $table->string('charity_email')->nullable();
             $table->string('charity_contact_person')->nullable();
-            $table->text('charity_website')->nullable();
+            $table->string('charity_website')->nullable();
             $table->longText('charity_specific_instruction')->nullable();
-            $table->timestamps();
+            $table->timestamp('created_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
         });
     }
 

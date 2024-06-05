@@ -13,28 +13,28 @@ return new class extends Migration
     {
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->text('full_legal_name');
-            $table->string('gender');   
-            $table->string('dob');
-            $table->string('nationality');  
-            $table->string('country_of_residence');
-            $table->string('religion');        
+            $table->foreignId('user_id')->constrained()->unique()->onDelete('cascade');
+            $table->string('full_legal_name')->nullable();
+            $table->string('gender')->nullable();   
+            $table->string('dob')->nullable();
+            $table->string('nationality')->nullable();  
+            $table->string('country_of_residence')->nullable();
+            $table->string('religion')->nullable();        
             $table->string('marital_status')->nullable();  
-            $table->string('married_under_special_act')->default('No');
-            $table->string('correspondence_email')->unique();
-            $table->string('permanent_house_flat_no');
-            $table->longText('permanent_address_line_1');
+            $table->string('married_under_special_act')->nullable();
+            $table->string('correspondence_email')->unique()->nullable();
+            $table->string('permanent_house_flat_no')->nullable();
+            $table->longText('permanent_address_line_1')->nullable();
             $table->longText('permanent_address_line_2')->nullable();
-            $table->string('permanent_pincode');
-            $table->string('permanent_city');
+            $table->string('permanent_pincode')->nullable();
+            $table->string('permanent_city')->nullable();
             $table->string('permanent_state')->nullable();
             $table->string('permanent_country')->nullable();
-            $table->string('current_house_flat_no');
-            $table->longtext('current_address_line_1');
+            $table->string('current_house_flat_no')->nullable();
+            $table->longtext('current_address_line_1')->nullable();
             $table->longtext('current_address_line_2')->nullable();
-            $table->string('current_pincode');
-            $table->string('current_city');
+            $table->string('current_pincode')->nullable();
+            $table->string('current_city')->nullable();
             $table->string('current_state')->nullable();
             $table->string('current_country')->nullable();
             $table->string('adhar_number')->nullable();
@@ -53,7 +53,8 @@ return new class extends Migration
             $table->date('driving_licence_expiry_date')->nullable();
             $table->string('driving_licence_place_of_issue')->nullable();
             $table->string('driving_licence_file')->nullable();
-            $table->timestamps();
+            $table->timestamp('created_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
         });
     }
 

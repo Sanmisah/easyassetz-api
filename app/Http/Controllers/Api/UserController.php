@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use Validator;
 use App\Models\User;
+use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
-use Validator;
 use App\Http\Controllers\Api\BaseController;
 
 class UserController extends BaseController
@@ -23,7 +25,7 @@ class UserController extends BaseController
         $validator = Validator::make($request->all(), [
              'name'=>'required|string|max:255',
              'email'=>['required', 'email:rfc,dns', 'unique:users'],
-             'mobile'=>['required', 'regex:/^(\+?[0-9]{1,3})?([0-9]{10})$/', 'unique:users'],
+             'mobile'=>['required','unique:users'],
              'password'=>'required|string|min:8|confirmed',
              'password_confirmation'=>'required'
         ]);
@@ -35,9 +37,12 @@ class UserController extends BaseController
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
-        $success['name'] =  $user->name;
+         
+        $profile = new Profile();
+        $profile->user_id = $user->id;
+        $profile->save();
 
-        return $this->sendResponse($success, 'User register successfully.');
+        return $this->sendResponse(['user'=>new UserResource($user), 'profile'=>$profile], 'User register successfully.');
     }
 
 
@@ -49,8 +54,8 @@ class UserController extends BaseController
     public function login(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'email'=>'required|email|string|max:255',
-            'password'=>'required|string|min:8',
+            'email'=>['required','email'],
+            'password'=>['required','string','min:6'],
        ]);
 
        if($validator->fails()){
@@ -59,10 +64,10 @@ class UserController extends BaseController
 
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             $user = Auth::user()->load('profile');
-            $success['token'] =  $user->createToken($user->name)->plainTextToken;
-            $success['user']  = $user;
+            $token =  $user->createToken($user->name)->plainTextToken;
 
-            return $this->sendResponse($success, 'User login successfully.');
+            return $this->sendResponse(['user'=>new UserResource($user), 'token'=>$token], 'User login successfully.');           
+
         } else{
             return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
         }
