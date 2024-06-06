@@ -19,6 +19,9 @@ class ProfileController extends BaseController
     public function index(): JsonResponse
     {
         $profile = Profile::all();
+        if (is_null($profile)) {
+            return $this->sendError('Profiles not added.', ['error'=>'Profiles not added']);
+        }
         return $this->sendResponse(['profile'=>ProfileResource::collection($profile)], 'profiles retrived successfully');
     }
 
@@ -27,7 +30,7 @@ class ProfileController extends BaseController
      */
     public function store(StoreProfileRequest $request): JsonResponse
     {   $user = Auth::user();
-        $profile = new Profile();  //add user_id and remove storing process of profile from register.
+        $profile = new Profile();
         $profile->user_id = $user->id;
         $profile->full_legal_name = $request->input('fullLegalName');
         $profile->gender = $request->input('gender');
@@ -37,7 +40,7 @@ class ProfileController extends BaseController
         $profile->religion = $request->input('religion');
         $profile->marital_status = $request->input('maritalStatus');
         $profile->married_under_special_act = $request->input('marriedUnderSpecialAct');
-        $profile->correspondence_email = $request->input('correspondencEmail');
+        $profile->correspondence_email = $request->input('correspondenceEmail');
         $profile->permanent_house_flat_no = $request->input('permanentHouseFlatNo');
         $profile->permanent_address_line_1 = $request->input('permanentAddressLine1');
         $profile->permanent_address_line_2 = $request->input('permanentAddressLine2');
@@ -92,7 +95,8 @@ class ProfileController extends BaseController
      * Update the specified resource in storage.
      */
     public function update(UpdateProfileRequest $request, Profile $profile)
-    {   if(auth()->id !== $profile->user_id){
+    {   $user = Auth::user();
+        if($user->id !== $profile->user_id){
             return $this->sendError('Profile not found', ['error'=>'profile not found']);
           }
         $profile->full_legal_name = $request->input('fullLegalName');
@@ -103,7 +107,7 @@ class ProfileController extends BaseController
         $profile->religion = $request->input('religion');
         $profile->marital_status = $request->input('maritalStatus');
         $profile->married_under_special_act = $request->input('marriedUnderSpecialAct');
-        $profile->correspondence_email = $request->input('correspondencEmail');
+        $profile->correspondence_email = $request->input('correspondenceEmail');
         $profile->permanent_house_flat_no = $request->input('permanentHouseFlatNo');
         $profile->permanent_address_line_1 = $request->input('permanentAddressLine1');
         $profile->permanent_address_line_2 = $request->input('permanentAddressLine2');
@@ -136,7 +140,7 @@ class ProfileController extends BaseController
         $profile->driving_licence_file = $request->file('drivingLicenceFile');
         $profile->save();
 
-        return $this->sendResponse(['profile'=>new ProductResource($profile)], 'Profile updated successfully.');
+        return $this->sendResponse(['profile'=>new ProfileResource($profile)], 'Profile updated successfully.');
     }
 
     /**

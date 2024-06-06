@@ -6,10 +6,13 @@ use App\Models\Beneficiary;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\BeneficiaryResource;
+use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\StoreBeneficiaryRequest;
+use App\Http\Requests\UpdateBeneficiaryRequest;
 
-class BeneficiaryController extends Controller
+class BeneficiaryController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -17,6 +20,10 @@ class BeneficiaryController extends Controller
     public function index(): JsonResponse
     {
         $beneficiary = Beneficiary::all();
+        $profile = Profile::all();
+        if (is_null($beneficiary)) {
+            return $this->sendError('beneficiaries not added.', ['error'=>'Beneficiaries not added']);
+        }
         return $this->sendResponse(['Beneficiaries'=>BeneficiaryResource::collection($beneficiary)], "Beneficiaries retrived successfully");
     }
 
@@ -24,9 +31,9 @@ class BeneficiaryController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(StoreBeneficiaryRequest $request): JsonResponse
-    {
+    {    $user = Auth::user();
         $beneficiary = new Beneficiary();
-        $beneficiary->profile_id = $request->input('profile_id');
+        $beneficiary->profile_id = $user->profile->id;
         $beneficiary->full_legal_name = $request->input('full_legal_name');
         $beneficiary->relationship = $request->input('relationship');
         $beneficiary->gender = $request->input('gender');
@@ -59,7 +66,7 @@ class BeneficiaryController extends Controller
         $beneficiary->charity_contact_person = $request->input('charity_contact_person');
         $beneficiary->charity_website = $request->input('charity_website');
         $beneficiary->charity_specific_instruction = $request->input('charity_specific_instruction');
-        $beneficiary->save();
+        $beneficiary->save();  //data saved
 
         return $this->sendResponse(['Beneficiary'=>new BeneficiaryResource($beneficiary)], 'Beneficiary created successfully.');
 
@@ -81,8 +88,11 @@ class BeneficiaryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Beneficiary $beneficiary): JsonResponse
-    {
+    public function update(UpdateBeneficiaryRequest $request, Beneficiary $beneficiary): JsonResponse
+    {    $user = Auth::user();
+         if($user->profile->id !== $beneficiary->profile_id){
+            return $this->sendError('Beneficiary not found', ['error'=>'Beneficiary not found']);
+          }
         $beneficiary->full_legal_name = $request->input('full_legal_name');
         $beneficiary->relationship = $request->input('relationship');
         $beneficiary->gender = $request->input('gender');
@@ -123,10 +133,20 @@ class BeneficiaryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Beneficiary $beneficiary)
-    {
-        $beneficiary->delete();
+    public function destroy(string $id)
+    {          
+        $beneficiary = Beneficiary::find($id);
+        
+        if (!$beneficiary) {
+            return $this->sendError('Beneficiary not found', ['error' => 'Beneficiary not found'], 404);
+        }
 
-        return $this->sendResponse([], 'Beneficiary Deleted Successfully');
+        $user = Auth::user();
+        if($user->profile->id !== $beneficiary->profile_id){
+           return $this->sendError('Beneficiary not found', ['error'=>'Beneficiary not found']);
+         }
+
+        $beneficiary->delete();
+        return $this->sendResponse([],'Beneficiary deleted successfully');
     }
 }

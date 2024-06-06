@@ -24,7 +24,6 @@ class StoreBeneficiaryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'profile_id'=>['required','exists:profiles,id'],
             'fullLegalName'=>['sometimes','string','max:255'],
             'guardianFullLegalName'=>['sometimes','string'],
             'guardianNumber'=>['sometimes','phone:strict'],  //'regex:/^\+\d{1,3}\d{3,14}$/'

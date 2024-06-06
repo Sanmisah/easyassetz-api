@@ -36,7 +36,7 @@ class UserController extends BaseController
 
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
-       // $user = User::create($input);
+       
        $user = new User();
        $user->name = $input['name'];
        $user->mobile = $input['mobile'];
@@ -45,11 +45,12 @@ class UserController extends BaseController
        $user->save();
 
          
-        // $profile = new Profile();
-        // $profile->user_id = $user->id;
-        // $profile->save();
+        $profile = new Profile();
+        $profile->user_id = $user->id;
+        $profile->full_legal_name = $user->name;
+        $profile->save();
 
-        return $this->sendResponse(['user'=>new UserResource($user)], 'User register successfully.');
+        return $this->sendResponse(['user'=>new UserResource($user), 'profile'=>$profile], 'User register successfully.');
     }
 
 

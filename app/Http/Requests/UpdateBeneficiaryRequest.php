@@ -24,7 +24,6 @@ class UpdateBeneficiaryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'profile_id' => ['required', 'exists:profiles,id'],
             'fullLegalName' => ['sometimes', 'string', 'max:255'],
             'guardianEmail' => ['nullable', 'email:ref,dns'],
             'adharNumber' => ['nullable', 'string', 'max:12'],

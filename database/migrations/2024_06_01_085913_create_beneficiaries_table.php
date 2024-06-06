@@ -40,7 +40,7 @@ return new class extends Migration
             $table->longText('charity_address_1')->nullable();
             $table->longText('charity_address_2')->nullable();
             $table->string('charity_city')->nullable();
-            $table->string('chariy_state')->nullable();
+            $table->string('charity_state')->nullable();
             $table->string('charity_phone_number')->nullable();
             $table->string('charity_email')->nullable();
             $table->string('charity_contact_person')->nullable();
