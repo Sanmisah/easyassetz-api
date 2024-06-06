@@ -76,7 +76,7 @@ class UserController extends BaseController
             return $this->sendResponse(['user'=>new UserResource($user), 'token'=>$token], 'User login successfully.');           
 
         } else{
-            return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
+            return $this->sendError('Unauthorised.', ['error'=>'Unauthorized']);
         }
     }
 

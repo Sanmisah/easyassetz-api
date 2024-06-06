@@ -17,7 +17,7 @@ class BeneficiaryController extends Controller
     public function index(): JsonResponse
     {
         $beneficiary = Beneficiary::all();
-        return $this->sendResponse(BeneficiaryResource::collection($beneficiary), "Beneficiaries retrived successfully");
+        return $this->sendResponse(['Beneficiaries'=>BeneficiaryResource::collection($beneficiary)], "Beneficiaries retrived successfully");
     }
 
     /**
@@ -61,7 +61,7 @@ class BeneficiaryController extends Controller
         $beneficiary->charity_specific_instruction = $request->input('charity_specific_instruction');
         $beneficiary->save();
 
-        return $this->sendResponse(new BeneficiaryResource($beneficiary), 'Beneficiary created successfully.');
+        return $this->sendResponse(['Beneficiary'=>new BeneficiaryResource($beneficiary)], 'Beneficiary created successfully.');
 
     }
 
@@ -73,9 +73,9 @@ class BeneficiaryController extends Controller
         $beneficiary = Beneficiary::find($id);
 
         if(is_null($beneficiary)){
-            return $this->sendError('Beneficiary Not Found');
+            return $this->sendError('Beneficiary Not Found',['error'=>'beneficiary not found']);
         }
-        return $this->sendResponse(new BeneficiaryResource($beneficiary), 'Beneficiary retrived successfully');
+        return $this->sendResponse(['Beneficiary'=>new BeneficiaryResource($beneficiary)], 'Beneficiary retrived successfully');
     }
 
     /**
@@ -117,7 +117,7 @@ class BeneficiaryController extends Controller
         $beneficiary->charity_specific_instruction = $request->input('charity_specific_instruction');
         $beneficiary->save();
  
-        return $this->sendResponse(new BeneficiaryResource($beneficiary), "Beneficiary updated successfully");
+        return $this->sendResponse(['Beneficiary'=>new BeneficiaryResource($beneficiary)], "Beneficiary updated successfully");
     }
 
     /**

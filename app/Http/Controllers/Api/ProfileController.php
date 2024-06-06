@@ -19,7 +19,7 @@ class ProfileController extends BaseController
     public function index(): JsonResponse
     {
         $profile = Profile::all();
-        return $this->sendResponse(ProfileResource::collection($profile), 'profiles retrived successfully');
+        return $this->sendResponse(['profile'=>ProfileResource::collection($profile)], 'profiles retrived successfully');
     }
 
     /**
@@ -70,7 +70,7 @@ class ProfileController extends BaseController
         $profile->driving_licence_file = $request->file('drivingLicenceFile');
         $profile->save();
 
-        return $this->sendResponse(new ProfileResource($profile), 'Profile created successfully.');
+        return $this->sendResponse(['profile'=>new ProfileResource($profile)], 'Profile created successfully.');
 
     }
 
@@ -82,9 +82,9 @@ class ProfileController extends BaseController
         $profile = Profile::find($id);
 
         if (is_null($profile)) {
-            return $this->sendError('Profile not found.');
+            return $this->sendError('Profile not found.', ['error'=>'Profile not found']);
         }
-        return $this->sendResponse(new ProfileResource($profile), 'Profile retrieved successfully.');
+        return $this->sendResponse(['profile'=>new ProfileResource($profile)], 'Profile retrieved successfully.');
 
     }
 
@@ -92,7 +92,9 @@ class ProfileController extends BaseController
      * Update the specified resource in storage.
      */
     public function update(UpdateProfileRequest $request, Profile $profile)
-    {   
+    {   if(auth()->id !== $profile->user_id){
+            return $this->sendError('Profile not found', ['error'=>'profile not found']);
+          }
         $profile->full_legal_name = $request->input('fullLegalName');
         $profile->gender = $request->input('gender');
         $profile->dob = $request->input('dob');
@@ -134,7 +136,7 @@ class ProfileController extends BaseController
         $profile->driving_licence_file = $request->file('drivingLicenceFile');
         $profile->save();
 
-        return $this->sendResponse(new ProductResource($profile), 'Profile updated successfully.');
+        return $this->sendResponse(['profile'=>new ProductResource($profile)], 'Profile updated successfully.');
     }
 
     /**
