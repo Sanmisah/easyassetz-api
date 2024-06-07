@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use Carbon\Carbon;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -22,14 +24,38 @@ class StoreBeneficiaryRequest extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
-    {
+    {     
+        $dob = $this->input('dob');
+        $age = Carbon::parse($dob)->age;
+
         return [
-            'fullLegalName'=>['sometimes','string','max:255'],
-            'guardianFullLegalName'=>['sometimes','string'],
-            'guardianNumber'=>['sometimes','phone:strict'],  //'regex:/^\+\d{1,3}\d{3,14}$/'
-            'guardianEmail'=>['nullable','email:ref,dns'],
-            'guardianCity'=>['sometimes','string'],
-            'guardianState'=>['nullable','string'],
+            'fullLegalName'=>['sometimes','string'],
+            'dob' => ['required', 'date'],
+            'guardianCity' => [
+                $age < 18 ? 'required' : 'nullable',
+                'string',
+            ],
+            'guardianName'=> [
+                $age < 18 ? 'required' : 'nullable',
+                'string',
+            ],
+            'guardianMobile'=>[
+                $age < 18 ? 'required' : 'nullable',
+                'string',
+                'regex:/^\+(?:\d{1}|\d{3})(?:\x20?\d){5,14}\d$/'
+            ],
+            'guardianEmail'=>[
+                $age < 18 ? 'required' : 'nullable',
+                'email:rfc,dns',
+            ],
+            'guardianCity'=>[
+                $age < 18 ? 'required' : 'nullable',
+                'string',
+            ],
+            'guardianState'=>[
+                $age < 18 ? 'required' : 'nullable',
+                'string',
+            ],
         ];
     }
 

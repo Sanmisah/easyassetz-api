@@ -37,14 +37,13 @@ class UserController extends BaseController
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
        
-       $user = new User();
-       $user->name = $input['name'];
-       $user->mobile = $input['mobile'];
-       $user->email = $input['email'];
-       $user->password = $input['password'];
-       $user->save();
+        $user = new User();
+        $user->name = $input['name'];
+        $user->mobile = $input['mobile'];
+        $user->email = $input['email'];
+        $user->password = $input['password'];
+        $user->save();
 
-         
         $profile = new Profile();
         $profile->user_id = $user->id;
         $profile->full_legal_name = $user->name;
@@ -64,11 +63,11 @@ class UserController extends BaseController
         $validator = Validator::make($request->all(), [
             'email'=>['required','email'],
             'password'=>['required','string','min:6'],
-       ]);
+        ]);
 
-       if($validator->fails()){
+        if($validator->fails()){
            return $this->sendError('Validation Error.', $validator->errors());
-       }
+        }
 
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
             $user = Auth::user()->load('profile');
@@ -79,6 +78,13 @@ class UserController extends BaseController
         } else{
             return $this->sendError('Unauthorised.', ['error'=>'Unauthorized']);
         }
+    }
+
+
+    public function logout(Request $request): JsonResponse
+    {
+       $request->user()->currentAccessToken()->delete();
+        return $this->sendResponse([], 'User logged out successfully.');
     }
 
 }

@@ -19,7 +19,7 @@ class GuestMiddleware extends BaseController
        
         $user = auth()->user();
         if($user){
-            return $this->sendError('Unauthorised.', ['error'=>'authenticated User can not access this resource']);
+            return $this->sendError('Unauthorised.', ['error'=>'You are already logged-in']);
         }
 
         return $next($request);

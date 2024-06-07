@@ -24,10 +24,9 @@ class StoreProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
-             'correspondenceEmail' => ['required','email:rfc,dns'],
+             'fullLegalName'=>['required','string'],
         ];
     }
-
 
     protected function failedValidation(Validator $validator)
     {

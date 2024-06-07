@@ -25,7 +25,6 @@ class ProfileResource extends JsonResource
             'religion' => $this->religion,
             'maritalStatus' => $this->marital_status,
             'marriedUnderSpecialAct' => $this->married_under_special_act,
-            'correspondenceEmail' => $this->correspondence_email,
             'permanentHouseFlatNo' => $this->permanent_house_flat_no,
             'permanentAddressLine1' => $this->permanent_address_line_1,
             'permanentAddressLine2' => $this->permanent_address_line_2,

@@ -24,7 +24,7 @@ class UpdateProfileRequest extends FormRequest
     public function rules(): array
     {
             return [
-                 'correspondenceEmail' =>['required','email:rfc,dns'],
+                'fullLegalName'=>['required','string'],
              ];
     }
 

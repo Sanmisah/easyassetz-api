@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -19,7 +20,7 @@ class ProfileController extends BaseController
     public function index(): JsonResponse
     {
         $profile = Profile::all();
-        if (is_null($profile)) {
+        if (!$profile) {
             return $this->sendError('Profiles not added.', ['error'=>'Profiles not added']);
         }
         return $this->sendResponse(['profile'=>ProfileResource::collection($profile)], 'profiles retrived successfully');
@@ -34,7 +35,10 @@ class ProfileController extends BaseController
         $profile->user_id = $user->id;
         $profile->full_legal_name = $request->input('fullLegalName');
         $profile->gender = $request->input('gender');
-        $profile->dob = $request->input('dob');
+        $formatedDate = $request->input('dob');
+        $carbonDate = Carbon::parse($formattedDate);
+        $iso8601Date = $carbonDate->toIso8601String();
+        $profile->dob = $iso8601Date;
         $profile->nationality = $request->input('nationality');
         $profile->country_of_residence = $request->input('countryOfResidence');
         $profile->religion = $request->input('religion');
@@ -84,8 +88,12 @@ class ProfileController extends BaseController
     {
         $profile = Profile::find($id);
 
-        if (is_null($profile)) {
+        if (!$profile) {
             return $this->sendError('Profile not found.', ['error'=>'Profile not found']);
+        }
+        $user = Auth::user();
+        if($user->id !== $profile->user_id){
+            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this profile.']);
         }
         return $this->sendResponse(['profile'=>new ProfileResource($profile)], 'Profile retrieved successfully.');
 
@@ -94,20 +102,26 @@ class ProfileController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProfileRequest $request, Profile $profile)
-    {   $user = Auth::user();
+    public function update(UpdateProfileRequest $request, string $id)
+    {   $profile = Profile::find($id); 
+        if(!$profile){
+            return $this->sendError('Profile Not Found', ['error'=>'Profile not found']);
+        }
+        $user = Auth::user();
         if($user->id !== $profile->user_id){
-            return $this->sendError('Profile not found', ['error'=>'profile not found']);
-          }
+            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to update this profile.']);
+        }
         $profile->full_legal_name = $request->input('fullLegalName');
         $profile->gender = $request->input('gender');
-        $profile->dob = $request->input('dob');
+        $formatedDate = $request->input('dob');
+        $carbonDate = Carbon::parse($formatedDate);
+        $iso8601Date = $carbonDate->toIso8601String();
+        $profile->dob = $iso8601Date;
         $profile->nationality = $request->input('nationality');
         $profile->country_of_residence = $request->input('countryOfResidence');
         $profile->religion = $request->input('religion');
         $profile->marital_status = $request->input('maritalStatus');
         $profile->married_under_special_act = $request->input('marriedUnderSpecialAct');
-        $profile->correspondence_email = $request->input('correspondenceEmail');
         $profile->permanent_house_flat_no = $request->input('permanentHouseFlatNo');
         $profile->permanent_address_line_1 = $request->input('permanentAddressLine1');
         $profile->permanent_address_line_2 = $request->input('permanentAddressLine2');

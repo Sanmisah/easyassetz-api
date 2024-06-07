@@ -22,13 +22,37 @@ class UpdateBeneficiaryRequest extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
-    {
+    {     
+        $dob = $this->input('dob');
+        $age = Carbon::parse($dob)->age;
+
         return [
-            'fullLegalName' => ['sometimes', 'string', 'max:255'],
-            'guardianEmail' => ['nullable', 'email:ref,dns'],
-            'adharNumber' => ['nullable', 'string', 'max:12'],
-            'panNumber' => ['nullable', 'string', 'max:10'],
-            'charityName' => ['sometimes', 'string', 'max:255'],
+            'fullLegalName'=>['sometimes','string'],
+            'dob' => ['required', 'date'],
+            'guardianCity' => [
+                $age < 18 ? 'required' : 'nullable',
+                'string',
+            ],
+            'guardianName'=> [
+                $age < 18 ? 'required' : 'nullable',
+                'string',
+            ],
+            'guardianMobile'=>[
+                $age < 18 ? 'required' : 'nullable',
+                'string',
+            ],
+            'guardianEmail'=>[
+                $age < 18 ? 'required' : 'nullable',
+                'string',
+            ],
+            'guardianCity'=>[
+                $age < 18 ? 'required' : 'nullable',
+                'string',
+            ],
+            'guardianState'=>[
+                $age < 18 ? 'required' : 'nullable',
+                'string',
+            ],
         ];
     }
 

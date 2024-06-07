@@ -16,13 +16,12 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->unique()->onDelete('cascade');
             $table->string('full_legal_name')->nullable();
             $table->string('gender')->nullable();   
-            $table->string('dob')->nullable();
+            $table->date('dob')->nullable();
             $table->string('nationality')->nullable();  
             $table->string('country_of_residence')->nullable();
             $table->string('religion')->nullable();        
             $table->string('marital_status')->nullable();  
             $table->string('married_under_special_act')->nullable();
-            $table->string('correspondence_email')->unique()->nullable();
             $table->string('permanent_house_flat_no')->nullable();
             $table->longText('permanent_address_line_1')->nullable();
             $table->longText('permanent_address_line_2')->nullable();
