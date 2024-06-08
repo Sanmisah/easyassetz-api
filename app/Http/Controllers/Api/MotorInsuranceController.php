@@ -18,17 +18,7 @@ class MotorInsuranceController extends BaseController
      */
     public function index()
     {
-        $user = Auth::user();
-        $MotorInsurance = MotorInsurance::where('type','beneficiary')->where('profile_id',$user->profile->id)->get();
         
-        if (!$beneficiary) {
-             $beneficiary =null;
-        }
-
-        if (!$charity) {
-            $charity = null;
-        }
-        return $this->sendResponse(['Beneficiaries'=>BeneficiaryResource::collection($beneficiary), 'Charities'=>BeneficiaryResource::collection($charity)], "Beneficiaries retrived successfully");
     }
 
     /**
