@@ -2,15 +2,13 @@
 
 namespace App\Models;
 
-use App\Models\Profile;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class Beneficiary extends Model
+class MotorInsurance extends Model
 {
     use HasFactory;
 
-    public $table = 'beneficiaries';
+    public $table = 'motor_insurances';
     public $primaryKey = 'id';
-
 }

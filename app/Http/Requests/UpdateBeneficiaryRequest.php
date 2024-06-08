@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -24,11 +25,15 @@ class UpdateBeneficiaryRequest extends FormRequest
     public function rules(): array
     {     
         $dob = $this->input('dob');
+        
         $age = Carbon::parse($dob)->age;
+         if(!$age){
+            $age = 20;
+         }
+
 
         return [
             'fullLegalName'=>['sometimes','string'],
-            'dob' => ['required', 'date'],
             'guardianCity' => [
                 $age < 18 ? 'required' : 'nullable',
                 'string',
@@ -42,10 +47,6 @@ class UpdateBeneficiaryRequest extends FormRequest
                 'string',
             ],
             'guardianEmail'=>[
-                $age < 18 ? 'required' : 'nullable',
-                'string',
-            ],
-            'guardianCity'=>[
                 $age < 18 ? 'required' : 'nullable',
                 'string',
             ],

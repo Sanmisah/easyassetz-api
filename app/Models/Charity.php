@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use App\Models\Profile;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class Beneficiary extends Model
+class Charity extends Model
 {
     use HasFactory;
 

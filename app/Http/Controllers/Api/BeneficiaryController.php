@@ -21,12 +21,18 @@ class BeneficiaryController extends BaseController
      */
     public function index(): JsonResponse
     {
-        $beneficiary = Beneficiary::all();
-        $profile = Profile::all();
+        $user = Auth::user();
+        $beneficiary = Beneficiary::where('type','beneficiary')->where('profile_id',$user->profile->id)->get();
+        $charity = Beneficiary::where('type', 'charity')->where('profile_id', $user->profile->id)->get();
+        
         if (!$beneficiary) {
-            return $this->sendError('beneficiaries not added.', ['error'=>'Beneficiaries not added']);
+             $beneficiary =null;
         }
-        return $this->sendResponse(['Beneficiaries'=>BeneficiaryResource::collection($beneficiary)], "Beneficiaries retrived successfully");
+
+        if (!$charity) {
+            $charity = null;
+        }
+        return $this->sendResponse(['Beneficiaries'=>BeneficiaryResource::collection($beneficiary), 'Charities'=>BeneficiaryResource::collection($charity)], "Beneficiaries retrived successfully");
     }
 
     /**
@@ -36,6 +42,7 @@ class BeneficiaryController extends BaseController
     {   $user = Auth::user();
         $beneficiary = new Beneficiary();
         $beneficiary->profile_id = $user->profile->id;
+        $beneficiary->type = $request->input('type');
         $beneficiary->full_legal_name = $request->input('fullLegalName');
         $beneficiary->relationship = $request->input('relationship');
         $beneficiary->gender = $request->input('gender');
@@ -50,19 +57,17 @@ class BeneficiaryController extends BaseController
         $beneficiary->guardian_email = $request->input('guardianEmail');
         $beneficiary->guardian_city = $request->input('guardianCity');
         $beneficiary->guardian_state = $request->input('guardianState');
-        $beneficiary->adhar_number = $request->input('adharNumber');
-        $beneficiary->pan_number = $request->input('panNumber');
-        $beneficiary->passport_number = $request->input('passportNumber');
-        $beneficiary->driving_licence_number = $request->input('drivingLicenceNumber');
+        $beneficiary->document_type = $request->input('document');
+        $beneficiary->document_data = $request->input('documentData');;
         $beneficiary->religion = $request->input('religion');
         $beneficiary->nationality = $request->input('nationality');
-        $beneficiary->house_flat_no = $request->input('houseFlatNo');
+        $beneficiary->house_flat_no = $request->input('houseNo');
         $beneficiary->address_line_1 = $request->input('addressLine1');
         $beneficiary->address_line_2 = $request->input('addressLine2');
         $beneficiary->pincode = $request->input('pincode');
-        $beneficiary->beneficiary_city = $request->input('beneficiaryCity');
-        $beneficiary->beneficiary_state = $request->input('beneficiaryState');
-        $beneficiary->beneficiary_country = $request->input('beneficiaryCountry');
+        $beneficiary->city = $request->input('city');
+        $beneficiary->state = $request->input('state');
+        $beneficiary->country = $request->input('country');
         $beneficiary->charity_name = $request->input('charityName');
         $beneficiary->charity_address_1 = $request->input('charityAddress1');
         $beneficiary->charity_address_2 = $request->input('charityAddress2');
@@ -109,6 +114,7 @@ class BeneficiaryController extends BaseController
          if($user->profile->id !== $beneficiary->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to update this Beneficiary']);
           }
+        $beneficiary->type = $request->input('type');
         $beneficiary->full_legal_name = $request->input('fullLegalName');
         $beneficiary->relationship = $request->input('relationship');
         $beneficiary->gender = $request->input('gender');
@@ -123,19 +129,17 @@ class BeneficiaryController extends BaseController
         $beneficiary->guardian_email = $request->input('guardianEmail');
         $beneficiary->guardian_city = $request->input('guardianCity');
         $beneficiary->guardian_state = $request->input('guardianState');
-        $beneficiary->adhar_number = $request->input('adharNumber');
-        $beneficiary->pan_number = $request->input('panNumber');
-        $beneficiary->passport_number = $request->input('passportNumber');
-        $beneficiary->driving_licence_number = $request->input('drivingLicenceNumber');
+        $beneficiary->document_type = $request->input('document');
+        $beneficiary->document_data = $request->input('documentData');
         $beneficiary->religion = $request->input('religion');
         $beneficiary->nationality = $request->input('nationality');
         $beneficiary->house_flat_no = $request->input('houseFlatNo');
         $beneficiary->address_line_1 = $request->input('addressLine1');
         $beneficiary->address_line_2 = $request->input('addressLine2');
         $beneficiary->pincode = $request->input('pincode');
-        $beneficiary->beneficiary_city = $request->input('beneficiaryCity');
-        $beneficiary->beneficiary_state = $request->input('beneficiaryState');
-        $beneficiary->beneficiary_country = $request->input('beneficiaryCountry');
+        $beneficiary->city = $request->input('city');
+        $beneficiary->state = $request->input('state');
+        $beneficiary->country = $request->input('country');
         $beneficiary->charity_name = $request->input('charityName');
         $beneficiary->charity_address_1 = $request->input('charityAddress1');
         $beneficiary->charity_address_2 = $request->input('charityAddress2');

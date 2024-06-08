@@ -26,11 +26,14 @@ class StoreBeneficiaryRequest extends FormRequest
     public function rules(): array
     {     
         $dob = $this->input('dob');
+        
         $age = Carbon::parse($dob)->age;
+         if(!$age){
+            $age = 20;
+         }
 
         return [
             'fullLegalName'=>['sometimes','string'],
-            'dob' => ['required', 'date'],
             'guardianCity' => [
                 $age < 18 ? 'required' : 'nullable',
                 'string',
@@ -47,10 +50,6 @@ class StoreBeneficiaryRequest extends FormRequest
             'guardianEmail'=>[
                 $age < 18 ? 'required' : 'nullable',
                 'email:rfc,dns',
-            ],
-            'guardianCity'=>[
-                $age < 18 ? 'required' : 'nullable',
-                'string',
             ],
             'guardianState'=>[
                 $age < 18 ? 'required' : 'nullable',
