@@ -22,9 +22,11 @@ class BeneficiaryController extends BaseController
     public function index(): JsonResponse
     {
         $user = Auth::user();
-        $beneficiary = Beneficiary::where('type','beneficiary')->where('profile_id',$user->profile->id)->get();
-        $charity = Beneficiary::where('type', 'charity')->where('profile_id', $user->profile->id)->get();
-        
+        //$beneficiary = Beneficiary::where('type','beneficiary')->where('profile_id',$user->profile->id)->get();
+        //$charity = Beneficiary::where('type', 'charity')->where('profile_id', $user->profile->id)->get();
+        $beneficiary = auth()->user()->profile->beneficiary()->where('type', 'beneficiary')->get();
+        $charity = auth()->user()->profile->beneficiary()->where('type', 'charity')->get();
+
         if (!$beneficiary) {
              $beneficiary =null;
         }
@@ -162,7 +164,7 @@ class BeneficiaryController extends BaseController
     {          
         $beneficiary = Beneficiary::find($id);
         if (!$beneficiary) {
-            return $this->sendError('Beneficiary not found', ['error' => 'Beneficiary not found'], 404);
+            return $this->sendError('Beneficiary not found', ['error' => 'Beneficiary not found']);
         }
         $user = Auth::user();
         if($user->profile->id !== $beneficiary->profile_id){

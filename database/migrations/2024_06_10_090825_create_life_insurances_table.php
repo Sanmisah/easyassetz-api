@@ -11,25 +11,27 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('motor_insurances', function (Blueprint $table) {
+        Schema::create('life_insurances', function (Blueprint $table) {
             $table->id();
             $table->foreignId('profile_id')->constrained()->onDelete('cascade');
             $table->string('company_name')->nullable();
             $table->string('insurance_sub_type')->nullable();
             $table->string('policy_number')->nullable();
-            $table->date('expiry_date')->nullable();
+            $table->date('maturity_date')->nullable();
             $table->bigInteger('premium')->nullable();
             $table->bigInteger('sum_insured')->nullable();
-            $table->string('insurer_name')->nullable();
-            $table->string('vehicle_type')->nullable();
+            $table->string('policy_holder_name')->nullable();
+            $table->string('relationship')->nullable();
+            $table->string('previous_policy_number')->nullable();
+            $table->string('additional_details')->nullable();
             $table->string('mode_of_purchase')->nullable();
             $table->string('broker_name')->nullable();
             $table->string('contact_person')->nullable();
             $table->string('contact_number')->nullable();
             $table->string('email')->nullable();
+            $table->foreignId('beneficiary_id')->nullable()->constrained();
             $table->string('registered_mobile')->nullable();
             $table->string('registered_email')->nullable();
-            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
@@ -39,6 +41,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('motor_insurances');
+        Schema::dropIfExists('life_insurances');
     }
 };
