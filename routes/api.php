@@ -24,6 +24,6 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('beneficiaries', BeneficiaryController::class);
     Route::get('/logout', [UserController::class, 'logout']);
     Route::resource('motor-insurances', MotorInsuranceController::class);
-    Route::resource('life-insurances', LifeInsuranceController::class);
+    Route::resource('lifeinsurances', LifeInsuranceController::class);
 
 });
