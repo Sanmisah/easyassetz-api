@@ -20,7 +20,10 @@ class LifeInsuranceController extends BaseController
     {
         $user = Auth::user();
         $lifeInsurance = $user->profile->lifeInsurance()->get();
-        return $this->sendResponse(['LifeInsurance'=>LifeInsuranceResource::collection($lifeInsurance)], "Life Insurances retrived successfully");
+        if(!$lifeInsurance){
+            return $this->sendError('life Insurance not added',['error'=>'life Insurance not added yet']);
+        }
+        return $this->sendResponse(['LifeInsurances'=>LifeInsuranceResource::collection($lifeInsurance)], "Life Insurances retrived successfully");
 
     }
 
@@ -33,7 +36,7 @@ class LifeInsuranceController extends BaseController
         $lifeInsurance = new LifeInsurance();
         $lifeInsurance->profile_id = $user->profile->id;
         $lifeInsurance->company_name = $request->input('companyName');
-        $lifeInsurance->insurance_sub_type = $request->input('insuranceSubType');
+        $lifeInsurance->insurance_type = $request->input('insuranceType');
         $lifeInsurance->policy_number = $request->input('policyNumber');
         $formatedDate = $request->input('maturityDate');
         $carbonDate = Carbon::parse($formatedDate);
@@ -91,7 +94,7 @@ class LifeInsuranceController extends BaseController
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to update this Life Insurance']);
          }
           $lifeInsurance->company_name = $request->input('companyName');
-          $lifeInsurance->insurance_sub_type = $request->input('insuranceSubType');
+          $lifeInsurance->insurance_type = $request->input('insuranceType');
           $lifeInsurance->policy_number = $request->input('policyNumber');
           $formatedDate = $request->input('maturityDate');
           $carbonDate = Carbon::parse($formatedDate);

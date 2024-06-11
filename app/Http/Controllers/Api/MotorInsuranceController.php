@@ -20,7 +20,10 @@ class MotorInsuranceController extends BaseController
     {
         $user = Auth::user();
         $motorInsurance = $user->profile->motorInsurance()->with('nominee')->get();
-        return $this->sendResponse(['MotorInsurance'=>MotorInsuranceResource::collection($motorInsurance)], "Motor Insurances retrived successfully");
+        if(!$motorInsurance){
+            return $this->sendError('Motor Insurance not added',['error'=>'motor insurances not added yet']);
+        }
+        return $this->sendResponse(['MotorInsurances'=>MotorInsuranceResource::collection($motorInsurance)], "Motor Insurances retrived successfully");
     }
 
     /**

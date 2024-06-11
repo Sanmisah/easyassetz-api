@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('profile_id')->constrained()->onDelete('cascade');
             $table->string('company_name')->nullable();
-            $table->string('insurance_sub_type')->nullable();
+            $table->string('insurance_type')->nullable();
             $table->string('policy_number')->nullable();
             $table->date('maturity_date')->nullable();
             $table->bigInteger('premium')->nullable();

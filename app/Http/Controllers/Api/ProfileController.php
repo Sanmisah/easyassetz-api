@@ -19,11 +19,7 @@ class ProfileController extends BaseController
      */
     public function index(): JsonResponse
     {
-        $profile = Profile::all();
-        if (!$profile) {
-            return $this->sendError('Profiles not added.', ['error'=>'Profiles not added']);
-        }
-        return $this->sendResponse(['profile'=>ProfileResource::collection($profile)], 'profiles retrived successfully');
+       
     }
 
     /**

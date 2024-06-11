@@ -18,7 +18,7 @@ class LifeInsuranceResource extends JsonResource
             'id' => $this->id,
             'profileId' => $this->profile_id,
             'companyName' => $this->company_name,
-            'insuranceSubType' => $this->insurance_sub_type,
+            'insuranceType' => $this->insurance_type,
             'policyNumber' => $this->policy_number,
             'maturityDate' => $this->maturity_date,
             'premium' => $this->premium,
