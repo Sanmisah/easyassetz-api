@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('relationship')->nullable();
             $table->string('previous_policy_number')->nullable();
             $table->string('additional_details')->nullable();
-            $table->string('mode_of_purchase')->nullable();
+            $table->enum('mode_of_purchase',['broker','e-insurance']);
             $table->string('broker_name')->nullable();
             $table->string('contact_person')->nullable();
             $table->string('contact_number')->nullable();

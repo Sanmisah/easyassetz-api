@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreLifeInsuranceRequest extends FormRequest
 {
@@ -28,7 +30,19 @@ class StoreLifeInsuranceRequest extends FormRequest
         'maturityDate' => ['required', 'date'],
         'premium' => ['nullable', 'integer'],
         'sumInsured' => ['nullable', 'integer'],
-        'policyHolderName'=>['required','']
+        'policyHolderName'=>['required','string'],
+        'contactPerson'=>['nullable','string'],
+        'modeOfPurchase'=>['required'],
+        'brokerName'=>['sometimes','string'],
+        'registeredMobile'=>['sometimes','regex:/^\+(?:\d{1}|\d{3})(?:\x20?\d){5,14}\d$/'],
+        'registeredEmail'=>['sometimes','email:rfc,dns'],
         ];
+    }
+
+
+    protected function failedValidation(Validator $validator)
+    {
+        $errors = $validator->errors();
+        throw new HttpResponseException(response()->json(['success'=>false, 'message' => $errors], 422));
     }
 }
