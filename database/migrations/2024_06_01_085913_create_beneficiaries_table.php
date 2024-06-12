@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('beneficiaries', function (Blueprint $table) {
             $table->id();
             $table->foreignId('profile_id')->constrained()->onDelete('cascade');
-            $table->string('type')->nullable();
+            $table->enum('type',['beneficiary','charity']);
             $table->string('full_legal_name')->nullable();
             $table->string('relationship')->nullable();
             $table->string('gender')->nullable();

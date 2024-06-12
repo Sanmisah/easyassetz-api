@@ -14,7 +14,7 @@ class MotorInsurance extends Model
     public $primaryKey = 'id';
 
    public function nominee(){
-      return $this->belongsToMany(Beneficiary::class, 'beneficiary_motor_insurance');
+      return $this->belongsToMany(Beneficiary::class,'motor_insurance_nominee');
    }
 
 }

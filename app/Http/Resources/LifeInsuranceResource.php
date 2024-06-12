@@ -32,11 +32,11 @@ class LifeInsuranceResource extends JsonResource
             'contactPerson' => $this->contact_person,
             'contactNumber' => $this->contact_number,
             'email' => $this->email,
-            'nomineeId' => $this->nominee,
             'registeredMobile' => $this->registered_mobile,
             'registeredEmail' => $this->registered_email,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
+            'nominee' => $this->nominee,            //relationship nominee->pluck('id') to get only id
         ];
     }
 }

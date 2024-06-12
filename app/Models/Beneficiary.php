@@ -17,11 +17,11 @@ class Beneficiary extends Model
 
 
     public function motorInsurance(){
-        return $this->belongsToMany(MotorInsurance::class, 'beneficiary_motor_insurance');//providing pivot table name is optional
+        return $this->belongsToMany(MotorInsurance::class, 'motor_insurance_nominee');
     }
     
     public function lifeInsurance(){
-        return $this->hasMany(LifeInsurance::class, 'beneficiary_id');
+        return $this->belongsToMany(LifeInsurance::class, 'life_insurance_nominee');
     }
 
 }

@@ -29,7 +29,6 @@ return new class extends Migration
             $table->string('contact_person')->nullable();
             $table->string('contact_number')->nullable();
             $table->string('email')->nullable();
-            $table->foreignId('beneficiary_id')->nullable()->constrained();
             $table->string('registered_mobile')->nullable();
             $table->string('registered_email')->nullable();
             $table->timestamps();

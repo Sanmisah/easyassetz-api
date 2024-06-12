@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('beneficiary_motor_insurance', function (Blueprint $table) {
+        Schema::create('life_insurance_nominee', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('beneficiary_id')->constrained();
-            $table->foreignId('motor_insurance_id')->constrained();
+            $table->foreignId('life_insurance_id')->constrained();
+            $table->foreignId('beneficiary_id')->contrained();
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('beneficiary_motor_insurance');
+        Schema::dropIfExists('life_insurance_nominee');
     }
 };

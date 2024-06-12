@@ -10,9 +10,13 @@ class LifeInsurance extends Model
 {
     use HasFactory;
 
-    public function nominee(){
-        return $this->belongsTo(Beneficiary::class, 'beneficiary_id');
-    }
+    public $table = 'life_insurances';
+    public $primaryKey = 'id';
+
+
+   public function nominee(){
+      return $this->belongsToMany(Beneficiary::class,'life_insurance_nominee');
+   }
 
 
 }

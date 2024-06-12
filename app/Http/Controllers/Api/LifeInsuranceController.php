@@ -19,10 +19,8 @@ class LifeInsuranceController extends BaseController
     public function index(): JsonResponse
     {
         $user = Auth::user();
-        $lifeInsurance = $user->profile->lifeInsurance()->get();
-        if(!$lifeInsurance){
-            return $this->sendError('life Insurance not added',['error'=>'life Insurance not added yet']);
-        }
+        $lifeInsurance = $user->profile->lifeInsurance()->with('nominee')->get();
+       
         return $this->sendResponse(['LifeInsurances'=>LifeInsuranceResource::collection($lifeInsurance)], "Life Insurances retrived successfully");
 
     }
@@ -53,10 +51,14 @@ class LifeInsuranceController extends BaseController
         $lifeInsurance->contact_person = $request->input('contactPerson');
         $lifeInsurance->contact_number = $request->input('contactNumber');
         $lifeInsurance->email = $request->input('email');
-        $lifeInsurance->beneficiary_id = $request->input('beneficiaryId');
         $lifeInsurance->registered_mobile = $request->input('registeredMobile');
         $lifeInsurance->registered_email = $request->input('registeredEmail');
         $lifeInsurance->save();
+
+        if($request->has('nomineeId')){
+            $nominee_id = $request->input('nomineeId');
+            $lifeInsurance->nominee()->attach($nominee_id);
+        }
 
         return $this->sendResponse(['LifeInsurance'=> new LifeInsuranceResource($lifeInsurance)], 'Life Insurance details stored successfully');
     }
@@ -111,10 +113,14 @@ class LifeInsuranceController extends BaseController
           $lifeInsurance->contact_person = $request->input('contactPerson');
           $lifeInsurance->contact_number = $request->input('contactNumber');
           $lifeInsurance->email = $request->input('email');
-          $lifeInsurance->beneficiary_id = $request->input('beneficiaryId');
           $lifeInsurance->registered_mobile = $request->input('registeredMobile');
           $lifeInsurance->registered_email = $request->input('registeredEmail');
           $lifeInsurance->save();
+
+          if($request->has('nomineeId')){
+            $nominee_id = $request->input('nomineeId');
+            $lifeInsurance->nominee()->attach($nominee_id);
+          }
   
           return $this->sendResponse(['LifeInsurance'=> new LifeInsuranceResource($lifeInsurance)], 'Life Insurance details Updated successfully');
     }
