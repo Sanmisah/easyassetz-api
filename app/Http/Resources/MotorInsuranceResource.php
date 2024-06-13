@@ -34,7 +34,7 @@ class MotorInsuranceResource extends JsonResource
             'registeredEmail' => $this->registered_email,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
-            'nominee' => $this->nominee,        //relationship
+            'nominees' => $this->nominee,        //relationship
         ];
     }
 }

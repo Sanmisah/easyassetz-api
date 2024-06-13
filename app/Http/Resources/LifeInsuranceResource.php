@@ -36,7 +36,7 @@ class LifeInsuranceResource extends JsonResource
             'registeredEmail' => $this->registered_email,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
-            'nominee' => $this->nominee,            //relationship nominee->pluck('id') to get only id
+            'nominees' => $this->nominee,            //relationship nominee->pluck('id') to get only id
         ];
     }
 }

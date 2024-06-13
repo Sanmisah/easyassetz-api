@@ -54,8 +54,8 @@ class MotorInsuranceController extends BaseController
         $motorInsurance->registered_email = $request->input('registeredEmail');
         $motorInsurance->save();
 
-        if($request->has('nomineeId')){
-            $nominee_id = $request->input('nomineeId');
+        if($request->has('nominees')){
+            $nominee_id = $request->input('nominees');
             $motorInsurance->nominee()->attach($nominee_id);
         }
         
@@ -116,10 +116,18 @@ class MotorInsuranceController extends BaseController
          $motorInsurance->registered_email = $request->input('registeredEmail');
          $motorInsurance->save();
  
-         if($request->has('nomineeId')){
-             $nominee_id = $request->input('nomineeId');
-             $motorInsurance->nominee()->attach($nominee_id);
-         }
+        //  if($request->has('nomineeId')){
+        //      $nominee_id = $request->input('nomineeId');
+        //      $motorInsurance->nominee()->attach($nominee_id);
+        //  }
+
+        if ($request->has('nominees')) {
+            $nominee_ids = $request->input('nominees');
+            $motorInsurance->nominee()->sync($nominee_ids);
+        } else {
+            // If no nominees selected, detach all existing nominees
+            $motorInsurance->nominee()->detach();
+        }
          
          return $this->sendResponse(['MotorInsurance'=>new MotorInsuranceResource($motorInsurance)], 'Motor Insurance Data Stored successfully.');
 
