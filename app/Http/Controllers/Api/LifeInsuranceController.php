@@ -117,15 +117,10 @@ class LifeInsuranceController extends BaseController
           $lifeInsurance->registered_email = $request->input('registeredEmail');
           $lifeInsurance->save();
 
-        //   if($request->has('nominees')){
-        //     $nominee_id = $request->input('nominees');
-        //     $lifeInsurance->nominee()->attach($nominee_id);
-        //   }
-
-        if ($request->has('nominees')) {
+        if($request->has('nominees')) {
             $nominee_ids = $request->input('nominees');
             $lifeInsurance->nominee()->sync($nominee_ids);
-        } else {
+        }else {
             // If no nominees selected, detach all existing nominees
             $lifeInsurance->nominee()->detach();
         }
