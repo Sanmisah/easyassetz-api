@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\BeneficiaryResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class LifeInsuranceResource extends JsonResource
@@ -14,6 +15,8 @@ class LifeInsuranceResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $nominees = BeneficiaryResource::collection($this->nominee);
+
         return [
             'id' => $this->id,
             'profileId' => $this->profile_id,
@@ -36,7 +39,7 @@ class LifeInsuranceResource extends JsonResource
             'registeredEmail' => $this->registered_email,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
-            'nominees' => $this->nominee,            //relationship nominee->pluck('id') to get only id
+            'nominees' => $nominees,            //relationship nominee->pluck('id') to get only id
         ];
     }
 }

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('motor_insurance_nominee', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('motor_insurance_id')->constrained();
-            $table->foreignId('beneficiary_id')->constrained();
+            $table->foreignId('motor_insurance_id')->constrained()->onDelete('cascade');
+            $table->foreignId('beneficiary_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

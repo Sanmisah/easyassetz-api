@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('life_insurance_nominee', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('life_insurance_id')->constrained();
-            $table->foreignId('beneficiary_id')->contrained();
+            $table->foreignId('life_insurance_id')->constrained()->onDelete('cascade');
+            $table->foreignId('beneficiary_id')->contrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
