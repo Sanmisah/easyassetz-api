@@ -6,6 +6,7 @@ use App\Models\Profile;
 use App\Models\LifeInsurance;
 use App\Models\MotorInsurance;
 use App\Models\OtherInsurance;
+use App\Models\HealthInsurance;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -27,6 +28,14 @@ class Beneficiary extends Model
 
     public function otherInsurance(){
         return $this->belongsToMany(OtherInsurance::class, 'other_insurance_nominee');
+    }
+
+    public function healthInsurance(){
+        return $this->belongsToMany(HealthInsurance::class, 'health_insurance_nominee');
+    }
+
+    public function healthInsuranceMember(){
+        return $this->belongsToMany(HealthInsurance::class, 'health_insurance_member');
     }
 
 }

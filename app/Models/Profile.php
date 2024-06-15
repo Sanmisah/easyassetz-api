@@ -7,6 +7,7 @@ use App\Models\Beneficiary;
 use App\Models\LifeInsurance;
 use App\Models\MotorInsurance;
 use App\Models\OtherInsurance;
+use App\Models\HealthInsurance;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -33,5 +34,9 @@ class Profile extends Model
 
     public function otherInsurance(){
         return $this->hasMany(OtherInsurance::class, 'profile_id');
+    }
+
+    public function healthInsurance(){
+        return $this->hasMany(HealthInsurance::class, 'profile_id');
     }
 }

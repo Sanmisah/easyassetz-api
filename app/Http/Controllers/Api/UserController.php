@@ -70,7 +70,7 @@ class UserController extends BaseController
         }
 
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
-            $user = Auth::user()->load('profile');
+            $user = Auth::user()->load('profile'); //lazy loading
             $token =  $user->createToken($user->name)->plainTextToken;
 
             return $this->sendResponse(['user'=>new UserResource($user), 'token'=>$token], 'User login successfully.');           
