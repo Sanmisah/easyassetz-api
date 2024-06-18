@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\BullionController;
 use App\Http\Controllers\Api\CharityController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\BeneficiaryController;
@@ -29,5 +30,7 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('lifeinsurances', LifeInsuranceController::class);
     Route::resource('otherinsurances', OtherInsuranceController::class);
     Route::resource('general_insurances', GeneralInsuranceController::class);
+    Route::resource('bullions', BullionController::class);
+
 
 });
