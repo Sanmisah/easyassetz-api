@@ -35,7 +35,7 @@ class MotorInsuranceController extends BaseController
         $motorInsurance = new MotorInsurance();
         $motorInsurance->profile_id = $user->profile->id;
         $motorInsurance->company_name = $request->input('companyName');
-        $motorInsurance->insurance_sub_type = $request->input('insuranceSubType');
+        $motorInsurance->insurance_sub_type = $request->input('insuranceType');
         $motorInsurance->policy_number = $request->input('policyNumber');
         $formatedDate = $request->input('expiryDate');
         $carbonDate = Carbon::parse($formatedDate);
@@ -97,7 +97,7 @@ class MotorInsuranceController extends BaseController
          }
 
          $motorInsurance->company_name = $request->input('companyName');
-         $motorInsurance->insurance_sub_type = $request->input('insuranceSubType');
+         $motorInsurance->insurance_sub_type = $request->input('insuranceType');
          $motorInsurance->policy_number = $request->input('policyNumber');
          $formatedDate = $request->input('expiryDate');
          $carbonDate = Carbon::parse($formatedDate);
