@@ -133,6 +133,8 @@ class HealthInsuranceController extends BaseController
             $healthInsurance->familyMember()->detach();
         }
 
+        return $this->sendResponse(['HealthInsurance'=>new HealthInsuranceResource($healthInsurance)], 'Health Insurance updated successfully');
+
     }
 
     /**

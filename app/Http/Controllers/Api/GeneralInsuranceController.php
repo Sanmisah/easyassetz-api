@@ -80,14 +80,57 @@ class GeneralInsuranceController extends BaseController
      */
     public function update(Request $request, string $id): JsonResponse
     {
-        //
-    }
+        $generalInsurance = GeneralInsurance::find($id);
+        if(!$generalInsurance){
+            return $this->sendError('General Insurance Not Found',['error'=>'General Insurance not found']);
+        }
+        $user = Auth::user();
+        if($user->profile->id !== $generalInsurance->profile_id){
+           return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this General Insurance']);
+         }
 
+         $generalInsurance->company_name = $request->input('companyName');
+         $generalInsurance->insurance_type = $request->input('insuranceType');
+         $generalInsurance->policy_number = $request->input('policyNumber');
+         $generalInsurance->maturity_date = $request->input('maturityDate');
+         $generalInsurance->premium = $request->input('premium');
+         $generalInsurance->sum_insured = $request->input('sumInsured');
+         $generalInsurance->policy_holder_name = $request->input('policyHolderName');
+         $generalInsurance->additional_details = $request->input('additionalDetails');
+         $generalInsurance->mode_of_purchase = $request->input('modeOfPurchase');
+         $generalInsurance->broker_name = $request->input('brokerName');
+         $generalInsurance->contact_person = $request->input('contactPerson');
+         $generalInsurance->contact_number = $request->input('contactNumber');
+         $generalInsurance->email = $request->input('email');
+         $generalInsurance->registered_mobile = $request->input('registeredMobile');
+         $generalInsurance->registered_email = $request->input('registeredEmail');
+         $generalInsurance->save();
+
+         if($request->has('nominees')) {
+            $nominee_ids = $request->input('nominees');
+            $generalInsurance->nominee()->sync($nominee_ids);
+        }else {
+            $generalInsurance->nominee()->detach();
+        }
+
+        return $this->sendResponse(['GeneralInsurance'=> new GeneralInsuranceResource($generalInsurance)], 'General Insurance Updated successfully');
+    }
+            
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id): JsonResponse
     {
-        //
+        $generalInsurance = GeneralInsurance::find($id);
+        if(!$generalInsurance){
+            return $this->sendError('General Insurance not found', ['error'=>'General Insurance not found']);
+        }
+        $user = Auth::user();
+        if($user->profile->id !== $generalInsurance->profile_id){
+            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this General Insurance']);
+        }
+        $generalInsurance->delete();
+
+        return $this->sendResponse([], 'General Insurance deleted successfully');
     }
 }

@@ -27,16 +27,16 @@ class ProfileController extends BaseController
      */
     public function store(StoreProfileRequest $request): JsonResponse
     {  
-        if($request->hasFile('adharFile')){
+        if($request->hasFile('aadharFile')){
             //get filename with extention
-            $fileNameWithExt = $request->file('adharFile')->getClientOriginalName();
+            $fileNameWithExt = $request->file('aadharFile')->getClientOriginalName();
              //get just filename
              $filename = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
            //   get just ext
-           $extention = $request->file('adharFile')->getClientOriginalExtension();
+           $extention = $request->file('aadharFile')->getClientOriginalExtension();
            // filename to store
            $fileNameToStore = $filename.'_'.time().'.'.$extention;
-            $path = $request->file('adharFile')->storeAs('public/imgs/adharFile', $fileNameToStore);
+            $path = $request->file('aadharFile')->storeAs('public/imgs/aadharFile', $fileNameToStore);
 
          }
         
@@ -72,7 +72,7 @@ class ProfileController extends BaseController
         $profile->adhar_number = $request->input('adharNumber');
         $profile->adhar_name = $request->input('adharName');
         // $profile->adhar_file = $request->file('adharFile');
-        if($request->hasFile('adharFile')){
+        if($request->hasFile('aadharFile')){
             $profile->adhar_file = $fileNameToStore;
         }
         $profile->pan_number = $request->input('panNumber');

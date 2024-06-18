@@ -8,6 +8,6 @@
 </head>
 <body>
     <div id="root"></div>
-    <script src="{{ asset('./assets/index-D8CeKnRr.js') }}"></script>
+    <script src="{{ asset('./assets/index-DCKGvx1W.js') }}"></script>
 </body>
 </html>
