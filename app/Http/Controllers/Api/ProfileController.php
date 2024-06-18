@@ -26,7 +26,21 @@ class ProfileController extends BaseController
      * Store a newly created resource in storage.
      */
     public function store(StoreProfileRequest $request): JsonResponse
-    {   $user = Auth::user();
+    {  
+        if($request->hasFile('adharFile')){
+            //get filename with extention
+            $fileNameWithExt = $request->file('adharFile')->getClientOriginalName();
+             //get just filename
+             $filename = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
+           //   get just ext
+           $extention = $request->file('adharFile')->getClientOriginalExtension();
+           // filename to store
+           $fileNameToStore = $filename.'_'.time().'.'.$extention;
+            $path = $request->file('adharFile')->storeAs('public/imgs/adharFile', $fileNameToStore);
+
+         }
+        
+        $user = Auth::user();
         $profile = new Profile();
         $profile->user_id = $user->id;
         $profile->full_legal_name = $request->input('fullLegalName');
@@ -57,7 +71,10 @@ class ProfileController extends BaseController
         $profile->current_country = $request->input('currentCountry');
         $profile->adhar_number = $request->input('adharNumber');
         $profile->adhar_name = $request->input('adharName');
-        $profile->adhar_file = $request->file('adharFile');
+        // $profile->adhar_file = $request->file('adharFile');
+        if($request->hasFile('adharFile')){
+            $profile->adhar_file = $fileNameToStore;
+        }
         $profile->pan_number = $request->input('panNumber');
         $profile->pan_name = $request->input('panName');
         $profile->pan_file = $request->file('panFile');

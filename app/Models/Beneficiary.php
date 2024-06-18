@@ -7,6 +7,7 @@ use App\Models\LifeInsurance;
 use App\Models\MotorInsurance;
 use App\Models\OtherInsurance;
 use App\Models\HealthInsurance;
+use App\Models\GeneralInsurance;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -36,6 +37,11 @@ class Beneficiary extends Model
 
     public function healthInsuranceMember(){
         return $this->belongsToMany(HealthInsurance::class, 'health_insurance_member');
+    }
+
+  
+    public function generalInsurance(){
+        return $this->belongsToMany(GeneralInsurance::class, 'general_insurance_nominee');
     }
 
 }

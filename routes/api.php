@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\BeneficiaryController;
 use App\Http\Controllers\Api\LifeInsuranceController;
 use App\Http\Controllers\Api\MotorInsuranceController;
 use App\Http\Controllers\Api\OtherInsuranceController;
+use App\Http\Controllers\Api\GeneralInsuranceController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -27,5 +28,6 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('motor-insurances', MotorInsuranceController::class);
     Route::resource('lifeinsurances', LifeInsuranceController::class);
     Route::resource('otherinsurances', OtherInsuranceController::class);
+    Route::resource('general_insurances', GeneralInsuranceController::class);
 
 });
