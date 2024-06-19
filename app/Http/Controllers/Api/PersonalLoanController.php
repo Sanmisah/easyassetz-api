@@ -106,6 +106,16 @@ class PersonalLoanController extends Controller
      */
     public function destroy(string $id)
     {
-        
+        $personalLoan = PersonalLoan::find($id);
+        if(!$personalLoan){
+            return $this->sendError('Persoanl Loan not found', ['error'=>'Personal Loan not found']);
+        }
+        $user = Auth::user();
+        if($user->profile->id !== $personalLoan->profile_id){
+            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Persoanl Loan']);
+        }
+        $personalLoan->delete();
+
+        return $this->sendResponse([], 'Personal Loan deleted successfully');
     }
 }
