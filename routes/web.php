@@ -9,5 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('{any}', function () {
-    return view('app');
+    // return view('app');
+    return file_get_contents(public_path('index.html'));
+
 })->where('any', '.*');
