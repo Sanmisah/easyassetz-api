@@ -14,6 +14,19 @@ class PersonalLoanResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
-    }
+        return [
+            'id' => $this->id,
+            'profileId' => $this->profile_id,
+            'bankName' => $this->bank_name,
+            'loanAccountNo' => $this->loan_account_no,
+            'branch' => $this->branch,
+            'emiDate' => $this->emi_date,
+            'startDate' => $this->start_date,
+            'duration' => $this->duration,
+            'guarantorName' => $this->guarantor_name,
+            'guarantorMobile' => $this->guarantor_mobile,
+            'guarantorEmail' => $this->guarantor_email,
+            'createdAt' => $this->created_at,
+            'updatedAt' => $this->updated_at,
+        ];    }
 }
