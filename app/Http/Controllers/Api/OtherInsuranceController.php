@@ -21,7 +21,7 @@ class OtherInsuranceController extends BaseController
         $user = Auth::user();
         $otherInsurance = $user->profile->otherInsurance()->with('nominee')->get();
     
-        return $this->sendResponse(['otherInsurance'=>OtherInsuranceResource::collection($otherInsurance)], "Other Insurances retrived successfully");
+        return $this->sendResponse(['OtherInsurance'=>OtherInsuranceResource::collection($otherInsurance)], "Other Insurances retrived successfully");
     }
 
     /**
@@ -58,7 +58,7 @@ class OtherInsuranceController extends BaseController
             $otherInsurance->nominee()->attach($nominee_id);
         }
 
-        return $this->sendResponse(['otherInsurance'=> new OtherInsuranceResource($otherInsurance)], 'other Insurance details stored successfully');
+        return $this->sendResponse(['OtherInsurance'=> new OtherInsuranceResource($otherInsurance)], 'other Insurance details stored successfully');
     }
 
     /**
