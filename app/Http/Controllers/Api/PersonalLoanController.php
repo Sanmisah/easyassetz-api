@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Carbon\Carbon;
+use App\Models\PersonalLoan;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
@@ -53,7 +54,7 @@ class PersonalLoanController extends Controller
      */
     public function show(string $id)
     {
-        $personalLoan = HomeLoan::find($id);
+        $personalLoan = PersonalLoan::find($id);
         if(!$personalLoan){
             return $this->sendError('Home Loan Not Found',['error'=>'Home Loan not found']);
         }
@@ -62,7 +63,7 @@ class PersonalLoanController extends Controller
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Home Loan']);
          }
 
-        return $this->sendResponse(['HomeLoan'=>new HomeLoanResource($personalLoan)], 'Home Loan retrived successfully');
+        return $this->sendResponse(['PersonalLoan'=>new PersonalLoanResource($personalLoan)], 'Personal Loan retrived successfully');
     }
 
     /**
@@ -70,7 +71,34 @@ class PersonalLoanController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $personalLoan = PersonalLoan::find($id);
+        if(!$personalLoan){
+            return $this->sendError('PersonalLoan Not Found', ['error'=>'Personal Loan not found']);
+        }
+
+         $user = Auth::user();
+         if($user->profile->id !== $PersoanlLoan->profile_id){
+            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to update this Persoanl Loan']);
+         }
+
+         $personalLoan->bank_name = $request->input('bankName');
+         $personalLoan->loan_account_no = $request->input('loanAccountNo');
+         $personalLoan->branch = $request->input('branch');
+         $formatedDate = $request->input('emiDate');
+         $carbonDate = Carbon::parse($formatedDate);
+         $iso8601Date = $carbonDate->toIso8601String();
+         $personalLoan->emi_date = $iso8601Date;
+         $formatedDatestart = $request->input('startDate');
+         $carbonDates = Carbon::parse($formatedDatestart);
+         $iso8601Dates = $carbonDates->toIso8601String();
+         $personalLoan->start_date = $iso8601Dates;
+         $personalLoan->duration = $request->input('duration');
+         $personalLoan->guarantor_name = $request->input('guarantorName');
+         $personalLoan->guarantor_mobile = $request->input('guarantorMobile');
+         $personalLoan->guarantor_email = $request->input('guarantorEmail');
+         $personalLoan->save();
+ 
+         return $this->sendResponse(['PersonalLoan'=> new PersonalLoanResource($personalLoan)], 'personal Loan details updated successfully');
     }
 
     /**
@@ -78,6 +106,6 @@ class PersonalLoanController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        
     }
 }
