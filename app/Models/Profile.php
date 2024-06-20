@@ -9,6 +9,7 @@ use App\Models\HomeLoan;
 use App\Models\OtherLoan;
 use App\Models\Litigation;
 use App\Models\Beneficiary;
+use App\Models\ShareDetail;
 use App\Models\PersonalLoan;
 use App\Models\LifeInsurance;
 use App\Models\MotorInsurance;
@@ -73,6 +74,10 @@ class Profile extends Model
 
     public function crypto(){
         return $this->hasMany(Crypto::class, 'profile_id');
+    }
+
+    public function shareDetail(){
+        return $this->hasMany(ShareDetail::class, 'profile_id');
     }
 
 }

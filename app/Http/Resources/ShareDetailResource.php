@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\BeneficiaryResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ShareDetailResource extends JsonResource
@@ -14,6 +15,9 @@ class ShareDetailResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $nominees = BeneficiaryResource::collection($this->nominee);
+        $jointHolders = BeneficiaryResource::collection($this->jointHolder);
+
         return [
             'id' => $this->id,
             'profileId' => $this->profile_id,
@@ -31,6 +35,8 @@ class ShareDetailResource extends JsonResource
             'email' => $this->email,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
+            'nominees' => $nominees,
+            'jointHolders' => $jointHolders,
         ]; 
     
     }

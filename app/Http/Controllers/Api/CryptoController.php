@@ -30,13 +30,13 @@ class CryptoController extends Controller
         $crypto = new Crypto();
         $crypto->profile_id = $user->profile->id;
         $crypto->crypto_wallet_type = $request->input('cryptoWalletType');
-        $crypto->crypto_wallet_address = $request->input('crypto_wallet_address');
-        $crypto->holding_type = $request->input('holding_type');
+        $crypto->crypto_wallet_address = $request->input('cryptoWalletAddress');
+        $crypto->holding_type = $request->input('holdingType');
         $crypto->exchange = $request->input('exchange');
-        $crypto->trading_account = $request->input('trading_account');
-        $crypto->type_of_currency = $request->input('type_of_currency');
-        $crypto->holding_qty = $request->input('holding_qty');
-        $crypto->additional_details = $request->input('additional_details');
+        $crypto->trading_account = $request->input('tradingAccount');
+        $crypto->type_of_currency = $request->input('typeOfCurrency');
+        $crypto->holding_qty = $request->input('holdingQty');
+        $crypto->additional_details = $request->input('additionalDetails');
         $crypto->image = $request->input('image');
         $crypto->name = $request->input('name');
         $crypto->mobile = $request->input('mobile');
@@ -89,13 +89,13 @@ class CryptoController extends Controller
          }
 
          $crypto->crypto_wallet_type = $request->input('cryptoWalletType');
-         $crypto->crypto_wallet_address = $request->input('crypto_wallet_address');
-         $crypto->holding_type = $request->input('holding_type');
+         $crypto->crypto_wallet_address = $request->input('cryptoWalletAddress');
+         $crypto->holding_type = $request->input('holdingType');
          $crypto->exchange = $request->input('exchange');
-         $crypto->trading_account = $request->input('trading_account');
-         $crypto->type_of_currency = $request->input('type_of_currency');
-         $crypto->holding_qty = $request->input('holding_qty');
-         $crypto->additional_details = $request->input('additional_details');
+         $crypto->trading_account = $request->input('tradingAccount');
+         $crypto->type_of_currency = $request->input('typeOfCurrency');
+         $crypto->holding_qty = $request->input('holdingQty');
+         $crypto->additional_details = $request->input('additionalDetails');
          $crypto->image = $request->input('image');
          $crypto->name = $request->input('name');
          $crypto->mobile = $request->input('mobile');
