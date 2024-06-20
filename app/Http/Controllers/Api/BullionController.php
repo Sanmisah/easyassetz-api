@@ -9,13 +9,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\BullionResource;
 use App\Http\Controllers\Api\BaseController;
+use App\Http\Controllers\Api\BullionController;
 
 class BullionController extends BaseController
 {
     /**
      * Display a listing of the resource.
      */
-    public function index():JsonResponse
+    public function index(): JsonResponse
     {
         
         $user = Auth::user();
@@ -44,7 +45,7 @@ class BullionController extends BaseController
      $bullion->image = $request->input('image');
      $bullion->save();
 
-     return $this->sendResponse(['Bullion'=> new BullionResource($bullion)], 'Billion details stored successfully');
+     return $this->sendResponse(['Bullion'=> new BullionResource($bullion)], 'Bullion details stored successfully');
 
     }
 

@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bullions', function (Blueprint $table) {
+        Schema::create('memberships', function (Blueprint $table) {
             $table->id();
             $table->foreignId('profile_id')->constrained()->onDelete('cascade');
-            $table->string('metal_type')->nullable();
-            $table->string('article_details')->nullable();
-            $table->string('weight_per_article')->nullable();
-            $table->string('number_of_articles')->nullable();
-            $table->string('additional_information')->nullable();
+            $table->string('organization_name')->nullable();
+            $table->string('membership_id')->nullable();
+            $table->string('membership_type')->nullable();
+            $table->date('membership_payment_date')->nullable();
             $table->string('name')->nullable();
             $table->string('mobile')->nullable();
             $table->string('email')->nullable();
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bullions');
+        Schema::dropIfExists('memberships');
     }
 };

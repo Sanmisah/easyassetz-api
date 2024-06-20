@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Crypto;
 use App\Models\Profile;
+use App\Models\Membership;
 use App\Models\ShareDetail;
 use App\Models\LifeInsurance;
 use App\Models\MotorInsurance;
@@ -44,6 +45,10 @@ class Beneficiary extends Model
   
     public function generalInsurance(){
         return $this->belongsToMany(GeneralInsurance::class, 'general_insurance_nominee');
+    }
+    
+    public function membership(){
+        return $this->belongsToMany(Membership::class, 'membership_nominee');
     }
 
     public function crypto(){
