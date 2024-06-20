@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\GeneralInsurance;
 use Illuminate\Http\JsonResponse;
@@ -19,7 +20,7 @@ class GeneralInsuranceController extends BaseController
     {
          $user = Auth::user();
          $generalInsurance = $user->profile->generalInsurance()->with('nominee')->get();
-         return $this->sendResponse(['GeneralInsurance'=>GeneralInsuranceResource::collection($generalInsurance),'General insurance retrived successfully']);
+         return $this->sendResponse(['GeneralInsurance'=>GeneralInsuranceResource::collection($generalInsurance)],'General insurance retrived successfully');
     }
 
     /**
@@ -33,7 +34,10 @@ class GeneralInsuranceController extends BaseController
         $generalInsurance->company_name = $request->input('companyName');
         $generalInsurance->insurance_type = $request->input('insuranceType');
         $generalInsurance->policy_number = $request->input('policyNumber');
-        $generalInsurance->maturity_date = $request->input('maturityDate');
+        $formatedDate = $request->input('maturityDate');
+        $carbonDate = Carbon::parse($formatedDate);
+        $iso8601Date = $carbonDate->toIso8601String();
+        $generalInsurance->maturity_date = $iso8601Date;
         $generalInsurance->premium = $request->input('premium');
         $generalInsurance->sum_insured = $request->input('sumInsured');
         $generalInsurance->policy_holder_name = $request->input('policyHolderName');
