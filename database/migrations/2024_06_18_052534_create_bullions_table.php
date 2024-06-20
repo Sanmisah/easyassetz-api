@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('metal_type')->nullable();
             $table->string('article_details')->nullable();
             $table->string('weight_per_article')->nullable();
-            $table->decimal('number_of_articles')->nullable();
+            $table->string('number_of_articles')->nullable();
             $table->string('additional_information')->nullable();
             $table->string('name')->nullable();
             $table->string('mobile')->nullable();
