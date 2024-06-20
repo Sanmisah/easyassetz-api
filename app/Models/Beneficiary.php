@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Crypto;
 use App\Models\Profile;
 use App\Models\LifeInsurance;
 use App\Models\MotorInsurance;
@@ -42,6 +43,14 @@ class Beneficiary extends Model
   
     public function generalInsurance(){
         return $this->belongsToMany(GeneralInsurance::class, 'general_insurance_nominee');
+    }
+
+    public function crypto(){
+        return $this->belongsToMany(Crypto::class, 'crypto_nominee');
+    }
+
+    public function cryptoJointHolder(){
+        return $this->belongsToMany(Crypto::class, 'crypto_joint_holder');
     }
 
 }
