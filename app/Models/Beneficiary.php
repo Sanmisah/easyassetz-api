@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Profile;
+use App\Models\Membership;
 use App\Models\LifeInsurance;
 use App\Models\MotorInsurance;
 use App\Models\OtherInsurance;
@@ -43,5 +44,10 @@ class Beneficiary extends Model
     public function generalInsurance(){
         return $this->belongsToMany(GeneralInsurance::class, 'general_insurance_nominee');
     }
+    
+    public function membership(){
+        return $this->belongsToMany(Membership::class, 'membership_nominee');
+    }
+
 
 }

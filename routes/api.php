@@ -6,7 +6,9 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\BullionController;
 use App\Http\Controllers\Api\CharityController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\MembershipController;
 use App\Http\Controllers\Api\BeneficiaryController;
+use App\Http\Controllers\Api\VehicleLoanController;
 use App\Http\Controllers\Api\LifeInsuranceController;
 use App\Http\Controllers\Api\MotorInsuranceController;
 use App\Http\Controllers\Api\OtherInsuranceController;
@@ -31,6 +33,8 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('otherinsurances', OtherInsuranceController::class);
     Route::resource('general_insurances', GeneralInsuranceController::class);
     Route::resource('bullions', BullionController::class);
+    Route::resource('memberships', MembershipController::class);
+    Route::resource('vehicle-loans', VehicleLoanController::class);
 
 
 });

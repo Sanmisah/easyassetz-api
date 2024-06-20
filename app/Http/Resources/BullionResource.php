@@ -14,7 +14,6 @@ class BullionResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-
         return [
             'id' => $this->id,
             'profileId' => $this->profile_id,
@@ -27,7 +26,8 @@ class BullionResource extends JsonResource
             'mobile' =>$this->mobile,
             'email' =>$this->email,
             'image' =>$this->image,
+            'createdAt' => $this->created_at,
+            'updatedAt' => $this->updated_at, 
          ];
-    
         }
 }

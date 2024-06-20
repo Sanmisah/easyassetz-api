@@ -4,7 +4,9 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Bullion;
+use App\Models\Membership;
 use App\Models\Beneficiary;
+use App\Models\VehicleLoan;
 use App\Models\LifeInsurance;
 use App\Models\MotorInsurance;
 use App\Models\OtherInsurance;
@@ -49,4 +51,13 @@ class Profile extends Model
     public function bullion(){
         return $this->hasMany(Bullion::class, 'profile_id');
     }
+
+    public function membership(){
+        return $this->hasMany(Membership::class, 'profile_id');
+    }
+
+    public function vehicleLoan(){
+        return $this->hasMany(VehicleLoan::class, 'profile_id');
+    }
+
 }
