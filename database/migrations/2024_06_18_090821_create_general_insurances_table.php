@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('insurance_type')->nullable();
             $table->string('policy_number')->nullable();
             $table->date('maturity_date')->nullable();
-            $table->bigInteger('premium')->nullable();
+            $table->string('premium')->nullable();
             $table->bigInteger('sum_insured')->nullable();
             $table->string('policy_holder_name')->nullable();
             $table->string('additional_details')->nullable();

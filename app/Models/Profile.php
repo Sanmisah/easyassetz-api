@@ -3,10 +3,17 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Models\Crypto;
 use App\Models\Bullion;
 use App\Models\Membership;
 use App\Models\Beneficiary;
 use App\Models\VehicleLoan;
+use App\Models\HomeLoan;
+use App\Models\OtherLoan;
+use App\Models\Litigation;
+use App\Models\Beneficiary;
+use App\Models\ShareDetail;
+use App\Models\PersonalLoan;
 use App\Models\LifeInsurance;
 use App\Models\MotorInsurance;
 use App\Models\OtherInsurance;
@@ -58,6 +65,29 @@ class Profile extends Model
 
     public function vehicleLoan(){
         return $this->hasMany(VehicleLoan::class, 'profile_id');
+      
+    public function homeLoan(){
+        return $this->hasMany(HomeLoan::class, 'profile_id');
+    }
+
+    public function personalLoan(){
+        return $this->hasMany(PersonalLoan::class, 'profile_id');
+    }
+
+    public function otherLoan(){
+        return $this->hasMany(OtherLoan::class, 'profile_id');
+    }
+
+    public function litigation(){
+        return $this->hasMany(Litigation::class, 'profile_id');
+    }
+
+    public function crypto(){
+        return $this->hasMany(Crypto::class, 'profile_id');
+    }
+
+    public function shareDetail(){
+        return $this->hasMany(ShareDetail::class, 'profile_id');
     }
 
 }

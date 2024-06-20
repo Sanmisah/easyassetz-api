@@ -11,18 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bullions', function (Blueprint $table) {
+        Schema::create('cryptos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('profile_id')->constrained()->onDelete('cascade');
-            $table->string('metal_type')->nullable();
-            $table->string('article_details')->nullable();
-            $table->string('weight_per_article')->nullable();
-            $table->string('number_of_articles')->nullable();
-            $table->string('additional_information')->nullable();
+            $table->string('crypto_wallet_type')->nullable();
+            $table->string('crypto_wallet_address')->nullable();
+            $table->enum('holding_type',['single','joint'])->nullable();
+            $table->string('exchange')->nullable();
+            $table->string('trading_account')->nullable();
+            $table->string('type_of_currency')->nullable();
+            $table->string('holding_qty')->nullable();
+            $table->string('additional_details')->nullable();
+            $table->string('image')->nullable();
             $table->string('name')->nullable();
             $table->string('mobile')->nullable();
             $table->string('email')->nullable();
-            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bullions');
+        Schema::dropIfExists('cryptos');
     }
 };

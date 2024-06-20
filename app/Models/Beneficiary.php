@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Crypto;
 use App\Models\Profile;
 use App\Models\Membership;
+use App\Models\ShareDetail;
 use App\Models\LifeInsurance;
 use App\Models\MotorInsurance;
 use App\Models\OtherInsurance;
@@ -49,5 +51,20 @@ class Beneficiary extends Model
         return $this->belongsToMany(Membership::class, 'membership_nominee');
     }
 
+    public function crypto(){
+        return $this->belongsToMany(Crypto::class, 'crypto_nominee');
+    }
+
+    public function cryptoJointHolder(){
+        return $this->belongsToMany(Crypto::class, 'crypto_joint_holder');
+    }
+
+    public function shareDetail(){
+        return $this->belongsToMany(ShareDetail::class, 'share_detail_nominee');
+    }
+
+    public function shareDetailJointHolder(){
+        return $this->belongsToMany(ShareDetail::class, 'share_detail_joint_holder');
+    }
 
 }

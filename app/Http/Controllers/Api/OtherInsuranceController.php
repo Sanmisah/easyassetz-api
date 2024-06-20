@@ -21,7 +21,7 @@ class OtherInsuranceController extends BaseController
         $user = Auth::user();
         $otherInsurance = $user->profile->otherInsurance()->with('nominee')->get();
     
-        return $this->sendResponse(['otherInsurance'=>OtherInsuranceResource::collection($otherInsurance)], "Other Insurances retrived successfully");
+        return $this->sendResponse(['OtherInsurance'=>OtherInsuranceResource::collection($otherInsurance)], "Other Insurances retrived successfully");
     }
 
     /**
@@ -38,7 +38,7 @@ class OtherInsuranceController extends BaseController
         $formatedDate = $request->input('maturityDate');
         $carbonDate = Carbon::parse($formatedDate);
         $iso8601Date = $carbonDate->toIso8601String();
-        $lifeInsurance->maturity_date = $iso8601Date;
+        $otherInsurance->maturity_date = $iso8601Date;
         $otherInsurance->premium = $request->input('premium');
         $otherInsurance->sum_insured = $request->input('sumInsured');
         $otherInsurance->policy_holder_name = $request->input('policyHolderName');
@@ -58,7 +58,7 @@ class OtherInsuranceController extends BaseController
             $otherInsurance->nominee()->attach($nominee_id);
         }
 
-        return $this->sendResponse(['otherInsurance'=> new OtherInsuranceResource($otherInsurance)], 'other Insurance details stored successfully');
+        return $this->sendResponse(['OtherInsurance'=> new OtherInsuranceResource($otherInsurance)], 'other Insurance details stored successfully');
     }
 
     /**
