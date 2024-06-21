@@ -49,8 +49,6 @@ if ($user) {
     }
 }
 
-
-
         return $next($request);
     }
 }
