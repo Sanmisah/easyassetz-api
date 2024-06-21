@@ -21,7 +21,7 @@ class GuestMiddleware extends BaseController
        
         $user = auth()->user();
         if($user){
-            $tokens = PersonalAccessToken::where('tokenable_id', $user->id)
+            $token = PersonalAccessToken::where('tokenable_id', $user->id)
                                  ->where('tokenable_type', get_class($user))
                                  ->get();
              
