@@ -99,7 +99,7 @@ class OtherInsuranceController extends BaseController
          $formatedDate = $request->input('maturityDate');
          $carbonDate = Carbon::parse($formatedDate);
          $iso8601Date = $carbonDate->toIso8601String();
-         $lifeInsurance->maturity_date = $iso8601Date;
+         $otherInsurance->maturity_date = $iso8601Date;
          $otherInsurance->premium = $request->input('premium');
          $otherInsurance->sum_insured = $request->input('sumInsured');
          $otherInsurance->policy_holder_name = $request->input('policyHolderName');
