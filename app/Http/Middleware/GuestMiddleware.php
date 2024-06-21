@@ -20,15 +20,35 @@ class GuestMiddleware extends BaseController
     public function handle(Request $request, Closure $next): Response
     {
        
-        $user = Auth::user();
-        if($user){
-            $token = PersonalAccessToken::where('tokenable_id', $user->id)
-            ->where('tokenable_type', get_class($user))
-            ->first();    
-        return $this->sendResponse(['user'=>new UserResource($user), 'token'=>$token->plainTextToken], 'User login successfully.');           
+        // $user = Auth::user();
+        // if($user){
+        //     $token = PersonalAccessToken::where('tokenable_id', $user->id)
+        //     ->where('tokenable_type', get_class($user))
+        //     ->first();    
+        // return $this->sendResponse(['user'=>new UserResource($user), 'token'=>$token->plainTextToken], 'User login successfully.');           
 
-        //  return $this->sendError('Unauthorised.', ['error'=>'You are already logged-in']);
-        }
+        // //  return $this->sendError('Unauthorised.', ['error'=>'You are already logged-in']);
+        // }
+
+        $user = auth()->user();
+
+if ($user) {
+    $token = PersonalAccessToken::where('tokenable_id', $user->id)
+                                ->where('tokenable_type', get_class($user))
+                                ->first();
+
+    if ($token) {
+        return $this->sendResponse([
+            'user' => new UserResource($user),
+            'token' => $token->plainTextToken,
+        ], 'User login successfully.');
+    } else {
+        // Handle case where no token is found (though it shouldn't happen if user is authenticated)
+        return $this->sendError('Token not found.', ['error' => 'Token for user not found']);
+    }
+}
+
+
 
         return $next($request);
     }
