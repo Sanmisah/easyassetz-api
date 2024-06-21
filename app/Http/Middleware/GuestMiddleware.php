@@ -21,9 +21,7 @@ class GuestMiddleware extends BaseController
        
         $user = auth()->user();
         if($user){
-            $token = PersonalAccessToken::where('tokenable_id', $user->id)
-                                 ->where('tokenable_type', get_class($user))
-                                 ->get();
+            $token = PersonalAccessToken::where('name', $user->name)->get();
     
         return $this->sendResponse(['user'=>new UserResource($user), 'token'=>$token->token], 'User login successfully.');           
 
