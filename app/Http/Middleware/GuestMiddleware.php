@@ -33,10 +33,10 @@ class GuestMiddleware extends BaseController
         $user = auth()->user();
 
 if ($user) {
-    // $token = PersonalAccessToken::where('tokenable_id', $user->id)
-    //                             ->where('tokenable_type', get_class($user))
-    //                             ->first();
-    $token = $user->currentAccessToken();
+    $token = PersonalAccessToken::where('tokenable_id', $user->id)
+                                ->where('tokenable_type', get_class($user))
+                                ->first();
+   // $token = $user->currentAccessToken();
 
     if ($token) {
         return $this->sendResponse([
