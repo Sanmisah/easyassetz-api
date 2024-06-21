@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\PersonalAccessToken;
 use App\Http\Controllers\API\BaseController;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +20,7 @@ class GuestMiddleware extends BaseController
     public function handle(Request $request, Closure $next): Response
     {
        
-        $user = auth()->user();
+        $user = Auth::user();
         if($user){
             $token = PersonalAccessToken::where('tokenable_id', $user->id)
             ->where('tokenable_type', get_class($user))
