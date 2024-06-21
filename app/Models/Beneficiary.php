@@ -98,8 +98,8 @@ class Beneficiary extends Model
         return $this->belongsToMany(Bond::class, 'bond_nominee');
     }
 
-    public function bondJointHolder(){
-        return $this->belongsToMany(Bond::class, 'bond_joint_holder');
-    }
+    // public function bondJointHolder(){
+    //     return $this->belongsToMany(Bond::class, 'bond_joint_holder');
+    // }
 
 }
