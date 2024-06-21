@@ -25,7 +25,7 @@ class GuestMiddleware extends BaseController
                                  ->where('tokenable_type', get_class($user))
                                  ->get();
     
-        return $this->sendResponse(['user'=>new UserResource($user), 'token'=>$token['token']], 'User login successfully.');           
+        return $this->sendResponse(['user'=>new UserResource($user), 'token'=>$token->token], 'User login successfully.');           
 
         //  return $this->sendError('Unauthorised.', ['error'=>'You are already logged-in']);
         }
