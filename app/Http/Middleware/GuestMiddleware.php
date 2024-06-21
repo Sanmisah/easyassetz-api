@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Laravel\Sanctum\PersonalAccessToken;
 use App\Http\Controllers\API\BaseController;
 use Symfony\Component\HttpFoundation\Response;
 
