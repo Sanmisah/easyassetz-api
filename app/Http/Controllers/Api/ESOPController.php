@@ -88,6 +88,32 @@ class ESOPController extends BaseController
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this ESOP Detail']);
          }
 
+         $esop->company_name = $request->input('companyName');
+         $esop->units_granted = $request->input('units_granted');
+         $esop->esops_vested = $request->input('esops_vested');
+         $esop->nature_of_holding = $request->input('nature_of_holding');
+         $esop->additional_details = $request->input('additional_details');
+         $esop->image = $request->input('image');
+         $esop->name = $request->input('name');
+         $esop->mobile = $request->input('mobile');
+         $esop->email = $request->input('email');
+         $esop->save();
+
+         if($request->has('nominees')) {
+            $nominee_ids = $request->input('nominees');
+            $esop->nominee()->sync($nominee_ids);
+        }else {
+            $esop->nominee()->detach();
+        }
+
+        if($request->has('jointHolders')) {
+            $joint_holder_id = $request->input('jointHolders');
+            $esop->jointHolder()->sync($joint_holder_id);
+        }else {
+            $esop->jointHolder()->detach();
+        }
+ 
+         return $this->sendResponse(['ESOP'=> new ESOPResource($esop)], 'ESOP details updated successfully');
     }
 
     /**
@@ -95,7 +121,17 @@ class ESOPController extends BaseController
      */
     public function destroy(string $id): JsonResponse
     {
-        //
+        $esop = ESOP::find($id);
+        if(!$esop){
+            return $this->sendError('ESOP not found', ['error'=>'ESOP Details not found']);
+        }
+        $user = Auth::user();
+        if($user->profile->id !== $esop->profile_id){
+            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this ESOP Details']);
+        }
+        $esop->delete();
+
+        return $this->sendResponse([], 'ESOP Details deleted successfully');
     }
 
 

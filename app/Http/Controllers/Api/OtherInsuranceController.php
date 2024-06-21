@@ -88,6 +88,7 @@ class OtherInsuranceController extends BaseController
         if(!$otherInsurance){
             return $this->sendError('Other Insurance Not Found',['error'=>'Other Insurance not found']);
         }
+        
         $user = Auth::user();
         if($user->profile->id !== $otherInsurance->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Other Insurance']);
