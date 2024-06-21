@@ -93,7 +93,7 @@ class OtherInsuranceController extends BaseController
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Other Insurance']);
          }
 
-         $otherInsurance = $request->input('companyName');
+         $otherInsurance->company_name = $request->input('companyName');
          $otherInsurance->insurance_type = $request->input('insuranceType');
          $otherInsurance->policy_number = $request->input('policyNumber');
          $formatedDate = $request->input('maturityDate');

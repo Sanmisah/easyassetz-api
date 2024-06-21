@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('organization_name')->nullable();
             $table->string('membership_id')->nullable();
             $table->string('membership_type')->nullable();
-            $table->date('membership_payment_date')->nullable();
+            $table->datetime('membership_payment_date')->nullable();
             $table->string('name')->nullable();
             $table->string('mobile')->nullable();
             $table->string('email')->nullable();

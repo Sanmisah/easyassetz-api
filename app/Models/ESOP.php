@@ -2,10 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Beneficiary;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ESOP extends Model
 {
     use HasFactory;
+
+
+    public function nominee(){
+        return $this->belongsToMany(Beneficiary::class,'e_s_o_p_nominee');
+     }
+
+     public function jointHolder(){
+        return $this->belongsToMany(Beneficiary::class,'e_s_o_p_joint_holder');
+     }
+
+
 }

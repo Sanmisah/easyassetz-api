@@ -95,11 +95,11 @@ class Beneficiary extends Model
     }
 
     public function esop(){
-        return $this->belongsToMany(Bond::class, 'bond_nominee');
+        return $this->belongsToMany(Bond::class, 'e_s_o_p_nominee');
     }
 
-    // public function bondJointHolder(){
-    //     return $this->belongsToMany(Bond::class, 'bond_joint_holder');
-    // }
+    public function esopJointHolder(){
+        return $this->belongsToMany(Bond::class, 'e_s_o_p_joint_holder');
+    }
 
 }

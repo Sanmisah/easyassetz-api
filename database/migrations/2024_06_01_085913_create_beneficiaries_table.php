@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('full_legal_name')->nullable();
             $table->string('relationship')->nullable();
             $table->string('gender')->nullable();
-            $table->string('dob')->nullable();
+            $table->datetime('dob')->nullable();
             $table->string('mobile')->nullable();
             $table->string('email')->nullable();
             $table->string('guardian_full_legal_name')->nullable();
