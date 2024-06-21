@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\Bond;
 use App\Models\User;
 use App\Models\Crypto;
 use App\Models\Bullion;
 use App\Models\HomeLoan;
+use App\Models\Debenture;
 use App\Models\OtherLoan;
 use App\Models\Litigation;
 use App\Models\Membership;
@@ -95,4 +97,11 @@ class Profile extends Model
         return $this->hasMany(MutualFund::class, 'profile_id');
     }
     
+    public function debenture(){
+        return $this->hasMany(Debenture::class, 'profile_id');
+    }
+
+    public function bond(){
+        return $this->hasMany(Bond::class, 'profile_id');
+    }
 }

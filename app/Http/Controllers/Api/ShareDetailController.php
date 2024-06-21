@@ -112,7 +112,7 @@ class ShareDetailController extends BaseController
             $shareDetail->nominee()->detach();
         }
 
-        if($request->has('jointHolder')) {
+        if($request->has('jointHolders')) {
             $joint_holder_id = $request->input('jointHolder');
             $shareDetail->jointHolder()->sync($joint_holder_id);
         }else {

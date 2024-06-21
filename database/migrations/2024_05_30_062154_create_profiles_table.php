@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->unique()->onDelete('cascade');
             $table->string('full_legal_name')->nullable();
             $table->string('gender')->nullable();   
-            $table->date('dob')->nullable();
+            $table->datetime('dob')->nullable();
             $table->string('nationality')->nullable();  
             $table->string('country_of_residence')->nullable();
             $table->string('religion')->nullable();        
@@ -44,12 +44,12 @@ return new class extends Migration
             $table->string('pan_file')->nullable();
             $table->string('passport_number')->nullable();
             $table->string('passport_name')->nullable();
-            $table->date('passport_expiry_date')->nullable();
+            $table->datetime('passport_expiry_date')->nullable();
             $table->string('passport_place_of_issue')->nullable();
             $table->string('passport_file')->nullable();
             $table->string('driving_licence_number')->nullable();
             $table->string('driving_licence_name')->nullable();
-            $table->date('driving_licence_expiry_date')->nullable();
+            $table->datetime('driving_licence_expiry_date')->nullable();
             $table->string('driving_licence_place_of_issue')->nullable();
             $table->string('driving_licence_file')->nullable();
             $table->timestamp('created_at')->nullable();

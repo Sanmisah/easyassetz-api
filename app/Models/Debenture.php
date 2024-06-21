@@ -6,16 +6,17 @@ use App\Models\Beneficiary;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class MutualFund extends Model
+class Debenture extends Model
 {
     use HasFactory;
 
     public function nominee(){
-        return $this->belongsToMany(Beneficiary::class,'mutual_fund_nominee');
+        return $this->belongsToMany(Beneficiary::class,'debenture_nominee');
      }
 
      public function jointHolder(){
-        return $this->belongsToMany(Beneficiary::class,'mutual_fund_joint_holder');
+        return $this->belongsToMany(Beneficiary::class,'debenture_joint_holder');
      }
+
 
 }

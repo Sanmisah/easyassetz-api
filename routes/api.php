@@ -2,11 +2,14 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\BondController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\BullionController;
 use App\Http\Controllers\Api\CharityController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\DebentureController;
 use App\Http\Controllers\Api\MembershipController;
+use App\Http\Controllers\Api\MutualFundController;
 use App\Http\Controllers\Api\BeneficiaryController;
 use App\Http\Controllers\Api\VehicleLoanController;
 use App\Http\Controllers\Api\LifeInsuranceController;
@@ -37,6 +40,9 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('bullions', BullionController::class);
     Route::resource('memberships', MembershipController::class);
     Route::resource('vehicle-loans', VehicleLoanController::class);
+    Route::resource('mutual-funds', MutualFundController::class);
+    Route::resource('debentures', DebentureController::class);
+    Route::resource('bonds', BondController::class);
 
 
 });

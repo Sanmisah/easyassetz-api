@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\Bond;
 use App\Models\Crypto;
 use App\Models\Profile;
+use App\Models\Debenture;
 use App\Models\Membership;
+use App\Models\MutualFund;
 use App\Models\ShareDetail;
 use App\Models\LifeInsurance;
 use App\Models\MotorInsurance;
@@ -65,6 +68,38 @@ class Beneficiary extends Model
 
     public function shareDetailJointHolder(){
         return $this->belongsToMany(ShareDetail::class, 'share_detail_joint_holder');
+    }
+
+    public function mutualFund(){
+        return $this->belongsToMany(MutualFund::class, 'mutual_fund_nominee');
+    }
+
+    public function mutualFundJointHolder(){
+        return $this->belongsToMany(MutualFund::class, 'mutual_fund_joint_holder');
+    }
+
+    public function debenture(){
+        return $this->belongsToMany(Debenture::class, 'debenture_nominee');
+    }
+
+    public function debentureJointHolder(){
+        return $this->belongsToMany(Debenture::class, 'debenture_joint_holder');
+    }
+
+    public function bond(){
+        return $this->belongsToMany(Bond::class, 'bond_nominee');
+    }
+
+    public function bondJointHolder(){
+        return $this->belongsToMany(Bond::class, 'bond_joint_holder');
+    }
+
+    public function esop(){
+        return $this->belongsToMany(Bond::class, 'bond_nominee');
+    }
+
+    public function bondJointHolder(){
+        return $this->belongsToMany(Bond::class, 'bond_joint_holder');
     }
 
 }
