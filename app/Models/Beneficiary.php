@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use App\Models\Bond;
+use App\Models\ESOP;
 use App\Models\Crypto;
 use App\Models\Profile;
 use App\Models\Debenture;
 use App\Models\Membership;
 use App\Models\MutualFund;
 use App\Models\ShareDetail;
+use App\Models\DematAccount;
 use App\Models\LifeInsurance;
 use App\Models\MotorInsurance;
 use App\Models\OtherInsurance;
@@ -95,11 +97,19 @@ class Beneficiary extends Model
     }
 
     public function esop(){
-        return $this->belongsToMany(Bond::class, 'e_s_o_p_nominee');
+        return $this->belongsToMany(ESOP::class, 'e_s_o_p_nominee');
     }
 
     public function esopJointHolder(){
         return $this->belongsToMany(Bond::class, 'e_s_o_p_joint_holder');
+    }
+
+    public function dematAccount(){
+        return $this->belongsToMany(DematAccount::class, 'demat_account_nominee');
+    }
+
+    public function dematAccountJointHolder(){
+        return $this->belongsToMany(DematAccount::class, 'demat_account_joint_holder');
     }
 
 }

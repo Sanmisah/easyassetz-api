@@ -15,12 +15,16 @@ use App\Models\MutualFund;
 use App\Models\Beneficiary;
 use App\Models\ShareDetail;
 use App\Models\VehicleLoan;
+use App\Models\DematAccount;
 use App\Models\PersonalLoan;
 use App\Models\LifeInsurance;
 use App\Models\MotorInsurance;
 use App\Models\OtherInsurance;
 use App\Models\HealthInsurance;
 use App\Models\GeneralInsurance;
+
+use Carbon\Carbon;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -31,7 +35,6 @@ class Profile extends Model
     public function beneficiary(){
         return $this->hasMany(Beneficiary::class, 'profile_id');
     }
-
 
     public function charity(){
         return $this->hasMany(Beneficiary::class, 'profile_id');
@@ -104,4 +107,19 @@ class Profile extends Model
     public function bond(){
         return $this->hasMany(Bond::class, 'profile_id');
     }
+
+    public function dematAccount(){
+        return $this->hasMany(DematAccount::class, 'profile_id');
+    }
+
+    public function setDobAttribute($value)
+    {
+        $this->attributes['dob'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+    }
+
+    public function getDobAttribute($value)
+    {
+        return Carbon::parse($value)->format('d/m/Y');
+    }    
+
 }

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use Carbon\Carbon;
 use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -140,10 +139,7 @@ class ProfileController extends BaseController
         }
         $profile->full_legal_name = $request->input('fullLegalName');
         $profile->gender = $request->input('gender');
-        $formatedDate = $request->input('dob');
-        $carbonDate = Carbon::parse($formatedDate);
-        $iso8601Date = $carbonDate->toIso8601String();
-        $profile->dob = $iso8601Date;
+        $profile->dob = $request->input('dob');
         $profile->nationality = $request->input('nationality');
         $profile->country_of_residence = $request->input('countryOfResidence');
         $profile->religion = $request->input('religion');
