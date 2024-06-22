@@ -91,12 +91,8 @@ class BullionController extends BaseController
          $bullion->image = $request->input('image');
          $bullion->save();
          
-
-
          return $this->sendResponse(['Bullion' => new BullionResource($bullion)], 'Bullion updated successfully');
-
-
-        
+    
     }
 
     /**
