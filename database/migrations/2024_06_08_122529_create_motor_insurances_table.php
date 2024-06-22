@@ -17,9 +17,9 @@ return new class extends Migration
             $table->string('company_name')->nullable();
             $table->string('insurance_sub_type')->nullable();
             $table->string('policy_number')->nullable();
-            $table->datetime('expiry_date')->nullable();
-            $table->string('premium')->nullable();
-            $table->string('sum_insured')->nullable();
+            $table->date('expiry_date')->nullable();
+            $table->decimal('premium',10,2)->nullable();
+            $table->decimal('sum_insured',10,2)->nullable();
             $table->string('insurer_name')->nullable();
             $table->string('vehicle_type')->nullable();
             $table->string('mode_of_purchase')->nullable();

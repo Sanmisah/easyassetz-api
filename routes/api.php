@@ -43,6 +43,4 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('mutual-funds', MutualFundController::class);
     Route::resource('debentures', DebentureController::class);
     Route::resource('bonds', BondController::class);
-
-
 });

@@ -117,16 +117,11 @@ class ProfileController extends BaseController
     public function update(UpdateProfileRequest $request, string $id)
     { 
         if($request->hasFile('aadharFile')){
-            //get filename with extention
             $fileNameWithExt = $request->file('aadharFile')->getClientOriginalName();
-             //get just filename
-             $filename = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
-           //   get just ext
-           $extention = $request->file('aadharFile')->getClientOriginalExtension();
-           // filename to store
-           $fileNameToStore = $filename.'_'.time().'.'.$extention;
+            $filename = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
+            $extention = $request->file('aadharFile')->getClientOriginalExtension();
+            $fileNameToStore = $filename.'_'.time().'.'.$extention;
             $path = $request->file('aadharFile')->storeAs('public/imgs/aadharFile', $fileNameToStore);
-
          }
 
         $profile = Profile::find($id); 

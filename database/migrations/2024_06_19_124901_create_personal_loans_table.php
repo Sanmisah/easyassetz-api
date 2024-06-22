@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('bank_name')->nullable();
             $table->string('loan_account_no')->nullable();
             $table->string('branch')->nullable();
-            $table->string('emi_date')->nullable();
-            $table->string('start_date')->nullable();
+            $table->date('emi_date')->nullable();
+            $table->date('start_date')->nullable();
             $table->string('duration')->nullable();
             $table->string('guarantor_name')->nullable();
             $table->string('guarantor_mobile')->nullable();

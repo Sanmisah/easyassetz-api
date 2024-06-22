@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('profile_id')->constrained()->onDelete('cascade');
             $table->string('fund_name')->nullable();
             $table->string('folio_number')->nullable();
-            $table->string('number_of_units')->nullable();
+            $table->decimal('number_of_units',10,2)->nullable();
             $table->enum('nature_of_holding',['single','joint'])->nullable();
             $table->string('additional_details')->nullable();
             $table->string('image')->nullable();
