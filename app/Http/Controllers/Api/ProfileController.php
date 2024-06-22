@@ -121,7 +121,7 @@ class ProfileController extends BaseController
             $filename = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
             $extention = $request->file('aadharFile')->getClientOriginalExtension();
             $fileNameToStore = $filename.'_'.time().'.'.$extention;
-            $path = $request->file('aadharFile')->storeAs('public/imgs/aadharFile', $fileNameToStore);
+            $path = $request->file('aadharFile')->storeAs('public/profiles/aadharFile', $fileNameToStore);
          }
 
         $profile = Profile::find($id); 
