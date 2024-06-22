@@ -6,16 +6,17 @@ use App\Models\Beneficiary;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class DematAccount extends Model
+class WealthManagementAccount extends Model
 {
     use HasFactory;
-
+    
     public function nominee(){
-        return $this->belongsToMany(Beneficiary::class,'demat_account_nominee');
+        return $this->belongsToMany(Beneficiary::class,'wealth_management_nominee');
      }
 
      public function jointHolder(){
-        return $this->belongsToMany(Beneficiary::class,'demat_account_joint_holder');
+        return $this->belongsToMany(Beneficiary::class,'wealth_management_joint_holder');
      }
+
 
 }

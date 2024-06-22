@@ -21,9 +21,7 @@ class BullionController extends BaseController
         
         $user = Auth::user();
         $bullion = $user->profile->bullion()->get();
-       
         return $this->sendResponse(['Bullion'=>BullionResource::collection($bullion)], "Bullion retrived successfully");
-
     }
 
     /**

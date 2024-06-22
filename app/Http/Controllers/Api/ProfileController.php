@@ -27,16 +27,35 @@ class ProfileController extends BaseController
     public function store(StoreProfileRequest $request): JsonResponse
     {  
         if($request->hasFile('aadharFile')){
-            //get filename with extention
-            $fileNameWithExt = $request->file('aadharFile')->getClientOriginalName();
-             //get just filename
-             $filename = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
-           //   get just ext
-           $extention = $request->file('aadharFile')->getClientOriginalExtension();
-           // filename to store
-           $fileNameToStore = $filename.'_'.time().'.'.$extention;
-            $path = $request->file('aadharFile')->storeAs('public/imgs/aadharFile', $fileNameToStore);
+            $aadharfileNameWithExt = $request->file('aadharFile')->getClientOriginalName();
+            $aadharfilename = pathinfo($aadharfileNameWithExt, PATHINFO_FILENAME);
+            $aadharExtention = $request->file('aadharFile')->getClientOriginalExtension();
+            $aadharFileNameToStore = $aadharfilename.'_'.time().'.'.$aadharExtention;
+            $aadharPath = $request->file('aadharFile')->storeAs('public/profiles/aadharFile', $aadharFileNameToStore);
+         }
 
+         if($request->hasFile('panFile')){
+            $panFileNameWithExt = $request->file('panFile')->getClientOriginalName();
+            $panFilename = pathinfo($panFileNameWithExt, PATHINFO_FILENAME);
+            $panExtention = $request->file('panFile')->getClientOriginalExtension();
+            $panFileNameToStore = $panFilename.'_'.time().'.'.$panExtention;
+            $panPath = $request->file('panFile')->storeAs('public/profiles/panFiles', $panFileNameToStore);
+         }
+
+         if($request->hasFile('passportFile')){
+            $passportFileNameWithExt = $request->file('passportFile')->getClientOriginalName();
+            $passportFilename = pathinfo($passportFileNameWithExt, PATHINFO_FILENAME);
+            $passportExtention = $request->file('passportFile')->getClientOriginalExtension();
+            $passportFileNameToStore = $passportFilename.'_'.time().'.'.$passportExtention;
+            $passportPath = $request->file('passportFile')->storeAs('public/profiles/passportFiles', $passportFileNameToStore);
+         }
+
+         if($request->hasFile('drivingLicenceFile')){
+            $drivingFileNameWithExtention = $request->file('drivingLicenceFile')->getClientOriginalName();
+            $drivingFilename = pathinfo($drivingFileNameWithExtention, PATHINFO_FILENAME);
+            $drivingExtention = $request->file('drivingLicenceFile')->getClientOriginalExtension();
+            $drivingFileNameToStore = $drivingFilename.'_'.time().'.'.$drivingExtention;
+            $drivingPath = $request->file('drivingLicenceFile')->storeAs('public/profiles/drivingLicenceFiles', $drivingFileNameToStore);
          }
         
         $user = Auth::user();
@@ -70,23 +89,28 @@ class ProfileController extends BaseController
         $profile->current_country = $request->input('currentCountry');
         $profile->adhar_number = $request->input('adharNumber');
         $profile->adhar_name = $request->input('adharName');
-        // $profile->adhar_file = $request->file('adharFile');
         if($request->hasFile('aadharFile')){
-            $profile->adhar_file = $fileNameToStore;
+            $profile->adhar_file = $aadharFileNameToStore;
         }
         $profile->pan_number = $request->input('panNumber');
         $profile->pan_name = $request->input('panName');
-        $profile->pan_file = $request->file('panFile');
+        if($request->hasFile('panFile')){
+            $profile->pan_file = $panFileNameToStore;
+        }
         $profile->passport_number = $request->input('passportNumber');
         $profile->passport_name = $request->input('passportName');
         $profile->passport_expiry_date = $request->input('passportExpiryDate');
         $profile->passport_place_of_issue = $request->input('passportPlaceOfIssue');
-        $profile->passport_file = $request->file('passportFile');
+        if($request->hasFile('passportFile')){
+            $profile->passport_file = $passportFileNameToStore;
+        }
         $profile->driving_licence_number = $request->input('drivingLicenceNumber');
         $profile->driving_licence_name = $request->input('drivingLicenceName');
         $profile->driving_licence_expiry_date = $request->input('drivingLicenceExpiryDate');
         $profile->driving_licence_place_of_issue = $request->input('drivingLicencePlaceOfIsue');
-        $profile->driving_licence_file = $request->file('drivingLicenceFile');
+        if($request->hasFile('drivingLicenceFile')){
+            $profile->driving_licence_file = $drivingFileNameToStore;
+        }
         $profile->save();
 
         return $this->sendResponse(['profile'=>new ProfileResource($profile)], 'Profile created successfully.');
@@ -117,11 +141,35 @@ class ProfileController extends BaseController
     public function update(UpdateProfileRequest $request, string $id)
     { 
         if($request->hasFile('aadharFile')){
-            $fileNameWithExt = $request->file('aadharFile')->getClientOriginalName();
-            $filename = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
-            $extention = $request->file('aadharFile')->getClientOriginalExtension();
-            $fileNameToStore = $filename.'_'.time().'.'.$extention;
-            $path = $request->file('aadharFile')->storeAs('public/profiles/aadharFile', $fileNameToStore);
+            $aadharfileNameWithExt = $request->file('aadharFile')->getClientOriginalName();
+            $aadharfilename = pathinfo($aadharfileNameWithExt, PATHINFO_FILENAME);
+            $aadharExtention = $request->file('aadharFile')->getClientOriginalExtension();
+            $aadharFileNameToStore = $aadharfilename.'_'.time().'.'.$aadharExtention;
+            $aadharPath = $request->file('aadharFile')->storeAs('public/profiles/aadharFile', $aadharFileNameToStore);
+         }
+
+         if($request->hasFile('panFile')){
+            $panFileNameWithExt = $request->file('panFile')->getClientOriginalName();
+            $panFilename = pathinfo($panFileNameWithExt, PATHINFO_FILENAME);
+            $panExtention = $request->file('panFile')->getClientOriginalExtension();
+            $panFileNameToStore = $panFilename.'_'.time().'.'.$panExtention;
+            $panPath = $request->file('panFile')->storeAs('public/profiles/panFiles', $panFileNameToStore);
+         }
+
+         if($request->hasFile('passportFile')){
+            $passportFileNameWithExt = $request->file('passportFile')->getClientOriginalName();
+            $passportFilename = pathinfo($passportFileNameWithExt, PATHINFO_FILENAME);
+            $passportExtention = $request->file('passportFile')->getClientOriginalExtension();
+            $passportFileNameToStore = $passportFilename.'_'.time().'.'.$passportExtention;
+            $passportPath = $request->file('passportFile')->storeAs('public/profiles/passportFiles', $passportFileNameToStore);
+         }
+
+         if($request->hasFile('drivingLicenceFile')){
+            $drivingFileNameWithExtention = $request->file('drivingLicenceFile')->getClientOriginalName();
+            $drivingFilename = pathinfo($drivingFileNameWithExtention, PATHINFO_FILENAME);
+            $drivingExtention = $request->file('drivingLicenceFile')->getClientOriginalExtension();
+            $drivingFileNameToStore = $drivingFilename.'_'.time().'.'.$drivingExtention;
+            $drivingPath = $request->file('drivingLicenceFile')->storeAs('public/profiles/drivingLicenceFiles', $drivingFileNameToStore);
          }
 
         $profile = Profile::find($id); 
@@ -156,23 +204,28 @@ class ProfileController extends BaseController
         $profile->current_country = $request->input('currentCountry');
         $profile->adhar_number = $request->input('adharNumber');
         $profile->adhar_name = $request->input('adharName');
-        // $profile->adhar_file = $request->file('adharFile');
         if($request->hasFile('aadharFile')){
-            $profile->adhar_file = $fileNameToStore;
+             $profile->adhar_file = $aadharFileNameToStore;
         }
         $profile->pan_number = $request->input('panNumber');
         $profile->pan_name = $request->input('panName');
-        $profile->pan_file = $request->file('panFile');
+        if($request->hasFile('panFile')){
+            $profile->pan_file = $panFileNameToStore;
+        }
         $profile->passport_number = $request->input('passportNumber');
         $profile->passport_name = $request->input('passportName');
         $profile->passport_expiry_date = $request->input('passportExpiryDate');
         $profile->passport_place_of_issue = $request->input('passportPlaceOfIssue');
-        $profile->passport_file = $request->file('passportFile');
+        if($request->hasFile('passportFile')){
+            $profile->passport_file = $passportFileNameToStore;
+        }
         $profile->driving_licence_number = $request->input('drivingLicenceNumber');
         $profile->driving_licence_name = $request->input('drivingLicenceName');
         $profile->driving_licence_expiry_date = $request->input('drivingLicenceExpiryDate');
         $profile->driving_licence_place_of_issue = $request->input('drivingLicencePlaceOfIssue');
-        $profile->driving_licence_file = $request->file('drivingLicenceFile');
+        if($request->hasFile('drivingLicenceFile')){
+            $profile->driving_licence_file = $drivingFileNameToStore;
+        }
         $profile->save();
 
         return $this->sendResponse(['profile'=>new ProfileResource($profile)], 'Profile updated successfully.');

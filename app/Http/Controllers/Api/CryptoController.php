@@ -26,6 +26,15 @@ class CryptoController extends Controller
      */
     public function store(Request $request)
     {
+
+        if($request->hasFile('cryptoFile')){
+            $cryptoFileNameWithExtention = $request->file('cryptoFile')->getClientOriginalName();
+            $cryptoFilename = pathinfo($cryptoFileNameWithExtention, PATHINFO_FILENAME);
+            $cryptoExtention = $request->file('cryptoFile')->getClientOriginalExtension();
+            $cryptoFileNameToStore = $cryptoFilename.'_'.time().'.'.$cryptoExtention;
+            $cryptoPath = $request->file('cryptoFile')->storeAs('public/profiles/cryptoFiles', $cryptoFileNameToStore);
+         }
+
         $user = Auth::user();
         $crypto = new Crypto();
         $crypto->profile_id = $user->profile->id;
@@ -37,7 +46,9 @@ class CryptoController extends Controller
         $crypto->type_of_currency = $request->input('typeOfCurrency');
         $crypto->holding_qty = $request->input('holdingQty');
         $crypto->additional_details = $request->input('additionalDetails');
-        $crypto->image = $request->input('image');
+        if($request->hasFile('cryptoFile')){
+            $profile->image = $cryptoFileNameToStore;
+        }
         $crypto->name = $request->input('name');
         $crypto->mobile = $request->input('mobile');
         $crypto->email = $request->input('email');
@@ -54,7 +65,6 @@ class CryptoController extends Controller
         }
 
         return $this->sendResponse(['Crypto'=> new CryptoResource($crypto)], 'Crypto details stored successfully');
-
     }
 
     /**
@@ -79,6 +89,15 @@ class CryptoController extends Controller
      */
     public function update(Request $request, string $id)
     {
+          
+        if($request->hasFile('cryptoFile')){
+            $cryptoFileNameWithExtention = $request->file('cryptoFile')->getClientOriginalName();
+            $cryptoFilename = pathinfo($cryptoFileNameWithExtention, PATHINFO_FILENAME);
+            $cryptoExtention = $request->file('cryptoFile')->getClientOriginalExtension();
+            $cryptoFileNameToStore = $cryptoFilename.'_'.time().'.'.$cryptoExtention;
+            $cryptoPath = $request->file('cryptoFile')->storeAs('public/cryptoFiles', $cryptoFileNameToStore);
+         }
+
         $crypto = Crypto::find($id);
         if(!$crypto){
             return $this->sendError('Crypto Not Found',['error'=>'Crypto not found']);
@@ -96,7 +115,9 @@ class CryptoController extends Controller
          $crypto->type_of_currency = $request->input('typeOfCurrency');
          $crypto->holding_qty = $request->input('holdingQty');
          $crypto->additional_details = $request->input('additionalDetails');
-         $crypto->image = $request->input('image');
+         if($request->hasFile('cryptoFile')){
+            $profile->image = $cryptoFileNameToStore;
+         }
          $crypto->name = $request->input('name');
          $crypto->mobile = $request->input('mobile');
          $crypto->email = $request->input('email');

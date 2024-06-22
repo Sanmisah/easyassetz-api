@@ -20,7 +20,7 @@ class BullionResource extends JsonResource
             'metalType' => $this->metal_type,
             'articleDetails' => $this->article_details,
             'weightPerArticle' => $this->weight_per_article,
-            'numberOfArticle' => $this->number_of_article,
+            'numberOfArticles' => $this->number_of_article,
             'additionalInformation' =>$this->additional_information,
             'name' => $this->name,
             'mobile' =>$this->mobile,

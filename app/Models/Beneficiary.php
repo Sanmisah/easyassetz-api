@@ -16,6 +16,7 @@ use App\Models\MotorInsurance;
 use App\Models\OtherInsurance;
 use App\Models\HealthInsurance;
 use App\Models\GeneralInsurance;
+use App\Models\WealthManagementAccount;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -101,7 +102,7 @@ class Beneficiary extends Model
     }
 
     public function esopJointHolder(){
-        return $this->belongsToMany(Bond::class, 'e_s_o_p_joint_holder');
+        return $this->belongsToMany(ESOP::class, 'e_s_o_p_joint_holder');
     }
 
     public function dematAccount(){
@@ -111,5 +112,14 @@ class Beneficiary extends Model
     public function dematAccountJointHolder(){
         return $this->belongsToMany(DematAccount::class, 'demat_account_joint_holder');
     }
+
+    public function wealthManagement(){
+        return $this->belongsToMany(WealthManagementAccount::class, 'wealth_management_nominee');
+    }
+
+    public function wealthManagementJointHolder(){
+        return $this->belongsToMany(WealthManagementAccount::class, 'wealth_management_joint_holder');
+    }
+
 
 }

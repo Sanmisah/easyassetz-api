@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use App\Models\Bond;
 use App\Models\User;
 use App\Models\Crypto;
@@ -18,13 +19,14 @@ use App\Models\VehicleLoan;
 use App\Models\DematAccount;
 use App\Models\PersonalLoan;
 use App\Models\LifeInsurance;
+use App\Models\BrokingAccount;
 use App\Models\MotorInsurance;
 use App\Models\OtherInsurance;
+
 use App\Models\HealthInsurance;
+
 use App\Models\GeneralInsurance;
-
-use Carbon\Carbon;
-
+use App\Models\WealthManagementAccount;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -121,5 +123,13 @@ class Profile extends Model
     {
         return Carbon::parse($value)->format('d/m/Y');
     }    
+
+    public function wealthManagementAccount(){
+        return $this->hasMany(WealthManagementAccount::class, 'profile_id');
+    }
+
+    public function brokingAccount(){
+        return $this->hasMany(BrokingAccount::class, 'profile_id');
+    }
 
 }
