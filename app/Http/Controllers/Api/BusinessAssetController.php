@@ -19,6 +19,9 @@ class BusinessAssetController extends BaseController
     {
         $user = Auth::user();
         $propritership = auth()->user()->profile->businessAsset()->where('type', 'propritership')->get();
+        if(!$propritership){
+            $propritership =null;
+        }
        return $this->sendResponse(['Propritership'=>BusinessAssetsResource::collection($propritership)], "Propritership retrived successfully");
     }
 
