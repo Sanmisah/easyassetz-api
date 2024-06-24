@@ -11,7 +11,9 @@ use App\Models\Membership;
 use App\Models\MutualFund;
 use App\Models\ShareDetail;
 use App\Models\DematAccount;
+use App\Models\BusinessAsset;
 use App\Models\LifeInsurance;
+use App\Models\BrokingAccount;
 use App\Models\MotorInsurance;
 use App\Models\OtherInsurance;
 use App\Models\HealthInsurance;
@@ -119,6 +121,22 @@ class Beneficiary extends Model
 
     public function wealthManagementJointHolder(){
         return $this->belongsToMany(WealthManagementAccount::class, 'wealth_management_joint_holder');
+    }
+
+    public function brokingAccount(){
+        return $this->belongsToMany(BrokingAccount::class, 'broking_account_nominee');
+    }
+
+    public function brokingAccountJointHolder(){
+        return $this->belongsToMany(BrokingAccount::class, 'broking_account_joint_holder');
+    }
+
+    public function businessAsset(){
+        return $this->belongsToMany(BusinessAsset::class, 'business_asset_nominee');
+    }
+
+    public function businessAssetJointHolder(){
+        return $this->belongsToMany(BusinessAsset::class, 'business_asset_joint_holder');
     }
 
 

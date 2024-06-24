@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('wealth_management_joint_holder', function (Blueprint $table) {
+        Schema::create('alternate_investment_nominee', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('wealth_management_id')->constrained('wealth_management_accounts')->onDelete('cascade');
-            $table->foreignId('joint_holder_id')->constrained('beneficiaries')->onDelete('cascade');
+            $table->foreignId('alternamte_investment_id')->constrained('alternate_investment_funds')->onDelete('cascade');
+            $table->foreignId('nominee_id')->constrained('beneficiaries')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -24,7 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('wealth_management_joint_holder');
+        Schema::dropIfExists('alternate_investment_nominee');
     }
-    
 };

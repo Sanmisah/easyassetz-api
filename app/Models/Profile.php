@@ -20,12 +20,14 @@ use App\Models\DematAccount;
 use App\Models\PersonalLoan;
 use App\Models\LifeInsurance;
 use App\Models\BrokingAccount;
+use App\Models\BusinessAssets;
 use App\Models\MotorInsurance;
+
 use App\Models\OtherInsurance;
 
 use App\Models\HealthInsurance;
-
 use App\Models\GeneralInsurance;
+use App\Models\AlternateInvestmentFund;
 use App\Models\WealthManagementAccount;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -128,8 +130,36 @@ class Profile extends Model
         return $this->hasMany(WealthManagementAccount::class, 'profile_id');
     }
 
+    public function setPassportExpiryDateAttribute($value)
+    {
+        $this->attributes['passport_expiry_date'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+    }
+
+    public function getPassportExpiryDateAttribute($value)
+    {
+        return Carbon::parse($value)->format('d/m/Y');
+    }    
+
+    public function setDrivingLicenceExpiryDateAttribute($value)
+    {
+        $this->attributes['passport_expiry_date'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+    }
+
+    public function getDrivingLicenceExpiryDateAttribute($value)
+    {
+        return Carbon::parse($value)->format('d/m/Y');
+    }    
+
     public function brokingAccount(){
         return $this->hasMany(BrokingAccount::class, 'profile_id');
+    }
+
+    public function alternateInvestmentFund(){
+        return $this->hasMany(AlternateInvestmentFund::class, 'profile_id');
+    }
+
+    public function businessAssets(){
+        return $this->hasMany(BusinessAssets::class, 'profile_id');
     }
 
 }
