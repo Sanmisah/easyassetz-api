@@ -46,10 +46,10 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('mutual-funds', MutualFundController::class);
     Route::resource('debentures', DebentureController::class);
     Route::resource('bonds', BondController::class);
-    Route::resource('business', BusinessAssetController::class);
+    Route::resource('business-assets', BusinessAssetController::class);
      Route::get('/propriterships', [BusinessAssetController::class, 'propritership']);
-    // Route::get('/partnership-firms', [BusinessAssetController::class, 'partnershipFirm']);
-    // Route::get('/companies', [BusinessAssetController::class, 'company']);
-    // Route::get('/intellectual-properties', [BusinessAssetController::class, 'intellectualProperty']);
+    Route::get('/partnership-firms', [BusinessAssetController::class, 'partnershipFirm']);
+    Route::get('/companies', [BusinessAssetController::class, 'company']);
+    Route::get('/intellectual-properties', [BusinessAssetController::class, 'intellectualProperty']);
 
 });
