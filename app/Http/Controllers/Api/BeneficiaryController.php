@@ -117,10 +117,7 @@ class BeneficiaryController extends BaseController
         $beneficiary->full_legal_name = $request->input('fullLegalName');
         $beneficiary->relationship = $request->input('relationship');
         $beneficiary->gender = $request->input('gender');
-        $formatedDate = $request->input('dob');
-        $carbonDate = Carbon::parse($formatedDate);
-        $iso8601Date = $carbonDate->toIso8601String();
-        $beneficiary->dob = $iso8601Date;
+        $beneficiary->dob = $request->input('dob'); //
         $beneficiary->mobile = $request->input('mobile'); //
         $beneficiary->email = $request->input('email');
         $beneficiary->guardian_full_legal_name = $request->input('guardianFullLegalName');

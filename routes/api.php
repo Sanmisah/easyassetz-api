@@ -46,10 +46,14 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('mutual-funds', MutualFundController::class);
     Route::resource('debentures', DebentureController::class);
     Route::resource('bonds', BondController::class);
-    Route::resource('business-assets', BusinessAssetController::class);
-    Route::post('/propriterships', [BusinessAssetController::class, 'propritership']);
-    Route::post('/partnership-firms', [BusinessAssetController::class, 'partnershipFirm']);
-    Route::post('/companies', [BusinessAssetController::class, 'company']);
-    Route::post('/intellectual-properties', [BusinessAssetController::class, 'intellectualProperty']);
+   // Route::resource('business-assets', BusinessAssetController::class);
+//    Route::get('/propriterships', [BusinessAssetController::class, 'propritership']);
+//    Route::get('/propriterships', [BusinessAssetController::class, 'propritership']);
+//    Route::get('/propriterships', [BusinessAssetController::class, 'propritership']);
+//    Route::get('/propriterships', [BusinessAssetController::class, 'propritership']);
+    Route::get('/propriterships', [BusinessAssetController::class, 'propritership']);
+    Route::get('/partnership-firms', [BusinessAssetController::class, 'partnershipFirm']);
+    Route::get('/companies', [BusinessAssetController::class, 'company']);
+    Route::get('/intellectual-properties', [BusinessAssetController::class, 'intellectualProperty']);
 
 });
