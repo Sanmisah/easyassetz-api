@@ -18,6 +18,7 @@ use App\Models\ShareDetail;
 use App\Models\VehicleLoan;
 use App\Models\DematAccount;
 use App\Models\PersonalLoan;
+use App\Models\BusinessAsset;
 use App\Models\LifeInsurance;
 use App\Models\BrokingAccount;
 use App\Models\BusinessAssets;
@@ -173,8 +174,8 @@ class Profile extends Model
         return $this->hasMany(AlternateInvestmentFund::class, 'profile_id');
     }
 
-    public function businessAssets(){
-        return $this->hasMany(BusinessAssets::class, 'profile_id');
+    public function businessAsset(){
+        return $this->hasMany(BusinessAsset::class, 'profile_id');
     }
 
 }
