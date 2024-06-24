@@ -49,7 +49,7 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('business-assets', BusinessAssetController::class);
     Route::post('/propriterships', [BusinessAssetController::class, 'propritership']);
     Route::post('/partnership-firms', [BusinessAssetController::class, 'partnershipFirm']);
-    Route::post('/companys', [BusinessAssetController::class, 'company']);
-    Route::post('/intellectual-propertys', [BusinessAssetController::class, 'intellectualProperty']);
+    Route::post('/companies', [BusinessAssetController::class, 'company']);
+    Route::post('/intellectual-properties', [BusinessAssetController::class, 'intellectualProperty']);
 
 });
