@@ -15,15 +15,32 @@ class BusinessAssetController extends BaseController
     /**
      * Display a listing of the resource.
      */
-    public function index(): JsonResponse
+    public function propritership(): JsonResponse
     {
         $user = Auth::user();
         $propritership = auth()->user()->profile->businessAsset()->where('type', 'propritership')->get();
-        $partnershipFirm = auth()->user()->profile->businessAsset()->where('type', 'partnershipFirm')->get();
-        $company = auth()->user()->profile->businessAsset()->where('type', 'company')->get();
-        $intellectualProperty = auth()->user()->profile->businessAsset()->where('type', 'intellectualProperty')->get();
+       return $this->sendResponse(['Propritership'=>BusinessAssetsResource::collection($propritership)], "Propritership retrived successfully");
+    }
 
-       return $this->sendResponse(['Propritership'=>BusinessAssetsResource::collection($propritership), 'PartnershipFirm'=>BusinessAssetsResource::collection($partnershipFirm),'Company'=>BusinessAssetsResource::collection($company),'IntellectualProperty'=>BusinessAssetsResource::collection($intellectualProperty)], "Business Assets retrived successfully");
+    public function partnershipFirm(): JsonResponse
+    {
+        $user = Auth::user();
+        $partnershipFirm = auth()->user()->profile->businessAsset()->where('type', 'partnershipFirm')->get();
+       return $this->sendResponse(['PartnershipFirm'=>BusinessAssetsResource::collection($partnershipFirm)], "Partnership Firm retrived successfully");
+    }
+
+    public function company(): JsonResponse
+    {
+        $user = Auth::user();
+        $company = auth()->user()->profile->businessAsset()->where('type', 'company')->get();
+       return $this->sendResponse(['Company'=>BusinessAssetsResource::collection($company)], "Company details retrived successfully");
+    }
+
+    public function intellectualProperty(): JsonResponse
+    {
+        $user = Auth::user();
+        $intellectualProperty = auth()->user()->profile->businessAsset()->where('type', 'intellectualProperty')->get();
+       return $this->sendResponse(['IntellectualProperty'=>BusinessAssetsResource::collection($intellectualProperty)], "Intellectual Property details retrived successfully");
     }
 
     /**
