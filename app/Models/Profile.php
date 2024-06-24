@@ -37,7 +37,9 @@ class Profile extends Model
 
     public function setDobAttribute($value)
     {
-        $this->attributes['dob'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+        if($value){
+            $this->attributes['dob'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+        }
     }
 
     public function getDobAttribute($value)
@@ -50,7 +52,9 @@ class Profile extends Model
 
     public function setPassportExpiryDateAttribute($value)
     {
-        $this->attributes['passport_expiry_date'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+        if($value){
+            $this->attributes['passport_expiry_date'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+        }
     }
 
     public function getPassportExpiryDateAttribute($value)
@@ -62,7 +66,9 @@ class Profile extends Model
 
     public function setDrivingLicenceExpiryDateAttribute($value)
     {
-        $this->attributes['driving_licence_expiry_date'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+        if($value){
+            $this->attributes['driving_licence_expiry_date'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+        }
     }
 
     public function getDrivingLicenceExpiryDateAttribute($value)
