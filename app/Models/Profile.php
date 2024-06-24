@@ -123,7 +123,7 @@ class Profile extends Model
 
     public function getDobAttribute($value)
     {
-        return Carbon::parse($value)->format('y/m/d');
+        return Carbon::parse($value)->format('yyyy/mm/dd');
     }    
 
     public function wealthManagementAccount(){
