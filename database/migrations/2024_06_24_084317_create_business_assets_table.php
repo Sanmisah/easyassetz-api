@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('my_status')->nullable();
             $table->string('type_of_investment')->nullable();
             $table->enum('holding_type',['single','joint'])->nullable();
-            $table->string('document_availability')->nullable();
+            $table->json('document_availability')->nullable();
             $table->string('share_centificate_file')->nullable();
             $table->string('partnership_deed_file')->nullable();
             $table->string('jv_agreement_file')->nullable();

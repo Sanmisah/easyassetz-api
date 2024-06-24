@@ -201,9 +201,60 @@ class BusinessAssetController extends BaseController
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Business Asset']);
          }
 
+        $businessAsset->type = $request->input('type');
+        $businessAsset->firm_name = $request->input('firmName');
+        $businessAsset->registered_address = $request->input('registeredAddress');
+        $businessAsset->firm_no_type = $request->input('firmNoType');
+        $businessAsset->firms_registration_number = $request->input('firmsRegistrationNumber');
+        $businessAsset->holding_percentage = $request->input('holdingPercentage');
+        $businessAsset->company_name = $request->input('companyName');
+        $businessAsset->company_address = $request->input('companyAddress');
+        $businessAsset->my_status = $request->input('myStatus');
+        $businessAsset->type_of_investment = $request->input('typeOfInvestment');
+        $businessAsset->holding_type = $request->input('holdingType');
+        $businessAsset->document_availability = json_encode($request->input('documentAvailability'));
+        if($request->hasFile('shareCentificateFile')){
+            $businessAsset->share_centificate_file = $sharePath;
+         } 
+         if($request->hasFile('partnershipDeedFile')){
+            $businessAsset->partnership_deed_file = $partPath;
+         } 
+         if($request->hasFile('jvAgreementFile')){
+            $businessAsset->jv_agreement_file = $jvPath;
+         } 
+         if($request->hasFile('loanDepositeReceipt')){
+            $businessAsset->loan_deposite_receipt = $loanPath;
+         } 
+         if($request->hasFile('promisoryNote')){
+            $businessAsset->promisory_note = $pnPath;
+         } 
+        $businessAsset->type_of_ip = $request->input('typeOfIp');
+        $businessAsset->expiry_date = $request->input('expiryDate');
+        $businessAsset->whether_assigned = $request->input('whetherAssigned');
+        $businessAsset->name_of_assignee = $request->input('nameOfAssignee');
+        $businessAsset->date_of_assignment = $request->input('dateOfAssignment');
+        $businessAsset->additional_information = $request->input('additionalInformation');
+        $businessAsset->name = $request->input('name');
+        $businessAsset->mobile = $request->input('mobile');
+        $businessAsset->email = $request->input('email');
+        $businessAsset->save();
 
+        if($request->has('nominees')) {
+            $nominee_ids = $request->input('nominees');
+            $businessAsset->nominee()->sync($nominee_ids);
+        }else {
+            $businessAsset->nominee()->detach();
+        }
 
+        if($request->has('jointHolder')) {
+            $joint_holder_id = $request->input('jointHolder');
+            $businessAsset->jointHolder()->sync($joint_holder_id);
+        }else {
+            $businessAsset->jointHolder()->detach();
+        }
 
+         return $this->sendResponse(['BusinessAsset'=> new BusinessAssetsResource($businessAsset)], 'Business Asset details updated successfully');
+         
     }
 
     /**
@@ -211,6 +262,16 @@ class BusinessAssetController extends BaseController
      */
     public function destroy(string $id): JsonResponse
     {
-        //
+        $businessAsset = BusinessAsset::find($id);
+        if(!$businessAsset){
+            return $this->sendError('Broking Account not found', ['error'=>'Business Asset not found']);
+        }
+        $user = Auth::user();
+        if($user->profile->id !== $businessAsset->profile_id){
+            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Business Asset']);
+        }
+        $businessAsset->delete();
+
+        return $this->sendResponse([], 'Business Asset deleted successfully');
     }
 }

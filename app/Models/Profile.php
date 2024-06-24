@@ -22,9 +22,7 @@ use App\Models\LifeInsurance;
 use App\Models\BrokingAccount;
 use App\Models\BusinessAssets;
 use App\Models\MotorInsurance;
-
 use App\Models\OtherInsurance;
-
 use App\Models\HealthInsurance;
 use App\Models\GeneralInsurance;
 use App\Models\AlternateInvestmentFund;
@@ -35,6 +33,43 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Profile extends Model
 {
     use HasFactory;
+
+
+    public function setDobAttribute($value)
+    {
+        $this->attributes['dob'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+    }
+
+    public function getDobAttribute($value)
+    {
+        if($value){       //when profile gets created carbon automatically saves date.
+            return Carbon::parse($value)->format('y/m/d');
+        }
+    }    
+
+
+    public function setPassportExpiryDateAttribute($value)
+    {
+        $this->attributes['passport_expiry_date'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+    }
+
+    public function getPassportExpiryDateAttribute($value)
+    {
+        return Carbon::parse($value)->format('d/m/Y');
+    }    
+
+    public function setDrivingLicenceExpiryDateAttribute($value)
+    {
+        $this->attributes['passport_expiry_date'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+    }
+
+    public function getDrivingLicenceExpiryDateAttribute($value)
+    {
+        return Carbon::parse($value)->format('d/m/Y');
+    }    
+
+
+
 
     public function beneficiary(){
         return $this->hasMany(Beneficiary::class, 'profile_id');
@@ -116,41 +151,9 @@ class Profile extends Model
         return $this->hasMany(DematAccount::class, 'profile_id');
     }
 
-    public function setDobAttribute($value)
-    {
-        $this->attributes['dob'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
-    }
-
-    public function getDobAttribute($value)
-    {
-        if($value){
-            return Carbon::parse($value)->format('y/m/d');
-        }
-    }    
-
     public function wealthManagementAccount(){
         return $this->hasMany(WealthManagementAccount::class, 'profile_id');
     }
-
-    public function setPassportExpiryDateAttribute($value)
-    {
-        $this->attributes['passport_expiry_date'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
-    }
-
-    public function getPassportExpiryDateAttribute($value)
-    {
-        return Carbon::parse($value)->format('d/m/Y');
-    }    
-
-    public function setDrivingLicenceExpiryDateAttribute($value)
-    {
-        $this->attributes['passport_expiry_date'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
-    }
-
-    public function getDrivingLicenceExpiryDateAttribute($value)
-    {
-        return Carbon::parse($value)->format('d/m/Y');
-    }    
 
     public function brokingAccount(){
         return $this->hasMany(BrokingAccount::class, 'profile_id');
