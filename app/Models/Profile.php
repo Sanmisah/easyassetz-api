@@ -55,18 +55,22 @@ class Profile extends Model
 
     public function getPassportExpiryDateAttribute($value)
     {
-        return Carbon::parse($value)->format('d/m/Y');
-    }    
+        if($value){       
+            return Carbon::parse($value)->format('y/m/d');
+        } 
+   }    
 
     public function setDrivingLicenceExpiryDateAttribute($value)
     {
-        $this->attributes['passport_expiry_date'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+        $this->attributes['driving_licence_expiry_date'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
     }
 
     public function getDrivingLicenceExpiryDateAttribute($value)
     {
-        return Carbon::parse($value)->format('d/m/Y');
-    }    
+        if($value){       
+            return Carbon::parse($value)->format('y/m/d');
+        }  
+  }    
 
 
 
