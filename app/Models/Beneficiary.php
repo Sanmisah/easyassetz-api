@@ -41,8 +41,8 @@ class Beneficiary extends Model
 
     public function getDobAttribute($value)
     {
-        if($value){       //when profile gets created carbon automatically saves date.
-            return Carbon::parse($value)->format('yy/m/d');
+        if($value){       
+            return Carbon::parse($value)->format('y/m/d');
         }
     }    
 

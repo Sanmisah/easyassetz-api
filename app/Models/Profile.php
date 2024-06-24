@@ -45,7 +45,7 @@ class Profile extends Model
     public function getDobAttribute($value)
     {
         if($value){       //when profile gets created carbon automatically saves date.
-            return Carbon::parse($value)->format('yy/m/d');
+            return Carbon::parse($value)->format('y/m/d');
         }
     }    
 
