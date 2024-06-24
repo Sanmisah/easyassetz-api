@@ -21,12 +21,16 @@ class BusinessAsset extends Model
 
      public function setExpiryDateAttribute($value)
      {
-         $this->attributes['expiry_date'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+        if($value){
+            $this->attributes['expiry_date'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+        }
      }
  
      public function getExpiryDateAttribute($value)
      {
-         return Carbon::parse($value)->format('d/m/Y');
+        if($value){
+            return Carbon::parse($value)->format('d/m/Y');
+        }
      }    
 
 }
