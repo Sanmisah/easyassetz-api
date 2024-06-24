@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\MembershipController;
 use App\Http\Controllers\Api\MutualFundController;
 use App\Http\Controllers\Api\BeneficiaryController;
 use App\Http\Controllers\Api\VehicleLoanController;
+use App\Http\Controllers\Api\BusinessAssetController;
 use App\Http\Controllers\Api\LifeInsuranceController;
 use App\Http\Controllers\Api\MotorInsuranceController;
 use App\Http\Controllers\Api\OtherInsuranceController;
@@ -45,4 +46,6 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('mutual-funds', MutualFundController::class);
     Route::resource('debentures', DebentureController::class);
     Route::resource('bonds', BondController::class);
+    Route::resource('business-assets', BusinessAssetController::class);
+
 });
