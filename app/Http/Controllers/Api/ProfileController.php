@@ -63,10 +63,6 @@ class ProfileController extends BaseController
         $profile->user_id = $user->id;
         $profile->full_legal_name = $request->input('fullLegalName');
         $profile->gender = $request->input('gender');
-        // $formatedDate = $request->input('dob');
-        // $carbonDate = Carbon::parse($formattedDate);
-        // $iso8601Date = $carbonDate->toIso8601String();
-        // $profile->dob = $iso8601Date;
         $profile->dob = $request->input('dob');
         $profile->nationality = $request->input('nationality');
         $profile->country_of_residence = $request->input('countryOfResidence');
