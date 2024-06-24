@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use App\Models\Bond;
 use App\Models\ESOP;
 use App\Models\Crypto;
@@ -28,6 +29,22 @@ class Beneficiary extends Model
 
     public $table = 'beneficiaries';
     public $primaryKey = 'id';
+
+
+
+    public function setDobAttribute($value)
+    {
+        if($value){
+            $this->attributes['dob'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+        }
+    }
+
+    public function getDobAttribute($value)
+    {
+        if($value){       //when profile gets created carbon automatically saves date.
+            return Carbon::parse($value)->format('yy/m/d');
+        }
+    }    
 
 
     public function motorInsurance(){
