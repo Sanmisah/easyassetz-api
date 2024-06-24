@@ -47,9 +47,9 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('debentures', DebentureController::class);
     Route::resource('bonds', BondController::class);
     Route::resource('business-assets', BusinessAssetController::class);
-    Route::post('/propritership', [BusinessAssetController::class, 'propritership']);
-    Route::post('/partnership-firm', [BusinessAssetController::class, 'partnershipFirm']);
-    Route::post('/company', [BusinessAssetController::class, 'company']);
-    Route::post('/intellectual-property', [BusinessAssetController::class, 'intellectualProperty']);
+    Route::post('/propriterships', [BusinessAssetController::class, 'propritership']);
+    Route::post('/partnership-firms', [BusinessAssetController::class, 'partnershipFirm']);
+    Route::post('/companys', [BusinessAssetController::class, 'company']);
+    Route::post('/intellectual-propertys', [BusinessAssetController::class, 'intellectualProperty']);
 
 });
