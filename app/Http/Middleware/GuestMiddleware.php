@@ -27,7 +27,7 @@ class GuestMiddleware extends BaseController
         //     ->first();    
         // return $this->sendResponse(['user'=>new UserResource($user), 'token'=>$token->plainTextToken], 'User login successfully.');           
 
-          return $this->sendError('Unauthorised.', ['error'=>'You are already logged-in']);
+          return $this->sendError('You are already logged-in.', ['message'=>'You are already logged-in']);
         }
         return $next($request);
     }
