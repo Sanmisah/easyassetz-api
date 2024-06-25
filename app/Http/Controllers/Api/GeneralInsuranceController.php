@@ -34,10 +34,7 @@ class GeneralInsuranceController extends BaseController
         $generalInsurance->company_name = $request->input('companyName');
         $generalInsurance->insurance_type = $request->input('insuranceType');
         $generalInsurance->policy_number = $request->input('policyNumber');
-        $formatedDate = $request->input('maturityDate');
-        $carbonDate = Carbon::parse($formatedDate);
-        $iso8601Date = $carbonDate->toIso8601String();
-        $generalInsurance->maturity_date = $iso8601Date;
+        $generalInsurance->maturity_date = $request->input('maturityDate');
         $generalInsurance->premium = $request->input('premium');
         $generalInsurance->sum_insured = $request->input('sumInsured');
         $generalInsurance->policy_holder_name = $request->input('policyHolderName');

@@ -37,10 +37,7 @@ class MotorInsuranceController extends BaseController
         $motorInsurance->company_name = $request->input('companyName');
         $motorInsurance->insurance_sub_type = $request->input('insuranceType');
         $motorInsurance->policy_number = $request->input('policyNumber');
-        $formatedDate = $request->input('expiryDate');
-        $carbonDate = Carbon::parse($formatedDate);
-        $iso8601Date = $carbonDate->toIso8601String();
-        $motorInsurance->expiry_date = $iso8601Date;
+        $motorInsurance->expiry_date = $request->input('expiryDate');
         $motorInsurance->premium = $request->input('premium');
         $motorInsurance->sum_insured = $request->input('sumInsured');
         $motorInsurance->insurer_name = $request->input('insurerName');
@@ -99,10 +96,7 @@ class MotorInsuranceController extends BaseController
          $motorInsurance->company_name = $request->input('companyName');
          $motorInsurance->insurance_sub_type = $request->input('insuranceType');
          $motorInsurance->policy_number = $request->input('policyNumber');
-         $formatedDate = $request->input('expiryDate');
-         $carbonDate = Carbon::parse($formatedDate);
-         $iso8601Date = $carbonDate->toIso8601String();
-         $motorInsurance->expiry_date = $iso8601Date;
+         $motorInsurance->expiry_date = $request->input('expiryDate');
          $motorInsurance->premium = $request->input('premium');
          $motorInsurance->sum_insured = $request->input('sumInsured');
          $motorInsurance->insurer_name = $request->input('insurerName');

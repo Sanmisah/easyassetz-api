@@ -34,10 +34,7 @@ class HealthInsuranceController extends BaseController
         $healthInsurance->company_name = $request->input('companyName');
         $healthInsurance->insurance_type = $request->input('insuranceType');
         $healthInsurance->policy_number = $request->input('policyNumber');
-        $formatedDate = $request->input('maturityDate');
-        $carbonDate = Carbon::parse($formatedDate);
-        $iso8601Date = $carbonDate->toIso8601String();
-        $healthInsurance->maturity_date = $iso8601Date;
+        $healthInsurance->maturity_date = $request->input('maturityDate');
         $healthInsurance->premium = $request->input('premium');
         $healthInsurance->sum_insured = $request->input('sumInsured');
         $healthInsurance->policy_holder_name = $request->input('policyHolderName');
@@ -101,10 +98,7 @@ class HealthInsuranceController extends BaseController
          $healthInsurance->company_name = $request->input('companyName');
          $healthInsurance->insurance_type = $request->input('insuranceType');
          $healthInsurance->policy_number = $request->input('policyNumber');
-         $formatedDate = $request->input('maturityDate');
-         $carbonDate = Carbon::parse($formatedDate);
-         $iso8601Date = $carbonDate->toIso8601String();
-         $healthInsurance->maturity_date = $iso8601Date;
+         $healthInsurance->maturity_date = $request->input('maturityDate');
          $healthInsurance->premium = $request->input('premium');
          $healthInsurance->sum_insured = $request->input('sumInsured');
          $healthInsurance->policy_holder_name = $request->input('policyHolderName');

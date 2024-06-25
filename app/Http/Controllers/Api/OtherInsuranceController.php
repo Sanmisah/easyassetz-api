@@ -35,10 +35,7 @@ class OtherInsuranceController extends BaseController
         $otherInsurance->company_name = $request->input('companyName');
         $otherInsurance->insurance_type = $request->input('insuranceType');
         $otherInsurance->policy_number = $request->input('policyNumber');
-        $formatedDate = $request->input('maturityDate');
-        $carbonDate = Carbon::parse($formatedDate);
-        $iso8601Date = $carbonDate->toIso8601String();
-        $otherInsurance->maturity_date = $iso8601Date;
+        $otherInsurance->maturity_date = $request->input('maturityDate');
         $otherInsurance->premium = $request->input('premium');
         $otherInsurance->sum_insured = $request->input('sumInsured');
         $otherInsurance->policy_holder_name = $request->input('policyHolderName');
@@ -97,10 +94,7 @@ class OtherInsuranceController extends BaseController
          $otherInsurance->company_name = $request->input('companyName');
          $otherInsurance->insurance_type = $request->input('insuranceType');
          $otherInsurance->policy_number = $request->input('policyNumber');
-         $formatedDate = $request->input('maturityDate');
-         $carbonDate = Carbon::parse($formatedDate);
-         $iso8601Date = $carbonDate->toIso8601String();
-         $otherInsurance->maturity_date = $iso8601Date;
+         $otherInsurance->maturity_date = $request->input('maturityDate');
          $otherInsurance->premium = $request->input('premium');
          $otherInsurance->sum_insured = $request->input('sumInsured');
          $otherInsurance->policy_holder_name = $request->input('policyHolderName');

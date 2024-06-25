@@ -29,19 +29,35 @@ class BullionController extends BaseController
      */
     public function store(Request $request): JsonResponse
     {
-     $user = Auth::user();
-     $bullion = new Bullion();
-     $bullion->profile_id = $user->profile->id;
-     $bullion->metal_type = $request->input('metalType');  
-     $bullion->article_details = $request->input('articleDetails');
-     $bullion->weight_per_article = $request->input('weightPerArticle');
-     $bullion->number_of_articles = $request->input('numberOfArticles');
-     $bullion->additional_information = $request->input('additionalInformation');
-     $bullion->name = $request->input('name');
-     $bullion->mobile = $request->input('mobile');
-     $bullion->email = $request->input('email');
-     $bullion->image = $request->input('image');
-     $bullion->save();
+            $fileNames[] = null;
+        if($request->hasFile('bullionFile')){
+            foreach($request->file('bullionFile') as $image){
+            $bullionfileNameWithExt = $image->getClientOriginalName();
+            $bullionfilename = pathinfo($bullionfileNameWithExt, PATHINFO_FILENAME);
+            $bullionExtention = $image->getClientOriginalExtension();
+            $bullionFileNameToStore = $bullionfilename.'_'.time().'.'.$bullionExtention;
+            $bullionPath = $image->storeAs('public/Bullion/bullionFile', $bullionFileNameToStore);
+            $fileNames[] = $bullionFileNameToStore;
+         }
+      }
+        
+
+            $user = Auth::user();
+            $bullion = new Bullion();
+            $bullion->profile_id = $user->profile->id;
+            $bullion->metal_type = $request->input('metalType');  
+            $bullion->article_details = $request->input('articleDetails');
+            $bullion->weight_per_article = $request->input('weightPerArticle');
+            $bullion->number_of_articles = $request->input('numberOfArticles');
+            $bullion->additional_information = $request->input('additionalInformation');
+            $bullion->name = $request->input('name');
+            $bullion->mobile = $request->input('mobile');
+            $bullion->email = $request->input('email');
+            $bullion->image = $request->input('image');
+            if($request->hasFile('bullionFile')){
+                $bullion->image = $bullionFileNameToStore;
+            }
+            $bullion->save();
 
      return $this->sendResponse(['Bullion'=> new BullionResource($bullion)], 'Bullion details stored successfully');
 

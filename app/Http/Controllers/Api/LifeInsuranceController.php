@@ -36,10 +36,7 @@ class LifeInsuranceController extends BaseController
         $lifeInsurance->company_name = $request->input('companyName');
         $lifeInsurance->insurance_type = $request->input('insuranceType');
         $lifeInsurance->policy_number = $request->input('policyNumber');
-        $formatedDate = $request->input('maturityDate');
-        $carbonDate = Carbon::parse($formatedDate);
-        $iso8601Date = $carbonDate->toIso8601String();
-        $lifeInsurance->maturity_date = $iso8601Date;
+        $lifeInsurance->maturity_date = $request->input('maturityDate');
         $lifeInsurance->premium = $request->input('premium');
         $lifeInsurance->sum_insured = $request->input('sumInsured');
         $lifeInsurance->policy_holder_name = $request->input('policyHolderName');
@@ -98,10 +95,7 @@ class LifeInsuranceController extends BaseController
           $lifeInsurance->company_name = $request->input('companyName');
           $lifeInsurance->insurance_type = $request->input('insuranceType');
           $lifeInsurance->policy_number = $request->input('policyNumber');
-          $formatedDate = $request->input('maturityDate');
-          $carbonDate = Carbon::parse($formatedDate);
-          $iso8601Date = $carbonDate->toIso8601String();
-          $lifeInsurance->maturity_date = $iso8601Date;
+          $lifeInsurance->maturity_date = $request->input('maturityDate');
           $lifeInsurance->premium = $request->input('premium');
           $lifeInsurance->sum_insured = $request->input('sumInsured');
           $lifeInsurance->policy_holder_name = $request->input('policyHolderName');
