@@ -40,7 +40,7 @@ class BullionController extends BaseController
             $fileNames[] = $bullionFileNameToStore;
          }
       }
-        
+           $images  = json_encode($fileNames);
 
             $user = Auth::user();
             $bullion = new Bullion();
@@ -53,13 +53,12 @@ class BullionController extends BaseController
             $bullion->name = $request->input('name');
             $bullion->mobile = $request->input('mobile');
             $bullion->email = $request->input('email');
-            $bullion->image = $request->input('image');
             if($request->hasFile('bullionFile')){
-                $bullion->image = $bullionFileNameToStore;
+                $bullion->image = $images;
             }
             $bullion->save();
 
-     return $this->sendResponse(['Bullion'=> new BullionResource($bullion)], 'Bullion details stored successfully');
+            return $this->sendResponse(['Bullion'=> new BullionResource($bullion)], 'Bullion details stored successfully');
 
     }
 

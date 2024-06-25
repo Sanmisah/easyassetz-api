@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Models\WealthManagementAccount;
+use App\Models\WealthManagement;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\WealthManagementAccountResource;
 
@@ -36,7 +36,7 @@ class WealthManagementAccountController extends BaseController
          }
 
         $user = Auth::user();
-        $wealthManagementAccount = new WealthManagementAccount();
+        $wealthManagementAccount = new WealthManagement();
         $wealthManagementAccount->profile_id = $user->profile->id;
         $wealthManagementAccount->wealth_manager_name = $request->input('wealthManagerName');
         $wealthManagementAccount->account_number = $request->input('accountNumber');
@@ -69,7 +69,7 @@ class WealthManagementAccountController extends BaseController
      */
     public function show(string $id): JsonResponse
     {
-          $wealthManagementAccount = WealthManagementAccount::find($id);
+          $wealthManagementAccount = WealthManagement::find($id);
         if(!$wealthManagementAccount){
             return $this->sendError('Wealth management Not Found',['error'=>'wealth management Account not found']);
         }
@@ -94,7 +94,7 @@ class WealthManagementAccountController extends BaseController
             $wealthPath = $request->file('wealthManagementFile')->storeAs('public/wealthManagementFile', $wealthFileNameToStore);
          }
 
-         $wealthManagementAccount = WealthManagementAccount::find($id);
+         $wealthManagementAccount = WealthManagement::find($id);
          if(!$wealthManagementAccount){
              return $this->sendError('Wealth management Account Not Found',['error'=>'wealth management Account not found']);
          }
@@ -139,7 +139,7 @@ class WealthManagementAccountController extends BaseController
      */
     public function destroy(string $id): JsonResponse
     {
-        $wealthManagementAccount = WealthManagementAccount::find($id);
+        $wealthManagementAccount = WealthManagement::find($id);
         if(!$wealthManagementAccount){
             return $this->sendError('Wealth Management Account not found', ['error'=>'Wealth Management Account not found']);
         }

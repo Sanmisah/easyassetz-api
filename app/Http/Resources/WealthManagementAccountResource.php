@@ -33,6 +33,8 @@ class WealthManagementAccountResource extends JsonResource
             'updatedAt' => $this->updated_at,
             'nominees' => $nominees,
             'jointHolders' => $jointHolders,
+            'nominees'=> $nominees,
+            'jointHolders'=> $jointHolders,
         ];
     }
 }

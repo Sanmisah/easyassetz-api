@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('wealth_management_nominee', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('wealth_management_id')->constrained('wealth_management_accounts')->onDelete('cascade');
+            $table->foreignId('wealth_management_id')->constrained()->onDelete('cascade');
             $table->foreignId('beneficiary_id')->constrained('beneficiaries')->onDelete('cascade');
             $table->timestamps();
         });

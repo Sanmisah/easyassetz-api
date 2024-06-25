@@ -6,7 +6,7 @@ use App\Models\Beneficiary;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class WealthManagementAccount extends Model
+class WealthManagement extends Model
 {
     use HasFactory;
     

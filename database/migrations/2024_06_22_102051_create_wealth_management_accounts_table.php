@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('wealth_management_accounts', function (Blueprint $table) {
+        Schema::create('wealth_managements', function (Blueprint $table) {
             $table->id();
             $table->foreignId('profile_id')->constrained()->onDelete('cascade');
             $table->string('wealth_manager_name')->nullable();
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('wealth_management_accounts');
+        Schema::dropIfExists('wealth_managements');
     }
 };
