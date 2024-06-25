@@ -20,7 +20,7 @@ class HealthInsuranceController extends BaseController
     {
         $user = Auth::user();
         $healthInsurance = $user->profile->healthInsurance()->with('nominee','familyMember')->get();
-        return $this->sendResponse(['HealthInsurances'=>HealthInsuranceResource::collection($healthInsurance)],'Health Insurance retrived Successfully');
+        return $this->sendResponse(['HealthInsurance'=>HealthInsuranceResource::collection($healthInsurance)],'Health Insurance retrived Successfully');
     }
 
     /**
