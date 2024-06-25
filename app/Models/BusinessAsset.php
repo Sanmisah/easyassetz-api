@@ -11,6 +11,34 @@ class BusinessAsset extends Model
 {
     use HasFactory;
 
+    public function setExpiryDateAttribute($value)
+    {
+       if($value){
+           $this->attributes['expiry_date'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+       }
+    }
+
+    public function getExpiryDateAttribute($value)
+    {
+       if($value){
+           return Carbon::parse($value)->format('d/m/Y');
+       }
+    }    
+
+    public function setDateOfAssignmentAttribute($value)
+    {
+       if($value){
+           $this->attributes['date_of_assignment'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+       }
+    }
+
+    public function getDateOfAssignmentAttribute($value)
+    {
+       if($value){
+           return Carbon::parse($value)->format('d/m/Y');
+       }
+    }    
+
     public function nominee(){
         return $this->belongsToMany(Beneficiary::class,'business_asset_nominee');
      }
@@ -19,18 +47,6 @@ class BusinessAsset extends Model
         return $this->belongsToMany(Beneficiary::class,'business_asset_joint_holder');
      }
 
-     public function setExpiryDateAttribute($value)
-     {
-        if($value){
-            $this->attributes['expiry_date'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
-        }
-     }
- 
-     public function getExpiryDateAttribute($value)
-     {
-        if($value){
-            return Carbon::parse($value)->format('d/m/Y');
-        }
-     }    
+   
 
 }
