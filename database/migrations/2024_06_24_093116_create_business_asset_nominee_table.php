@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('business_asset_nominee', function (Blueprint $table) {
             $table->id();
             $table->foreignId('business_asset_id')->constrained('business_assets')->onDelete('cascade');
-            $table->foreignId('nominee_id')->constrained('beneficiaries')->onDelete('cascade');
+            $table->foreignId('beneficiary_id')->constrained('beneficiaries')->onDelete('cascade');
             $table->timestamps();
         });
     }
