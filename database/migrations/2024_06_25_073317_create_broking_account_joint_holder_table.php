@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('alternate_investment_j_holder', function (Blueprint $table) {
+        Schema::create('broking_account_joint_holder', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('alternamte_investment_id')->constrained('alternate_investment_funds')->onDelete('cascade');
+            $table->foreignId('broking_account_id')->constrained()->onDelete('cascade');
             $table->foreignId('beneficiary_id')->constrained('beneficiaries')->onDelete('cascade');
             $table->timestamps();
         });
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('alternate_investment_j_holder');
+        Schema::dropIfExists('broking_account_joint_holder');
     }
 };

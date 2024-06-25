@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('alternate_investment_nominee', function (Blueprint $table) {
             $table->id();
             $table->foreignId('alternamte_investment_id')->constrained('alternate_investment_funds')->onDelete('cascade');
-            $table->foreignId('nominee_id')->constrained('beneficiaries')->onDelete('cascade');
+            $table->foreignId('beneficiary_id')->constrained('beneficiaries')->onDelete('cascade');
             $table->timestamps();
         });
     }

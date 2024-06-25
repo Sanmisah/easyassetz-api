@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('share_detail_nominee', function (Blueprint $table) {
             $table->id();
             $table->foreignId('share_detail_id')->constrained()->onDelete('cascade');
-            $table->foreignId('nominee_id')->constrained('beneficiaries')->onDelete('cascade');
+            $table->foreignId('beneficiary_id')->constrained('beneficiaries')->onDelete('cascade');
             $table->timestamps();
         });
     }

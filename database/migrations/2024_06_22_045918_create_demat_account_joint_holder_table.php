@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('demat_account_joint_holder', function (Blueprint $table) {
             $table->id();
             $table->foreignId('demat_account_id')->constrained()->onDelete('cascade');
-            $table->foreignId('joint_holder_id')->constrained('beneficiaries')->onDelete('cascade');
+            $table->foreignId('beneficiary_id')->constrained('beneficiaries')->onDelete('cascade');
             $table->timestamps();
         });
     }

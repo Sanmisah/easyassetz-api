@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('wealth_management_joint_holder', function (Blueprint $table) {
             $table->id();
             $table->foreignId('wealth_management_id')->constrained('wealth_management_accounts')->onDelete('cascade');
-            $table->foreignId('joint_holder_id')->constrained('beneficiaries')->onDelete('cascade');
+            $table->foreignId('beneficiary_id')->constrained('beneficiaries')->onDelete('cascade');
             $table->timestamps();
         });
     }
