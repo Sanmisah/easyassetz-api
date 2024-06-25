@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('alternate_investment_funds', function (Blueprint $table) {
+        Schema::create('investment_funds', function (Blueprint $table) {
             $table->id();
             $table->foreignId('profile_id')->constrained()->onDelete('cascade');
             $table->string('fund_name')->nullable();
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('alternate_investment_funds');
+        Schema::dropIfExists('investment_funds');
     }
 };

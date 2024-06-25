@@ -15,6 +15,7 @@ use App\Models\DematAccount;
 use App\Models\BusinessAsset;
 use App\Models\LifeInsurance;
 use App\Models\BrokingAccount;
+use App\Models\InvestmentFund;
 use App\Models\MotorInsurance;
 use App\Models\OtherInsurance;
 use App\Models\HealthInsurance;
@@ -154,6 +155,14 @@ class Beneficiary extends Model
 
     public function businessAssetJointHolder(){
         return $this->belongsToMany(BusinessAsset::class, 'business_asset_joint_holder');
+    }
+
+    public function investmentFund(){
+        return $this->belongsToMany(InvestmentFund::class, 'investment_fund_nominee');
+    }
+
+    public function investmentFundJointHolder(){
+        return $this->belongsToMany(InvestmentFund::class, 'investment_fund_joint_holder');
     }
 
 

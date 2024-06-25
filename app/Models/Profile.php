@@ -22,11 +22,11 @@ use App\Models\BusinessAsset;
 use App\Models\LifeInsurance;
 use App\Models\BrokingAccount;
 use App\Models\BusinessAssets;
+use App\Models\InvestmentFund;
 use App\Models\MotorInsurance;
 use App\Models\OtherInsurance;
 use App\Models\HealthInsurance;
 use App\Models\GeneralInsurance;
-use App\Models\AlternateInvestmentFund;
 use App\Models\WealthManagementAccount;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -170,8 +170,8 @@ class Profile extends Model
         return $this->hasMany(BrokingAccount::class, 'profile_id');
     }
 
-    public function alternateInvestmentFund(){
-        return $this->hasMany(AlternateInvestmentFund::class, 'profile_id');
+    public function investmentFund(){
+        return $this->hasMany(InvestmentFund::class, 'profile_id');
     }
 
     public function businessAsset(){
