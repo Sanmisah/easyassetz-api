@@ -18,7 +18,7 @@ class BusinessAssetController extends BaseController
     public function propritership(): JsonResponse
     {
         $user = Auth::user();
-        $propritership = auth()->user()->profile->businessAsset()->where('type', 'propritership')->get();
+        $propritership = auth()->user()->profile->businessAsset()->where('type', 'propritorship')->get();
         if(!$propritership){
             $propritership =null;
         }
