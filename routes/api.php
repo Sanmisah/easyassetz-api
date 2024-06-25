@@ -27,7 +27,6 @@ use App\Http\Controllers\Api\GeneralInsuranceController;
 Route::group(['middleware'=>['auth.guest']], function(){
     Route::post('/register', [UserController::class, 'register']);
     Route::post('/login', [UserController::class, 'login']);
-    Route::delete('/logout', [UserController::class, 'logout']);
 
 });
 
@@ -47,6 +46,7 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('debentures', DebentureController::class);
     Route::resource('bonds', BondController::class);
     Route::resource('business-assets', BusinessAssetController::class);
+    Route::delete('/logout', [UserController::class, 'logout']);
      Route::get('/propriterships', [BusinessAssetController::class, 'propritership']);
     Route::get('/partnership-firms', [BusinessAssetController::class, 'partnershipFirm']);
     Route::get('/companies', [BusinessAssetController::class, 'company']);
