@@ -60,7 +60,7 @@ class AlternateInvestmentFundController extends BaseController
             $investmentFund->jointHolder()->attach($joint_holder_id);
         }
 
-        return $this->sendResponse(['InvestmentFund'=> new AlternateInvestmentFundResource($investmentFund)], 'Alternate Invest Fund details stored successfully');
+        return $this->sendResponse(['InvestmentFund'=> new AlternateInvestmentFundResource($investmentFund)], 'Alternate Investment Fund details stored successfully');
 
     }
 
@@ -69,7 +69,16 @@ class AlternateInvestmentFundController extends BaseController
      */
     public function show(string $id): JsonResource
     {
-        //
+        $investmentFund = InvestmentFund::find($id);
+        if(!$investmentFund){
+            return $this->sendError('alternate investment fund Not Found',['error'=>'Alternate investment fund not found']);
+        }
+        $user = Auth::user();
+        if($user->profile->id !== $investmentFund->profile_id){
+           return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this alternate investment fund']);
+         }
+         $investmentFund->load('nominee','jointHolder');
+        return $this->sendResponse(['InvestmentFund'=>new AlternateInvestmentFundResource($investmentFund)], 'Alternate Investment Fund retrived successfully');
     }
 
     /**
@@ -77,7 +86,52 @@ class AlternateInvestmentFundController extends BaseController
      */
     public function update(Request $request, string $id): JsonResource
     {
-        //
+
+        if($request->hasFile('investmentFund')){
+            $fundFileNameWithExtention = $request->file('investmentFund')->getClientOriginalName();
+            $fundFilename = pathinfo($fundFileNameWithExtention, PATHINFO_FILENAME);
+            $fundExtention = $request->file('investmentFund')->getClientOriginalExtension();
+            $fundFileNameToStore = $fundFilename.'_'.time().'.'.$fundExtention;
+            $fundPath = $request->file('investmentFund')->storeAs('public/InvestmentFund', $fundFileNameToStore);
+         }
+
+        $investmentFund = InvestmentFund::find($id);
+        if(!$investmentFund){
+            return $this->sendError('alternate investment fund Not Found',['error'=>'alternate investment fund not found']);
+        }
+        $user = Auth::user();
+        if($user->profile->id !== $investmentFund->profile_id){
+           return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this alternate investment fund']);
+         }
+
+         $investmentFund->fund_name = $request->input('fundName');
+         $investmentFund->folio_number = $request->input('folioNumber');
+         $investmentFund->nature_of_holding = $request->input('natureOfHolding');
+         $investmentFund->additional_details = $request->input('additionalDetails');
+         if($request->hasFile('investmentFund')){
+             $investmentFund->image = $fundFileNameToStore;
+          } 
+         $investmentFund->name = $request->input('name');
+         $investmentFund->mobile = $request->input('mobile');
+         $investmentFund->email = $request->input('email');
+         $investmentFund->save();
+
+         if($request->has('nominees')) {
+            $nominee_ids = $request->input('nominees');
+            $investmentFund->nominee()->sync($nominee_ids);
+        }else {
+            $investmentFund->nominee()->detach();
+        }
+
+        if($request->has('jointHolder')) {
+            $joint_holder_id = $request->input('jointHolder');
+            $investmentFund->jointHolder()->sync($joint_holder_id);
+        }else {
+            $investmentFund->jointHolder()->detach();
+        }
+
+         return $this->sendResponse(['InvestmentFund'=> new AlternateInvestmentFundResource($investmentFund)], 'alternate Investment Fund details updated successfully');
+
     }
 
     /**
@@ -85,6 +139,17 @@ class AlternateInvestmentFundController extends BaseController
      */
     public function destroy(string $id): JsonResource
     {
-        //
+        $investmentFund = InvestmentFund::find($id);
+        if(!$investmentFund){
+            return $this->sendError('Alternate investment fund not found', ['error'=>'Alternate investment fund not found']);
+        }
+        $user = Auth::user();
+        if($user->profile->id !== $investmentFund->profile_id){
+            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this alternate Investment fund']);
+        }
+        $investmentFund->delete();
+
+        return $this->sendResponse([], 'Alternate investment fund deleted successfully');
     }
+    
 }
