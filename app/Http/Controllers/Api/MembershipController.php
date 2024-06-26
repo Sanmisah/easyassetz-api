@@ -61,7 +61,7 @@ class MembershipController extends BaseController
             return $this->sendError('Unauthorized', ['error' => 'You are Not Allowed to view this Membership']);
         }
         
-        return $this->sendResponse(['Membership' => new MembershipMResource($membership)], 'Membership retrived successfully');
+        return $this->sendResponse(['Membership' => new MembershipResource($membership)], 'Membership retrived successfully');
         
     }
 
