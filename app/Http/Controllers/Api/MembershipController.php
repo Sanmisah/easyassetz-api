@@ -43,6 +43,12 @@ class MembershipController extends BaseController
      $membership->image = $request->input('image');
      $membership->save();
 
+     if($request->has('nominees')){
+        $nominee_id = $request->input('nominees');
+        $membership->nominee()->attach($nominee_id);
+    }
+
+
      return $this->sendResponse(['Membership'=> new MembershipResource($membership)], 'Membership details stored successfully');
 
     }
