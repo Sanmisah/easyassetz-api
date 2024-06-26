@@ -6,15 +6,16 @@ use App\Models\Beneficiary;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class PortfolioManagement extends Model
+class OtherFinancialAsset extends Model
 {
     use HasFactory;
 
     public function nominee(){
-        return $this->belongsToMany(Beneficiary::class,'portfolio_management_nominee');
+        return $this->belongsToMany(Beneficiary::class,'other_financial_nominee');
      }
 
      public function jointHolder(){
-        return $this->belongsToMany(Beneficiary::class,'portfolio_management_joint');
+        return $this->belongsToMany(Beneficiary::class,'other_financial_joint_holder');
      }
+     
 }

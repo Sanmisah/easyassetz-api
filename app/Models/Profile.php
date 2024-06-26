@@ -27,6 +27,7 @@ use App\Models\MotorInsurance;
 use App\Models\OtherInsurance;
 use App\Models\HealthInsurance;
 use App\Models\GeneralInsurance;
+use App\Models\OtherFinancialAsset;
 use App\Models\PortfolioManagement;
 use App\Models\WealthManagementAccount;
 use Illuminate\Database\Eloquent\Model;
@@ -182,5 +183,11 @@ class Profile extends Model
     public function portfolioManagement(){
         return $this->hasMany(PortfolioManagement::class, 'profile_id');
     }
+
+    public function otherFinancialAsset(){
+        return $this->hasMany(OtherFinancialAsset::class, 'profile_id');
+    }
+
+ 
 
 }

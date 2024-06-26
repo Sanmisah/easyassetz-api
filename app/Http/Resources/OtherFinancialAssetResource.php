@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\BeneficiaryResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AlternateInvestmentFundResource extends JsonResource
+class OtherFinancialAssetResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,15 +15,15 @@ class AlternateInvestmentFundResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-
         $nominees = BeneficiaryResource::collection($this->nominee);
         $jointHolders = BeneficiaryResource::collection($this->jointHolder);
 
         return [
             'id' => $this->id,
             'profileId' => $this->profile_id,
-            'fundName' => $this->fund_name,
+            'bankServiceProvider' => $this->bank_service_provider,
             'folioNumber' => $this->folio_number,
+            'branchName' => $this->branch_name,
             'natureOfHolding' => $this->nature_of_holding,
             'additionalDetails' => $this->additional_details,
             'image' => $this->image,
@@ -33,8 +33,8 @@ class AlternateInvestmentFundResource extends JsonResource
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
             'nominees' => $nominees,
-            'jointholders' => $jointHolders,
-        ];
+            'jointHolders' => $jointHolders,
+        ]; 
     
     }
 }

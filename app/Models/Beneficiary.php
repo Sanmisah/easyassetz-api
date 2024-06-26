@@ -20,6 +20,7 @@ use App\Models\MotorInsurance;
 use App\Models\OtherInsurance;
 use App\Models\HealthInsurance;
 use App\Models\GeneralInsurance;
+use App\Models\OtherFinancialAsset;
 use App\Models\PortfolioManagement;
 use App\Models\WealthManagementAccount;
 use Illuminate\Database\Eloquent\Model;
@@ -171,8 +172,16 @@ class Beneficiary extends Model
     }
 
     public function portfolioManagementJointHolder(){
-        return $this->belongsToMany(PortfolioManagement::class, 'portfolio_management_joint_holder');
+        return $this->belongsToMany(PortfolioManagement::class, 'portfolio_management_joint');
     }
 
+
+    public function otherFinancialAsset(){
+        return $this->belongsToMany(OtherFinancialAsset::class, 'other_financial_nominee');
+    }
+
+    public function otherFinancialAssetJointHolder(){
+        return $this->belongsToMany(OtherFinancialAsset::class, 'other_financial_joint');
+    }
 
 }

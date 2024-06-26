@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('portfolio_managements', function (Blueprint $table) {
+        Schema::create('other_financial_assets', function (Blueprint $table) {
             $table->id();
             $table->foreignId('profile_id')->constrained()->onDelete('cascade');
-            $table->string('fund_name')->nullable();
+            $table->string('bank_service_provider')->nullable();
             $table->string('folio_number')->nullable();
+            $table->string('branch_name')->nullable();
             $table->enum('nature_of_holding',['single','joint'])->nullable();
             $table->string('additional_details')->nullable();
             $table->string('image')->nullable();
@@ -31,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('portfolio_managements');
+        Schema::dropIfExists('other_financial_assets');
     }
 };

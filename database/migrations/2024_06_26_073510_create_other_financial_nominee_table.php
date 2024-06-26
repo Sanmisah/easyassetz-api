@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('portfolio_management_joint', function (Blueprint $table) {
+        Schema::create('other_financial_nominee', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('portfolio_management_id')->constrained()->onDelete('cascade');
+            $table->foreignId('other_financial_asset_id')->constrained()->onDelete('cascade');
             $table->foreignId('beneficiary_id')->constrained('beneficiaries')->onDelete('cascade');
             $table->timestamps();
         });
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('portfolio_management_joint');
+        Schema::dropIfExists('other_financial_nominee');
     }
 };
