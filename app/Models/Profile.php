@@ -13,6 +13,7 @@ use App\Models\OtherLoan;
 use App\Models\Litigation;
 use App\Models\Membership;
 use App\Models\MutualFund;
+use App\Models\BankAccount;
 use App\Models\Beneficiary;
 use App\Models\ShareDetail;
 use App\Models\VehicleLoan;
@@ -188,6 +189,9 @@ class Profile extends Model
         return $this->hasMany(OtherFinancialAsset::class, 'profile_id');
     }
 
+    public function bankAccount(){
+        return $this->hasMany(BankAccount::class, 'profile_id');
+    }
  
 
 }

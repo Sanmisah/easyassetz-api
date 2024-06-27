@@ -18,7 +18,7 @@ class BusinessAssetController extends BaseController
     public function propritership(): JsonResponse
     {
         $user = Auth::user();
-        $propritership = auth()->user()->profile->businessAsset()->where('type', 'propritorship')->get();
+        $propritership = $user->profile->businessAsset()->where('type', 'propritorship')->get();
         if(!$propritership){
             $propritership =null;
         }
@@ -28,21 +28,21 @@ class BusinessAssetController extends BaseController
     public function partnershipFirm(): JsonResponse
     {
         $user = Auth::user();
-        $partnershipFirm = auth()->user()->profile->businessAsset()->where('type', 'partnershipFirm')->get();
+        $partnershipFirm = $user->profile->businessAsset()->where('type', 'partnershipFirm')->get();
        return $this->sendResponse(['PartnershipFirm'=>BusinessAssetsResource::collection($partnershipFirm)], "Partnership Firm retrived successfully");
     }
 
     public function company(): JsonResponse
     {
         $user = Auth::user();
-        $company = auth()->user()->profile->businessAsset()->where('type', 'company')->get();
+        $company = $user->profile->businessAsset()->where('type', 'company')->get();
        return $this->sendResponse(['Company'=>BusinessAssetsResource::collection($company)], "Company details retrived successfully");
     }
 
     public function intellectualProperty(): JsonResponse
     {
         $user = Auth::user();
-        $intellectualProperty = auth()->user()->profile->businessAsset()->where('type', 'intellectualProperty')->get();
+        $intellectualProperty = $user->profile->businessAsset()->where('type', 'intellectualProperty')->get();
        return $this->sendResponse(['IntellectualProperty'=>BusinessAssetsResource::collection($intellectualProperty)], "Intellectual Property details retrived successfully");
     }
 

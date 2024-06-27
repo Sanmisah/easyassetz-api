@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Api\BaseController;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\AlternateInvestmentFundResource;
+use App\Http\Controllers\Api\AlternateInvestmentFundController;
 
 class AlternateInvestmentFundController extends BaseController
 {

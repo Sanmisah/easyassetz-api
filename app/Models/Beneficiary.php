@@ -10,6 +10,7 @@ use App\Models\Profile;
 use App\Models\Debenture;
 use App\Models\Membership;
 use App\Models\MutualFund;
+use App\Models\BankAccount;
 use App\Models\ShareDetail;
 use App\Models\DematAccount;
 use App\Models\BusinessAsset;
@@ -182,6 +183,14 @@ class Beneficiary extends Model
 
     public function otherFinancialAssetJointHolder(){
         return $this->belongsToMany(OtherFinancialAsset::class, 'other_financial_joint');
+    }
+
+    public function bankAccount(){
+        return $this->belongsToMany(BankAccount::class, 'bank_account_nominee');
+    }
+
+    public function bankAccountJointHolder(){
+        return $this->belongsToMany(BankAccount::class, 'bank_account_joint');
     }
 
 }
