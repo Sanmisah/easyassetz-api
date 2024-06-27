@@ -25,7 +25,7 @@ class BusinessAssetsResource extends JsonResource
             'type' => $this->type,
             'firmName' => $this->firm_name,
             'registeredAddress' => $this->registered_address,
-            'firmNoType' => $this->firm_no_type,
+            'firmsRegistrationNumberType' => $this->firm_no_type,
             'firmsRegistrationNumber' => $this->firms_registration_number,
             'holdingPercentage' => $this->holding_percentage,
             'companyName' => $this->company_name,

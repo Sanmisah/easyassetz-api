@@ -99,7 +99,7 @@ class BusinessAssetController extends BaseController
         $businessAsset->type = $request->input('type');
         $businessAsset->firm_name = $request->input('firmName');
         $businessAsset->registered_address = $request->input('registeredAddress');
-        $businessAsset->firm_no_type = $request->input('firmNoType');
+        $businessAsset->firm_no_type = $request->input('firmsRegistrationNumberType');
         $businessAsset->firms_registration_number = $request->input('firmsRegistrationNumber');
         $businessAsset->holding_percentage = $request->input('holdingPercentage');
         $businessAsset->company_name = $request->input('companyName');
@@ -224,7 +224,7 @@ class BusinessAssetController extends BaseController
         $businessAsset->type = $request->input('type');
         $businessAsset->firm_name = $request->input('firmName');
         $businessAsset->registered_address = $request->input('registeredAddress');
-        $businessAsset->firm_no_type = $request->input('firmNoType');
+        $businessAsset->firm_no_type = $request->input('firmsRegistrationNumberType');
         $businessAsset->firms_registration_number = $request->input('firmsRegistrationNumber');
         $businessAsset->holding_percentage = $request->input('holdingPercentage');
         $businessAsset->company_name = $request->input('companyName');
