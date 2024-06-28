@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\BeneficiaryResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BankAccountResource extends JsonResource
+class FixDepositeResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,22 +17,23 @@ class BankAccountResource extends JsonResource
     {
         $nominees = BeneficiaryResource::collection($this->nominee);
         $jointHolders = BeneficiaryResource::collection($this->jointHolder);
-
+        
         return [
             'id' => $this->id,
             'profile_id' => $this->profile_id,
+            'fixDepositeNumber' => $this->fix_deposite_number,
             'bankName' => $this->bank_name,
-            'accountType' => $this->account_type,
-            'accountNumber' => $this->account_number,
-            'branchName' => $this->branch_name,
-            'city' => $this->city,
+            'branchNname' => $this->branch_name,
+            'maturityDate' => $this->maturity_date,
+            'maturityAmmount' => $this->maturity_ammount,
             'holdingType' => $this->holding_type,
             'jointHoldersPan' => $this->joint_holders_pan,
+            'additionalDetails' => $this->additional_details,
             'image' => $this->image,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
             'nominees' => $nominees,
-            'jointHolders' =>$jointHolders,
+            'jointHolders'=> $jointHolders,
         ];
     
     }

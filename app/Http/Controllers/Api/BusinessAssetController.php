@@ -15,36 +15,59 @@ class BusinessAssetController extends BaseController
     /**
      * Display a listing of the resource.
      */
-    public function propritership(): JsonResponse
+    public function index(): JsonResponse
     {
         $user = Auth::user();
         $propritership = $user->profile->businessAsset()->where('type', 'propritorship')->get();
+        $partnershipFirm = $user->profile->businessAsset()->where('type', 'partnershipFirm')->get();
+        $company = $user->profile->businessAsset()->where('type', 'company')->get();
+        $intellectualProperty = $user->profile->businessAsset()->where('type', 'intellectualProperty')->get();
+
         if(!$propritership){
             $propritership =null;
         }
-       return $this->sendResponse(['Propritership'=>BusinessAssetsResource::collection($propritership)], "Propritership retrived successfully");
+        if(!$partnershipFirm){
+         $partnershipFirm =null;
+         }
+        if(!$company){
+          $company =null;
+         }
+        if(!$intellectualProperty){
+          $intellectualProperty=null;
+          }
+       return $this->sendResponse(['Propritership'=>BusinessAssetsResource::collection($propritership),'PartnershipFirm'=>BusinessAssetsResource::collection($partnershipFirm),'Company'=>BusinessAssetsResource::collection($company),'IntellectualProperty'=>BusinessAssetsResource::collection($intellectualProperty)], "Business Assets retrived successfully");
     }
 
-    public function partnershipFirm(): JsonResponse
-    {
-        $user = Auth::user();
-        $partnershipFirm = $user->profile->businessAsset()->where('type', 'partnershipFirm')->get();
-       return $this->sendResponse(['PartnershipFirm'=>BusinessAssetsResource::collection($partnershipFirm)], "Partnership Firm retrived successfully");
-    }
+   //  public function propritership(): JsonResponse
+   //  {
+   //      $user = Auth::user();
+   //      $propritership = $user->profile->businessAsset()->where('type', 'propritorship')->get();
+   //      if(!$propritership){
+   //          $propritership =null;
+   //      }
+   //     return $this->sendResponse(['Propritership'=>BusinessAssetsResource::collection($propritership)], "Propritership retrived successfully");
+   //  }
 
-    public function company(): JsonResponse
-    {
-        $user = Auth::user();
-        $company = $user->profile->businessAsset()->where('type', 'company')->get();
-       return $this->sendResponse(['Company'=>BusinessAssetsResource::collection($company)], "Company details retrived successfully");
-    }
+   //  public function partnershipFirm(): JsonResponse
+   //  {
+   //      $user = Auth::user();
+   //      $partnershipFirm = $user->profile->businessAsset()->where('type', 'partnershipFirm')->get();
+   //     return $this->sendResponse(['PartnershipFirm'=>BusinessAssetsResource::collection($partnershipFirm)], "Partnership Firm retrived successfully");
+   //  }
 
-    public function intellectualProperty(): JsonResponse
-    {
-        $user = Auth::user();
-        $intellectualProperty = $user->profile->businessAsset()->where('type', 'intellectualProperty')->get();
-       return $this->sendResponse(['IntellectualProperty'=>BusinessAssetsResource::collection($intellectualProperty)], "Intellectual Property details retrived successfully");
-    }
+   //  public function company(): JsonResponse
+   //  {
+   //      $user = Auth::user();
+   //      $company = $user->profile->businessAsset()->where('type', 'company')->get();
+   //     return $this->sendResponse(['Company'=>BusinessAssetsResource::collection($company)], "Company details retrived successfully");
+   //  }
+
+   //  public function intellectualProperty(): JsonResponse
+   //  {
+   //      $user = Auth::user();
+   //      $intellectualProperty = $user->profile->businessAsset()->where('type', 'intellectualProperty')->get();
+   //     return $this->sendResponse(['IntellectualProperty'=>BusinessAssetsResource::collection($intellectualProperty)], "Intellectual Property details retrived successfully");
+   //  }
 
     /**
      * Store a newly created resource in storage.
@@ -92,7 +115,6 @@ class BusinessAssetController extends BaseController
          }
 
 
-
         $user = Auth::user();
         $businessAsset = new BusinessAsset();
         $businessAsset->profile_id = $user->profile->id;
@@ -123,26 +145,26 @@ class BusinessAssetController extends BaseController
          if($request->hasFile('promisoryNote')){
             $businessAsset->promisory_note = $pnPath;
          } 
-        $businessAsset->type_of_ip = $request->input('typeOfIp');
-        $businessAsset->expiry_date = $request->input('expiryDate');
-        $businessAsset->whether_assigned = $request->input('whetherAssigned');
-        $businessAsset->name_of_assignee = $request->input('nameOfAssignee');
-        $businessAsset->date_of_assignment = $request->input('dateOfAssignment');
-        $businessAsset->additional_information = $request->input('additionalInformation');
-        $businessAsset->name = $request->input('name');
-        $businessAsset->mobile = $request->input('mobile');
-        $businessAsset->email = $request->input('email');
-        $businessAsset->save();
+         $businessAsset->type_of_ip = $request->input('typeOfIp');
+         $businessAsset->expiry_date = $request->input('expiryDate');
+         $businessAsset->whether_assigned = $request->input('whetherAssigned');
+         $businessAsset->name_of_assignee = $request->input('nameOfAssignee');
+         $businessAsset->date_of_assignment = $request->input('dateOfAssignment');
+         $businessAsset->additional_information = $request->input('additionalInformation');
+         $businessAsset->name = $request->input('name');
+         $businessAsset->mobile = $request->input('mobile');
+         $businessAsset->email = $request->input('email');
+         $businessAsset->save();
         
-        if($request->has('nominees')){
-            $nominee_id = $request->input('nominees');
-            $businessAsset->nominee()->attach($nominee_id);
-        }
+         if($request->has('nominees')){
+               $nominee_id = $request->input('nominees');
+               $businessAsset->nominee()->attach($nominee_id);
+         }
 
-        if($request->has('jointHolders')){
-            $joint_holder_id = $request->input('jointHolders');
-            $businessAsset->jointHolder()->attach($joint_holder_id);
-        }
+         if($request->has('jointHolders')){
+               $joint_holder_id = $request->input('jointHolders');
+               $businessAsset->jointHolder()->attach($joint_holder_id);
+         }
 
         return $this->sendResponse(['BusinessAsset'=> new BusinessAssetsResource($businessAsset)], 'Business Asset details stored successfully');
 

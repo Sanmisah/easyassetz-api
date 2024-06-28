@@ -13,8 +13,10 @@ use App\Models\OtherLoan;
 use App\Models\Litigation;
 use App\Models\Membership;
 use App\Models\MutualFund;
+use App\Models\OtherAsset;
 use App\Models\BankAccount;
 use App\Models\Beneficiary;
+use App\Models\FixDeposite;
 use App\Models\ShareDetail;
 use App\Models\VehicleLoan;
 use App\Models\DematAccount;
@@ -191,6 +193,14 @@ class Profile extends Model
 
     public function bankAccount(){
         return $this->hasMany(BankAccount::class, 'profile_id');
+    }
+
+    public function fixDeposite(){
+        return $this->hasMany(FixDeposite::class, 'profile_id');
+    }
+
+    public function otherAsset(){
+        return $this->hasMany(OtherAsset::class, 'profile_id');
     }
  
 

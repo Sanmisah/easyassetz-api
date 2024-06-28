@@ -21,7 +21,7 @@ class BeneficiaryController extends BaseController
      */
     public function index(): JsonResponse
     {
-        $user = Auth::user();
+        //$user = Auth::user();
         //$beneficiary = Beneficiary::where('type','beneficiary')->where('profile_id',$user->profile->id)->get();
         //$charity = Beneficiary::where('type', 'charity')->where('profile_id', $user->profile->id)->get();
         $beneficiary = auth()->user()->profile->beneficiary()->where('type', 'beneficiary')->get();
