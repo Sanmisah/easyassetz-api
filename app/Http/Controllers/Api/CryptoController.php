@@ -4,17 +4,19 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Crypto;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\CryptoResource;
 use App\Http\Resources\LitigationResource;
+use App\Http\Controllers\Api\BaseController;
 
-class CryptoController extends Controller
+class CryptoController extends BaseController
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): JsonResponse
     {
         $user = Auth::user();
         $crypto = $user->profile->crypto()->with('nominee','jointHolder')->get();
@@ -24,7 +26,7 @@ class CryptoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
 
         if($request->hasFile('cryptoFile')){
@@ -47,7 +49,7 @@ class CryptoController extends Controller
         $crypto->holding_qty = $request->input('holdingQty');
         $crypto->additional_details = $request->input('additionalDetails');
         if($request->hasFile('cryptoFile')){
-            $profile->image = $cryptoFileNameToStore;
+            $crypto->image = $cryptoFileNameToStore;
         }
         $crypto->name = $request->input('name');
         $crypto->mobile = $request->input('mobile');
@@ -70,7 +72,7 @@ class CryptoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id): JsonResponse
     {
         $crypto = Crypto::find($id);
         if(!$crypto){
@@ -87,7 +89,7 @@ class CryptoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id): JsonResponse
     {
           
         if($request->hasFile('cryptoFile')){
@@ -144,7 +146,7 @@ class CryptoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): JsonResponse
     {
         $crypto = Crypto::find($id);
         if(!$crypto){
