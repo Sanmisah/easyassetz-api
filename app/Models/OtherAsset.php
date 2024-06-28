@@ -2,10 +2,27 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class OtherAsset extends Model
 {
     use HasFactory;
+
+    public function setDueDateAttribute($value)
+    {
+       if($value){
+           $this->attributes['due_date'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+       }
+    }
+
+    public function getDueDateAttribute($value)
+    {
+       if($value){
+           return Carbon::parse($value)->format('d/m/Y');
+       }
+    }    
+
+
 }

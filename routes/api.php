@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\BondController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\CryptoController;
 use App\Http\Controllers\Api\BullionController;
 use App\Http\Controllers\Api\CharityController;
 use App\Http\Controllers\Api\ProfileController;
@@ -45,6 +46,7 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('vehicle-loans', VehicleLoanController::class);
     Route::resource('mutual-funds', MutualFundController::class);
     Route::resource('debentures', DebentureController::class);
+    Route::resource('cryptos', CryptoController::class);
     Route::resource('bonds', BondController::class);
     Route::resource('business-assets', BusinessAssetController::class);
     Route::delete('/logout', [UserController::class, 'logout']);

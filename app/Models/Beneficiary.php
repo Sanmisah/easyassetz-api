@@ -8,6 +8,7 @@ use App\Models\ESOP;
 use App\Models\Crypto;
 use App\Models\Profile;
 use App\Models\Debenture;
+use App\Models\BankLocker;
 use App\Models\Membership;
 use App\Models\MutualFund;
 use App\Models\BankAccount;
@@ -200,6 +201,14 @@ class Beneficiary extends Model
 
     public function fixDepositeJointHolder(){
         return $this->belongsToMany(FixDeposite::class, 'fix_deposite_joint');
+    }
+
+    public function bankLocker(){
+        return $this->belongsToMany(BankLocker::class, 'bank_locker_nominee');
+    }
+
+    public function bankLockerJointAccount(){
+        return $this->belongsToMany(BankLocker::class, 'bank_locker_joint_holder');
     }
 
 

@@ -10,6 +10,7 @@ use App\Models\Bullion;
 use App\Models\HomeLoan;
 use App\Models\Debenture;
 use App\Models\OtherLoan;
+use App\Models\BankLocker;
 use App\Models\Litigation;
 use App\Models\Membership;
 use App\Models\MutualFund;
@@ -201,6 +202,10 @@ class Profile extends Model
 
     public function otherAsset(){
         return $this->hasMany(OtherAsset::class, 'profile_id');
+    }
+
+    public function bankLocker(){
+        return $this->hasMany(BankLocker::class, 'profile_id');
     }
  
 

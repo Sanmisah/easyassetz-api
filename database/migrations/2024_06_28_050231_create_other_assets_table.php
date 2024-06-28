@@ -45,7 +45,7 @@ return new class extends Migration
             $table->string('contact_number')->nullable();
             $table->enum('mode_of_loan',['cash','cheque'])->nullable();
             $table->string('ammount')->nullable();
-            $table->string('due_date')->nullable();
+            $table->date('due_date')->nullable();
             $table->string('additional_information')->nullable();
             $table->string('jewellery_images')->nullable();
             $table->string('watch_images')->nullable();
