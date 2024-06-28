@@ -35,6 +35,22 @@ class OtherAssetController extends BaseController
      */
     public function store(Request $request): JsonResponse
     {
+
+        $jewelleryNames[] = null;
+        if($request->hasFile('jewelleryImages')){
+            foreach($request->file('jewelleryImages') as $image){
+            $jewelleryfileNameWithExt = $image->getClientOriginalName();
+            $jewelleryfilename = pathinfo($jewelleryfileNameWithExt, PATHINFO_FILENAME);
+            $jewelleryExtention = $image->getClientOriginalExtension();
+            $jewelleryFileNameToStore = $jewelleryfilename.'_'.time().'.'.$jewelleryExtention;
+            $jewelleryPath = $image->storeAs('public/OtherAsset/jewelleryImages', $jewelleryFileNameToStore);
+            $jewelleryNames[] = $jewelleryFileNameToStore;
+          }
+        }
+        $jewelleryImages  = json_encode($jewelleryNames);
+
+
+
         $user = Auth::user();
         $otherAsset = new OtherAsset();
         $otherAsset->profile_id = $user->profile->id;
@@ -105,7 +121,58 @@ class OtherAssetController extends BaseController
      */
     public function update(Request $request, string $id): JsonResponse
     {
-        //
+        $otherAsset = OtherAsset::find($id);
+        if(!$otherAsset){
+            return $this->sendError('Other Asset Not Found',['error'=>'Other Asset not found']);
+        }
+        $user = Auth::user();
+        if($user->profile->id !== $otherAsset->profile_id){
+           return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Other Asset']);
+         }
+         $otherAsset->type = $request->input('type');
+         $otherAsset->vehicle_type = $request->input('vehicleType');
+         $otherAsset->four_wheeler = $request->input('fourWheeler');
+         $otherAsset->company = $request->input('company');
+         $otherAsset->model = $request->input('model');
+         $otherAsset->registration_number = $request->input('registrationNumber');
+         $otherAsset->year_of_manufacture = $request->input('yearOfManufacture');
+         $otherAsset->location = $request->input('location');
+         $otherAsset->huf_name = $request->input('hufName');
+         $otherAsset->pan_number = $request->input('panNumber');
+         $otherAsset->huf_share = $request->input('hufShare');
+         $otherAsset->jewellery_type = $request->input('jewelleryType');
+         $otherAsset->metal = $request->input('metal');
+         $otherAsset->precious_stone = $request->input('preciousStone');
+         $otherAsset->weight_per_jewellery = $request->input('weightPerJewellery');
+         $otherAsset->quantity = $request->input('quantity');
+         $otherAsset->type_of_artifacts = $request->input('typeOfArtifacts');
+         $otherAsset->artist_name = $request->input('artistName');
+         $otherAsset->painting_name = $request->input('paintingName');
+         $otherAsset->number_of_articles = $request->input('numberOfArticles');
+         $otherAsset->digital_assets = $request->input('digitalAssets');
+         $otherAsset->account = $request->input('account');
+         $otherAsset->linked_mobile_number = $request->input('linkedMobileNumber');
+         $otherAsset->description = $request->input('description');
+         $otherAsset->name_of_asset = $request->input('nameOfAsset');
+         $otherAsset->asset_description = $request->input('assetDescription');
+         $otherAsset->name_of_borrower = $request->input('nameOfBorrower');
+         $otherAsset->address = $request->input('address');
+         $otherAsset->contact_number = $request->input('contactNumber');
+         $otherAsset->mode_of_loan = $request->input('modeOfLoan');
+         $otherAsset->amount = $request->input('amount');
+         $otherAsset->due_date = $request->input('dueDate');
+         $otherAsset->additional_information = $request->input('additionalInformation');
+         $otherAsset->jewellery_images = $request->input('jewelleryImages');
+         $otherAsset->watch_images = $request->input('watchImages');
+         $otherAsset->artifact_images = $request->input('artifactImages');
+         $otherAsset->other_asset_images = $request->input('otherAssetImages');
+         $otherAsset->name = $request->input('name');
+         $otherAsset->mobile = $request->input('mobile');
+         $otherAsset->email = $request->input('email');
+         $otherAsset->save();
+
+         return $this->sendResponse(['OtherAsset'=>new OtherAssetResource($otherAsset)], 'Other Asset updated successfully');
+
     }
 
     /**
@@ -113,6 +180,16 @@ class OtherAssetController extends BaseController
      */
     public function destroy(string $id): JsonResponse
     {
-        //
+        $otherAsset = OtherAsset::find($id);
+        if(!$otherAsset){
+            return $this->sendError('Other Asset not found', ['error'=>'Other Asset not found']);
+        }
+        $user = Auth::user();
+        if($user->profile->id !== $otherAsset->profile_id){
+            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Other Asset']);
+        }
+        $otherAsset->delete();
+
+        return $this->sendResponse([], 'Other Asset deleted successfully');
     }
 }

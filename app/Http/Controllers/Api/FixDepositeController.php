@@ -46,7 +46,11 @@ class FixDepositeController extends BaseController
         $fixDeposit->joint_holders_pan = $request->input('joint_holders_pan');
         $fixDeposit->additional_details = $request->input('additional_details');
         $fixDeposit->image = $request->input('image');
-        $fixDeposit->save();    }
+        $fixDeposit->save();
+    
+
+        
+    }
 
     /**
      * Display the specified resource.

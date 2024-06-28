@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\DebentureController;
 use App\Http\Controllers\Api\MembershipController;
 use App\Http\Controllers\Api\MutualFundController;
+use App\Http\Controllers\Api\OtherAssetController;
 use App\Http\Controllers\Api\BeneficiaryController;
 use App\Http\Controllers\Api\VehicleLoanController;
 use App\Http\Controllers\Api\BusinessAssetController;
@@ -47,9 +48,6 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('bonds', BondController::class);
     Route::resource('business-assets', BusinessAssetController::class);
     Route::delete('/logout', [UserController::class, 'logout']);
-     Route::get('/propriterships', [BusinessAssetController::class, 'propritership']);
-    Route::get('/partnership-firms', [BusinessAssetController::class, 'partnershipFirm']);
-    Route::get('/companies', [BusinessAssetController::class, 'company']);
-    Route::get('/intellectual-properties', [BusinessAssetController::class, 'intellectualProperty']);
+    Route::resource('other-assets', OtherAssetController::class);
 
 });
