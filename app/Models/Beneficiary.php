@@ -25,6 +25,7 @@ use App\Models\HealthInsurance;
 use App\Models\GeneralInsurance;
 use App\Models\OtherFinancialAsset;
 use App\Models\PortfolioManagement;
+use App\Models\PostalSavingAccount;
 use App\Models\WealthManagementAccount;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -209,6 +210,14 @@ class Beneficiary extends Model
 
     public function bankLockerJointAccount(){
         return $this->belongsToMany(BankLocker::class, 'bank_locker_joint_holder');
+    }
+
+    public function postalSavingAccount(){
+        return $this->belongsToMany(PostalSavingAccount::class, 'postal_saving_account_nominee');
+    }
+
+    public function postalSavingAccountJointHolder(){
+        return $this->belongsToMany(PostalSavingAccount::class, 'postal_saving_account_joint');
     }
 
 

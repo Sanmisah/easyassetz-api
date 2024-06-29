@@ -33,6 +33,7 @@ use App\Models\HealthInsurance;
 use App\Models\GeneralInsurance;
 use App\Models\OtherFinancialAsset;
 use App\Models\PortfolioManagement;
+use App\Models\PostalSavingAccount;
 use App\Models\WealthManagementAccount;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -45,7 +46,7 @@ class Profile extends Model
     public function setDobAttribute($value)
     {
         if($value){
-            $this->attributes['dob'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+            $this->attributes['dob'] = Carbon::createFromFormat('m/d/y', $value)->format('Y-m-d');
         }
     }
 
@@ -206,6 +207,10 @@ class Profile extends Model
 
     public function bankLocker(){
         return $this->hasMany(BankLocker::class, 'profile_id');
+    }
+
+    public function postalSavingAccount(){
+        return $this->hasMany(PostalSavingAccount::class, 'profile_id');
     }
  
 
