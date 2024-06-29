@@ -13,14 +13,14 @@ class OtherLoan extends Model
     public function setEmiDateAttribute($value)
     {
         if($value){
-            $this->attributes['emi_date'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+            $this->attributes['emi_date'] = Carbon::createFromFormat('m/d/Y', $value)->format('Y-m-d');
         }
     }
 
     public function getEmiDateAttribute($value)
     {
         if($value){       
-            return Carbon::parse($value)->format('y/m/d');
+            return Carbon::parse($value)->format('m/d/Y');
         }
     }    
 
@@ -28,14 +28,14 @@ class OtherLoan extends Model
     public function setStartDateAttribute($value)
     {
         if($value){
-            $this->attributes['start_date'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+            $this->attributes['start_date'] = Carbon::createFromFormat('m/d/Y', $value)->format('Y-m-d');
         }
     }
 
     public function getStartDateAttribute($value)
     {
         if($value){       
-            return Carbon::parse($value)->format('y/m/d');
+            return Carbon::parse($value)->format('m/d/Y');
         }
     }    
 

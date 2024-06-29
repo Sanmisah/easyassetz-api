@@ -74,7 +74,7 @@ class BeneficiaryController extends BaseController
         $beneficiary->charity_state = $request->input('charityState');
         $beneficiary->charity_phone_number = $request->input('charityNumber');
         $beneficiary->charity_email = $request->input('charityEmail');
-        $beneficiary->charity_contact_person = $request->input('charityContactPerson');
+        $beneficiary->charity_contact_person = $request->input('contactName');
         $beneficiary->charity_website = $request->input('charityWebsite');
         $beneficiary->charity_specific_instruction = $request->input('charitySpecificInstruction');
         $beneficiary->save();  //data saved
@@ -141,9 +141,9 @@ class BeneficiaryController extends BaseController
         $beneficiary->charity_address_2 = $request->input('charityAddress2');
         $beneficiary->charity_city = $request->input('charityCity');
         $beneficiary->charity_state = $request->input('charityState');
-        $beneficiary->charity_phone_number = $request->input('charityPhoneNumber');
+        $beneficiary->charity_phone_number = $request->input('charityNumber');
         $beneficiary->charity_email = $request->input('charityEmail');
-        $beneficiary->charity_contact_person = $request->input('charityContactPerson');
+        $beneficiary->charity_contact_person = $request->input('contactName');
         $beneficiary->charity_website = $request->input('charityWebsite');
         $beneficiary->charity_specific_instruction = $request->input('charitySpecificInstruction');
         $beneficiary->save();

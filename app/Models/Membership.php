@@ -15,14 +15,14 @@ class Membership extends Model
     public function setMembershipPaymentDateAttribute($value)
     {
         if($value){
-            $this->attributes['membership_payment_date'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+            $this->attributes['membership_payment_date'] = Carbon::createFromFormat('m/d/Y', $value)->format('Y-m-d');
         }
     }
 
     public function getMembershipPaymentDateAttribute($value)
     {
         if($value){       
-            return Carbon::parse($value)->format('y/m/d');
+            return Carbon::parse($value)->format('m/d/Y');
         }
     }    
 

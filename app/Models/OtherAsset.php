@@ -13,14 +13,14 @@ class OtherAsset extends Model
     public function setDueDateAttribute($value)
     {
        if($value){
-           $this->attributes['due_date'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+           $this->attributes['due_date'] = Carbon::createFromFormat('m/d/Y', $value)->format('Y-m-d');
        }
     }
 
     public function getDueDateAttribute($value)
     {
        if($value){
-           return Carbon::parse($value)->format('d/m/Y');
+           return Carbon::parse($value)->format('m/d/Y');
        }
     }    
 

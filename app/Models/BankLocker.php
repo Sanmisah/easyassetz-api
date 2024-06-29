@@ -13,14 +13,14 @@ class BankLocker extends Model
     public function setRentDueDateAttribute($value)
     {
        if($value){
-           $this->attributes['rent_due_date'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+           $this->attributes['rent_due_date'] = Carbon::createFromFormat('m/d/Y', $value)->format('Y-m-d');
        }
     }
 
     public function getRentDueDateAttribute($value)
     {
        if($value){
-           return Carbon::parse($value)->format('d/m/Y');
+           return Carbon::parse($value)->format('m/d/Y');
        }
     }    
 

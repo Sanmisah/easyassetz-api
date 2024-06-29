@@ -14,14 +14,14 @@ class GeneralInsurance extends Model
     public function setMaturityDateAttribute($value)
     {
         if($value){
-            $this->attributes['maturity_date'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+            $this->attributes['maturity_date'] = Carbon::createFromFormat('m/d/Y', $value)->format('Y-m-d');
         }
     }
 
     public function getMaturityDateAttribute($value)
     {
         if($value){       
-            return Carbon::parse($value)->format('y/m/d');
+            return Carbon::parse($value)->format('m/d/Y');
         }
     }    
 

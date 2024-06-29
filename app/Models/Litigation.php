@@ -13,14 +13,14 @@ class Litigation extends Model
     public function setCaseFillingDateAttribute($value)
     {
         if($value){
-            $this->attributes['case_filling_date'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+            $this->attributes['case_filling_date'] = Carbon::createFromFormat('m/d/Y', $value)->format('Y-m-d');
         }
     }
 
     public function getCaseFillingDateAttribute($value)
     {
         if($value){       
-            return Carbon::parse($value)->format('y/m/d');
+            return Carbon::parse($value)->format('m/d/Y');
         }
     }    
 

@@ -123,7 +123,7 @@ class MotorInsuranceController extends BaseController
             $motorInsurance->nominee()->detach();
         }
          
-         return $this->sendResponse(['MotorInsurance'=>new MotorInsuranceResource($motorInsurance)], 'Motor Insurance Data Stored successfully.');
+         return $this->sendResponse(['MotorInsurance'=>new MotorInsuranceResource($motorInsurance)], 'Motor Insurance Data updated successfully.');
 
     }
 

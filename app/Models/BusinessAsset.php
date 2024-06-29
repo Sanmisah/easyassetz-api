@@ -14,28 +14,28 @@ class BusinessAsset extends Model
     public function setExpiryDateAttribute($value)
     {
        if($value){
-           $this->attributes['expiry_date'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+           $this->attributes['expiry_date'] = Carbon::createFromFormat('m/d/Y', $value)->format('Y-m-d');
        }
     }
 
     public function getExpiryDateAttribute($value)
     {
        if($value){
-           return Carbon::parse($value)->format('d/m/Y');
+           return Carbon::parse($value)->format('m/d/Y');
        }
     }    
 
     public function setDateOfAssignmentAttribute($value)
     {
        if($value){
-           $this->attributes['date_of_assignment'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+           $this->attributes['date_of_assignment'] = Carbon::createFromFormat('m/d/Y', $value)->format('Y-m-d');
        }
     }
 
     public function getDateOfAssignmentAttribute($value)
     {
        if($value){
-           return Carbon::parse($value)->format('d/m/Y');
+           return Carbon::parse($value)->format('m/d/Y');
        }
     }    
 

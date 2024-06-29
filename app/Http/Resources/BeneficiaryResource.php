@@ -47,7 +47,7 @@ class BeneficiaryResource extends JsonResource
             'charityState' => $this->charity_state,
             'charityNumber' => $this->charity_phone_number,
             'charityEmail' => $this->charity_email,
-            'charityContactPerson' => $this->charity_contact_person,
+            'contactName' => $this->charity_contact_person,
             'charityWebsite' => $this->charity_website,
             'charitySpecificInstruction' => $this->charity_specific_instruction,
             'createdAt' => $this->created_at,
