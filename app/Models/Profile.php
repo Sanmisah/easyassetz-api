@@ -24,6 +24,7 @@ use App\Models\DematAccount;
 use App\Models\PersonalLoan;
 use App\Models\BusinessAsset;
 use App\Models\LifeInsurance;
+use App\Models\OtherDeposite;
 use App\Models\BrokingAccount;
 use App\Models\BusinessAssets;
 use App\Models\InvestmentFund;
@@ -31,6 +32,7 @@ use App\Models\MotorInsurance;
 use App\Models\OtherInsurance;
 use App\Models\HealthInsurance;
 use App\Models\GeneralInsurance;
+use App\Models\PostSavingScheme;
 use App\Models\OtherFinancialAsset;
 use App\Models\PortfolioManagement;
 use App\Models\PostalSavingAccount;
@@ -212,6 +214,13 @@ class Profile extends Model
     public function postalSavingAccount(){
         return $this->hasMany(PostalSavingAccount::class, 'profile_id');
     }
+
+    public function postSavingScheme(){
+        return $this->hasMany(PostSavingScheme::class, 'profile_id');
+    }
  
+    public function otherDeposite(){
+        return $this->hasMany(OtherDeposite::class, 'profile_id');
+    }
 
 }

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('bank_service_provider')->nullable();
             $table->string('company_name')->nullable();
             $table->string('folio_number')->nullable();
-            $table->decimal('number_of_debentures',10,2)->nullable();
+            $table->decimal('number_of_debentures',12,2)->nullable();
             $table->string('certificate_number')->nullable();
             $table->string('distinguish_no_from')->nullable();
             $table->string('distinguish_no_to')->nullable();

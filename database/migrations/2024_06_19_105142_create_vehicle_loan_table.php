@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('profile_id')->constrained()->onDelete('cascade');
             $table->string('bank_name')->nullable();
             $table->string('loan_account_no')->nullable();
-            $table->date('emi_date',10,2)->nullable();
-            $table->date('start_date',10,2)->nullable();
+            $table->date('emi_date')->nullable();
+            $table->date('start_date')->nullable();
             $table->string('duration')->nullable();
             $table->string('guarantor_name')->nullable();
             $table->string('guarantor_mobile')->nullable();

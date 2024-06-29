@@ -17,12 +17,14 @@ use App\Models\ShareDetail;
 use App\Models\DematAccount;
 use App\Models\BusinessAsset;
 use App\Models\LifeInsurance;
+use App\Models\OtherDeposite;
 use App\Models\BrokingAccount;
 use App\Models\InvestmentFund;
 use App\Models\MotorInsurance;
 use App\Models\OtherInsurance;
 use App\Models\HealthInsurance;
 use App\Models\GeneralInsurance;
+use App\Models\PostSavingScheme;
 use App\Models\OtherFinancialAsset;
 use App\Models\PortfolioManagement;
 use App\Models\PostalSavingAccount;
@@ -218,6 +220,22 @@ class Beneficiary extends Model
 
     public function postalSavingAccountJointHolder(){
         return $this->belongsToMany(PostalSavingAccount::class, 'postal_saving_account_joint');
+    }
+
+    public function postSavingScheme(){
+        return $this->belongsToMany(PostSavingScheme::class, 'post_saving_scheme_nominee');
+    }
+
+    public function postSavingSchemeJointHolder(){
+        return $this->belongsToMany(PostSavingScheme::class, 'post_saving_scheme_joint');
+    }
+
+    public function otherDeposite(){
+        return $this->belongsToMany(OtherDeposite::class, 'other_deposite_nominee');
+    }
+
+    public function otherDepositeJointHolder(){
+        return $this->belongsToMany(OtherDeposite::class, 'other_deposite_joint');
     }
 
 

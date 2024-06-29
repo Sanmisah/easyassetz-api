@@ -30,7 +30,7 @@ class BeneficiaryResource extends JsonResource
             'guardianCity' => $this->guardian_city,
             'guardianState' => $this->guardian_state,
             'document'=> $this->document_type,
-            'ducumentData'=> $this->document_data,
+            'documentData'=> $this->document_data,
             'religion' => $this->religion,
             'nationality' => $this->nationality,
             'houseNo' => $this->house_flat_no,

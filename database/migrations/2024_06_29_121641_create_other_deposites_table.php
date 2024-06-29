@@ -11,18 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mutual_funds', function (Blueprint $table) {
+        Schema::create('other_deposites', function (Blueprint $table) {
             $table->id();
             $table->foreignId('profile_id')->constrained()->onDelete('cascade');
-            $table->string('fund_name')->nullable();
-            $table->string('folio_number')->nullable();
-            $table->decimal('number_of_units',12,2)->nullable();
-            $table->enum('nature_of_holding',['single','joint'])->nullable();
+            $table->string('fd_number')->nullable();
+            $table->string('company')->nullable();
+            $table->string('branch_name')->nullable();
+            $table->date('maturity_date')->nullable();
+            $table->decimal('maturity_amount',12,2)->nullable();
+            $table->enum('holding_type',['single','joint'])->nullable();
+            $table->string('joint_holders_pan')->nullable();
             $table->string('additional_details')->nullable();
             $table->string('image')->nullable();
-            $table->string('name')->nullable();
-            $table->string('mobile')->nullable();
-            $table->string('email')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mutual_funds');
+        Schema::dropIfExists('other_deposites');
     }
 };
