@@ -28,6 +28,7 @@ class ProfileResource extends JsonResource
             'permanentHouseFlatNo' => $this->permanent_house_flat_no,
             'permanentAddressLine1' => $this->permanent_address_line_1,
             'permanentAddressLine2' => $this->permanent_address_line_2,
+            'sameAsPermanentAddress' => $this->same_as_permanent_address,
             'permanentPincode' => $this->permanent_pincode,
             'permanentCity' => $this->permanent_city,
             'permanentState' => $this->permanent_state,

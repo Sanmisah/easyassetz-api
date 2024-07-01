@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('permanent_city')->nullable();
             $table->string('permanent_state')->nullable();
             $table->string('permanent_country')->nullable();
+            $table->string('same_as_permanent_address')->nullable();
             $table->string('current_house_flat_no')->nullable();
             $table->longtext('current_address_line_1')->nullable();
             $table->longtext('current_address_line_2')->nullable();

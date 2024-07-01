@@ -77,6 +77,7 @@ class ProfileController extends BaseController
         $profile->permanent_city = $request->input('permanentCity');
         $profile->permanent_state = $request->input('permanentState');
         $profile->permanent_country = $request->input('permanentCountry');
+        $profile->same_as_permanent_address = $request->input('sameAsPermanentAddress');
         $profile->current_house_flat_no = $request->input('currentHouseFlatNo');
         $profile->current_address_line_1 = $request->input('currentAddressLine1');
         $profile->current_address_line_2 = $request->input('currentAddressLine2');
