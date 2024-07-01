@@ -68,7 +68,7 @@ class OtherAssetController extends BaseController
             $artifactfilename = pathinfo($artifactfileNameWithExt, PATHINFO_FILENAME);
             $artifactExtention = $image->getClientOriginalExtension();
             $artifactFileNameToStore = $artifactfilename.'_'.time().'.'.$artifactExtention;
-            $artifactPath = $image->storeAs('public/OtherAsset/artifactImages', $arifactFileNameToStore);
+            $artifactPath = $image->storeAs('public/OtherAsset/artifactImages', $artifactFileNameToStore);
             $artifactNames[] = $artifactFileNameToStore;
           }
         }
