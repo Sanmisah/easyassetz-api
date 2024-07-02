@@ -47,46 +47,41 @@ class Profile extends Model
 
     public function setDobAttribute($value)
     {
-        if($value){
-            $this->attributes['dob'] = Carbon::createFromFormat('m/d/Y', $value)->format('Y-m-d');
-        }
+            $this->attributes['dob'] = $value ? Carbon::createFromFormat('m/d/Y', $value)->format('Y-m-d') : null;
     }
 
     public function getDobAttribute($value)
     {
-        if($value){       //when profile gets created carbon automatically saves date.y/m/d
-            return Carbon::parse($value)->format('m/d/Y');
-        }
+            return $value ? Carbon::parse($value)->format('m/d/Y') : null;   
     }    
 
 
     public function setPassportExpiryDateAttribute($value)
     {
-        if($value){
-            $this->attributes['passport_expiry_date'] = Carbon::createFromFormat('m/d/Y', $value)->format('Y-m-d');
+        if($value === "null") {
+            $value = null;
         }
+        $this->attributes['passport_expiry_date'] = !empty($value) ? Carbon::createFromFormat('m/d/Y', $value)->format('Y-m-d') : null;
     }
 
+   
     public function getPassportExpiryDateAttribute($value)
     {
-        if($value){       
-            return Carbon::parse($value)->format('m/d/Y');
-        } 
-   }    
+        return $value ? Carbon::parse($value)->format('m/d/Y') : null;    
+    }    
 
     public function setDrivingLicenceExpiryDateAttribute($value)
     {
-        if($value){
-            $this->attributes['driving_licence_expiry_date'] = Carbon::createFromFormat('m/d/Y', $value)->format('Y-m-d');
+        if($value === "null") {
+            $value = null;
         }
+        $this->attributes['driving_licence_expiry_date'] = $value ? Carbon::createFromFormat('m/d/Y', $value)->format('Y-m-d') : null;   
     }
 
     public function getDrivingLicenceExpiryDateAttribute($value)
     {
-        if($value){       
-            return Carbon::parse($value)->format('m/d/Y');
-        }  
-  }    
+            return $value ? Carbon::parse($value)->format('m/d/Y') : null;
+    }    
 
 
 

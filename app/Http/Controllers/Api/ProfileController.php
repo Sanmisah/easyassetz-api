@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Log;
 use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -25,7 +26,8 @@ class ProfileController extends BaseController
      * Store a newly created resource in storage.
      */
     public function store(StoreProfileRequest $request): JsonResponse
-    {  
+    {          
+        \Log::info('Received dob:', ['dob' => $request->input('dob')]);
         if($request->hasFile('aadharFile')){
             $aadharfileNameWithExt = $request->file('aadharFile')->getClientOriginalName();
             $aadharfilename = pathinfo($aadharfileNameWithExt, PATHINFO_FILENAME);
@@ -85,8 +87,8 @@ class ProfileController extends BaseController
         $profile->current_city = $request->input('currentCity');
         $profile->current_state = $request->input('currentState');
         $profile->current_country = $request->input('currentCountry');
-        $profile->adhar_number = $request->input('adharNumber');
-        $profile->adhar_name = $request->input('adharName');
+        $profile->adhar_number = $request->input('aadharNumber');
+        $profile->adhar_name = $request->input('aadharName');
         if($request->hasFile('aadharFile')){
             $profile->adhar_file = $aadharFileNameToStore;
         }
@@ -110,7 +112,8 @@ class ProfileController extends BaseController
             $profile->driving_licence_file = $drivingFileNameToStore;
         }
         $profile->save();
-
+        Log::info('Received request data:', $request->all());
+        dd($request->all());
         return $this->sendResponse(['profile'=>new ProfileResource($profile)], 'Profile created successfully.');
 
     }
@@ -200,8 +203,8 @@ class ProfileController extends BaseController
         $profile->current_city = $request->input('currentCity');
         $profile->current_state = $request->input('currentState');
         $profile->current_country = $request->input('currentCountry');
-        $profile->adhar_number = $request->input('adharNumber');
-        $profile->adhar_name = $request->input('adharName');
+        $profile->adhar_number = $request->input('aadharNumber');
+        $profile->adhar_name = $request->input('aadharName');
         if($request->hasFile('aadharFile')){
              $profile->adhar_file = $aadharFileNameToStore;
         }
