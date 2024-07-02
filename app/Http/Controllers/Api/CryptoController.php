@@ -83,7 +83,7 @@ class CryptoController extends BaseController
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Crypto']);
          }
          $crypto->load('nominee','jointHolder');
-        return $this->sendResponse(['Crypto'=>new LitigationResource($crypto)], 'Crypto retrived successfully');
+        return $this->sendResponse(['Crypto'=>new CryptoResource($crypto)], 'Crypto retrived successfully');
     }
 
     /**

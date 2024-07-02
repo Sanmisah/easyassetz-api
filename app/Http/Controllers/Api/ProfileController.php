@@ -140,7 +140,8 @@ class ProfileController extends BaseController
      * Update the specified resource in storage.
      */
     public function update(UpdateProfileRequest $request, string $id)
-    { 
+    {  
+      //  dd($request->all());
         if($request->hasFile('aadharFile')){
             $aadharfileNameWithExt = $request->file('aadharFile')->getClientOriginalName();
             $aadharfilename = pathinfo($aadharfileNameWithExt, PATHINFO_FILENAME);
