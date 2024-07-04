@@ -14,8 +14,4 @@ class Bond extends Model
         return $this->belongsToMany(Beneficiary::class,'bond_nominee');
      }
 
-     public function jointHolder(){
-        return $this->belongsToMany(Beneficiary::class,'bond_joint_holder');
-     }
-
 }

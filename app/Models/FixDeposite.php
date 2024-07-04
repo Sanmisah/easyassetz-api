@@ -13,9 +13,5 @@ class FixDeposite extends Model
     public function nominee(){
         return $this->belongsToMany(Beneficiary::class,'fix_deposite_nominee');
      }
-
-     public function jointHolder(){
-        return $this->belongsToMany(Beneficiary::class,'fix_deposite_joint_holder');
-     }
      
 }

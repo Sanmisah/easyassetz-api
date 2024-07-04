@@ -14,9 +14,5 @@ class Debenture extends Model
         return $this->belongsToMany(Beneficiary::class,'debenture_nominee');
      }
 
-     public function jointHolder(){
-        return $this->belongsToMany(Beneficiary::class,'debenture_joint_holder');
-     }
-
 
 }

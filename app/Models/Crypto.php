@@ -14,8 +14,4 @@ class Crypto extends Model
         return $this->belongsToMany(Beneficiary::class,'crypto_nominee');
     }
 
-    public function jointHolder(){
-        return $this->belongsToMany(Beneficiary::class,'crypto_joint_holder');
-    }
-
 }

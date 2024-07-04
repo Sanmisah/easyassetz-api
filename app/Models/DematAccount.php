@@ -14,8 +14,4 @@ class DematAccount extends Model
         return $this->belongsToMany(Beneficiary::class,'demat_account_nominee');
      }
 
-     public function jointHolder(){
-        return $this->belongsToMany(Beneficiary::class,'demat_account_joint_holder');
-     }
-
 }

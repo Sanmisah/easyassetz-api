@@ -28,8 +28,4 @@ class BankLocker extends Model
         return $this->belongsToMany(Beneficiary::class,'bank_locker_nominee');
      }
 
-     public function jointHolder(){
-        return $this->belongsToMany(Beneficiary::class,'bank_locker_joint_holder');
-     }
-
 }

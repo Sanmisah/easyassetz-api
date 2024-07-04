@@ -15,9 +15,5 @@ class ESOP extends Model
         return $this->belongsToMany(Beneficiary::class,'e_s_o_p_nominee');
      }
 
-     public function jointHolder(){
-        return $this->belongsToMany(Beneficiary::class,'e_s_o_p_joint_holder');
-     }
-
 
 }

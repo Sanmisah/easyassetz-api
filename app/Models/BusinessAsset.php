@@ -43,10 +43,6 @@ class BusinessAsset extends Model
         return $this->belongsToMany(Beneficiary::class,'business_asset_nominee');
      }
 
-     public function jointHolder(){
-        return $this->belongsToMany(Beneficiary::class,'business_asset_joint_holder');
-     }
-
    
 
 }

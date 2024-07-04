@@ -13,10 +13,6 @@ class BankAccount extends Model
     public function nominee(){
         return $this->belongsToMany(Beneficiary::class,'bank_account_nominee');
      }
-
-     public function jointHolder(){
-        return $this->belongsToMany(Beneficiary::class,'bank_account_joint_holder');
-     }
      
 }
 
