@@ -18,7 +18,7 @@ class MutualFundController extends BaseController
     public function index(): JsonResponse
     {
         $user = Auth::user();
-        $mutualFund = $user->profile->mutualFund()->with('nominee','jointHolder')->get();
+        $mutualFund = $user->profile->mutualFund()->with('nominee')->get();
         return $this->sendResponse(['MutualFund'=>MutualFundResource::collection($mutualFund)],'Mutual Fund retrived Successfully');
     }
 
@@ -34,6 +34,8 @@ class MutualFundController extends BaseController
         $mutualFund->folio_number = $request->input('folioNumber');
         $mutualFund->number_of_units = $request->input('numberOfUnits');
         $mutualFund->nature_of_holding = $request->input('natureOfHolding');
+        $mutualFund->joint_holder_name = $request->input('jointHolderName');
+        $mutualFund->joint_holder_pan = $request->input('jointHolderPan');
         $mutualFund->additional_details = $request->input('additionalDetails');
         $mutualFund->image = $request->input('image');
         $mutualFund->name = $request->input('name');
@@ -45,12 +47,6 @@ class MutualFundController extends BaseController
             $nominee_id = $request->input('nominees');
             $mutualFund->nominee()->attach($nominee_id);
         }
-
-        if($request->has('jointHolders')){
-            $joint_holder_id = $request->input('jointHolders');
-            $mutualFund->jointHolder()->attach($joint_holder_id);
-        }
-
         return $this->sendResponse(['MutualFund'=> new MutualFundResource($mutualFund)], 'Mutual Fund details stored successfully');
     }
 
@@ -67,7 +63,7 @@ class MutualFundController extends BaseController
         if($user->profile->id !== $mutualFund->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Mutual Fund Detail']);
          }
-         $mutualFund->load('nominee','jointHolder');
+         $mutualFund->load('nominee');
         return $this->sendResponse(['MutualFund'=>new MutualFundResource($mutualFund)], 'Mutual Fund Details retrived successfully');
     }
 
@@ -89,6 +85,8 @@ class MutualFundController extends BaseController
          $mutualFund->folio_number = $request->input('folioNumber');
          $mutualFund->number_of_units = $request->input('numberOfUnits');
          $mutualFund->nature_of_holding = $request->input('natureOfHolding');
+         $mutualFund->joint_holder_name = $request->input('jointHolderName');
+         $mutualFund->joint_holder_pan = $request->input('jointHolderPan');
          $mutualFund->additional_details = $request->input('additionalDetails');
          $mutualFund->image = $request->input('image');
          $mutualFund->name = $request->input('name');
@@ -101,13 +99,6 @@ class MutualFundController extends BaseController
             $mutualFund->nominee()->sync($nominee_ids);
         }else {
             $mutualFund->nominee()->detach();
-        }
-
-        if($request->has('jointHolders')) {
-            $joint_holder_id = $request->input('jointHolders');
-            $mutualFund->jointHolder()->sync($joint_holder_id);
-        }else {
-            $mutualFund->jointHolder()->detach();
         }
 
          return $this->sendResponse(['MutualFund'=> new MutualFundResource($mutualFund)], 'Mutual Fund details updated successfully');

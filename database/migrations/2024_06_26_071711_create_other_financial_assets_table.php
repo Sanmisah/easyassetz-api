@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('folio_number')->nullable();
             $table->string('branch_name')->nullable();
             $table->enum('nature_of_holding',['single','joint'])->nullable();
+            $table->string('joint_holder_name')->nullable();
+            $table->string('joint_holder_pan')->nullable();
             $table->string('additional_details')->nullable();
             $table->string('image')->nullable();
             $table->string('name')->nullable();

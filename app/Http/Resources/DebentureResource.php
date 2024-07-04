@@ -17,7 +17,6 @@ class DebentureResource extends JsonResource
     {
 
         $nominees = BeneficiaryResource::collection($this->nominee);
-        $jointHolders = BeneficiaryResource::collection($this->jointHolder);
 
         return [
             'id' => $this->id,
@@ -31,6 +30,8 @@ class DebentureResource extends JsonResource
             'distinguishNoTo' => $this->distinguish_no_to,
             'faceValue' => $this->face_value,
             'natureOfHolding' => $this->nature_of_holding,
+            'jointHolderName' => $this->joint_holder_name,
+            'jointHolderPan' => $this->joint_holder_pan,
             'additionalDetails' => $this->additional_details,
             'image' => $this->image,
             'name' => $this->name,
@@ -39,7 +40,6 @@ class DebentureResource extends JsonResource
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
             'nominees' => $nominees,
-            'jointHolders' => $jointHolders,
         ];   
     
     }

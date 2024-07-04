@@ -16,7 +16,6 @@ class PostalSavingAccountResource extends JsonResource
     public function toArray(Request $request): array
     {
         $nominees = BeneficiaryResource::collection($this->nominee);
-        $jointHolders = BeneficiaryResource::collection($this->jointHolder);
 
         return [
             'id' => $this->id,
@@ -25,13 +24,13 @@ class PostalSavingAccountResource extends JsonResource
             'postOfficeBranch' => $this->post_office_branch,
             'city' => $this->city,
             'holdingType' => $this->holding_type,
-            'jointHoldersPan' => $this->joint_holders_pan,
+            'jointHolderName' => $this->joint_holder_name,
+            'jointHolderPan' => $this->joint_holder_pan,
             'additionalDetails' => $this->additional_details,
             'image' => $this->image,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
             'nominees' => $nominees,
-            'jointHolders' =>$jointHolders,
         ];
     
     }

@@ -16,7 +16,6 @@ class BankAccountResource extends JsonResource
     public function toArray(Request $request): array
     {
         $nominees = BeneficiaryResource::collection($this->nominee);
-        $jointHolders = BeneficiaryResource::collection($this->jointHolder);
 
         return [
             'id' => $this->id,
@@ -27,12 +26,12 @@ class BankAccountResource extends JsonResource
             'branchName' => $this->branch_name,
             'city' => $this->city,
             'holdingType' => $this->holding_type,
-            'jointHoldersPan' => $this->joint_holders_pan,
+            'jointHolderName' => $this->joint_holder_name,
+            'jointHolderPan' => $this->joint_holder_pan,
             'image' => $this->image,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
             'nominees' => $nominees,
-            'jointHolders' =>$jointHolders,
         ];
     
     }

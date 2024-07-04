@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use App\Models\WealthManagement;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Models\WealthManagement;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\WealthManagementAccountResource;
 
@@ -18,7 +19,7 @@ class WealthManagementAccountController extends BaseController
     public function index(): JsonResponse
     {
         $user = Auth::user();
-        $wealthManagementAccount = $user->profile->wealthManagementAccount()->with('nominee','jointHolder')->get();
+        $wealthManagementAccount = $user->profile->wealthManagementAccount()->with('nominee')->get();
         return $this->sendResponse(['WealthManagementAccount'=>WealthManagementAccountResource::collection($wealthManagementAccount)],'wealth management account retrived Successfully');
     }
 
@@ -41,6 +42,8 @@ class WealthManagementAccountController extends BaseController
         $wealthManagementAccount->wealth_manager_name = $request->input('wealthManagerName');
         $wealthManagementAccount->account_number = $request->input('accountNumber');
         $wealthManagementAccount->nature_of_holding = $request->input('natureOfHolding');
+        $wealthManagementAccount->joint_holder_name = $request->input('jointHolderName');
+        $wealthManagementAccount->joint_holder_pan = $request->input('jointHolderPan');
         $wealthManagementAccount->additional_details = $request->input('additionalDetails');
         $wealthManagementAccount->name = $request->input('name');
         $wealthManagementAccount->mobile = $request->input('mobile');
@@ -53,11 +56,6 @@ class WealthManagementAccountController extends BaseController
         if($request->has('nominees')){
             $nominee_id = $request->input('nominees');
             $wealthManagementAccount->nominee()->attach($nominee_id);
-        }
-
-        if($request->has('jointHolders')){
-            $joint_holder_id = $request->input('jointHolders');
-            $wealthManagementAccount->jointHolder()->attach($joint_holder_id);
         }
 
         return $this->sendResponse(['WealthManagementAccount'=> new WealthManagementAccountResource($wealthManagementAccount)], 'wealth management Account details stored successfully');
@@ -77,7 +75,7 @@ class WealthManagementAccountController extends BaseController
         if($user->profile->id !== $wealthManagementAccount->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this wealth management Account']);
          }
-         $wealthManagementAccount->load('nominee','jointHolder');
+         $wealthManagementAccount->load('nominee');
         return $this->sendResponse(['WealthManagementAccount'=>new WealthManagementAccountResource($wealthManagementAccount)], 'Wealth Management Account retrived successfully');
     }
 
@@ -107,6 +105,8 @@ class WealthManagementAccountController extends BaseController
           $wealthManagementAccount->wealth_manager_name = $request->input('wealthManagerName');
           $wealthManagementAccount->account_number = $request->input('accountNumber');
           $wealthManagementAccount->nature_of_holding = $request->input('natureOfHolding');
+          $wealthManagementAccount->joint_holder_name = $request->input('jointHolderName');
+          $wealthManagementAccount->joint_holder_pan = $request->input('jointHolderPan');
           $wealthManagementAccount->additional_details = $request->input('additionalDetails');
           $wealthManagementAccount->name = $request->input('name');
           $wealthManagementAccount->mobile = $request->input('mobile');
@@ -122,14 +122,6 @@ class WealthManagementAccountController extends BaseController
         }else {
             $wealthManagementAccount->nominee()->detach();
         }
-
-        if($request->has('jointHolder')) {
-            $joint_holder_id = $request->input('jointHolder');
-            $wealthManagementAccount->jointHolder()->sync($joint_holder_id);
-        }else {
-            $wealthManagementAccount->jointHolder()->detach();
-        }
-
          return $this->sendResponse(['WealthManagementAccount'=> new WealthManagementAccountResource($wealthManagementAccount)], 'Wealth Management Account details updated successfully');
 
     }
@@ -147,6 +139,7 @@ class WealthManagementAccountController extends BaseController
         if($user->profile->id !== $wealthManagementAccount->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Wealth Management Account']);
         }
+        Storage::delete('public/wealthManagementFile'.$wealthManagementAccount->image);
         $wealthManagementAccount->delete();
 
         return $this->sendResponse([], 'Wealth Management Account deleted successfully');

@@ -19,8 +19,9 @@ return new class extends Migration
             $table->string('account_number')->nullable();
             $table->string('branch_name')->nullable();
             $table->string('city')->nullable();
-            $table->string('holding_type')->nullable();
-            $table->string('joint_holders_pan')->nullable();
+            $table->enum('holding_type',['single','joint'])->nullable();
+            $table->string('joint_holder_name')->nullable();
+            $table->string('joint_holder_pan')->nullable();
             $table->string('image')->nullable();
             $table->timestamps();
         });

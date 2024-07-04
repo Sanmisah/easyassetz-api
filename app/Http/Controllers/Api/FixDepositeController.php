@@ -18,7 +18,7 @@ class FixDepositeController extends BaseController
     public function index(): JsonResponse
     {
         $user = Auth::user();
-        $fixDeposite = $user->profile->fixDeposite()->with('nominee','jointHolder')->get();
+        $fixDeposite = $user->profile->fixDeposite()->with('nominee')->get();
         return $this->sendResponse(['FixDeposite'=>FixDepositeResource::collection($fixDeposite)],'Fix deposite details retrived Successfully');
     }
 
@@ -44,6 +44,8 @@ class FixDepositeController extends BaseController
         $fixDeposit->maturity_date = $request->input('maturityDate');
         $fixDeposit->maturity_ammount = $request->input('maturityAmmount');
         $fixDeposit->holding_type = $request->input('holdingType');
+        $fixDeposit->joint_holder_name = $request->input('jointHolderName');
+        $fixDeposit->joint_holder_pan = $request->input('jointHolderPan');
         $fixDeposit->joint_holders_pan = $request->input('jointHoldersPan');
         $fixDeposit->additional_details = $request->input('additionalDetails');
         if($request->hasFile('image')){
@@ -54,11 +56,6 @@ class FixDepositeController extends BaseController
         if($request->has('nominees')){
             $nominee_id = $request->input('nominees');
             $fixDeposit->nominee()->attach($nominee_id);
-        }
-
-        if($request->has('jointHolders')){
-            $joint_holder_id = $request->input('jointHolders');
-            $fixDeposit->jointHolder()->attach($joint_holder_id);
         }
 
         return $this->sendResponse(['FixDeposite'=> new FixDepositeResource($fixDeposit)], 'Fix deposite details stored successfully');
@@ -78,7 +75,7 @@ class FixDepositeController extends BaseController
         if($user->profile->id !== $fixDeposit->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Fix Deposite']);
          }
-         $fixDeposit->load('nominee','jointHolder');
+         $fixDeposit->load('nominee');
         return $this->sendResponse(['FixDeposite'=>new FixDepositeResource($fixDeposit)], 'Fix Deposite retrived successfully');
     }
 
@@ -110,6 +107,8 @@ class FixDepositeController extends BaseController
          $fixDeposit->maturity_date = $request->input('maturityDate');
          $fixDeposit->maturity_ammount = $request->input('maturityAmmount');
          $fixDeposit->holding_type = $request->input('holdingType');
+         $fixDeposit->joint_holder_name = $request->input('jointHolderName');
+         $fixDeposit->joint_holder_pan = $request->input('jointHolderPan');
          $fixDeposit->joint_holders_pan = $request->input('jointHoldersPan');
          $fixDeposit->additional_details = $request->input('additionalDetails');
          if($request->hasFile('image')){
@@ -122,13 +121,6 @@ class FixDepositeController extends BaseController
             $fixDeposit->nominee()->sync($nominee_ids);
         }else {
             $fixDeposit->nominee()->detach();
-        }
-
-        if($request->has('jointHolder')) {
-            $joint_holder_id = $request->input('jointHolder');
-            $fixDeposit->jointHolder()->sync($joint_holder_id);
-        }else {
-            $fixDeposit->jointHolder()->detach();
         }
 
          return $this->sendResponse(['FixDeposite'=> new FixDepositeResource($fixDeposit)], 'Fix deposite details updated successfully');

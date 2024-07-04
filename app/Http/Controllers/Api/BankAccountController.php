@@ -17,7 +17,7 @@ class BankAccountController extends BaseController
     public function index(): JsonResponse
     {
         $user = Auth::user();
-        $bankAccount = $user->profile->bankAccount()->with('nominee','jointHolder')->get();
+        $bankAccount = $user->profile->bankAccount()->with('nominee')->get();
         return $this->sendResponse(['BankAccount'=>BankAccountResource::collection($bankAccount)],'Bank Account details retrived Successfully');
     }
 
@@ -44,7 +44,8 @@ class BankAccountController extends BaseController
         $bankAccount->branch_name = $request->input('branchName');
         $bankAccount->city = $request->input('city');
         $bankAccount->holding_type = $request->input('holdingType');
-        $bankAccount->joint_holders_pan = $request->input('jointHoldersPan');
+        $bankAccount->joint_holder_name = $request->input('jointHolderName');
+        $bankAccount->joint_holder_pan = $request->input('jointHolderPan');
         if($request->hasFile('image')){
             $bankAccount->image = $bankFileNameToStore;
          } 
@@ -53,11 +54,6 @@ class BankAccountController extends BaseController
         if($request->has('nominees')){
             $nominee_id = $request->input('nominees');
             $bankAccount->nominee()->attach($nominee_id);
-        }
-
-        if($request->has('jointHolders')){
-            $joint_holder_id = $request->input('jointHolders');
-            $bankAccount->jointHolder()->attach($joint_holder_id);
         }
 
         return $this->sendResponse(['BankAccount'=> new BankAccountResource($bankAccount)], 'bank Account details stored successfully');
@@ -78,7 +74,7 @@ class BankAccountController extends BaseController
         if($user->profile->id !== $bankAccount->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Bank Account']);
          }
-         $bankAccount->load('nominee','jointHolder');
+         $bankAccount->load('nominee');
         return $this->sendResponse(['BankAccount'=>new BankAccountResource($bankAccount)], 'bank Account details retrived successfully');
     }
 
@@ -112,7 +108,8 @@ class BankAccountController extends BaseController
          $bankAccount->branch_name = $request->input('branchName');
          $bankAccount->city = $request->input('city');
          $bankAccount->holding_type = $request->input('holdingType');
-         $bankAccount->joint_holders_pan = $request->input('jointHoldersPan');
+         $bankAccount->joint_holder_name = $request->input('jointHolderName');
+         $bankAccount->joint_holder_pan = $request->input('jointHolderPan');
          if($request->hasFile('image')){
              $bankAccount->image = $bankFileNameToStore;
           } 
@@ -123,13 +120,6 @@ class BankAccountController extends BaseController
             $bankAccount->nominee()->sync($nominee_ids);
         }else {
             $bankAccount->nominee()->detach();
-        }
-
-        if($request->has('jointHolder')) {
-            $joint_holder_id = $request->input('jointHolder');
-            $bankAccount->jointHolder()->sync($joint_holder_id);
-        }else {
-            $bankAccount->jointHolder()->detach();
         }
  
          return $this->sendResponse(['BankAccount'=> new BankAccountResource($bankAccount)], 'bank Account details Updated successfully');

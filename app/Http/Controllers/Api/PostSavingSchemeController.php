@@ -18,7 +18,7 @@ class PostSavingSchemeController extends BaseController
     public function index(): JsonResponse
     {
         $user = Auth::user();
-        $postSavingScheme = $user->profile->postSavingScheme()->with('nominee','jointHolder')->get();
+        $postSavingScheme = $user->profile->postSavingScheme()->with('nominee')->get();
         return $this->sendResponse(['PostSavingScheme'=>PostSavingSchemeResource::collection($postSavingScheme)],'Post Saving Scheme details retrived Successfully');
     }
 
@@ -43,7 +43,8 @@ class PostSavingSchemeController extends BaseController
          $postSavingScheme->maturity_date = $request->input('maturity_date');
          $postSavingScheme->amount = $request->input('amount');
          $postSavingScheme->holding_type = $request->input('holding_type');
-         $postSavingScheme->joint_holders_pan = $request->input('joint_holders_pan');
+         $postSavingScheme->joint_holder_name = $request->input('jointHolderName');
+         $postSavingScheme->joint_holder_pan = $request->input('jointHolderPan');
          $postSavingScheme->additional_details = $request->input('additional_details');
          if($request->hasFile('image')){
             $postSavingScheme->image = $imageFileNameToStore;
@@ -57,12 +58,6 @@ class PostSavingSchemeController extends BaseController
             $nominee_id = $request->input('nominees');
             $postSavingScheme->nominee()->attach($nominee_id);
         }
-
-        if($request->has('jointHolders')){
-            $joint_holder_id = $request->input('jointHolders');
-            $postSavingScheme->jointHolder()->attach($joint_holder_id);
-        }
-
         return $this->sendResponse(['PostSavingScheme'=> new PostSavingSchemeResource($postSavingScheme)], 'Post Saving Scheme details stored successfully');
     }
 
@@ -79,7 +74,7 @@ class PostSavingSchemeController extends BaseController
         if($user->profile->id !== $postSavingScheme->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Postal saving Scheme details']);
          }
-         $postSavingScheme->load('nominee','jointHolder');
+         $postSavingScheme->load('nominee');
         return $this->sendResponse(['PostSavingScheme'=>new PostSavingSchemeResource($postSavingScheme)], 'Post Saving Scheme details retrived successfully');
     }
 
@@ -101,7 +96,8 @@ class PostSavingSchemeController extends BaseController
          $postSavingScheme->maturity_date = $request->input('maturity_date');
          $postSavingScheme->amount = $request->input('amount');
          $postSavingScheme->holding_type = $request->input('holding_type');
-         $postSavingScheme->joint_holders_pan = $request->input('joint_holders_pan');
+         $postSavingScheme->joint_holder_name = $request->input('jointHolderName');
+         $postSavingScheme->joint_holder_pan = $request->input('jointHolderPan');
          $postSavingScheme->additional_details = $request->input('additional_details');
          if($request->hasFile('image')){
             $postSavingScheme->image = $imageFileNameToStore;
@@ -116,13 +112,6 @@ class PostSavingSchemeController extends BaseController
             $postSavingScheme->nominee()->sync($nominee_ids);
         }else {
             $postSavingScheme->nominee()->detach();
-        }
-
-        if($request->has('jointHolder')) {
-            $joint_holder_id = $request->input('jointHolder');
-            $postSavingScheme->jointHolder()->sync($joint_holder_id);
-        }else {
-            $postSavingScheme->jointHolder()->detach();
         }
        
         return $this->sendResponse(['PostSavingScheme'=>new PostSavingSchemeResource($postSavingScheme)], 'Postal Saving Scheme details Updated successfully');

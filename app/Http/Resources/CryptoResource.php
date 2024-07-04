@@ -17,7 +17,6 @@ class CryptoResource extends JsonResource
     {
 
         $nominees = BeneficiaryResource::collection($this->nominee);
-        $jointHolders = BeneficiaryResource::collection($this->jointHolder);
 
         return [
             'id' => $this->id,
@@ -25,6 +24,8 @@ class CryptoResource extends JsonResource
             'cryptoWalletType' => $this->crypto_wallet_type,
             'cryptoWalletAddress' => $this->crypto_wallet_address,
             'holdingType' => $this->holding_type,
+            'jointHolderName' => $this->joint_holder_name,
+            'jointHolderPan' => $this->joint_holder_pan,
             'exchange' => $this->exchange,
             'tradingAccount' => $this->trading_account,
             'typeOfCurrency' => $this->type_of_currency,
@@ -36,8 +37,7 @@ class CryptoResource extends JsonResource
             'email' => $this->email,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
-            'nominees'=> $nominees,
-            'jointHolders'=> $jointHolders,
+            'nominees'=> $nominees,            
         ];  
     
     }

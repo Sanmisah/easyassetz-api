@@ -19,7 +19,7 @@ class CryptoController extends BaseController
     public function index(): JsonResponse
     {
         $user = Auth::user();
-        $crypto = $user->profile->crypto()->with('nominee','jointHolder')->get();
+        $crypto = $user->profile->crypto()->with('nominee')->get();
         return $this->sendResponse(['Crypto'=>CryptoResource::collection($crypto)], "Crypto details retrived successfully");
     }
 
@@ -43,6 +43,8 @@ class CryptoController extends BaseController
         $crypto->crypto_wallet_type = $request->input('cryptoWalletType');
         $crypto->crypto_wallet_address = $request->input('cryptoWalletAddress');
         $crypto->holding_type = $request->input('holdingType');
+        $crypto->joint_holder_name = $request->input('jointHolderName');
+        $crypto->joint_holder_pan = $request->input('jointHolderPan');
         $crypto->exchange = $request->input('exchange');
         $crypto->trading_account = $request->input('tradingAccount');
         $crypto->type_of_currency = $request->input('typeOfCurrency');
@@ -61,11 +63,6 @@ class CryptoController extends BaseController
             $crypto->nominee()->attach($nominee_id);
         }
 
-        if($request->has('jointHolders')){
-            $joint_holder_id = $request->input('jointHolders');
-            $crypto->jointHolder()->attach($joint_holder_id);
-        }
-
         return $this->sendResponse(['Crypto'=> new CryptoResource($crypto)], 'Crypto details stored successfully');
     }
 
@@ -82,7 +79,7 @@ class CryptoController extends BaseController
         if($user->profile->id !== $crypto->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Crypto']);
          }
-         $crypto->load('nominee','jointHolder');
+         $crypto->load('nominee');
         return $this->sendResponse(['Crypto'=>new CryptoResource($crypto)], 'Crypto retrived successfully');
     }
 
@@ -112,6 +109,8 @@ class CryptoController extends BaseController
          $crypto->crypto_wallet_type = $request->input('cryptoWalletType');
          $crypto->crypto_wallet_address = $request->input('cryptoWalletAddress');
          $crypto->holding_type = $request->input('holdingType');
+         $crypto->joint_holder_name = $request->input('jointHolderName');
+         $crypto->joint_holder_pan = $request->input('jointHolderPan');
          $crypto->exchange = $request->input('exchange');
          $crypto->trading_account = $request->input('tradingAccount');
          $crypto->type_of_currency = $request->input('typeOfCurrency');
@@ -130,13 +129,6 @@ class CryptoController extends BaseController
             $crypto->nominee()->sync($nominee_ids);
         }else {
             $crypto->nominee()->detach();
-        }
-
-        if($request->has('jointHolder')) {
-            $joint_holder_id = $request->input('jointHolder');
-            $crypto->jointHolder()->sync($joint_holder_id);
-        }else {
-            $crypto->jointHolder()->detach();
         }
 
          return $this->sendResponse(['Crypto'=> new CryptoResource($crypto)], 'Crypto details updated successfully');

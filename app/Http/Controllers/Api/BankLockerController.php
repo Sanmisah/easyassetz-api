@@ -20,7 +20,7 @@ class BankLockerController extends BaseController
     public function index(): JsonResponse
     {
         $user = Auth::user();
-        $bankLocker = $user->profile->bankLocker()->with('nominee','jointHolder')->get();
+        $bankLocker = $user->profile->bankLocker()->with('nominee')->get();
         return $this->sendResponse(['BankLocker'=>BankLockerResource::collection($bankLocker)],'Bank lockers details retrived Successfully');
     }
 
@@ -44,6 +44,8 @@ class BankLockerController extends BaseController
         $bankLocker->branch = $request->input('branch');
         $bankLocker->locker_number = $request->input('lockerNnumber');
         $bankLocker->nature_of_holding = $request->input('natureOfHolding');
+        $bankLocker->joint_holder_name = $request->input('jointHolderName');
+        $bankLocker->joint_holder_pan = $request->input('jointHolderPan');
         $bankLocker->rent_due_date = $request->input('rentDueDate');
         $bankLocker->annual_rent = $request->input('annualRent');
         $bankLocker->additional_details = $request->input('additionalDetails');
@@ -55,11 +57,6 @@ class BankLockerController extends BaseController
         if($request->has('nominees')){
             $nominee_id = $request->input('nominees');
             $bankLocker->nominee()->attach($nominee_id);
-        }
-
-        if($request->has('jointHolders')){
-            $joint_holder_id = $request->input('jointHolders');
-            $bankLocker->jointHolder()->attach($joint_holder_id);
         }
 
         return $this->sendResponse(['BankLocker'=> new BankLockerResource($bankLocker)], 'Bank Locker details stored successfully');
@@ -79,7 +76,7 @@ class BankLockerController extends BaseController
         if($user->profile->id !== $bankLocker->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Bank Locker']);
          }
-         $bankLocker->load('nominee','jointHolder');
+         $bankLocker->load('nominee');
         return $this->sendResponse(['BankLocker'=>new BankLockerResource($bankLocker)], 'Bank Locker Details retrived successfully');
     }
 
@@ -109,6 +106,8 @@ class BankLockerController extends BaseController
           $bankLocker->branch = $request->input('branch');
           $bankLocker->locker_number = $request->input('lockerNnumber');
           $bankLocker->nature_of_holding = $request->input('natureOfHolding');
+          $bankLocker->joint_holder_name = $request->input('jointHolderName');
+          $bankLocker->joint_holder_pan = $request->input('jointHolderPan');
           $bankLocker->rent_due_date = $request->input('rentDueDate');
           $bankLocker->annual_rent = $request->input('annualRent');
           $bankLocker->additional_details = $request->input('additionalDetails');
@@ -122,13 +121,6 @@ class BankLockerController extends BaseController
                 $bankLocker->nominee()->sync($nominee_ids);
             }else {
                 $bankLocker->nominee()->detach();
-            }
-
-            if($request->has('jointHolder')) {
-                $joint_holder_id = $request->input('jointHolder');
-                $bankLocker->jointHolder()->sync($joint_holder_id);
-            }else {
-                $bankLocker->jointHolder()->detach();
             }
 
          return $this->sendResponse(['BankLocker'=> new BankLockerResource($bankLocker)], 'Bank Locker details updated successfully');

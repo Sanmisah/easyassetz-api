@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('branch')->nullable();
             $table->string('locker_number')->nullable();
             $table->enum('nature_of_holding',['single','joint'])->nullable();
+            $table->string('joint_holder_name')->nullable();
+            $table->string('joint_holder_pan')->nullable();
             $table->date('rent_due_date')->nullable();
             $table->string('annual_rent')->nullable();
             $table->string('additional_details')->nullable();

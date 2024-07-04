@@ -19,7 +19,7 @@ class ESOPController extends BaseController
     public function index(): JsonResponse
     {
         $user = Auth::user();
-        $esop = $user->profile->esop()->with('nominee','jointHolder')->get();
+        $esop = $user->profile->esop()->with('nominee')->get();
         return $this->sendResponse(['ESOP'=>ESOPResource::collection($esop)],'ESOP retrived Successfully');
     }
 
@@ -35,6 +35,8 @@ class ESOPController extends BaseController
         $esop->units_granted = $request->input('units_granted');
         $esop->esops_vested = $request->input('esops_vested');
         $esop->nature_of_holding = $request->input('nature_of_holding');
+        $esop->joint_holder_name = $request->input('jointHolderName');
+        $esop->joint_holder_pan = $request->input('jointHolderPan');
         $esop->additional_details = $request->input('additional_details');
         $esop->image = $request->input('image');
         $esop->name = $request->input('name');
@@ -47,13 +49,7 @@ class ESOPController extends BaseController
             $esop->nominee()->attach($nominee_id);
         }
 
-        if($request->has('jointHolders')){
-            $joint_holder_id = $request->input('jointHolders');
-            $esop->jointHolder()->attach($joint_holder_id);
-        }
-
         return $this->sendResponse(['ESOP'=> new ESOPResource($esop)], 'ESOP details stored successfully');
-
 
     }
 
@@ -70,7 +66,7 @@ class ESOPController extends BaseController
         if($user->profile->id !== $esop->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this ESOP Detail']);
          }
-         $esop->load('nominee','jointHolder');
+         $esop->load('nominee');
         return $this->sendResponse(['ESOP'=>new ESOPResource($esop)], 'ESOP Details retrived successfully');
     }
 
@@ -92,6 +88,8 @@ class ESOPController extends BaseController
          $esop->units_granted = $request->input('units_granted');
          $esop->esops_vested = $request->input('esops_vested');
          $esop->nature_of_holding = $request->input('nature_of_holding');
+         $esop->joint_holder_name = $request->input('jointHolderName');
+         $esop->joint_holder_pan = $request->input('jointHolderPan');
          $esop->additional_details = $request->input('additional_details');
          $esop->image = $request->input('image');
          $esop->name = $request->input('name');
@@ -104,13 +102,6 @@ class ESOPController extends BaseController
             $esop->nominee()->sync($nominee_ids);
         }else {
             $esop->nominee()->detach();
-        }
-
-        if($request->has('jointHolders')) {
-            $joint_holder_id = $request->input('jointHolders');
-            $esop->jointHolder()->sync($joint_holder_id);
-        }else {
-            $esop->jointHolder()->detach();
         }
  
          return $this->sendResponse(['ESOP'=> new ESOPResource($esop)], 'ESOP details updated successfully');

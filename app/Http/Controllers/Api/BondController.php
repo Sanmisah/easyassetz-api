@@ -18,7 +18,7 @@ class BondController extends BaseController
     public function index(): JsonResponse
     {
         $user = Auth::user();
-        $bond = $user->profile->bond()->with('nominee','jointHolder')->get();
+        $bond = $user->profile->bond()->with('nominee')->get();
         return $this->sendResponse(['Bond'=>BondResource::collection($bond)],'Bond retrived Successfully');
     }
 
@@ -39,6 +39,8 @@ class BondController extends BaseController
         $bond->distinguish_no_to = $request->input('distinguishNoTo');
         $bond->face_value = $request->input('faceValue');
         $bond->nature_of_holding = $request->input('natureOfHolding');
+        $bond->joint_holder_name = $request->input('jointHolderName');
+        $bond->joint_holder_pan = $request->input('jointHolderPan');
         $bond->additional_details = $request->input('additionalDetails');
         $bond->image = $request->input('image');
         $bond->name = $request->input('name');
@@ -49,11 +51,6 @@ class BondController extends BaseController
         if($request->has('nominees')){
             $nominee_id = $request->input('nominees');
             $bond->nominee()->attach($nominee_id);
-        }
-
-        if($request->has('jointHolders')){
-            $joint_holder_id = $request->input('jointHolders');
-            $bond->jointHolder()->attach($joint_holder_id);
         }
 
         return $this->sendResponse(['Bond'=> new BondResource($bond)], 'Bond details stored successfully');
@@ -72,7 +69,7 @@ class BondController extends BaseController
         if($user->profile->id !== $bond->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Bond Detail']);
          }
-         $bond->load('nominee','jointHolder');
+         $bond->load('nominee');
         return $this->sendResponse(['Bond'=>new BondResource($bond)], 'Bond Details retrived successfully');
     }
 
@@ -99,6 +96,8 @@ class BondController extends BaseController
          $bond->distinguish_no_to = $request->input('distinguishNoTo');
          $bond->face_value = $request->input('faceValue');
          $bond->nature_of_holding = $request->input('natureOfHolding');
+         $bond->joint_holder_name = $request->input('jointHolderName');
+         $bond->joint_holder_pan = $request->input('jointHolderPan');
          $bond->additional_details = $request->input('additionalDetails');
          $bond->image = $request->input('image');
          $bond->name = $request->input('name');
@@ -111,13 +110,6 @@ class BondController extends BaseController
             $bond->nominee()->sync($nominee_ids);
         }else {
             $bond->nominee()->detach();
-        }
-
-        if($request->has('jointHolders')) {
-            $joint_holder_id = $request->input('jointHolders');
-            $bond->jointHolder()->sync($joint_holder_id);
-        }else {
-            $bond->jointHolder()->detach();
         }
 
          return $this->sendResponse(['Bond'=> new BondResource($bond)], 'Bond details updated successfully');

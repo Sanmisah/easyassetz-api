@@ -16,7 +16,6 @@ class DematAccountResource extends JsonResource
     public function toArray(Request $request): array
     {
         $nominees = BeneficiaryResource::collection($this->nominee);
-        $jointHolders = BeneficiaryResource::collection($this->jointHolder);
 
         return [
             'id' => $this->id,
@@ -26,6 +25,8 @@ class DematAccountResource extends JsonResource
             'depositoryId' => $this->depository_id,
             'accountNumber' => $this->account_number,
             'natureOfHolding' => $this->nature_of_holding,
+            'jointHolderName' => $this->joint_holder_name,
+            'jointHolderPan' => $this->joint_holder_pan,
             'additionalDetails' => $this->additional_details,
             'image' => $this->image,
             'name' => $this->name,
@@ -34,7 +35,6 @@ class DematAccountResource extends JsonResource
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
             'nominees' => $nominees,
-            'jointHolders' => $jointHolders,
         ];
     
     }

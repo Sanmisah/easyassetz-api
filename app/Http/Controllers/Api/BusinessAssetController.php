@@ -18,10 +18,10 @@ class BusinessAssetController extends BaseController
     public function index(): JsonResponse
     {
         $user = Auth::user();
-        $propritership = $user->profile->businessAsset()->where('type', 'propritorship')->get();
-        $partnershipFirm = $user->profile->businessAsset()->where('type', 'partnershipFirm')->get();
-        $company = $user->profile->businessAsset()->where('type', 'company')->get();
-        $intellectualProperty = $user->profile->businessAsset()->where('type', 'intellectualProperty')->get();
+        $propritership = $user->profile->businessAsset()->where('type', 'propritorship')->with('nominee')->get();
+        $partnershipFirm = $user->profile->businessAsset()->where('type', 'partnershipFirm')->with('nominee')->get();
+        $company = $user->profile->businessAsset()->where('type', 'company')->with('nominee')->get();
+        $intellectualProperty = $user->profile->businessAsset()->where('type', 'intellectualProperty')->with('nominee')->get();
 
         if(!$propritership){
             $propritership =null;
@@ -129,6 +129,8 @@ class BusinessAssetController extends BaseController
         $businessAsset->my_status = $request->input('myStatus');
         $businessAsset->type_of_investment = $request->input('typeOfInvestment');
         $businessAsset->holding_type = $request->input('holdingType');
+        $businessAsset->joint_holder_name = $request->input('jointHolderName');
+        $businessAsset->joint_holder_pan = $request->input('jointHolderPan');
         $businessAsset->document_availability = $request->input('documentAvailability');
         if($request->hasFile('shareCentificateFile')){
             $businessAsset->share_centificate_file = $sharePath;
@@ -161,11 +163,6 @@ class BusinessAssetController extends BaseController
                $businessAsset->nominee()->attach($nominee_id);
          }
 
-         if($request->has('jointHolders')){
-               $joint_holder_id = $request->input('jointHolders');
-               $businessAsset->jointHolder()->attach($joint_holder_id);
-         }
-
         return $this->sendResponse(['BusinessAsset'=> new BusinessAssetsResource($businessAsset)], 'Business Asset details stored successfully');
 
     }
@@ -183,7 +180,7 @@ class BusinessAssetController extends BaseController
         if($user->profile->id !== $businessAsset->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Business Assets']);
          }
-         $businessAsset->load('nominee','jointHolder'); 
+         $businessAsset->load('nominee'); 
         return $this->sendResponse(['BusinessAsset'=>new BusinessAssetsResource($businessAsset)], 'Business Asset retrived successfully');
     }
 
@@ -254,6 +251,8 @@ class BusinessAssetController extends BaseController
         $businessAsset->my_status = $request->input('myStatus');
         $businessAsset->type_of_investment = $request->input('typeOfInvestment');
         $businessAsset->holding_type = $request->input('holdingType');
+        $businessAsset->joint_holder_name = $request->input('jointHolderName');
+        $businessAsset->joint_holder_pan = $request->input('jointHolderPan');
         $businessAsset->document_availability = json_encode($request->input('documentAvailability'));
         if($request->hasFile('shareCentificateFile')){
             $businessAsset->share_centificate_file = $sharePath;
@@ -286,13 +285,6 @@ class BusinessAssetController extends BaseController
             $businessAsset->nominee()->sync($nominee_ids);
         }else {
             $businessAsset->nominee()->detach();
-        }
-
-        if($request->has('jointHolder')) {
-            $joint_holder_id = $request->input('jointHolder');
-            $businessAsset->jointHolder()->sync($joint_holder_id);
-        }else {
-            $businessAsset->jointHolder()->detach();
         }
 
          return $this->sendResponse(['BusinessAsset'=> new BusinessAssetsResource($businessAsset)], 'Business Asset details updated successfully');

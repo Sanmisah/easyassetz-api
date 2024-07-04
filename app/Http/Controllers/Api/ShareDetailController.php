@@ -18,7 +18,7 @@ class ShareDetailController extends BaseController
     public function index(): JsonResponse
     {
         $user = Auth::user();
-        $shareDetail = $user->profile->shareDetail()->with('nominee','jointHolder')->get();
+        $shareDetail = $user->profile->shareDetail()->with('nominee')->get();
         return sendResponse(['ShareDetail'=>ShareDetailResource::collection($shareDetail)],'Share Detail retrived Successfully');
     }
 
@@ -38,6 +38,8 @@ class ShareDetailController extends BaseController
         $shareDetail->distinguish_no_to = $request->input('distinguishNoTo');
         $shareDetail->face_value = $request->input('faceValue');
         $shareDetail->nature_of_holding = $request->input('natureOfHolding');
+        $shareDetail->joint_holder_name = $request->input('jointHolderName');
+        $shareDetail->joint_holder_pan = $request->input('jointHolderPan');
         $shareDetail->additional_details = $request->input('additionalDetails');
         $shareDetail->image = $request->input('image');
         $shareDetail->name = $request->input('name');
@@ -49,12 +51,6 @@ class ShareDetailController extends BaseController
             $nominee_id = $request->input('nominees');
             $shareDetail->nominee()->attach($nominee_id);
         }
-
-        if($request->has('jointHolders')){
-            $joint_holder_id = $request->input('jointHolders');
-            $shareDetail->jointHolder()->attach($joint_holder_id);
-        }
-
         return $this->sendResponse(['ShareDetail'=> new ShareDetailResource($shareDetail)], 'Share details stored successfully');
 
     }
@@ -72,7 +68,7 @@ class ShareDetailController extends BaseController
         if($user->profile->id !== $shareDetail->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Share Detail']);
          }
-         $shareDetail->load('nominee','jointHolder');
+         $shareDetail->load('nominee');
         return $this->sendResponse(['ShareDetail'=>new LitigationResource($shareDetail)], 'Share Details retrived successfully');
     }
 
@@ -98,6 +94,8 @@ class ShareDetailController extends BaseController
          $shareDetail->distinguish_no_to = $request->input('distinguishNoTo');
          $shareDetail->face_value = $request->input('faceValue');
          $shareDetail->nature_of_holding = $request->input('natureOfHolding');
+         $shareDetail->joint_holder_name = $request->input('jointHolderName');
+         $shareDetail->joint_holder_pan = $request->input('jointHolderPan');
          $shareDetail->additional_details = $request->input('additionalDetails');
          $shareDetail->image = $request->input('image');
          $shareDetail->name = $request->input('name');
@@ -110,13 +108,6 @@ class ShareDetailController extends BaseController
             $shareDetail->nominee()->sync($nominee_ids);
         }else {
             $shareDetail->nominee()->detach();
-        }
-
-        if($request->has('jointHolders')) {
-            $joint_holder_id = $request->input('jointHolder');
-            $shareDetail->jointHolder()->sync($joint_holder_id);
-        }else {
-            $shareDetail->jointHolder()->detach();
         }
 
          return $this->sendResponse(['ShareDetail'=> new ShareDetailResource($shareDetail)], 'Share details updated successfully');

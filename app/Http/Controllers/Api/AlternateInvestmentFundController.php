@@ -19,7 +19,7 @@ class AlternateInvestmentFundController extends BaseController
     public function index(): JsonResource
     {
         $user = Auth::user();
-        $investmentFund = $user->profile->investmentFund()->with('nominee','jointHolder')->get();
+        $investmentFund = $user->profile->investmentFund()->with('nominee')->get();
         return $this->sendResponse(['InvestmentFund'=>AlternateInvestmentFundResource::collection($investmentFund)],'alternate investment fund details retrived Successfully');
     }
 
@@ -42,6 +42,8 @@ class AlternateInvestmentFundController extends BaseController
         $investmentFund->fund_name = $request->input('fundName');
         $investmentFund->folio_number = $request->input('folioNumber');
         $investmentFund->nature_of_holding = $request->input('natureOfHolding');
+        $investmentFund->joint_holder_name = $request->input('jointHolderName');
+        $investmentFund->joint_holder_pan = $request->input('jointHolderPan');
         $investmentFund->additional_details = $request->input('additionalDetails');
         if($request->hasFile('investmentFund')){
             $investmentFund->image = $fundFileNameToStore;
@@ -56,10 +58,6 @@ class AlternateInvestmentFundController extends BaseController
             $investmentFund->nominee()->attach($nominee_id);
         }
 
-        if($request->has('jointHolders')){
-            $joint_holder_id = $request->input('jointHolders');
-            $investmentFund->jointHolder()->attach($joint_holder_id);
-        }
 
         return $this->sendResponse(['InvestmentFund'=> new AlternateInvestmentFundResource($investmentFund)], 'Alternate Investment Fund details stored successfully');
 
@@ -78,7 +76,7 @@ class AlternateInvestmentFundController extends BaseController
         if($user->profile->id !== $investmentFund->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this alternate investment fund']);
          }
-         $investmentFund->load('nominee','jointHolder');
+         $investmentFund->load('nominee');
         return $this->sendResponse(['InvestmentFund'=>new AlternateInvestmentFundResource($investmentFund)], 'Alternate Investment Fund retrived successfully');
     }
 
@@ -108,6 +106,8 @@ class AlternateInvestmentFundController extends BaseController
          $investmentFund->fund_name = $request->input('fundName');
          $investmentFund->folio_number = $request->input('folioNumber');
          $investmentFund->nature_of_holding = $request->input('natureOfHolding');
+         $investmentFund->joint_holder_name = $request->input('jointHolderName');
+         $investmentFund->joint_holder_pan = $request->input('jointHolderPan');
          $investmentFund->additional_details = $request->input('additionalDetails');
          if($request->hasFile('investmentFund')){
              $investmentFund->image = $fundFileNameToStore;
@@ -122,13 +122,6 @@ class AlternateInvestmentFundController extends BaseController
             $investmentFund->nominee()->sync($nominee_ids);
         }else {
             $investmentFund->nominee()->detach();
-        }
-
-        if($request->has('jointHolder')) {
-            $joint_holder_id = $request->input('jointHolder');
-            $investmentFund->jointHolder()->sync($joint_holder_id);
-        }else {
-            $investmentFund->jointHolder()->detach();
         }
 
          return $this->sendResponse(['InvestmentFund'=> new AlternateInvestmentFundResource($investmentFund)], 'alternate Investment Fund details updated successfully');

@@ -17,7 +17,6 @@ class BusinessAssetsResource extends JsonResource
     {
 
         $nominees = BeneficiaryResource::collection($this->nominee);
-        $jointHolders = BeneficiaryResource::collection($this->jointHolder);
         
         return [
             'id' => $this->id,
@@ -33,6 +32,8 @@ class BusinessAssetsResource extends JsonResource
             'myStatus' => $this->my_status,
             'typeOfInvestment' => $this->type_of_investment,
             'holdingType' => $this->holding_type,
+            'jointHolderName' => $this->joint_holder_name,
+            'jointHolderPan' => $this->joint_holder_pan,
             'documentAvailability' => $this->document_availability,
             'shareCentificateFile' => $this->share_centificate_file,
             'partnershipDeedFile' => $this->partnership_deed_file,
@@ -51,7 +52,6 @@ class BusinessAssetsResource extends JsonResource
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
             'nominees' => $nominees,
-            'jointHolders' => $jointHolders,
         ];
     
     }

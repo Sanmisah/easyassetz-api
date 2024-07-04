@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('distinguish_no_to')->nullable();
             $table->string('face_value')->nullable();
             $table->enum('nature_of_holding',['single','joint'])->nullable();
+            $table->string('joint_holder_name')->nullable();
+            $table->string('joint_holder_pan')->nullable();
             $table->string('additional_details')->nullable();
             $table->string('image')->nullable();
             $table->string('name')->nullable();

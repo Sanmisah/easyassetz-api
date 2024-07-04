@@ -20,7 +20,8 @@ return new class extends Migration
             $table->date('maturity_date')->nullable();
             $table->string('maturity_ammount')->nullable();
             $table->enum('holding_type',['single','joint'])->nullable();
-            $table->string('joint_holders_pan')->nullable();
+            $table->string('joint_holder_name')->nullable();
+            $table->string('joint_holder_pan')->nullable();
             $table->string('additional_details')->nullable();
             $table->string('image')->nullable();
             $table->timestamps();

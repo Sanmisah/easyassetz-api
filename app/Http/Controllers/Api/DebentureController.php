@@ -19,7 +19,7 @@ class DebentureController extends BaseController
     public function index(): JsonResponse
     {
         $user = Auth::user();
-        $debenture = $user->profile->debenture()->with('nominee','jointHolder')->get();
+        $debenture = $user->profile->debenture()->with('nominee')->get();
         return $this->sendResponse(['MutualFund'=>DebentureResource::collection($debenture)],'Debentures retrived Successfully');
     }
 
@@ -40,6 +40,8 @@ class DebentureController extends BaseController
         $debenture->distinguish_no_to = $request->input('distinguishNoTo');
         $debenture->face_value = $request->input('faceValue');
         $debenture->nature_of_holding = $request->input('natureOfHolding');
+        $debenture->joint_holder_name = $request->input('jointHolderName');
+        $debenture->joint_holder_pan = $request->input('jointHolderPan');
         $debenture->additional_details = $request->input('additionalDetails');
         $debenture->image = $request->input('image');
         $debenture->name = $request->input('name');
@@ -50,11 +52,6 @@ class DebentureController extends BaseController
         if($request->has('nominees')){
             $nominee_id = $request->input('nominees');
             $debenture->nominee()->attach($nominee_id);
-        }
-
-        if($request->has('jointHolders')){
-            $joint_holder_id = $request->input('jointHolders');
-            $debenture->jointHolder()->attach($joint_holder_id);
         }
 
         return $this->sendResponse(['Debenture'=> new DebentureResource($debenture)], 'Debenture details stored successfully');
@@ -74,7 +71,7 @@ class DebentureController extends BaseController
         if($user->profile->id !== $debenture->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Debenture Detail']);
          }
-         $debenture->load('nominee','jointHolder');
+         $debenture->load('nominee');
         return $this->sendResponse(['Debenture'=>new DebentureResource($debenture)], 'Debenture Details retrived successfully');
     }
 
@@ -101,6 +98,8 @@ class DebentureController extends BaseController
          $debenture->distinguish_no_to = $request->input('distinguishNoTo');
          $debenture->face_value = $request->input('faceValue');
          $debenture->nature_of_holding = $request->input('natureOfHolding');
+         $debenture->joint_holder_name = $request->input('jointHolderName');
+         $debenture->joint_holder_pan = $request->input('jointHolderPan');
          $debenture->additional_details = $request->input('additionalDetails');
          $debenture->image = $request->input('image');
          $debenture->name = $request->input('name');
@@ -113,13 +112,6 @@ class DebentureController extends BaseController
             $debenture->nominee()->sync($nominee_ids);
         }else {
             $debenture->nominee()->detach();
-        }
-
-        if($request->has('jointHolders')) {
-            $joint_holder_id = $request->input('jointHolders');
-            $debenture->jointHolder()->sync($joint_holder_id);
-        }else {
-            $debenture->jointHolder()->detach();
         }
 
          return $this->sendResponse(['Debenture'=> new DebentureResource($debenture)], 'Debentuere details updated successfully');

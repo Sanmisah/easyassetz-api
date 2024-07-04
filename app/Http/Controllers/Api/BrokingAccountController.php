@@ -18,7 +18,7 @@ class BrokingAccountController extends BaseController
     public function index(): JsonResponse
     {
         $user = Auth::user();
-        $brokingAccount = $user->profile->brokingAccount()->with('nominee','jointHolder')->get();
+        $brokingAccount = $user->profile->brokingAccount()->with('nominee')->get();
         return $this->sendResponse(['BrokingAccount'=>BrokingAccountResource::collection($brokingAccount)],'Broking account retrived Successfully');
     }
 
@@ -41,6 +41,8 @@ class BrokingAccountController extends BaseController
         $brokingAccount->broker_name = $request->input('brokerName');
         $brokingAccount->broking_account_number = $request->input('brokingAccountNumber');
         $brokingAccount->nature_of_holding = $request->input('natureOfHolding');
+        $brokingAccount->joint_holder_name = $request->input('jointHolderName');
+        $brokingAccount->joint_holder_pan = $request->input('jointHolderPan');
         $brokingAccount->additional_details = $request->input('additionalDetails');
         $brokingAccount->name = $request->input('name');
         $brokingAccount->mobile = $request->input('mobile');
@@ -53,11 +55,6 @@ class BrokingAccountController extends BaseController
         if($request->has('nominees')){
             $nominee_id = $request->input('nominees');
             $brokingAccount->nominee()->attach($nominee_id);
-        }
-
-        if($request->has('jointHolders')){
-            $joint_holder_id = $request->input('jointHolders');
-            $brokingAccount->jointHolder()->attach($joint_holder_id);
         }
 
         return $this->sendResponse(['BrokingAccount'=> new BrokingAccountResource($brokingAccount)], 'Broking Account details stored successfully');
@@ -77,7 +74,7 @@ class BrokingAccountController extends BaseController
         if($user->profile->id !== $brokingAccount->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Broking Account']);
          }
-         $brokingAccount->load('nominee','jointHolder');
+         $brokingAccount->load('nominee');
         return $this->sendResponse(['BrokingAccount'=>new BrokingAccountResource($brokingAccount)], 'Broking Account retrived successfully');
     }
 
@@ -106,6 +103,8 @@ class BrokingAccountController extends BaseController
           $brokingAccount->broker_name = $request->input('brokerName');
           $brokingAccount->broking_account_number = $request->input('brokingAccountNumber');
           $brokingAccount->nature_of_holding = $request->input('natureOfHolding');
+          $brokingAccount->joint_holder_name = $request->input('jointHolderName');
+          $brokingAccount->joint_holder_pan = $request->input('jointHolderPan');
           $brokingAccount->additional_details = $request->input('additionalDetails');
           $brokingAccount->name = $request->input('name');
           $brokingAccount->mobile = $request->input('mobile');
@@ -120,13 +119,6 @@ class BrokingAccountController extends BaseController
             $brokingAccount->nominee()->sync($nominee_ids);
         }else {
             $brokingAccount->nominee()->detach();
-        }
-
-        if($request->has('jointHolder')) {
-            $joint_holder_id = $request->input('jointHolder');
-            $brokingAccount->jointHolder()->sync($joint_holder_id);
-        }else {
-            $brokingAccount->jointHolder()->detach();
         }
 
          return $this->sendResponse(['BrokingAccount'=> new BrokingAccountResource($brokingAccount)], 'Broking Account details updated successfully');

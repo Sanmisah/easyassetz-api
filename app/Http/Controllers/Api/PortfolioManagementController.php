@@ -19,7 +19,7 @@ class PortfolioManagementController extends BaseController
     public function index(): JsonResponse
     {
         $user = Auth::user();
-        $portfolioManagement = $user->profile->portfolioManagement()->with('nominee','jointHolder')->get();
+        $portfolioManagement = $user->profile->portfolioManagement()->with('nominee')->get();
         return $this->sendResponse(['PortfolioManagement'=>PortfolioManagementResource::collection($portfolioManagement)],'portfolio management service details retrived Successfully');
     }
 
@@ -42,6 +42,8 @@ class PortfolioManagementController extends BaseController
         $portfolioManagement->fund_name = $request->input('fundName');
         $portfolioManagement->folio_number = $request->input('folioNumber');
         $portfolioManagement->nature_of_holding = $request->input('natureOfHolding');
+        $portfolioManagement->joint_holder_name = $request->input('jointHolderName');
+        $portfolioManagement->joint_holder_pan = $request->input('jointHolderPan');
         $portfolioManagement->additional_details = $request->input('additionalDetails');
         if($request->hasFile('portfolioFile')){
             $portfolioManagement->image = $portfolioFileNameToStore;
@@ -56,10 +58,6 @@ class PortfolioManagementController extends BaseController
             $portfolioManagement->nominee()->attach($nominee_id);
         }
 
-        if($request->has('jointHolders')){
-            $joint_holder_id = $request->input('jointHolders');
-            $portfolioManagement->jointHolder()->attach($joint_holder_id);
-        }
 
         return $this->sendResponse(['PortfolioManagement'=> new PortfolioManagementResource($portfolioManagement)], 'portfolio management service details stored successfully');
 
@@ -78,7 +76,7 @@ class PortfolioManagementController extends BaseController
         if($user->profile->id !== $portfolioManagement->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this portfolio management service']);
          }
-         $portfolioManagement->load('nominee','jointHolder');
+         $portfolioManagement->load('nominee');
         return $this->sendResponse(['PortfolioManagement'=>new PortfolioManagementResource($portfolioManagement)], 'portfolio management service retrived successfully');
     }
 
@@ -107,6 +105,8 @@ class PortfolioManagementController extends BaseController
           $portfolioManagement->fund_name = $request->input('fundName');
           $portfolioManagement->folio_number = $request->input('folioNumber');
           $portfolioManagement->nature_of_holding = $request->input('natureOfHolding');
+          $portfolioManagement->joint_holder_name = $request->input('jointHolderName');
+          $portfolioManagement->joint_holder_pan = $request->input('jointHolderPan');
           $portfolioManagement->additional_details = $request->input('additionalDetails');
           if($request->hasFile('portfolioFile')){
               $portfolioManagement->image = $portfolioFileNameToStore;
@@ -122,14 +122,6 @@ class PortfolioManagementController extends BaseController
         }else {
             $portfolioManagement->nominee()->detach();
         }
-
-        if($request->has('jointHolder')) {
-            $joint_holder_id = $request->input('jointHolder');
-            $portfolioManagement->jointHolder()->sync($joint_holder_id);
-        }else {
-            $portfolioManagement->jointHolder()->detach();
-        }
-
          return $this->sendResponse(['PortfolioManagement'=> new PortfolioManagementResource($portfolioManagement)], 'portfolio management service details updated successfully');
 
     }

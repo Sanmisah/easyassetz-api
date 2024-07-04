@@ -18,7 +18,7 @@ class PostalSavingAccountController extends BaseController
     public function index(): JsonResponse
     {
         $user = Auth::user();
-        $postalSavingAccount = $user->profile->postalSavingAccount()->with('nominee','jointHolder')->get();
+        $postalSavingAccount = $user->profile->postalSavingAccount()->with('nominee')->get();
         return $this->sendResponse(['PostalSavingAccount'=>PostalSavingAccountResource::collection($postalSavingAccount)],'alternate investment fund details retrived Successfully');
     }
 
@@ -42,7 +42,8 @@ class PostalSavingAccountController extends BaseController
         $postalSavingAccount->post_office_branch = $request->input('postOfficeBranch');
         $postalSavingAccount->city = $request->input('city');
         $postalSavingAccount->holding_type = $request->input('holdingType');
-        $postalSavingAccount->joint_holders_pan = $request->input('jointHoldersPan');
+        $postalSavingAccount->joint_holder_name = $request->input('jointHolderName');
+        $postalSavingAccount->joint_holder_pan = $request->input('jointHolderPan');
         $postalSavingAccount->additional_details = $request->input('additionalDetails');
         if($request->hasFile('image')){
             $postalSavingAccount->image = $imageFileNameToStore;
@@ -53,12 +54,6 @@ class PostalSavingAccountController extends BaseController
             $nominee_id = $request->input('nominees');
             $postalSavingAccount->nominee()->attach($nominee_id);
         }
-
-        if($request->has('jointHolders')){
-            $joint_holder_id = $request->input('jointHolders');
-            $postalSavingAccount->jointHolder()->attach($joint_holder_id);
-        }
-
         return $this->sendResponse(['PostalSavingAccount'=> new PostalSavingAccountResource($postalSavingAccount)], 'Postal Saving Account details stored successfully');
 
     }
@@ -76,7 +71,7 @@ class PostalSavingAccountController extends BaseController
         if($user->profile->id !== $postalSavingAccount->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Postal saving Account details']);
          }
-         $postalSavingAccount->load('nominee','jointHolder');
+         $postalSavingAccount->load('nominee');
         return $this->sendResponse(['PostalSavingAccount'=>new PostalSavingAccountResource($postalSavingAccount)], 'Postal Saving Account details retrived successfully');
     }
 
@@ -107,7 +102,8 @@ class PostalSavingAccountController extends BaseController
          $postalSavingAccount->post_office_branch = $request->input('postOfficeBranch');
          $postalSavingAccount->city = $request->input('city');
          $postalSavingAccount->holding_type = $request->input('holdingType');
-         $postalSavingAccount->joint_holders_pan = $request->input('jointHoldersPan');
+         $postalSavingAccount->joint_holder_name = $request->input('jointHolderName');
+         $postalSavingAccount->joint_holder_pan = $request->input('jointHolderPan');
          $postalSavingAccount->additional_details = $request->input('additionalDetails');
          if($request->hasFile('image')){
              $postalSavingAccount->image = $imageFileNameToStore;
@@ -119,13 +115,6 @@ class PostalSavingAccountController extends BaseController
             $postalSavingAccount->nominee()->sync($nominee_ids);
         }else {
             $postalSavingAccount->nominee()->detach();
-        }
-
-        if($request->has('jointHolder')) {
-            $joint_holder_id = $request->input('jointHolder');
-            $postalSavingAccount->jointHolder()->sync($joint_holder_id);
-        }else {
-            $postalSavingAccount->jointHolder()->detach();
         }
        
         return $this->sendResponse(['PostalSavingAccount'=>new PostalSavingAccountResource($postalSavingAccount)], 'Postal Saving Account details Updated successfully');

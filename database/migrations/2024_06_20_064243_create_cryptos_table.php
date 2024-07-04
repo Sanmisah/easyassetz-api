@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('crypto_wallet_type')->nullable();
             $table->string('crypto_wallet_address')->nullable();
             $table->enum('holding_type',['single','joint'])->nullable();
+            $table->string('joint_holder_name')->nullable();
+            $table->string('joint_holder_pan')->nullable();
             $table->string('exchange')->nullable();
             $table->string('trading_account')->nullable();
             $table->string('type_of_currency')->nullable();

@@ -18,6 +18,8 @@ return new class extends Migration
             $table->decimal('units_granted',10,2)->nullable();
             $table->string('esops_vested')->nullable();
             $table->enum('nature_of_holding',['single','joint'])->nullable();
+            $table->string('joint_holder_name')->nullable();
+            $table->string('joint_holder_pan')->nullable();
             $table->string('additional_details')->nullable();
             $table->string('image')->nullable();
             $table->string('name')->nullable();

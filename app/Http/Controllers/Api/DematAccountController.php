@@ -18,7 +18,7 @@ class DematAccountController extends BaseController
     public function index(): JsonResponse
     {
         $user = Auth::user();
-        $dematAccount = $user->profile->dematAccount()->with('nominee','jointHolder')->get();
+        $dematAccount = $user->profile->dematAccount()->with('nominee')->get();
         return $this->sendResponse(['Bond'=>DematAccountResource::collection($dematAccount)],'Demat account retrived Successfully');
     }
 
@@ -43,6 +43,8 @@ class DematAccountController extends BaseController
         $dematAccount->depository_id = $request->input('depositoryId');
         $dematAccount->account_number = $request->input('accountNumber');
         $dematAccount->nature_of_holding = $request->input('natureOfHolding');
+        $dematAccount->joint_holder_name = $request->input('jointHolderName');
+        $dematAccount->joint_holder_pan = $request->input('jointHolderPan');
         $dematAccount->additional_details = $request->input('additionalDetails');
         $dematAccount->name = $request->input('name');
         $dematAccount->mobile = $request->input('mobile');
@@ -55,11 +57,6 @@ class DematAccountController extends BaseController
         if($request->has('nominees')){
             $nominee_id = $request->input('nominees');
             $dematAccount->nominee()->attach($nominee_id);
-        }
-
-        if($request->has('jointHolders')){
-            $joint_holder_id = $request->input('jointHolders');
-            $dematAccount->jointHolder()->attach($joint_holder_id);
         }
 
         return $this->sendResponse(['DematAccount'=> new DematAccountResource($dematAccount)], 'Demat Account details stored successfully');
@@ -78,7 +75,7 @@ class DematAccountController extends BaseController
         if($user->profile->id !== $dematAccount->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Demat Account']);
          }
-         $dematAccount->load('nominee','jointHolder');
+         $dematAccount->load('nominee');
         return $this->sendResponse(['DematAccount'=>new DematAccountResource($dematAccount)], 'Demat Account retrived successfully');
     }
 
@@ -108,6 +105,8 @@ class DematAccountController extends BaseController
         $dematAccount->depository_id = $request->input('depositoryId');
         $dematAccount->account_number = $request->input('accountNumber');
         $dematAccount->nature_of_holding = $request->input('natureOfHolding');
+        $dematAccount->joint_holder_name = $request->input('jointHolderName');
+        $dematAccount->joint_holder_pan = $request->input('jointHolderPan');
         $dematAccount->additional_details = $request->input('additionalDetails');
         $dematAccount->name = $request->input('name');
         $dematAccount->mobile = $request->input('mobile');
@@ -122,13 +121,6 @@ class DematAccountController extends BaseController
             $dematAccount->nominee()->sync($nominee_ids);
         }else {
             $dematAccount->nominee()->detach();
-        }
-
-        if($request->has('jointHolder')) {
-            $joint_holder_id = $request->input('jointHolder');
-            $dematAccount->jointHolder()->sync($joint_holder_id);
-        }else {
-            $dematAccount->jointHolder()->detach();
         }
 
          return $this->sendResponse(['DematAccount'=> new DematAccountResource($dematAccount)], 'Demat Account details updated successfully');

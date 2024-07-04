@@ -19,7 +19,7 @@ class OtherFinancialAssetController extends BaseController
     public function index(): JsonResponse
     {
         $user = Auth::user();
-        $otherFinancialAsset = $user->profile->otherFinancialAsset()->with('nominee','jointHolder')->get();
+        $otherFinancialAsset = $user->profile->otherFinancialAsset()->with('nominee')->get();
         return $this->sendResponse(['OtherFinancialAsset'=>OtherFinancialAssetResource::collection($otherFinancialAsset)],'Other financial assets details retrived Successfully');
     }
 
@@ -43,6 +43,8 @@ class OtherFinancialAssetController extends BaseController
         $otherFinancialAsset->folio_number = $request->input('folioNumber');
         $otherFinancialAsset->branch_name = $request->input('branchName');
         $otherFinancialAsset->nature_of_holding = $request->input('natureOfHolding');
+        $otherFinancialAsset->joint_holder_name = $request->input('jointHolderName');
+        $otherFinancialAsset->joint_holder_pan = $request->input('jointHolderPan');
         $otherFinancialAsset->additional_details = $request->input('additionalDetails');
         if($request->hasFile('image')){
             $otherFinancialAsset->image = $ofaFileNameToStore;
@@ -55,11 +57,6 @@ class OtherFinancialAssetController extends BaseController
         if($request->has('nominees')){
             $nominee_id = $request->input('nominees');
             $otherFinancialAsset->nominee()->attach($nominee_id);
-        }
-
-        if($request->has('jointHolders')){
-            $joint_holder_id = $request->input('jointHolders');
-            $otherFinancialAsset->jointHolder()->attach($joint_holder_id);
         }
 
         return $this->sendResponse(['OtherFinancialAsset'=> new OtherFinancialAssetResource($otherFinancialAsset)], 'Other Financial Assets details stored successfully');
@@ -78,7 +75,7 @@ class OtherFinancialAssetController extends BaseController
         if($user->profile->id !== $otherFinancialAsset->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Financial Asset']);
          }
-         $otherFinancialAsset->load('nominee','jointHolder');
+         $otherFinancialAsset->load('nominee');
         return $this->sendResponse(['OtherFinancialAsset'=>new OtherFinancialAssetResource($otherFinancialAsset)], 'Other Financial Assets retrived successfully');
     }
 
@@ -110,6 +107,8 @@ class OtherFinancialAssetController extends BaseController
          $otherFinancialAsset->folio_number = $request->input('folioNumber');
          $otherFinancialAsset->branch_name = $request->input('branchName');
          $otherFinancialAsset->nature_of_holding = $request->input('natureOfHolding');
+         $otherFinancialAsset->joint_holder_name = $request->input('jointHolderName');
+         $otherFinancialAsset->joint_holder_pan = $request->input('jointHolderPan');
          $otherFinancialAsset->additional_details = $request->input('additionalDetails');
          if($request->hasFile('image')){
              $otherFinancialAsset->image = $ofaFileNameToStore;
@@ -124,13 +123,6 @@ class OtherFinancialAssetController extends BaseController
             $otherFinancialAsset->nominee()->sync($nominee_ids);
         }else {
             $otherFinancialAsset->nominee()->detach();
-        }
-
-        if($request->has('jointHolder')) {
-            $joint_holder_id = $request->input('jointHolder');
-            $otherFinancialAsset->jointHolder()->sync($joint_holder_id);
-        }else {
-            $otherFinancialAsset->jointHolder()->detach();
         }
 
          return $this->sendResponse(['OtherFinancialAsset'=> new OtherFinancialAssetResource($otherFinancialAsset)], 'Other Financial Assets details updated successfully');

@@ -18,7 +18,7 @@ class OtherDepositeController extends BaseController
     public function index(): JsonResponse
     {
         $user = Auth::user();
-        $otherDeposite = $user->profile->otherDeposite()->with('nominee','jointHolder')->get();
+        $otherDeposite = $user->profile->otherDeposite()->with('nominee')->get();
         return $this->sendResponse(['OtherDeposite'=>OtherDepositeResource::collection($otherDeposite)],'Other Deposite details retrived Successfully');
     }
 
@@ -44,7 +44,8 @@ class OtherDepositeController extends BaseController
         $otherDeposite->maturity_date = $request->input('maturity_date');
         $otherDeposite->maturity_amount = $request->input('maturity_amount');
         $otherDeposite->holding_type = $request->input('holding_type');
-        $otherDeposite->joint_holders_pan = $request->input('joint_holders_pan');
+        $otherDeposite->joint_holder_name = $request->input('jointHolderName');
+        $otherDeposite->joint_holder_pan = $request->input('jointHolderPan');
         $otherDeposite->additional_details = $request->input('additional_details');
         $otherDeposite->image = $request->input('image');
         $otherDeposite->save();
@@ -52,11 +53,6 @@ class OtherDepositeController extends BaseController
         if($request->has('nominees')){
             $nominee_id = $request->input('nominees');
             $otherDeposite->nominee()->attach($nominee_id);
-        }
-
-        if($request->has('jointHolders')){
-            $joint_holder_id = $request->input('jointHolders');
-            $otherDeposite->jointHolder()->attach($joint_holder_id);
         }
 
         return $this->sendResponse(['OtherDeposite'=> new OtherDepositeResource($otherDeposite)], 'Other Deposite details stored successfully');
@@ -77,7 +73,7 @@ class OtherDepositeController extends BaseController
         if($user->profile->id !== $otherDeposite->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Other Deposite']);
          }
-         $otherDeposite->load('nominee','jointHolder');
+         $otherDeposite->load('nominee');
         return $this->sendResponse(['OtherDeposite'=>new OtherDepositeResource($otherDeposite)], 'Other Deposite retrived successfully');
     }
 
@@ -109,7 +105,8 @@ class OtherDepositeController extends BaseController
          $otherDeposite->maturity_date = $request->input('maturity_date');
          $otherDeposite->maturity_amount = $request->input('maturity_amount');
          $otherDeposite->holding_type = $request->input('holding_type');
-         $otherDeposite->joint_holders_pan = $request->input('joint_holders_pan');
+         $otherDeposite->joint_holder_name = $request->input('jointHolderName');
+         $otherDeposite->joint_holder_pan = $request->input('jointHolderPan');
          $otherDeposite->additional_details = $request->input('additional_details');
          $otherDeposite->image = $request->input('image');
          $otherDeposite->save();
@@ -119,13 +116,6 @@ class OtherDepositeController extends BaseController
             $otherDeposite->nominee()->sync($nominee_ids);
         }else {
             $otherDeposite->nominee()->detach();
-        }
-
-        if($request->has('jointHolder')) {
-            $joint_holder_id = $request->input('jointHolder');
-            $otherDeposite->jointHolder()->sync($joint_holder_id);
-        }else {
-            $otherDeposite->jointHolder()->detach();
         }
 
          return $this->sendResponse(['OtherDeposite'=> new OtherDepositeResource($otherDeposite)], 'Other Deposite details updated successfully');
