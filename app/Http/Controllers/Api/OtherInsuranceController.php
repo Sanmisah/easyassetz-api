@@ -29,6 +29,15 @@ class OtherInsuranceController extends BaseController
      */
     public function store(Request $request): JsonResponse
     {
+
+        if($request->hasFile('image')){
+            $otherFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $otherFilename = pathinfo($otherFileNameWithExtention, PATHINFO_FILENAME);
+            $otherExtention = $request->file('image')->getClientOriginalExtension();
+            $otherFileNameToStore = $otherFilename.'_'.time().'.'.$otherExtention;
+            $otherPath = $request->file('image')->storeAs('public/OtherInsurance', $otherFileNameToStore);
+         }
+
         $user = Auth::user();
         $otherInsurance = new OtherInsurance();
         $otherInsurance->profile_id = $user->profile->id;
@@ -47,7 +56,9 @@ class OtherInsuranceController extends BaseController
         $otherInsurance->email = $request->input('email');
         $otherInsurance->registered_mobile = $request->input('registeredMobile');
         $otherInsurance->registered_email = $request->input('registeredEmail');
-        $otherInsurance->image = $request->input('image');
+        if($request->hasFile('image')){
+            $otherInsurance->image = $otherFileNameToStore;
+         }
         $otherInsurance->save();
 
         if($request->has('nominees')){
@@ -81,6 +92,14 @@ class OtherInsuranceController extends BaseController
      */
     public function update(Request $request, string $id): JsonResponse
     {
+        if($request->hasFile('image')){
+            $otherFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $otherFilename = pathinfo($otherFileNameWithExtention, PATHINFO_FILENAME);
+            $otherExtention = $request->file('image')->getClientOriginalExtension();
+            $otherFileNameToStore = $otherFilename.'_'.time().'.'.$otherExtention;
+            $otherPath = $request->file('image')->storeAs('public/OtherInsurance', $otherFileNameToStore);
+         }
+
         $otherInsurance = OtherInsurance::find($id);
         if(!$otherInsurance){
             return $this->sendError('Other Insurance Not Found',['error'=>'Other Insurance not found']);
@@ -106,7 +125,9 @@ class OtherInsuranceController extends BaseController
          $otherInsurance->email = $request->input('email');
          $otherInsurance->registered_mobile = $request->input('registeredMobile');
          $otherInsurance->registered_email = $request->input('registeredEmail');
-         $otherInsurance->image = $request->input('image');
+         if($request->hasFile('image')){
+            $otherInsurance->image = $otherFileNameToStore;
+         }
          $otherInsurance->save();
 
          if($request->has('nominees')) {

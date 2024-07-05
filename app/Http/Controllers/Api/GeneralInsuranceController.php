@@ -28,6 +28,14 @@ class GeneralInsuranceController extends BaseController
      */
     public function store(Request $request): JsonResponse
     {
+        if($request->hasFile('image')){
+            $generalFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $generalFilename = pathinfo($generalFileNameWithExtention, PATHINFO_FILENAME);
+            $generalExtention = $request->file('image')->getClientOriginalExtension();
+            $generalFileNameToStore = $generalFilename.'_'.time().'.'.$generalExtention;
+            $generalPath = $request->file('image')->storeAs('public/GeneralInsurance', $generalFileNameToStore);
+         }
+
         $user = Auth::user();
         $generalInsurance = new GeneralInsurance();
         $generalInsurance->profile_id = $user->profile->id;
@@ -46,6 +54,9 @@ class GeneralInsuranceController extends BaseController
         $generalInsurance->email = $request->input('email');
         $generalInsurance->registered_mobile = $request->input('registeredMobile');
         $generalInsurance->registered_email = $request->input('registeredEmail');
+        if($request->hasFile('image')){
+            $generalInsurance->image = $generalFileNameToStore;
+         }
         $generalInsurance->save();
 
         if($request->has('nominees')){
@@ -81,6 +92,16 @@ class GeneralInsuranceController extends BaseController
      */
     public function update(Request $request, string $id): JsonResponse
     {
+
+        if($request->hasFile('image')){
+            $generalFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $generalFilename = pathinfo($generalFileNameWithExtention, PATHINFO_FILENAME);
+            $generalExtention = $request->file('image')->getClientOriginalExtension();
+            $generalFileNameToStore = $generalFilename.'_'.time().'.'.$generalExtention;
+            $generalPath = $request->file('image')->storeAs('public/GeneralInsurance', $generalFileNameToStore);
+         }
+
+
         $generalInsurance = GeneralInsurance::find($id);
         if(!$generalInsurance){
             return $this->sendError('General Insurance Not Found',['error'=>'General Insurance not found']);
@@ -105,6 +126,9 @@ class GeneralInsuranceController extends BaseController
          $generalInsurance->email = $request->input('email');
          $generalInsurance->registered_mobile = $request->input('registeredMobile');
          $generalInsurance->registered_email = $request->input('registeredEmail');
+         if($request->hasFile('image')){
+            $generalInsurance->image = $generalFileNameToStore;
+         }
          $generalInsurance->save();
 
          if($request->has('nominees')) {

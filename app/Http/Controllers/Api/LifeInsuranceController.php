@@ -129,6 +129,9 @@ class LifeInsuranceController extends BaseController
           $lifeInsurance->email = $request->input('email');
           $lifeInsurance->registered_mobile = $request->input('registeredMobile');
           $lifeInsurance->registered_email = $request->input('registeredEmail');
+          if($request->hasFile('image')){
+            $lifeInsurance->image = $lifeFileNameToStore;
+         }
           $lifeInsurance->save();
 
         if($request->has('nominees')) {

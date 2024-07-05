@@ -28,6 +28,14 @@ class HealthInsuranceController extends BaseController
      */
     public function store(Request $request): JsonResponse
     {
+        if($request->hasFile('image')){
+            $healthFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $healthFilename = pathinfo($healthFileNameWithExtention, PATHINFO_FILENAME);
+            $healthExtention = $request->file('image')->getClientOriginalExtension();
+            $healthFileNameToStore = $healthFilename.'_'.time().'.'.$healthExtention;
+            $healthPath = $request->file('image')->storeAs('public/HealthInsurance', $healthFileNameToStore);
+         }
+
         $user = Auth::user();
         $healthInsurance = new HealthInsurance();
         $healthInsurance->profile_id = $user->profile->id;
@@ -46,7 +54,9 @@ class HealthInsuranceController extends BaseController
         $healthInsurance->email = $request->input('email');
         $healthInsurance->registered_mobile = $request->input('registeredMobile');
         $healthInsurance->registered_email = $request->input('registeredEmail');
-        $healthInsurance->image = $request->input('image');
+        if($request->hasFile('image')){
+            $healthInsurance->image = $healthFileNameToStore;
+         }
         $healthInsurance->save();
 
         if($request->has('nominees')){
@@ -86,6 +96,14 @@ class HealthInsuranceController extends BaseController
      */
     public function update(Request $request, string $id): JsonResponse
     {
+        if($request->hasFile('image')){
+            $healthFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $healthFilename = pathinfo($healthFileNameWithExtention, PATHINFO_FILENAME);
+            $healthExtention = $request->file('image')->getClientOriginalExtension();
+            $healthFileNameToStore = $healthFilename.'_'.time().'.'.$healthExtention;
+            $healthPath = $request->file('image')->storeAs('public/HealthInsurance', $healthFileNameToStore);
+         }
+
         $healthInsurance = HealthInsurance::find($id);
         if(!$healthInsurance){
             return $this->sendError('Health Insurance Not Found',['error'=>'Health Insurance not found']);
@@ -110,7 +128,9 @@ class HealthInsuranceController extends BaseController
          $healthInsurance->email = $request->input('email');
          $healthInsurance->registered_mobile = $request->input('registeredMobile');
          $healthInsurance->registered_email = $request->input('registeredEmail');
-         $healthInsurance->image = $request->input('image');
+         if($request->hasFile('image')){
+            $healthInsurance->image = $healthFileNameToStore;
+         }
          $healthInsurance->save();
 
          if($request->has('nominees')) {
