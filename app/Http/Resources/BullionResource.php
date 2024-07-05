@@ -25,7 +25,7 @@ class BullionResource extends JsonResource
             'name' => $this->name,
             'mobile' =>$this->mobile,
             'email' =>$this->email,
-            'image' =>$this->image,
+            'bullionFile' =>$this->image,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at, 
          ];
