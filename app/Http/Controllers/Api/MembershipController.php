@@ -30,7 +30,7 @@ class MembershipController extends BaseController
      */
     public function store(Request $request): JsonResponse
     {
-        $user = Auth::user();
+       $user = Auth::user();
      $membership = new Membership();
      $membership->profile_id = $user->profile->id;
      $membership->organization_name = $request->input('organizationName');  

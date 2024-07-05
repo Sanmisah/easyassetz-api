@@ -20,6 +20,7 @@ use App\Http\Controllers\Api\VehicleLoanController;
 use App\Http\Controllers\Api\PersonalLoanController;
 use App\Http\Controllers\Api\BusinessAssetController;
 use App\Http\Controllers\Api\LifeInsuranceController;
+use App\Http\Controllers\Api\ForgotPasswordController;
 use App\Http\Controllers\Api\MotorInsuranceController;
 use App\Http\Controllers\Api\OtherInsuranceController;
 use App\Http\Controllers\Api\HealthInsuranceController;
@@ -33,6 +34,8 @@ use App\Http\Controllers\Api\GeneralInsuranceController;
 Route::group(['middleware'=>['auth.guest']], function(){
     Route::post('/register', [UserController::class, 'register']);
     Route::post('/login', [UserController::class, 'login']);
+    Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
+    Route::post('password/reset', [ForgotPasswordController::class, 'reset'])->name('password.reset');
 
 });
 

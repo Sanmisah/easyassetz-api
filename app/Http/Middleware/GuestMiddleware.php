@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\PersonalAccessToken;
-use App\Http\Controllers\API\BaseController;
+use App\Http\Controllers\Api\BaseController;
 use Symfony\Component\HttpFoundation\Response;
 
 class GuestMiddleware extends BaseController
