@@ -32,6 +32,7 @@ class MotorInsuranceResource extends JsonResource
             'contactPerson' => $this->contact_person,
             'contactNumber' => $this->contact_number,
             'email' => $this->email,
+            'image' => $this->image,
             'registeredMobile' => $this->registered_mobile,
             'registeredEmail' => $this->registered_email,
             'createdAt' => $this->created_at,

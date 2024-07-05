@@ -31,6 +31,15 @@ class MotorInsuranceController extends BaseController
      */
     public function store(Request $request): JsonResponse
     {
+
+        if($request->hasFile('image')){
+            $motorFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $motorFilename = pathinfo($motorFileNameWithExtention, PATHINFO_FILENAME);
+            $motorExtention = $request->file('image')->getClientOriginalExtension();
+            $motorFileNameToStore = $motorFilename.'_'.time().'.'.$motorExtention;
+            $motorPath = $request->file('image')->storeAs('public/MotorInsurance', $motorFileNameToStore);
+         }
+
         $user = Auth::user();
         $motorInsurance = new MotorInsurance();
         $motorInsurance->profile_id = $user->profile->id;
@@ -49,6 +58,9 @@ class MotorInsuranceController extends BaseController
         $motorInsurance->email = $request->input('email');
         $motorInsurance->registered_mobile = $request->input('registeredMobile');
         $motorInsurance->registered_email = $request->input('registeredEmail');
+        if($request->hasFile('image')){
+            $motorInsurance->image = $motorFileNameToStore;
+         }
         $motorInsurance->save();
 
         if($request->has('nominees')){
