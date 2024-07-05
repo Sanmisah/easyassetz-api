@@ -30,6 +30,15 @@ class LifeInsuranceController extends BaseController
      */
     public function store(Request $request): JsonResponse
     {
+
+        if($request->hasFile('image')){
+            $lifeFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $lifeFilename = pathinfo($lifeFileNameWithExtention, PATHINFO_FILENAME);
+            $lifeExtention = $request->file('image')->getClientOriginalExtension();
+            $lifeFileNameToStore = $lifeFilename.'_'.time().'.'.$lifeExtention;
+            $lifePath = $request->file('image')->storeAs('public/LifeInsurance', $lifeFileNameToStore);
+         }
+
         $user = Auth::user();
         $lifeInsurance = new LifeInsurance();
         $lifeInsurance->profile_id = $user->profile->id;
@@ -50,6 +59,9 @@ class LifeInsuranceController extends BaseController
         $lifeInsurance->email = $request->input('email');
         $lifeInsurance->registered_mobile = $request->input('registeredMobile');
         $lifeInsurance->registered_email = $request->input('registeredEmail');
+        if($request->hasFile('image')){
+            $lifeInsurance->image = $lifeFileNameToStore;
+         }
         $lifeInsurance->save();
 
         if($request->has('nominees')){
@@ -83,6 +95,14 @@ class LifeInsuranceController extends BaseController
      */
     public function update(Request $request, string $id): JsonResponse
     {
+        if($request->hasFile('image')){
+            $lifeFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $lifeFilename = pathinfo($lifeFileNameWithExtention, PATHINFO_FILENAME);
+            $lifeExtention = $request->file('image')->getClientOriginalExtension();
+            $lifeFileNameToStore = $lifeFilename.'_'.time().'.'.$lifeExtention;
+            $lifePath = $request->file('image')->storeAs('public/LifeInsurance', $lifeFileNameToStore);
+         }
+
         $lifeInsurance = LifeInsurance::find($id);
         if(!$lifeInsurance){
             return $this->sendError('lifeInsurance Not Found', ['error'=>'Life Insurance not found']);

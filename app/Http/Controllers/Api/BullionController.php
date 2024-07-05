@@ -85,6 +85,19 @@ class BullionController extends BaseController
      */
     public function update(Request $request, string $id): JsonResponse
     {
+        $fileNames[] = null;
+        if($request->hasFile('bullionFile')){
+            foreach($request->file('bullionFile') as $image){
+            $bullionfileNameWithExt = $image->getClientOriginalName();
+            $bullionfilename = pathinfo($bullionfileNameWithExt, PATHINFO_FILENAME);
+            $bullionExtention = $image->getClientOriginalExtension();
+            $bullionFileNameToStore = $bullionfilename.'_'.time().'.'.$bullionExtention;
+            $bullionPath = $image->storeAs('public/Bullion/bullionFile', $bullionFileNameToStore);
+            $fileNames[] = $bullionFileNameToStore;
+         }
+      }
+           $images  = json_encode($fileNames);
+
         $bullion = Bullion::find($id);
         if(!$bullion){
             return $this->sendError('Bullion Not Found', ['error'=>'Bullion not found']);     
@@ -103,7 +116,9 @@ class BullionController extends BaseController
          $bullion->name = $request->input('name');
          $bullion->mobile = $request->input('mobile');
          $bullion->email = $request->input('email');
-         $bullion->image = $request->input('image');
+         if($request->hasFile('bullionFile')){
+            $bullion->image = $images;
+        }
          $bullion->save();
          
          return $this->sendResponse(['Bullion' => new BullionResource($bullion)], 'Bullion updated successfully');

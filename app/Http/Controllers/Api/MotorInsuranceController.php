@@ -95,6 +95,15 @@ class MotorInsuranceController extends BaseController
      */
     public function update(Request $request, string $id)
     {
+        if($request->hasFile('image')){
+            $motorFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $motorFilename = pathinfo($motorFileNameWithExtention, PATHINFO_FILENAME);
+            $motorExtention = $request->file('image')->getClientOriginalExtension();
+            $motorFileNameToStore = $motorFilename.'_'.time().'.'.$motorExtention;
+            $motorPath = $request->file('image')->storeAs('public/MotorInsurance', $motorFileNameToStore);
+         }
+
+
         $motorInsurance = MotorInsurance::find($id);
         if(!$motorInsurance){
             return $this->sendError('motorInsurance Not Found', ['error'=>'Motor Insurance not found']);
@@ -120,6 +129,9 @@ class MotorInsuranceController extends BaseController
          $motorInsurance->email = $request->input('email');
          $motorInsurance->registered_mobile = $request->input('registeredMobile');
          $motorInsurance->registered_email = $request->input('registeredEmail');
+         if($request->hasFile('image')){
+            $motorInsurance->image = $motorFileNameToStore;
+         }
          $motorInsurance->save();
  
         //  if($request->has('nomineeId')){
