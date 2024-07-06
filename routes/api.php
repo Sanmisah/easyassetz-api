@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\CryptoController;
 use App\Http\Controllers\Api\BullionController;
 use App\Http\Controllers\Api\CharityController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\Api\HomeLoanController;
 use App\Http\Controllers\Api\DebentureController;
 use App\Http\Controllers\Api\OtherLoanController;
@@ -60,6 +61,7 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('litigations', LitigationController::class);
     Route::resource('cryptos', CryptoController::class);
     Route::resource('bonds', BondController::class);
+    Route::resource('bank-accounts', BankAccountController::class);
     Route::resource('business-assets', BusinessAssetController::class);
     Route::delete('/logout', [UserController::class, 'logout']);
     Route::resource('other-assets', OtherAssetController::class);
