@@ -141,7 +141,7 @@ class ProfileController extends BaseController
      */
     public function update(UpdateProfileRequest $request, string $id)
     {  
-      //  dd($request->all());
+       // dd($request->all());
         if($request->hasFile('aadharFile')){
             $aadharfileNameWithExt = $request->file('aadharFile')->getClientOriginalName();
             $aadharfilename = pathinfo($aadharfileNameWithExt, PATHINFO_FILENAME);

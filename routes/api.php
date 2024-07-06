@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\BondController;
+use App\Http\Controllers\Api\FileController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\CryptoController;
 use App\Http\Controllers\Api\BullionController;
@@ -62,5 +63,5 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('business-assets', BusinessAssetController::class);
     Route::delete('/logout', [UserController::class, 'logout']);
     Route::resource('other-assets', OtherAssetController::class);
-
+    Route::get('/storage', [FileController::class, 'showFiles']);
 });

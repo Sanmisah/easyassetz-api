@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use App\Models\Bond;
+use App\Models\Land;
 use App\Models\User;
 use App\Models\Crypto;
 use App\Models\Bullion;
@@ -55,6 +56,136 @@ class Profile extends Model
             return $value ? Carbon::parse($value)->format('m/d/Y') : null;   
     }    
 
+    public function setPanNumberAttribute($value)
+    {
+        if($value === "null") {
+            $value = null;
+        }
+            $this->attributes['pan_number'] = $value ? $value : null;
+    }
+
+    public function getPanNumberAttribute($value)
+    {
+            return $value ? $value : null;   
+    }   
+    
+    public function setadharNumberAttribute($value)
+    {
+        if($value === "null") {
+            $value = null;
+        }
+            $this->attributes['adhar_number'] = $value ? $value : null;
+    }
+
+    public function getadharNumberAttribute($value)
+    {
+            return $value ? $value : null;   
+    }   
+
+    public function setadharNameAttribute($value)
+    {
+        if($value === "null") {
+            $value = null;
+        }
+            $this->attributes['adhar_name'] = $value ? $value : null;
+    }
+
+    public function getadharNameAttribute($value)
+    {
+            return $value ? $value : null;   
+    }   
+
+    public function setPanNameAttribute($value)
+    {
+        if($value === "null") {
+            $value = null;
+        }
+            $this->attributes['pan_name'] = $value ? $value : null;
+    }
+
+    public function getPanNameAttribute($value)
+    {
+            return $value ? $value : null;   
+    }    
+
+    public function setPassportNumberAttribute($value)
+    {
+        if($value === "null") {
+            $value = null;
+        }
+            $this->attributes['passport_number'] = $value ? $value : null;
+    }
+
+    public function getPassportNumberAttribute($value)
+    {
+            return $value ? $value : null;   
+    }    
+
+    public function setPassportNameAttribute($value)
+    {
+        if($value === "null") {
+            $value = null;
+        }
+            $this->attributes['passport_name'] = $value ? $value : null;
+    }
+
+    public function getPassportNameAttribute($value)
+    {
+            return $value ? $value : null;   
+    }    
+
+    public function setPassportPlaceOfIssueAttribute($value)
+    {
+        if($value === "null") {
+            $value = null;
+        }
+            $this->attributes['passport_place_of_issue'] = $value ? $value : null;
+    }
+
+    public function getPassportPlaceOfIssueAttribute($value)
+    {
+            return $value ? $value : null;   
+    }    
+
+    public function setDrivingLicenceNumberAttribute($value)
+    {
+        if($value === "null") {
+            $value = null;
+        }
+            $this->attributes['driving_licence_number'] = $value ? $value : null;
+    }
+
+    public function getDrivingLicenceNumberAttribute($value)
+    {
+            return $value ? $value : null;   
+    }    
+
+    public function setDrivingLicenceNameAttribute($value)
+    {
+        if($value === "null") {
+            $value = null;
+        }
+            $this->attributes['driving_licence_name'] = $value ? $value : null;
+    }
+
+    public function getDrivingLicenceNameAttribute($value)
+    {
+            return $value ? $value : null;   
+    }    
+
+    public function setDrivingLicencePlaceOfIssueAttribute($value)
+    {
+        if($value === "null") {
+            $value = null;
+        }
+            $this->attributes['driving_licence_place_of_issue'] = $value ? $value : null;
+    }
+
+    public function getDrivingLicencePlaceOfissueAttribute($value)
+    {
+            return $value ? $value : null;   
+    }    
+
 
     public function setPassportExpiryDateAttribute($value)
     {
@@ -63,6 +194,8 @@ class Profile extends Model
         }
         $this->attributes['passport_expiry_date'] = !empty($value) ? Carbon::createFromFormat('m/d/Y', $value)->format('Y-m-d') : null;
     }
+
+    
 
    
     public function getPassportExpiryDateAttribute($value)
@@ -216,6 +349,10 @@ class Profile extends Model
  
     public function otherDeposite(){
         return $this->hasMany(OtherDeposite::class, 'profile_id');
+    }
+
+    public function land(){
+        return $this->hasMany(Land::class, 'profile_id');
     }
 
 }
