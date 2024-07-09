@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\NPSController;
 use App\Http\Controllers\Api\BondController;
 use App\Http\Controllers\Api\FileController;
 use App\Http\Controllers\Api\UserController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\Api\BullionController;
 use App\Http\Controllers\Api\CharityController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\BankAccountController;
+use App\Http\Controllers\Api\GratuityController;
 use App\Http\Controllers\Api\HomeLoanController;
 use App\Http\Controllers\Api\DebentureController;
 use App\Http\Controllers\Api\OtherLoanController;
@@ -66,7 +68,9 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('business-assets', BusinessAssetController::class);
     Route::delete('/logout', [UserController::class, 'logout']);
     Route::resource('other-assets', OtherAssetController::class);
-    Route::get('/storage', [FileController::class, 'showFiles']);
+    Route::get('/storage/{$files}', [FileController::class, 'showFiles']);
     Route::resource('public-provident-funds', PublicProvidentFundController::class);
+    Route::resource('nps', NPSController::class);
+    Route::resource('gratuities', GratuityController::class);
 
 });

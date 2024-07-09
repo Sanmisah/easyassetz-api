@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Models\NPS;
 use App\Models\Bond;
 use App\Models\ESOP;
 use App\Models\Crypto;
 use App\Models\Profile;
+use App\Models\Gratuity;
 use App\Models\Debenture;
 use App\Models\BankLocker;
 use App\Models\Membership;
@@ -164,6 +166,14 @@ class Beneficiary extends Model
 
     public function publicProvidentFund(){
         return $this->belongsToMany(PublicProvidentFund::class, 'public_provident_fund_nominee');
+    }
+
+    public function nps(){
+        return $this->belongsToMany(NPS::class, 'n_p_s_nominee');
+    }
+
+    public function gratuity(){
+        return $this->belongsToMany(Gratuity::class, 'gratuity_nominee');
     }
 
 

@@ -207,7 +207,7 @@ class ProfileController extends BaseController
         $profile->adhar_number = $request->input('aadharNumber');
         $profile->adhar_name = $request->input('aadharName');
         if($request->hasFile('aadharFile')){
-             $profile->adhar_file = $aadharFileNameToStore;
+             $profile->adhar_file = $aadharPath;//$aadharFileNameToStore;
         }
         $profile->pan_number = $request->input('panNumber');
         $profile->pan_name = $request->input('panName');
@@ -240,4 +240,20 @@ class ProfileController extends BaseController
     {
         //
     }
+
+    public function showFiles(string $files){
+         $path = storage_path('app/'.$files);
+
+         if(!file_exists($path)){
+            abort(404);
+         }
+
+         $file = \File::get($path);
+         $type = \File::mimeType($path);
+
+         $response = \Response::make($file, 200);
+         $response->header("Content-Type", $type);
+
+    }
+
 }

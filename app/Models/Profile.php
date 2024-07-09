@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Models\NPS;
 use App\Models\Bond;
 use App\Models\Land;
 use App\Models\User;
 use App\Models\Crypto;
 use App\Models\Bullion;
+use App\Models\Gratuity;
 use App\Models\HomeLoan;
 use App\Models\Debenture;
 use App\Models\OtherLoan;
@@ -363,6 +365,14 @@ class Profile extends Model
 
     public function providentFund(){
         return $this->hasMany(ProvidentFund::class, 'profile_id');
+    }
+
+    public function nps(){
+        return $this->hasMany(NPS::class, 'profile_id');
+    }
+
+    public function gratuity(){
+        return $this->hasMany(Gratuity::class, 'profile_id');
     }
 
 }
