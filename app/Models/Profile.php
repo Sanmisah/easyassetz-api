@@ -37,6 +37,7 @@ use App\Models\PostSavingScheme;
 use App\Models\OtherFinancialAsset;
 use App\Models\PortfolioManagement;
 use App\Models\PostalSavingAccount;
+use App\Models\PublicProvidentFund;
 use App\Models\WealthManagementAccount;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -353,6 +354,10 @@ class Profile extends Model
 
     public function land(){
         return $this->hasMany(Land::class, 'profile_id');
+    }
+
+    public function publicProvidentFund(){
+        return $this->hasMany(PublicProvidentFund::class, 'profile_id');
     }
 
 }

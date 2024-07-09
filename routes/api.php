@@ -27,6 +27,7 @@ use App\Http\Controllers\Api\MotorInsuranceController;
 use App\Http\Controllers\Api\OtherInsuranceController;
 use App\Http\Controllers\Api\HealthInsuranceController;
 use App\Http\Controllers\Api\GeneralInsuranceController;
+use App\Http\Controllers\Api\PublicProvidentFundController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -66,4 +67,6 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::delete('/logout', [UserController::class, 'logout']);
     Route::resource('other-assets', OtherAssetController::class);
     Route::get('/storage', [FileController::class, 'showFiles']);
+    Route::resource('public-provident-funds', PublicProvidentFundController::class);
+
 });

@@ -28,6 +28,7 @@ use App\Models\PostSavingScheme;
 use App\Models\OtherFinancialAsset;
 use App\Models\PortfolioManagement;
 use App\Models\PostalSavingAccount;
+use App\Models\PublicProvidentFund;
 use App\Models\WealthManagementAccount;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -159,6 +160,10 @@ class Beneficiary extends Model
 
     public function otherDeposite(){
         return $this->belongsToMany(OtherDeposite::class, 'other_deposite_nominee');
+    }
+
+    public function publicProvidentFund(){
+        return $this->belongsToMany(PublicProvidentFund::class, 'public_provident_fund_nominee');
     }
 
 
