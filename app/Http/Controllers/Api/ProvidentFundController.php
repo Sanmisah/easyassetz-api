@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use App\Models\ProvidentFund;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -31,12 +32,31 @@ class ProvidentFundController extends BaseController
             $pfFilename = pathinfo($pfFileNameWithExtention, PATHINFO_FILENAME);
             $pfExtention = $request->file('image')->getClientOriginalExtension();
             $pfFileNameToStore = $pfFilename.'_'.time().'.'.$pfExtention;
-            $pfPath = $request->file('image')->storeAs('public/PublicProvidentFund', $ppfFileNameToStore);
+            $pfPath = $request->file('image')->storeAs('public/ProvidentFund', $pfFileNameToStore);
          }
          $user = Auth::user();
-        $pubilcProvidentFund = new InvestmentFund();
-        $pubilcProvidentFund->profile_id = $user->profile->id;
-        $pubilcProvidentFund->bank_name = $request->input('bankName');
+        $ProvidentFund = new ProvidentFund();
+        $ProvidentFund->profile_id = $user->profile->id;
+        $ProvidentFund->employer_name = $request->input('employerName');
+        $providentFund->uan_number = $request->input('uanNumber');
+        $providentFund->bank_name = $request->input('bankName');
+        $providentFund->branch = $request->input('branch');
+        $providentFund->bank_account_number = $request->input('bankAccountNumber');
+        $providentFund->additional_details = $request->input('additionalDetails');
+        if($request->hasFile('image')){
+            $ProvidentFund->image = $pfFileNameToStore;
+         }         
+        $providentFund->name = $request->input('name');
+        $providentFund->mobile = $request->input('mobile');
+        $providentFund->email = $request->input('email');
+        $providentFund->save();
+
+        if($request->has('nominees')){
+            $nominee_id = $request->input('nominees');
+            $providentFund->nominee()->attach($nominee_id);
+        }
+
+        return $this->sendResponse(['ProvidentFund'=> new ProvidentFundResource($providentFund)], 'Provident Fund details stored successfully');
     }
 
     /**
@@ -44,7 +64,15 @@ class ProvidentFundController extends BaseController
      */
     public function show(string $id): JsonResponse
     {
-        //
+        $providentFund = ProvidentFund::find($id);
+        if(!$providentFund){
+            return $this->sendError('Provident fund Not Found',['error'=>'Provident fund not found']);
+        }
+        $user = Auth::user();
+        if($user->profile->id !== $providentFund->profile_id){
+           return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Provident fund']);
+         }
+        return $this->sendResponse(['ProvidentFund'=>new ProvidentFundResource($providentFund)], 'Provident Fund retrived successfully');
     }
 
     /**
@@ -52,7 +80,39 @@ class ProvidentFundController extends BaseController
      */
     public function update(Request $request, string $id): JsonResponse
     {
-        //
+        if($request->hasFile('image')){
+            $pfFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $pfFilename = pathinfo($pfFileNameWithExtention, PATHINFO_FILENAME);
+            $pfExtention = $request->file('image')->getClientOriginalExtension();
+            $pfFileNameToStore = $pfFilename.'_'.time().'.'.$pfExtention;
+            $pfPath = $request->file('image')->storeAs('public/ProvidentFund', $pfFileNameToStore);
+         }
+
+         $providentFund = ProvidentFund::find($id);
+         if(!$providentFund){
+             return $this->sendError('Provident fund Not Found',['error'=>'Provident fund not found']);
+         }
+         $user = Auth::user();
+         if($user->profile->id !== $providentFund->profile_id){
+            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Provident fund']);
+          }
+
+          $ProvidentFund->employer_name = $request->input('employerName');
+          $providentFund->uan_number = $request->input('uanNumber');
+          $providentFund->bank_name = $request->input('bankName');
+          $providentFund->branch = $request->input('branch');
+          $providentFund->bank_account_number = $request->input('bankAccountNumber');
+          $providentFund->additional_details = $request->input('additionalDetails');
+          if($request->hasFile('image')){
+              $ProvidentFund->image = $pfFileNameToStore;
+           }         
+          $providentFund->name = $request->input('name');
+          $providentFund->mobile = $request->input('mobile');
+          $providentFund->email = $request->input('email');
+          $providentFund->save();
+
+         return $this->sendResponse(['ProvidentFund'=> new ProvidentFundResource($providentFund)], 'Provident Fund details updated successfully');
+
     }
 
     /**
@@ -60,6 +120,16 @@ class ProvidentFundController extends BaseController
      */
     public function destroy(string $id): JsonResponse
     {
-        //
+        $providentFund = ProvidentFund::find($id);
+        if(!$providentFund){
+            return $this->sendError('Provident fund not found', ['error'=>'Provident fund not found']);
+        }
+        $user = Auth::user();
+        if($user->profile->id !== $providentFund->profile_id){
+            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Provident fund']);
+        }
+        $providentFund->delete();
+
+        return $this->sendResponse([], 'Provident fund deleted successfully');
     }
 }
