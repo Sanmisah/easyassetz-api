@@ -26,6 +26,7 @@ use App\Models\PersonalLoan;
 use App\Models\BusinessAsset;
 use App\Models\LifeInsurance;
 use App\Models\OtherDeposite;
+use App\Models\ProvidentFund;
 use App\Models\BrokingAccount;
 use App\Models\BusinessAssets;
 use App\Models\InvestmentFund;
@@ -358,6 +359,10 @@ class Profile extends Model
 
     public function publicProvidentFund(){
         return $this->hasMany(PublicProvidentFund::class, 'profile_id');
+    }
+
+    public function providentFund(){
+        return $this->hasMany(ProvidentFund::class, 'profile_id');
     }
 
 }

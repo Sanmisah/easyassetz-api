@@ -35,7 +35,7 @@ class PublicProvidentFundController extends BaseController
             $ppfPath = $request->file('image')->storeAs('public/PublicProvidentFund', $ppfFileNameToStore);
          }
          $user = Auth::user();
-        $pubilcProvidentFund = new InvestmentFund();
+        $pubilcProvidentFund = new PublicProvidentFund();
         $pubilcProvidentFund->profile_id = $user->profile->id;
         $pubilcProvidentFund->bank_name = $request->input('bankName');
         $pubilcProvidentFund->ppf_account_no = $request->input('ppfAccountNo');
