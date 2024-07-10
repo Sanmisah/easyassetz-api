@@ -24,6 +24,7 @@ use App\Models\BrokingAccount;
 use App\Models\InvestmentFund;
 use App\Models\MotorInsurance;
 use App\Models\OtherInsurance;
+use App\Models\SuperAnnuation;
 use App\Models\HealthInsurance;
 use App\Models\GeneralInsurance;
 use App\Models\PostSavingScheme;
@@ -175,6 +176,10 @@ class Beneficiary extends Model
 
     public function gratuity(){
         return $this->belongsToMany(Gratuity::class, 'gratuity_nominee');
+    }
+
+    public function superAnnuation(){
+        return $this->belongsToMany(SuperAnnuation::class, 'super_annuation_nominee');
     }
 
     public function residentialProperty(){

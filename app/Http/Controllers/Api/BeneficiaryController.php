@@ -129,7 +129,7 @@ class BeneficiaryController extends BaseController
         $beneficiary->document_data = $request->input('documentData');
         $beneficiary->religion = $request->input('religion');
         $beneficiary->nationality = $request->input('nationality');
-        $beneficiary->house_flat_no = $request->input('houseFlatNo');
+        $beneficiary->house_flat_no = $request->input('houseNo');
         $beneficiary->address_line_1 = $request->input('addressLine1');
         $beneficiary->address_line_2 = $request->input('addressLine2');
         $beneficiary->pincode = $request->input('pincode');

@@ -28,6 +28,32 @@ class MotorInsurance extends Model
         }
     }    
 
+    public function setRegisteredEmailAttribute($value)
+    {
+        if($value === "null") {
+            $value = null;
+        }
+        return $this->attributes['registered_email'] = $value ? $value : null;
+    }
+
+    public function getRegisteredEmailAttribute($value)
+    {
+        return $value ? $value : null;     
+    }   
+    
+    public function setRegisteredMobileAttribute($value)
+    {
+        if($value === "null") {
+            $value = null;
+        }
+        return $this->attributes['registered_mobile'] = $value ? $value : null;
+    }
+
+    public function getRegisteredMobileAttribute($value)
+    {
+        return $value ? $value : null;     
+    }   
+
 
    public function nominee(){
       return $this->belongsToMany(Beneficiary::class,'motor_insurance_nominee');
