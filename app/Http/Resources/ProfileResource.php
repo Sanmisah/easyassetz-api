@@ -55,7 +55,7 @@ class ProfileResource extends JsonResource
             'drivingLicenceName' => $this->driving_licence_name,
             'drivingLicenceExpiryDate' => $this->driving_licence_expiry_date,
             'drivingLicencePlaceOfIssue' => $this->driving_licence_place_of_issue,
-            'drivingLicenceFile' => $this->driving_licence_file,
+            'drivingFile' => $this->driving_licence_file,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
         ];

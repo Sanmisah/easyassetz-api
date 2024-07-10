@@ -166,12 +166,12 @@ class ProfileController extends BaseController
             $passportPath = $request->file('passportFile')->storeAs('public/profiles/passportFiles', $passportFileNameToStore);
          }
 
-         if($request->hasFile('drivingLicenceFile')){
-            $drivingFileNameWithExtention = $request->file('drivingLicenceFile')->getClientOriginalName();
+         if($request->hasFile('drivingFile')){
+            $drivingFileNameWithExtention = $request->file('drivingFile')->getClientOriginalName();
             $drivingFilename = pathinfo($drivingFileNameWithExtention, PATHINFO_FILENAME);
-            $drivingExtention = $request->file('drivingLicenceFile')->getClientOriginalExtension();
+            $drivingExtention = $request->file('drivingFile')->getClientOriginalExtension();
             $drivingFileNameToStore = $drivingFilename.'_'.time().'.'.$drivingExtention;
-            $drivingPath = $request->file('drivingLicenceFile')->storeAs('public/profiles/drivingLicenceFiles', $drivingFileNameToStore);
+            $drivingPath = $request->file('drivingFile')->storeAs('public/profiles/drivingLicenceFiles', $drivingFileNameToStore);
          }
 
         $profile = Profile::find($id); 
@@ -225,7 +225,7 @@ class ProfileController extends BaseController
         $profile->driving_licence_name = $request->input('drivingLicenceName');
         $profile->driving_licence_expiry_date = $request->input('drivingLicenceExpiryDate');
         $profile->driving_licence_place_of_issue = $request->input('drivingLicencePlaceOfIssue');
-        if($request->hasFile('drivingLicenceFile')){
+        if($request->hasFile('drivingFile')){
             $profile->driving_licence_file = $drivingFileNameToStore;
         }
         $profile->save();

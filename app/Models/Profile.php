@@ -41,6 +41,7 @@ use App\Models\OtherFinancialAsset;
 use App\Models\PortfolioManagement;
 use App\Models\PostalSavingAccount;
 use App\Models\PublicProvidentFund;
+use App\Models\ResidentialProperty;
 use App\Models\WealthManagementAccount;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -374,5 +375,10 @@ class Profile extends Model
     public function gratuity(){
         return $this->hasMany(Gratuity::class, 'profile_id');
     }
+
+    public function residentialProperty(){
+        return $this->hasMany(ResidentialProperty::class, 'profile_id');
+    }
+
 
 }

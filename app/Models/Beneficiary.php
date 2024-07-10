@@ -31,6 +31,7 @@ use App\Models\OtherFinancialAsset;
 use App\Models\PortfolioManagement;
 use App\Models\PostalSavingAccount;
 use App\Models\PublicProvidentFund;
+use App\Models\ResidentialProperty;
 use App\Models\WealthManagementAccount;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -174,6 +175,10 @@ class Beneficiary extends Model
 
     public function gratuity(){
         return $this->belongsToMany(Gratuity::class, 'gratuity_nominee');
+    }
+
+    public function residentialProperty(){
+        return $this->belongsToMany(ResidentialProperty::class, 'residential_property_nominee');
     }
 
 

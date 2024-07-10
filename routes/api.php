@@ -24,9 +24,11 @@ use App\Http\Controllers\Api\VehicleLoanController;
 use App\Http\Controllers\Api\PersonalLoanController;
 use App\Http\Controllers\Api\BusinessAssetController;
 use App\Http\Controllers\Api\LifeInsuranceController;
+use App\Http\Controllers\Api\ProvidentFundController;
 use App\Http\Controllers\Api\ForgotPasswordController;
 use App\Http\Controllers\Api\MotorInsuranceController;
 use App\Http\Controllers\Api\OtherInsuranceController;
+use App\Http\Controllers\Api\SuperAnnuationController;
 use App\Http\Controllers\Api\HealthInsuranceController;
 use App\Http\Controllers\Api\GeneralInsuranceController;
 use App\Http\Controllers\Api\PublicProvidentFundController;
@@ -70,7 +72,9 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('other-assets', OtherAssetController::class);
     Route::get('/storage/{$files}', [FileController::class, 'showFiles']);
     Route::resource('public-provident-funds', PublicProvidentFundController::class);
+    Route::resource('provident-funds', ProvidentFundController::class);
     Route::resource('nps', NPSController::class);
     Route::resource('gratuities', GratuityController::class);
+    Route::resource('super-annuations', SuperAnnuationController::class);
 
 });
