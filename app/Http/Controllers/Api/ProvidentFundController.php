@@ -35,16 +35,16 @@ class ProvidentFundController extends BaseController
             $pfPath = $request->file('image')->storeAs('public/ProvidentFund', $pfFileNameToStore);
          }
          $user = Auth::user();
-        $ProvidentFund = new ProvidentFund();
-        $ProvidentFund->profile_id = $user->profile->id;
-        $ProvidentFund->employer_name = $request->input('employerName');
+        $providentFund = new ProvidentFund();
+        $providentFund->profile_id = $user->profile->id;
+        $providentFund->employer_name = $request->input('employerName');
         $providentFund->uan_number = $request->input('uanNumber');
         $providentFund->bank_name = $request->input('bankName');
         $providentFund->branch = $request->input('branch');
         $providentFund->bank_account_number = $request->input('bankAccountNumber');
         $providentFund->additional_details = $request->input('additionalDetails');
         if($request->hasFile('image')){
-            $ProvidentFund->image = $pfFileNameToStore;
+            $providentFund->image = $pfFileNameToStore;
          }         
         $providentFund->name = $request->input('name');
         $providentFund->mobile = $request->input('mobile');
