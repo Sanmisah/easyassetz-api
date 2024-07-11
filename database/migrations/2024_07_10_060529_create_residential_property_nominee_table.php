@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('residential_fund_nominee', function (Blueprint $table) {
+        Schema::create('residential_property_nominee', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('residential_fund_id')->constrained()->onDelete('cascade');
+            $table->foreignId('residential_property_id')->constrained()->onDelete('cascade');
             $table->foreignId('beneficiary_id')->constrained('beneficiaries')->onDelete('cascade');
             $table->timestamps();
         });
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('residential_fund_nominee');
+        Schema::dropIfExists('residential_property_nominee');
     }
 };

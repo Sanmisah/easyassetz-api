@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('master_policy_number')->nullable();
             $table->string('emp_no')->nullable();
             $table->string('address')->nullable();
-            $table->string('annuity_ammount')->nullable();
+            $table->string('annuity_amount')->nullable();
             $table->string('additional_details')->nullable();
             $table->string('image')->nullable();
             $table->string('name')->nullable();
