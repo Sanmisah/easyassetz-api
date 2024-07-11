@@ -7,9 +7,11 @@ use App\Models\PersonalLoan;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\PersonalLoanResource;
 
-class PersonalLoanController extends Controller
+class PersonalLoanController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -24,7 +26,7 @@ class PersonalLoanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $user = Auth::user();
         $personalLoan = new HomeLoan();
@@ -52,7 +54,7 @@ class PersonalLoanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id): JsonResponse
     {
         $personalLoan = PersonalLoan::find($id);
         if(!$personalLoan){
@@ -69,7 +71,7 @@ class PersonalLoanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id): JsonResponse
     {
         $personalLoan = PersonalLoan::find($id);
         if(!$personalLoan){
@@ -104,7 +106,7 @@ class PersonalLoanController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): JsonResponse
     {
         $personalLoan = PersonalLoan::find($id);
         if(!$personalLoan){

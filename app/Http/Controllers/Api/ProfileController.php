@@ -207,7 +207,7 @@ class ProfileController extends BaseController
         $profile->adhar_number = $request->input('aadharNumber');
         $profile->adhar_name = $request->input('aadharName');
         if($request->hasFile('aadharFile')){
-             $profile->adhar_file = $aadharPath;//$aadharFileNameToStore;
+             $profile->adhar_file = $aadharFileNameToStore;
         }
         $profile->pan_number = $request->input('panNumber');
         $profile->pan_name = $request->input('panName');
