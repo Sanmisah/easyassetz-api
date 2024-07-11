@@ -20,6 +20,7 @@ use App\Models\DematAccount;
 use App\Models\BusinessAsset;
 use App\Models\LifeInsurance;
 use App\Models\OtherDeposite;
+use App\Models\ProvidentFund;
 use App\Models\BrokingAccount;
 use App\Models\InvestmentFund;
 use App\Models\MotorInsurance;
@@ -168,6 +169,10 @@ class Beneficiary extends Model
 
     public function publicProvidentFund(){
         return $this->belongsToMany(PublicProvidentFund::class, 'public_provident_fund_nominee');
+    }
+
+    public function providentFund(){
+        return $this->belongsToMany(ProvidentFund::class, 'provident_fund_nominee');
     }
 
     public function nps(){
