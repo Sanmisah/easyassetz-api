@@ -34,6 +34,7 @@ use App\Models\BusinessAssets;
 use App\Models\InvestmentFund;
 use App\Models\MotorInsurance;
 use App\Models\OtherInsurance;
+use App\Models\SuperAnnuation;
 use App\Models\HealthInsurance;
 use App\Models\GeneralInsurance;
 use App\Models\PostSavingScheme;
@@ -378,6 +379,10 @@ class Profile extends Model
 
     public function residentialProperty(){
         return $this->hasMany(ResidentialProperty::class, 'profile_id');
+    }
+
+    public function superAnnuation(){
+        return $this->hasMany(SuperAnnuation::class, 'profile_id');
     }
 
 
