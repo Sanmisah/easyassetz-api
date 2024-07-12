@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('residential_properties', function (Blueprint $table) {
+        Schema::create('commercial_properties', function (Blueprint $table) {
             $table->id();
             $table->foreignId('profile_id')->constrained()->onDelete('cascade');
             $table->string('property_type')->nullable();
@@ -49,6 +49,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('residential_properties');
+        Schema::dropIfExists('commercial_properties');
     }
 };

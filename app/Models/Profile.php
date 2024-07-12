@@ -38,6 +38,7 @@ use App\Models\SuperAnnuation;
 use App\Models\HealthInsurance;
 use App\Models\GeneralInsurance;
 use App\Models\PostSavingScheme;
+use App\Models\CommercialProperty;
 use App\Models\OtherFinancialAsset;
 use App\Models\PortfolioManagement;
 use App\Models\PostalSavingAccount;
@@ -383,6 +384,10 @@ class Profile extends Model
 
     public function superAnnuation(){
         return $this->hasMany(SuperAnnuation::class, 'profile_id');
+    }
+
+    public function commercialProperty(){
+        return $this->hasMany(CommercialProperty::class, 'profile_id');
     }
 
 

@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('super_annuation_nominee', function (Blueprint $table) {
+        Schema::create('commercial_property_nominee', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('super_annuation_id')->constrained()->onDelete('cascade');
+            $table->foreignId('commercial_property_id')->constrained()->onDelete('cascade');
             $table->foreignId('beneficiary_id')->contrained()->onDelete('cascade');
             $table->timestamps();
         });
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('super_annuation_nominee');
+        Schema::dropIfExists('commercial_property_nominee');
     }
 };

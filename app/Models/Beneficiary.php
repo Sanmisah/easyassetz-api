@@ -29,6 +29,7 @@ use App\Models\SuperAnnuation;
 use App\Models\HealthInsurance;
 use App\Models\GeneralInsurance;
 use App\Models\PostSavingScheme;
+use App\Models\CommercialProperty;
 use App\Models\OtherFinancialAsset;
 use App\Models\PortfolioManagement;
 use App\Models\PostalSavingAccount;
@@ -189,6 +190,10 @@ class Beneficiary extends Model
 
     public function residentialProperty(){
         return $this->belongsToMany(ResidentialProperty::class, 'residential_property_nominee');
+    }
+
+    public function commercialProperty(){
+        return $this->belongsToMany(CommercialProperty::class, 'commercial_property_nominee');
     }
 
 

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\BeneficiaryResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ResidentialPropertyResource extends JsonResource
+class CommercialPropertyResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

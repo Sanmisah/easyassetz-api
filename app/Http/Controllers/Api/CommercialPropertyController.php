@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use App\Models\ResidentialProperty;
+use App\Models\CommercialProperty;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Api\BaseController;
-use App\Http\Resources\ResidentialPropertyResource;
+use App\Http\Resources\CommercialPropertyResource;
 
-class ResidentialPropertyController extends BaseController
+class CommercialPropertyController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -18,8 +18,8 @@ class ResidentialPropertyController extends BaseController
     public function index(): JsonResponse
     {
         $user = Auth::user();
-        $residentialProperty = $user->profile->residentialProperty()->with('nominee')->get();
-        return $this->sendResponse(['ResidentialProperty'=>ResidentialPropertyResource::collection($residentialProperty)],'Residential Property details retrived Successfully');
+        $commercialProperty = $user->profile->commercialProperty()->with('nominee')->get();
+        return $this->sendResponse(['CommercialProperty'=>CommercialPropertyResource::collection($commercialProperty)],'Commercial Property details retrived Successfully');
     }
 
     /**
@@ -68,54 +68,53 @@ class ResidentialPropertyController extends BaseController
          }
 
         $user = Auth::user();
-        $residentialProperty = new ResidentialProperty();
-        $residentialProperty->profile_id = $user->profile->id;
-        $residentialProperty->property_type = $request->input('propertyType');
-        $residentialProperty->house_number = $request->input('houseNumber');
-        $residentialProperty->address_1 = $request->input('address1');
-        $residentialProperty->pincode = $request->input('pincode');
-        $residentialProperty->area = $request->input('area');
-        $residentialProperty->city = $request->input('city');
-        $residentialProperty->state = $request->input('state');
-        $residentialProperty->property_status = $request->input('propertyStatus');
-        $residentialProperty->ownership_by_virtue_of = $request->input('ownershipByVirtueOf');
-        $residentialProperty->ownership_type = $request->input('ownershipType');
-        $residentialProperty->first_holders_name = $request->input('firstHoldersName');
-        $residentialProperty->first_holders_relation = $request->input('firstHoldersRelation');
-        $residentialProperty->first_holders_aadhar = $request->input('firstHoldersAadhar');
-        $residentialProperty->first_holders_pan = $request->input('firstHoldersPan');
-        $residentialProperty->joint_holders_name = $request->input('jointHoldersName');
-        $residentialProperty->joint_holders_relation = $request->input('jointHoldersRelation');
-        $residentialProperty->joint_holders_pan = $request->input('jointHoldersPan');
-        $residentialProperty->any_loan_litigation = $request->input('anyLoanLitigation');
+        $commercialProperty = new CommercialProperty();
+        $commercialProperty->profile_id = $user->profile->id;
+        $commercialProperty->property_type = $request->input('propertyType');
+        $commercialProperty->house_number = $request->input('houseNumber');
+        $commercialProperty->address_1 = $request->input('address1');
+        $commercialProperty->pincode = $request->input('pincode');
+        $commercialProperty->area = $request->input('area');
+        $commercialProperty->city = $request->input('city');
+        $commercialProperty->state = $request->input('state');
+        $commercialProperty->property_status = $request->input('propertyStatus');
+        $commercialProperty->ownership_by_virtue_of = $request->input('ownershipByVirtueOf');
+        $commercialProperty->ownership_type = $request->input('ownershipType');
+        $commercialProperty->first_holders_name = $request->input('firstHoldersName');
+        $commercialProperty->first_holders_relation = $request->input('firstHoldersRelation');
+        $commercialProperty->first_holders_aadhar = $request->input('firstHoldersAadhar');
+        $commercialProperty->first_holders_pan = $request->input('firstHoldersPan');
+        $commercialProperty->joint_holders_name = $request->input('jointHoldersName');
+        $commercialProperty->joint_holders_relation = $request->input('jointHoldersRelation');
+        $commercialProperty->joint_holders_pan = $request->input('jointHoldersPan');
+        $commercialProperty->any_loan_litigation = $request->input('anyLoanLitigation');
         if($request->hasFile('litigationFile')){
-            $residentialProperty->litigation_file = $litigationFileNameToStore;
+            $commercialProperty->litigation_file = $litigationFileNameToStore;
          } 
 
          if($request->hasFile('agreementCopy')){
-            $residentialProperty->agreement_file = $agreementCopyFileNameToStore;
+            $commercialProperty->agreement_file = $agreementCopyFileNameToStore;
          } 
         if($request->hasFile('rentAgreementFile')){
-            $residentialProperty->rent_agreement_file = $rentAgreementFileNameToStore;
+            $commercialProperty->rent_agreement_file = $rentAgreementFileNameToStore;
          }
         if($request->hasFile('shareCertificateFile')){
-            $residentialProperty->share_certificate_file = $shareCertificateFileNameToStore;
+            $commercialProperty->share_certificate_file = $shareCertificateFileNameToStore;
          }
          if($request->hasFile('leaseDocumentFile')){
-            $residentialProperty->lease_document_file = $leaseDocumentFileNameToStore;
+            $commercialProperty->lease_document_file = $leaseDocumentFileNameToStore;
          } 
-        $residentialProperty->name = $request->input('name');
-        $residentialProperty->mobile = $request->input('mobile');
-        $residentialProperty->email = $request->input('email');
-        $residentialProperty->save();
+        $commercialProperty->name = $request->input('name');
+        $commercialProperty->mobile = $request->input('mobile');
+        $commercialProperty->email = $request->input('email');
+        $commercialProperty->save();
 
         if($request->has('nominees')){
             $nominee_id = $request->input('nominees');
-            $residentialProperty->nominee()->attach($nominee_id);
+            $commercialProperty->nominee()->attach($nominee_id);
         }
 
-        return $this->sendResponse(['ResidentialProperty'=> new ResidentialPropertyResource($residentialProperty)], 'Residential Property details stored successfully');
-
+        return $this->sendResponse(['CommercialProperty'=> new CommercialPropertyResource($commercialProperty)], 'Commercial Property details stored successfully');
     }
 
     /**
@@ -123,16 +122,16 @@ class ResidentialPropertyController extends BaseController
      */
     public function show(string $id): JsonResponse
     {
-        $residentialProperty = ResidentialProperty::find($id);
-        if(!$residentialProperty){
-            return $this->sendError('Residential Property Not Found',['error'=>'Residential Property not found']);
+        $commercialProperty = CommercialProperty::find($id);
+        if(!$commercialProperty){
+            return $this->sendError('Commercial Property Not Found',['error'=>'Commercial Property not found']);
         }
         $user = Auth::user();
-        if($user->profile->id !== $residentialProperty->profile_id){
-           return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Residential Property']);
+        if($user->profile->id !== $commercialProperty->profile_id){
+           return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Commercial Property']);
          }
-         $residentialProperty->load('nominee');
-        return $this->sendResponse(['ResidentialProperty'=>new ResidentialPropertyResource($residentialProperty)], 'Residential Property retrived successfully');
+         $commercialProperty->load('nominee');
+        return $this->sendResponse(['CommercialProperty'=>new CommercialPropertyResource($commercialProperty)], 'Commercial Property retrived successfully');
     }
 
     /**
@@ -180,62 +179,61 @@ class ResidentialPropertyController extends BaseController
             $leaseDocumentPath = $request->file('leaseDocumentFile')->storeAs('public/ResidentialProperty/leaseDocumentFile', $leaseDocumentFileNameToStore);
          }
 
-         $residentialProperty = ResidentialProperty::find($id);
-         if(!$residentialProperty){
-             return $this->sendError('Residential Property Not Found',['error'=>'Residential Property details not found']);
+         $commercialProperty = CommercialProperty::find($id);
+         if(!$commercialProperty){
+             return $this->sendError('Commercial Property Not Found',['error'=>'Commercial Property details not found']);
          }
          $user = Auth::user();
-         if($user->profile->id !== $residentialProperty->profile_id){
-            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Residential Property details']);
+         if($user->profile->id !== $commercialProperty->profile_id){
+            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Commercial Property details']);
           }
 
-          $residentialProperty->property_type = $request->input('propertyType');
-          $residentialProperty->house_number = $request->input('houseNumber');
-          $residentialProperty->address_1 = $request->input('address1');
-          $residentialProperty->pincode = $request->input('pincode');
-          $residentialProperty->area = $request->input('area');
-          $residentialProperty->city = $request->input('city');
-          $residentialProperty->state = $request->input('state');
-          $residentialProperty->property_status = $request->input('propertyStatus');
-          $residentialProperty->ownership_by_virtue_of = $request->input('ownershipByVirtueOf');
-          $residentialProperty->ownership_type = $request->input('ownershipType');
-          $residentialProperty->first_holders_name = $request->input('firstHoldersName');
-          $residentialProperty->first_holders_relation = $request->input('firstHoldersRelation');
-          $residentialProperty->first_holders_aadhar = $request->input('firstHoldersAadhar');
-          $residentialProperty->first_holders_pan = $request->input('firstHoldersPan');
-          $residentialProperty->joint_holders_name = $request->input('jointHoldersName');
-          $residentialProperty->joint_holders_relation = $request->input('jointHoldersRelation');
-          $residentialProperty->joint_holders_pan = $request->input('jointHoldersPan');
-          $residentialProperty->any_loan_litigation = $request->input('anyLoanLitigation');
+          $commercialProperty->property_type = $request->input('propertyType');
+          $commercialProperty->house_number = $request->input('houseNumber');
+          $commercialProperty->address_1 = $request->input('address1');
+          $commercialProperty->pincode = $request->input('pincode');
+          $commercialProperty->area = $request->input('area');
+          $commercialProperty->city = $request->input('city');
+          $commercialProperty->state = $request->input('state');
+          $commercialProperty->property_status = $request->input('propertyStatus');
+          $commercialProperty->ownership_by_virtue_of = $request->input('ownershipByVirtueOf');
+          $commercialProperty->ownership_type = $request->input('ownershipType');
+          $commercialProperty->first_holders_name = $request->input('firstHoldersName');
+          $commercialProperty->first_holders_relation = $request->input('firstHoldersRelation');
+          $commercialProperty->first_holders_aadhar = $request->input('firstHoldersAadhar');
+          $commercialProperty->first_holders_pan = $request->input('firstHoldersPan');
+          $commercialProperty->joint_holders_name = $request->input('jointHoldersName');
+          $commercialProperty->joint_holders_relation = $request->input('jointHoldersRelation');
+          $commercialProperty->joint_holders_pan = $request->input('jointHoldersPan');
+          $commercialProperty->any_loan_litigation = $request->input('anyLoanLitigation');
           if($request->hasFile('litigationFile')){
-            $residentialProperty->litigation_file = $litigationFileNameToStore;
+            $commercialProperty->litigation_file = $litigationFileNameToStore;
          } 
          if($request->hasFile('agreementCopy')){
-            $residentialProperty->agreement_file = $agreementCopyFileNameToStore;
+            $commercialProperty->agreement_file = $agreementCopyFileNameToStore;
          } 
            if($request->hasFile('rentAgreementFile')){
-            $residentialProperty->rent_agreement_file = $rentAgreementFileNameToStore;
+            $commercialProperty->rent_agreement_file = $rentAgreementFileNameToStore;
          }
             if($request->hasFile('shareCertificateFile')){
-            $residentialProperty->share_certificate_file = $shareCertificateFileNameToStore;
+            $commercialProperty->share_certificate_file = $shareCertificateFileNameToStore;
          }
             if($request->hasFile('leaseDocumentFile')){
-            $residentialProperty->lease_document_file = $leaseDocumentFileNameToStore;
+            $commercialProperty->lease_document_file = $leaseDocumentFileNameToStore;
          } 
-          $residentialProperty->name = $request->input('name');
-          $residentialProperty->mobile = $request->input('mobile');
-          $residentialProperty->email = $request->input('email');
-          $residentialProperty->save();
+          $commercialProperty->name = $request->input('name');
+          $commercialProperty->mobile = $request->input('mobile');
+          $commercialProperty->email = $request->input('email');
+          $commercialProperty->save();
 
           if($request->has('nominees')) {
             $nominee_ids = $request->input('nominees');
-            $residentialProperty->nominee()->sync($nominee_ids);
+            $commercialProperty->nominee()->sync($nominee_ids);
         }else {
-            $residentialProperty->nominee()->detach();
+            $commercialProperty->nominee()->detach();
         }
        
-        return $this->sendResponse(['ResidentialProperty'=>new ResidentialPropertyResource($residentialProperty)], 'Residential Property details Updated successfully');
-
+        return $this->sendResponse(['CommercialProperty'=>new CommercialPropertyResource($commercialProperty)], 'Commercial Property details Updated successfully');
     }
 
     /**
@@ -243,16 +241,16 @@ class ResidentialPropertyController extends BaseController
      */
     public function destroy(string $id): JsonResponse
     {
-        $residentialProperty = ResidentialProperty::find($id);
-        if(!$residentialProperty){
-            return $this->sendError('Residential Property not found', ['error'=>'Residential Property not found']);
+        $commercialProperty = CommercialProperty::find($id);
+        if(!$commercialProperty){
+            return $this->sendError('Commercial Property not found', ['error'=>'Commercial Property not found']);
         }
         $user = Auth::user();
-        if($user->profile->id !== $residentialProperty->profile_id){
-            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Residential Property']);
+        if($user->profile->id !== $commercialProperty->profile_id){
+            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Commercial Property']);
         }
-        $residentialProperty->delete();
+        $commercialProperty->delete();
 
-        return $this->sendResponse([], 'Residential Property deleted successfully');
+        return $this->sendResponse([], 'Commercial Property deleted successfully');
     }
 }
