@@ -57,17 +57,7 @@ class SuperAnnuationController extends BaseController
             $superAnnuation->nominee()->attach($nominee_id);
         }
 
-        // if ($request->has('nominees')) {
-        //     $nominee_id = $request->input('nominees');
-        //     // Assuming 'beneficiary_id' is a field in your pivot table
-        //  //   $beneficiary_id = $request->input('beneficiary_id'); // Adjust this based on your actual form/input structure
-        
-        //     // Attach nominees with additional pivot data
-        //     $superAnnuation->nominee()->attach($superAnnuation->id, $nominee_id);
-        // }
-        
-
-
+       
         return $this->sendResponse(['SuperAnnuation'=> new SuperAnnuationResource($superAnnuation)], 'Super Annuation details stored successfully');
 
     }

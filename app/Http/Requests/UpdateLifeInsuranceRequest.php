@@ -23,20 +23,9 @@ class UpdateLifeInsuranceRequest extends FormRequest
      */
     public function rules(): array
     {
-        // return [
-        //         'companyName' => ['required', 'string'],
-        //         'insuranceType' => ['required', 'string'],
-        //         'policyNumber' => ['required', 'string'],
-        //         'maturityDate' => ['required', 'date'],
-        //         'premium' => ['nullable', 'integer'],
-        //         'sumInsured' => ['nullable', 'integer'],
-        //         'policyHolderName'=>['required','string'],
-        //         'contactPerson'=>['nullable','string'],
-        //         'modeOfPurchase'=>['required'],
-        //         'brokerName'=>['sometimes','string'],
-        //         'registeredMobile'=>['sometimes','regex:/^\+(?:\d{1}|\d{3})(?:\x20?\d){5,14}\d$/'],
-        //         'registeredEmail'=>['sometimes','email:rfc,dns'],
-        // ];
+        return [
+            'image' => ['nullable','file', 'mimes:jpg,png,jpeg,pdf,doc', 'max:2048'],
+        ];
     }
 
     protected function failedValidation(Validator $validator)

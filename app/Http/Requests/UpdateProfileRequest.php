@@ -23,9 +23,14 @@ class UpdateProfileRequest extends FormRequest
      */
     public function rules(): array
     {
-            return [
-                // 'fullLegalName'=>['required','string'],
-             ];
+        return [
+            'fullLegalName'=>['required','string'],
+            'aadharFile' => ['nullable','file', 'mimes:jpg,png,jpeg,pdf,doc', 'max:2048'],
+            'panFile' => ['nullable','file', 'mimes:jpg,png,jpeg,pdf,doc', 'max:2048'],
+            'passportFile' => ['nullable','file', 'mimes:jpg,png,jpeg,pdf,doc', 'max:2048'],
+            'drivingFile' => ['nullable','file', 'mimes:jpg,png,jpeg,pdf,doc', 'max:2048'],
+       ];
+       
     }
 
     protected function failedValidation(Validator $validator)

@@ -10,6 +10,7 @@ class SuperAnnuation extends Model
 {
     use HasFactory;
 
+
     public function nominee(){
         return $this->belongsToMany(SuperAnnuation::class, 'super_annuation_nominee');
     }

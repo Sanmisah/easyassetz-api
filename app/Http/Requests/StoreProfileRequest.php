@@ -25,6 +25,10 @@ class StoreProfileRequest extends FormRequest
     {
         return [
              'fullLegalName'=>['required','string'],
+             'aadharFile' => ['nullable','file', 'mimes:jpg,png,jpeg,pdf,doc', 'max:2048'],
+             'panFile' => ['nullable','file', 'mimes:jpg,png,jpeg,pdf,doc', 'max:2048'],
+             'passportFile' => ['nullable','file', 'mimes:jpg,png,jpeg,pdf,doc', 'max:2048'],
+             'drivingFile' => ['nullable','file', 'mimes:jpg,png,jpeg,pdf,doc', 'max:2048'],
         ];
     }
 

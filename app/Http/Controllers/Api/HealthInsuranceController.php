@@ -10,6 +10,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\HealthInsuranceResource;
+use App\Http\Requests\StoreHealthInsurnaceRequest;
+use App\Http\Requests\UpdateHealthInsurnaceRequest;
 
 class HealthInsuranceController extends BaseController
 {
@@ -26,7 +28,7 @@ class HealthInsuranceController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(StoreHealthInsurnaceRequest $request): JsonResponse
     {
         if($request->hasFile('image')){
             $healthFileNameWithExtention = $request->file('image')->getClientOriginalName();
@@ -94,7 +96,7 @@ class HealthInsuranceController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): JsonResponse
+    public function update(UpdateHealthInsurnaceRequest $request, string $id): JsonResponse
     {
         if($request->hasFile('image')){
             $healthFileNameWithExtention = $request->file('image')->getClientOriginalName();

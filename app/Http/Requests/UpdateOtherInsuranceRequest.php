@@ -13,7 +13,7 @@ class UpdateOtherInsuranceRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,7 @@ class UpdateOtherInsuranceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'image' => ['nullable','file', 'mimes:jpg,png,jpeg,pdf,doc', 'max:2048'],
         ];
     }
 

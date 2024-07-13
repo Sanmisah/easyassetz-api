@@ -10,6 +10,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\MotorInsuranceResource;
+use App\Http\Requests\StoreMotorInsuranceRequest;
+use App\Http\Requests\UpdateMotorInsuranceRequest;
 
 class MotorInsuranceController extends BaseController
 {
@@ -29,7 +31,7 @@ class MotorInsuranceController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(StoreMotorInsuranceRequest $request): JsonResponse
     {
 
         if($request->hasFile('image')){
@@ -93,7 +95,7 @@ class MotorInsuranceController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateMotorInsuranceRequest $request, string $id)
     {
         if($request->hasFile('image')){
             $motorFileNameWithExtention = $request->file('image')->getClientOriginalName();
