@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\MutualFundResource;
 use App\Http\Controllers\Api\BaseController;
 
@@ -27,6 +28,14 @@ class MutualFundController extends BaseController
      */
     public function store(Request $request): JsonResponse
     {
+        if($request->hasFile('image')){
+            $mfFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $mfFilename = pathinfo($mfFileNameWithExtention, PATHINFO_FILENAME);
+            $mfExtention = $request->file('image')->getClientOriginalExtension();
+            $mfFileNameToStore = $mfilename.'_'.time().'.'.$mfExtention;
+            $mfPath = $request->file('image')->storeAs('public/MutualFund', $mfFileNameToStore);
+         }
+
         $user = Auth::user();
         $mutualFund = new MutualFund();
         $mutualFund->profile_id = $user->profile->id;
@@ -37,7 +46,9 @@ class MutualFundController extends BaseController
         $mutualFund->joint_holder_name = $request->input('jointHolderName');
         $mutualFund->joint_holder_pan = $request->input('jointHolderPan');
         $mutualFund->additional_details = $request->input('additionalDetails');
-        $mutualFund->image = $request->input('image');
+        if($request->hasFile('image')){
+            $mutualFund->image = $mfFileNameToStore;
+         }
         $mutualFund->name = $request->input('name');
         $mutualFund->mobile = $request->input('mobile');
         $mutualFund->email = $request->input('email');
@@ -72,6 +83,14 @@ class MutualFundController extends BaseController
      */
     public function update(Request $request, string $id): JsonResponse
     {
+        if($request->hasFile('image')){
+            $mfFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $mfFilename = pathinfo($mfFileNameWithExtention, PATHINFO_FILENAME);
+            $mfExtention = $request->file('image')->getClientOriginalExtension();
+            $mfFileNameToStore = $mfilename.'_'.time().'.'.$mfExtention;
+            $mfPath = $request->file('image')->storeAs('public/MutualFund', $mfFileNameToStore);
+         }
+
         $mutualFund = MutualFund::find($id);
         if(!$mutualFund){
             return $this->sendError('Mutual Fund Detail Not Found',['error'=>'Mutual Fund Detail not found']);
@@ -88,7 +107,9 @@ class MutualFundController extends BaseController
          $mutualFund->joint_holder_name = $request->input('jointHolderName');
          $mutualFund->joint_holder_pan = $request->input('jointHolderPan');
          $mutualFund->additional_details = $request->input('additionalDetails');
-         $mutualFund->image = $request->input('image');
+         if($request->hasFile('image')){
+            $mutualFund->image = $mfFileNameToStore;
+         }
          $mutualFund->name = $request->input('name');
          $mutualFund->mobile = $request->input('mobile');
          $mutualFund->email = $request->input('email');
@@ -118,6 +139,7 @@ class MutualFundController extends BaseController
         if($user->profile->id !== $mutualFund->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Mutual Fund Details']);
         }
+        Storage::delete('public/MutualFund/'.$mutualFund->image);
         $mutualFund->delete();
 
         return $this->sendResponse([], 'Mutual Fund Details deleted successfully');

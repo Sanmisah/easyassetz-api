@@ -7,6 +7,7 @@ use App\Models\BrokingAccount;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\BrokingAccountResource;
 
@@ -32,7 +33,7 @@ class BrokingAccountController extends BaseController
             $brokingFilename = pathinfo($brokingFileNameWithExtention, PATHINFO_FILENAME);
             $brokingExtention = $request->file('brokingAccountFile')->getClientOriginalExtension();
             $brokingFileNameToStore = $brokingFilename.'_'.time().'.'.$brokingExtention;
-            $brokingPath = $request->file('brokingAccountFile')->storeAs('public/brokingAccount', $brokingFileNameToStore);
+            $brokingPath = $request->file('brokingAccountFile')->storeAs('public/BrokingAccount', $brokingFileNameToStore);
          }
 
         $user = Auth::user();
@@ -88,7 +89,7 @@ class BrokingAccountController extends BaseController
             $brokingFilename = pathinfo($brokingFileNameWithExtention, PATHINFO_FILENAME);
             $brokingExtention = $request->file('brokingAccountFile')->getClientOriginalExtension();
             $brokingFileNameToStore = $brokingFilename.'_'.time().'.'.$brokingExtention;
-            $brokingPath = $request->file('brokingAccountFile')->storeAs('public/brokingAccount', $brokingFileNameToStore);
+            $brokingPath = $request->file('brokingAccountFile')->storeAs('public/BrokingAccount', $brokingFileNameToStore);
          }
 
          $brokingAccount = BrokingAccount::find($id);
@@ -138,6 +139,7 @@ class BrokingAccountController extends BaseController
         if($user->profile->id !== $brokingAccount->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Broking Account']);
         }
+        Storage::delete('public/BrokingAccount/'.$brokingAccount->image);
         $brokingAccount->delete();
 
         return $this->sendResponse([], 'Broking Account deleted successfully');

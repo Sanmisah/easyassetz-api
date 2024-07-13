@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ESOPResource;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
 
 class ESOPController extends BaseController
@@ -28,6 +29,14 @@ class ESOPController extends BaseController
      */
     public function store(Request $request): JsonResponse
     {
+        if($request->hasFile('image')){
+            $esopFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $esopFilename = pathinfo($esopFileNameWithExtention, PATHINFO_FILENAME);
+            $esopExtention = $request->file('image')->getClientOriginalExtension();
+            $esopFileNameToStore = $esopFilename.'_'.time().'.'.$esopExtention;
+            $esopPath = $request->file('image')->storeAs('public/ESOP', $esopFileNameToStore);
+         }
+
         $user = Auth::user();
         $esop = new ESOP();
         $esop->profile_id = $user->profile->id;
@@ -38,7 +47,9 @@ class ESOPController extends BaseController
         $esop->joint_holder_name = $request->input('jointHolderName');
         $esop->joint_holder_pan = $request->input('jointHolderPan');
         $esop->additional_details = $request->input('additional_details');
-        $esop->image = $request->input('image');
+        if($request->hasFile('image')){
+            $esop->image = $esopFileNameToStore;
+         }
         $esop->name = $request->input('name');
         $esop->mobile = $request->input('mobile');
         $esop->email = $request->input('email');
@@ -75,6 +86,14 @@ class ESOPController extends BaseController
      */
     public function update(Request $request, string $id): JsonResponse
     {
+        if($request->hasFile('image')){
+            $esopFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $esopFilename = pathinfo($esopFileNameWithExtention, PATHINFO_FILENAME);
+            $esopExtention = $request->file('image')->getClientOriginalExtension();
+            $esopFileNameToStore = $esopFilename.'_'.time().'.'.$esopExtention;
+            $esopPath = $request->file('image')->storeAs('public/ESOP', $esopFileNameToStore);
+         }
+
         $esop = ESOP::find($id);
         if(!$esop){
             return $this->sendError('ESOP Detail Not Found',['error'=>'ESOP Detail not found']);
@@ -91,7 +110,9 @@ class ESOPController extends BaseController
          $esop->joint_holder_name = $request->input('jointHolderName');
          $esop->joint_holder_pan = $request->input('jointHolderPan');
          $esop->additional_details = $request->input('additional_details');
-         $esop->image = $request->input('image');
+         if($request->hasFile('image')){
+            $esop->image = $esopFileNameToStore;
+         }
          $esop->name = $request->input('name');
          $esop->mobile = $request->input('mobile');
          $esop->email = $request->input('email');
@@ -120,6 +141,7 @@ class ESOPController extends BaseController
         if($user->profile->id !== $esop->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this ESOP Details']);
         }
+        Storage::delete('public/ESOP/'.$esop->image);
         $esop->delete();
 
         return $this->sendResponse([], 'ESOP Details deleted successfully');

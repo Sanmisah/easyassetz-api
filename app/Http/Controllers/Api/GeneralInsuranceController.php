@@ -8,6 +8,7 @@ use App\Models\GeneralInsurance;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\GeneralInsuranceResource;
 use App\Http\Requests\StoreGeneralInsuranceRequest;
@@ -156,6 +157,7 @@ class GeneralInsuranceController extends BaseController
         if($user->profile->id !== $generalInsurance->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this General Insurance']);
         }
+        Storage::delete('public/GeneralInsurance/'.$generalInsurance->image);
         $generalInsurance->delete();
 
         return $this->sendResponse([], 'General Insurance deleted successfully');

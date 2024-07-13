@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\InvestmentFund;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\AlternateInvestmentFundResource;
@@ -141,6 +142,7 @@ class AlternateInvestmentFundController extends BaseController
         if($user->profile->id !== $investmentFund->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this alternate Investment fund']);
         }
+        Storage::delete('public/InvestmentFund/'.$investmentFund->image);
         $investmentFund->delete();
 
         return $this->sendResponse([], 'Alternate investment fund deleted successfully');

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\MembershipResource;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Controllers\Api\MembershipController;
@@ -30,6 +31,14 @@ class MembershipController extends BaseController
      */
     public function store(Request $request): JsonResponse
     {
+        if($request->hasFile('image')){
+            $membershipFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $membershipFilename = pathinfo($membershipFileNameWithExtention, PATHINFO_FILENAME);
+            $membershipExtention = $request->file('image')->getClientOriginalExtension();
+            $membershipFileNameToStore = $membershipFilename.'_'.time().'.'.$membershipExtention;
+            $membershipPath = $request->file('image')->storeAs('public/Membership', $membershipFileNameToStore);
+         }
+    
        $user = Auth::user();
      $membership = new Membership();
      $membership->profile_id = $user->profile->id;
@@ -40,7 +49,9 @@ class MembershipController extends BaseController
      $membership->name = $request->input('name');
      $membership->mobile = $request->input('mobile');
      $membership->email = $request->input('email');
-     $membership->image = $request->input('image');
+     if($request->hasFile('image')){
+        $membership->image = $membershipFileNameToStore;
+     }
      $membership->save();
 
      if($request->has('nominees')){
@@ -76,6 +87,14 @@ class MembershipController extends BaseController
      */
     public function update(Request $request, string $id): JsonResponse
     {
+        if($request->hasFile('image')){
+            $membershipFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $membershipFilename = pathinfo($membershipFileNameWithExtention, PATHINFO_FILENAME);
+            $membershipExtention = $request->file('image')->getClientOriginalExtension();
+            $membershipFileNameToStore = $membershipFilename.'_'.time().'.'.$membershipExtention;
+            $membershipPath = $request->file('image')->storeAs('public/Membership', $membershipFileNameToStore);
+         }
+
         $membership = Membership::find($id);
         if(!$membership){
             return $this->sendError('Membership Not Found', ['error'=>'Membership not found']);     
@@ -93,7 +112,9 @@ class MembershipController extends BaseController
          $membership->name = $request->input('name');
          $membership->mobile = $request->input('mobile');
          $membership->email = $request->input('email');
-         $membership->image = $request->input('image');
+         if($request->hasFile('image')){
+            $membership->image = $membershipFileNameToStore;
+         }
          $membership->save();
          
 
@@ -116,6 +137,7 @@ class MembershipController extends BaseController
     if($user->profile->id !== $membership->profile_id){
         return $this->sendError('Unauthorized',['error' =>'You are not allowed to access this Membership' ]);
     }
+    Storage::delete('public/Membership/'.$membership->image);
     $membership->delete();
 
     return $this->sendResponse([], 'Membership deleted successfully');

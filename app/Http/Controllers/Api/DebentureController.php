@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\DebentureResource;
 use App\Http\Resources\MutualFundResource;
 use App\Http\Controllers\Api\BaseController;
@@ -28,6 +29,14 @@ class DebentureController extends BaseController
      */
     public function store(Request $request): JsonResponse
     {
+        if($request->hasFile('image')){
+            $debentureFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $debentureFilename = pathinfo($debentureFileNameWithExtention, PATHINFO_FILENAME);
+            $debentureExtention = $request->file('image')->getClientOriginalExtension();
+            $debentureFileNameToStore = $debentureFilename.'_'.time().'.'.$debentureExtention;
+            $debenturePath = $request->file('image')->storeAs('public/Debenture', $debentureFileNameToStore);
+         }
+
         $user = Auth::user();
         $debenture = new Debenture();
         $debenture->profile_id = $user->profile->id;
@@ -43,7 +52,9 @@ class DebentureController extends BaseController
         $debenture->joint_holder_name = $request->input('jointHolderName');
         $debenture->joint_holder_pan = $request->input('jointHolderPan');
         $debenture->additional_details = $request->input('additionalDetails');
-        $debenture->image = $request->input('image');
+        if($request->hasFile('image')){
+            $debenture->image = $debentureFileNameToStore;
+         }
         $debenture->name = $request->input('name');
         $debenture->mobile = $request->input('mobile');
         $debenture->email = $request->input('email');
@@ -80,6 +91,14 @@ class DebentureController extends BaseController
      */
     public function update(Request $request, string $id): JsonResponse
     {
+        if($request->hasFile('image')){
+            $debentureFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $debentureFilename = pathinfo($debentureFileNameWithExtention, PATHINFO_FILENAME);
+            $debentureExtention = $request->file('image')->getClientOriginalExtension();
+            $debentureFileNameToStore = $debentureFilename.'_'.time().'.'.$debentureExtention;
+            $debenturePath = $request->file('image')->storeAs('public/Debenture', $debentureFileNameToStore);
+         }
+
         $debenture = Debenture::find($id);
         if(!$debenture){
             return $this->sendError('Debenture Detail Not Found',['error'=>'Debenture Detail not found']);
@@ -101,7 +120,9 @@ class DebentureController extends BaseController
          $debenture->joint_holder_name = $request->input('jointHolderName');
          $debenture->joint_holder_pan = $request->input('jointHolderPan');
          $debenture->additional_details = $request->input('additionalDetails');
-         $debenture->image = $request->input('image');
+         if($request->hasFile('image')){
+            $debenture->image = $debentureFileNameToStore;
+         }
          $debenture->name = $request->input('name');
          $debenture->mobile = $request->input('mobile');
          $debenture->email = $request->input('email');
@@ -130,6 +151,7 @@ class DebentureController extends BaseController
         if($user->profile->id !== $debenture->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Debenture Details']);
         }
+        Storage::delete('public/Debenture/'.$debenture->image);
         $debenture->delete();
 
         return $this->sendResponse([], 'Debenture Details deleted successfully');

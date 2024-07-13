@@ -8,6 +8,7 @@ use App\Models\LifeInsurance;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\LifeInsuranceResource;
 use App\Http\Requests\StoreLifeInsuranceRequest;
@@ -160,6 +161,7 @@ class LifeInsuranceController extends BaseController
         if($user->profile->id !== $lifeInsurance->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Life Insurance']);
         }
+        Storage::delete('public/LifeInsurance/'.$lifeInsurance->image);
         $lifeInsurance->delete();
 
         return $this->sendResponse([], 'Life Insurance deleted successfully');

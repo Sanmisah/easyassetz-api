@@ -8,6 +8,7 @@ use App\Models\MotorInsurance;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\MotorInsuranceResource;
 use App\Http\Requests\StoreMotorInsuranceRequest;
@@ -166,6 +167,7 @@ class MotorInsuranceController extends BaseController
         if($user->profile->id !== $motorInsurance->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Motor Insurance']);
         }
+        Storage::delete('public/MotorInsurance/'.$motorInsurance->image);
         $motorInsurance->delete();
 
         return $this->sendResponse([], 'Motor Insurance deleted successfully');

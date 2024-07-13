@@ -8,6 +8,7 @@ use App\Models\OtherInsurance;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\OtherInsuranceResource;
 use App\Http\Requests\StoreOtherInsuranceRequest;
@@ -157,6 +158,7 @@ class OtherInsuranceController extends BaseController
         if($user->profile->id !== $otherInsurance->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Other Insurance']);
         }
+        Storage::delete('public/OtherInsurance/'.$otherInsurance->image);
         $otherInsurance->delete();
 
         return $this->sendResponse([], 'Other Insurance deleted successfully');

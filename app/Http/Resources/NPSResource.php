@@ -20,7 +20,7 @@ class NPSResource extends JsonResource
         return [
             'id' => $this->id,
             'profileId' => $this->profile_id,
-            'permanentRetirementAccountNo' => $this->permanent_retirement_account_no,
+            'PRAN' => $this->permanent_retirement_account_no,
             'natureOfHolding' => $this->nature_of_holding,
             'jointHolderName' => $this->joint_holder_name,
             'jointHolderPan' => $this->joint_holder_pan,

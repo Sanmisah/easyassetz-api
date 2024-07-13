@@ -33,7 +33,7 @@ class WealthManagementAccountController extends BaseController
             $wealthFilename = pathinfo($wealthFileNameWithExtention, PATHINFO_FILENAME);
             $wealthExtention = $request->file('wealthManagementFile')->getClientOriginalExtension();
             $wealthFileNameToStore = $wealthFilename.'_'.time().'.'.$wealthExtention;
-            $wealthPath = $request->file('wealthManagementFile')->storeAs('public/wealthManagementFile', $wealthFileNameToStore);
+            $wealthPath = $request->file('wealthManagementFile')->storeAs('public/WealthManagementAccount', $wealthFileNameToStore);
          }
 
         $user = Auth::user();
@@ -89,7 +89,7 @@ class WealthManagementAccountController extends BaseController
             $wealthFilename = pathinfo($wealthFileNameWithExtention, PATHINFO_FILENAME);
             $wealthExtention = $request->file('wealthManagementFile')->getClientOriginalExtension();
             $wealthFileNameToStore = $wealthFilename.'_'.time().'.'.$wealthExtention;
-            $wealthPath = $request->file('wealthManagementFile')->storeAs('public/wealthManagementFile', $wealthFileNameToStore);
+            $wealthPath = $request->file('wealthManagementFile')->storeAs('public/WealthManagementAccount', $wealthFileNameToStore);
          }
 
          $wealthManagementAccount = WealthManagement::find($id);
@@ -139,7 +139,7 @@ class WealthManagementAccountController extends BaseController
         if($user->profile->id !== $wealthManagementAccount->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Wealth Management Account']);
         }
-        Storage::delete('public/wealthManagementFile'.$wealthManagementAccount->image);
+        Storage::delete('public/WealthManagementAccount'.$wealthManagementAccount->image);
         $wealthManagementAccount->delete();
 
         return $this->sendResponse([], 'Wealth Management Account deleted successfully');

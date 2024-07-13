@@ -8,6 +8,7 @@ use App\Models\HealthInsurance;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\HealthInsuranceResource;
 use App\Http\Requests\StoreHealthInsurnaceRequest;
@@ -166,6 +167,7 @@ class HealthInsuranceController extends BaseController
         if($user->profile->id !== $healthInsurance->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Health Insurance']);
         }
+        Storage::delete('public/HealthInsurance/'.$healthInsurance->image);
         $healthInsurance->delete();
 
         return $this->sendResponse([], 'Health Insurance deleted successfully');

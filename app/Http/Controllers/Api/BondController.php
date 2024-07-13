@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BondResource;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
 
 class BondController extends BaseController
@@ -27,6 +28,14 @@ class BondController extends BaseController
      */
     public function store(Request $request): JsonResponse
     {
+        if($request->hasFile('image')){
+            $bondFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $bondFilename = pathinfo($bondFileNameWithExtention, PATHINFO_FILENAME);
+            $bondExtention = $request->file('image')->getClientOriginalExtension();
+            $bondFileNameToStore = $bondFilename.'_'.time().'.'.$bondExtention;
+            $bondPath = $request->file('image')->storeAs('public/Bond', $bondFileNameToStore);
+         }
+
         $user = Auth::user();
         $bond = new Bond();
         $bond->profile_id = $user->profile->id;
@@ -42,7 +51,9 @@ class BondController extends BaseController
         $bond->joint_holder_name = $request->input('jointHolderName');
         $bond->joint_holder_pan = $request->input('jointHolderPan');
         $bond->additional_details = $request->input('additionalDetails');
-        $bond->image = $request->input('image');
+        if($request->hasFile('image')){
+            $bond->image = $bondFileNameToStore;
+         }
         $bond->name = $request->input('name');
         $bond->mobile = $request->input('mobile');
         $bond->email = $request->input('email');
@@ -78,6 +89,14 @@ class BondController extends BaseController
      */
     public function update(Request $request, string $id): JsonResponse
     {
+        if($request->hasFile('image')){
+            $bondFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $bondFilename = pathinfo($bondFileNameWithExtention, PATHINFO_FILENAME);
+            $bondExtention = $request->file('image')->getClientOriginalExtension();
+            $bondFileNameToStore = $bondFilename.'_'.time().'.'.$bondExtention;
+            $bondPath = $request->file('image')->storeAs('public/Bond', $bondFileNameToStore);
+         }
+
         $bond = Bond::find($id);
         if(!$bond){
             return $this->sendError('Bond Detail Not Found',['error'=>'Bond Detail not found']);
@@ -99,7 +118,9 @@ class BondController extends BaseController
          $bond->joint_holder_name = $request->input('jointHolderName');
          $bond->joint_holder_pan = $request->input('jointHolderPan');
          $bond->additional_details = $request->input('additionalDetails');
-         $bond->image = $request->input('image');
+         if($request->hasFile('image')){
+            $bond->image = $bondFileNameToStore;
+         }
          $bond->name = $request->input('name');
          $bond->mobile = $request->input('mobile');
          $bond->email = $request->input('email');
@@ -128,6 +149,7 @@ class BondController extends BaseController
         if($user->profile->id !== $bond->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Bond Details']);
         }
+        Storage::delete('public/Bond/'.$bond->image);
         $bond->delete();
 
         return $this->sendResponse([], 'Bond Details deleted successfully');

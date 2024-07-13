@@ -131,7 +131,7 @@ class BusinessAssetController extends BaseController
         $businessAsset->holding_type = $request->input('holdingType');
         $businessAsset->joint_holder_name = $request->input('jointHolderName');
         $businessAsset->joint_holder_pan = $request->input('jointHolderPan');
-        $businessAsset->document_availability = $request->input('documentAvailability');
+        $businessAsset->document_availability = json_encode($request->input('documentAvailability'));
         if($request->hasFile('shareCentificateFile')){
             $businessAsset->share_centificate_file = $sharePath;
          } 

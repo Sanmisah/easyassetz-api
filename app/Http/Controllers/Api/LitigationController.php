@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\LitigationResource;
 use App\Http\Controllers\Api\BaseController;
 
@@ -27,6 +28,15 @@ class LitigationController extends BaseController
      */
     public function store(Request $request): JsonResponse
     {
+
+        if($request->hasFile('image')){
+            $litigationFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $litigationFilename = pathinfo($litigationFileNameWithExtention, PATHINFO_FILENAME);
+            $litigationExtention = $request->file('image')->getClientOriginalExtension();
+            $litigationFileNameToStore = $litigationFilename.'_'.time().'.'.$litigationExtention;
+            $litigationPath = $request->file('image')->storeAs('public/Litigation', $litigationFileNameToStore);
+         }
+
         $user = Auth::user();
         $litigation = new Litigation();
         $litigation->profile_id = $user->profile->id;
@@ -39,12 +49,11 @@ class LitigationController extends BaseController
         $litigation->other_party_address = $request->input('otherPartyAddress');
         $litigation->lawyer_name = $request->input('lawyerName');
         $litigation->lawyer_contact = $request->input('lawyerContact');
-        $formatedDate = $request->input('caseFillingDate');
-        $carbonDate = Carbon::parse($formatedDate);
-        $iso8601Date = $carbonDate->toIso8601String();
-        $litigation->case_filling_date = $iso8601Date;
+        $litigation->case_filling_date = $request->input('caseFillingDate');
         $litigation->status = $request->input('status');
-        $litigation->image = $request->input('image');
+        if($request->hasFile('image')){
+            $litigation->image = $litigationFileNameToStore;
+         }
         $litigation->additional_information = $request->input('additionalInformation');
         $litigation->save();
 
@@ -74,7 +83,16 @@ class LitigationController extends BaseController
      */
     public function update(Request $request, string $id): JsonResponse
     {
-        $litigation = OtherInsurance::find($id);
+
+        if($request->hasFile('image')){
+            $litigationFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $litigationFilename = pathinfo($litigationFileNameWithExtention, PATHINFO_FILENAME);
+            $litigationExtention = $request->file('image')->getClientOriginalExtension();
+            $litigationFileNameToStore = $litigationFilename.'_'.time().'.'.$litigationExtention;
+            $litigationPath = $request->file('image')->storeAs('public/Litigation', $litigationFileNameToStore);
+         }
+
+        $litigation = Litigation::find($id);
         if(!$litigation){
             return $this->sendError('Other Insurance Not Found',['error'=>'Other Insurance not found']);
         }
@@ -92,12 +110,11 @@ class LitigationController extends BaseController
         $litigation->other_party_address = $request->input('otherPartyAddress');
         $litigation->lawyer_name = $request->input('lawyerName');
         $litigation->lawyer_contact = $request->input('lawyerContact');
-        $formatedDate = $request->input('caseFillingDate');
-        $carbonDate = Carbon::parse($formatedDate);
-        $iso8601Date = $carbonDate->toIso8601String();
-        $litigation->case_filling_date = $iso8601Date;
+        $litigation->case_filling_date = $request->input('caseFillingDate');
         $litigation->status = $request->input('status');
-        $litigation->image = $request->input('image');
+        if($request->hasFile('image')){
+            $litigation->image = $litigationFileNameToStore;
+         }
         $litigation->additional_information = $request->input('additionalInformation');
         $litigation->save();
 
@@ -118,6 +135,7 @@ class LitigationController extends BaseController
         if($user->profile->id !== $litigation->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Litigation']);
         }
+        Storage::delete('public/Litigation/'.$litigation->image);
         $litigation->delete();
 
         return $this->sendResponse([], 'Litigation deleted successfully');

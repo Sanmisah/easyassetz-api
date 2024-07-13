@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use App\Models\OtherFinancialAsset;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\OtherFinancialAssetResource;
 
@@ -141,6 +142,7 @@ class OtherFinancialAssetController extends BaseController
         if($user->profile->id !== $otherFinancialAsset->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Other Financial Assets']);
         }
+        Storage::delete('public/OtherFinancialAsset/'.$otherFinancialAsset->image);
         $otherFinancialAsset->delete();
 
         return $this->sendResponse([], 'Other Financial Assets deleted successfully');

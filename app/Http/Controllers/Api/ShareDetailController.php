@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\ShareDetailResource;
 use App\Http\Controllers\Api\BaseController;
 
@@ -27,6 +28,14 @@ class ShareDetailController extends BaseController
      */
     public function store(Request $request): JsonResponse
     {
+        if($request->hasFile('image')){
+            $shareFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $shareFilename = pathinfo($shareFileNameWithExtention, PATHINFO_FILENAME);
+            $shareExtention = $request->file('image')->getClientOriginalExtension();
+            $shareFileNameToStore = $shareFilename.'_'.time().'.'.$shareExtention;
+            $sharePath = $request->file('image')->storeAs('public/ShareDetail', $shareFileNameToStore);
+         }
+
         $user = Auth::user();
         $shareDetail = new ShareDetail();
         $shareDetail->profile_id = $user->profile->id;
@@ -41,7 +50,9 @@ class ShareDetailController extends BaseController
         $shareDetail->joint_holder_name = $request->input('jointHolderName');
         $shareDetail->joint_holder_pan = $request->input('jointHolderPan');
         $shareDetail->additional_details = $request->input('additionalDetails');
-        $shareDetail->image = $request->input('image');
+        if($request->hasFile('image')){
+            $shareDetail->image = $shareFileNameToStore;
+         }
         $shareDetail->name = $request->input('name');
         $shareDetail->mobile = $request->input('mobile');
         $shareDetail->email = $request->input('email');
@@ -77,6 +88,14 @@ class ShareDetailController extends BaseController
      */
     public function update(Request $request, string $id): JsonResponse
     {
+        if($request->hasFile('image')){
+            $shareFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $shareFilename = pathinfo($shareFileNameWithExtention, PATHINFO_FILENAME);
+            $shareExtention = $request->file('image')->getClientOriginalExtension();
+            $shareFileNameToStore = $shareFilename.'_'.time().'.'.$shareExtention;
+            $sharePath = $request->file('image')->storeAs('public/ShareDetail', $shareFileNameToStore);
+         }
+
         $shareDetail = ShareDetail::find($id);
         if(!$shareDetail){
             return $this->sendError('Share Detail Not Found',['error'=>'Share Detail not found']);
@@ -97,7 +116,9 @@ class ShareDetailController extends BaseController
          $shareDetail->joint_holder_name = $request->input('jointHolderName');
          $shareDetail->joint_holder_pan = $request->input('jointHolderPan');
          $shareDetail->additional_details = $request->input('additionalDetails');
-         $shareDetail->image = $request->input('image');
+         if($request->hasFile('image')){
+            $shareDetail->image = $shareFileNameToStore;
+         }
          $shareDetail->name = $request->input('name');
          $shareDetail->mobile = $request->input('mobile');
          $shareDetail->email = $request->input('email');
@@ -127,6 +148,7 @@ class ShareDetailController extends BaseController
         if($user->profile->id !== $shareDetail->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Share Details']);
         }
+        Storage::delete('public/ShareDetail/'.$shareDetail->image);
         $shareDetail->delete();
 
         return $this->sendResponse([], 'Share Details deleted successfully');

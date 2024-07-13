@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\CryptoResource;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\LitigationResource;
 use App\Http\Controllers\Api\BaseController;
 
@@ -34,7 +35,7 @@ class CryptoController extends BaseController
             $cryptoFilename = pathinfo($cryptoFileNameWithExtention, PATHINFO_FILENAME);
             $cryptoExtention = $request->file('cryptoFile')->getClientOriginalExtension();
             $cryptoFileNameToStore = $cryptoFilename.'_'.time().'.'.$cryptoExtention;
-            $cryptoPath = $request->file('cryptoFile')->storeAs('public/profiles/cryptoFiles', $cryptoFileNameToStore);
+            $cryptoPath = $request->file('cryptoFile')->storeAs('public/Crypto', $cryptoFileNameToStore);
          }
 
         $user = Auth::user();
@@ -94,7 +95,7 @@ class CryptoController extends BaseController
             $cryptoFilename = pathinfo($cryptoFileNameWithExtention, PATHINFO_FILENAME);
             $cryptoExtention = $request->file('cryptoFile')->getClientOriginalExtension();
             $cryptoFileNameToStore = $cryptoFilename.'_'.time().'.'.$cryptoExtention;
-            $cryptoPath = $request->file('cryptoFile')->storeAs('public/cryptoFiles', $cryptoFileNameToStore);
+            $cryptoPath = $request->file('cryptoFile')->storeAs('public/Crypto', $cryptoFileNameToStore);
          }
 
         $crypto = Crypto::find($id);
@@ -148,6 +149,7 @@ class CryptoController extends BaseController
         if($user->profile->id !== $crypto->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Crypto']);
         }
+        Storage::delete('public/Crypto/'.$crypto->image);
         $crypto->delete();
 
         return $this->sendResponse([], 'Crypto deleted successfully');

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\DematAccountResource;
 
@@ -32,7 +33,7 @@ class DematAccountController extends BaseController
             $dematFilename = pathinfo($dematFileNameWithExtention, PATHINFO_FILENAME);
             $dematExtention = $request->file('dematAccountFile')->getClientOriginalExtension();
             $dematFileNameToStore = $dematFilename.'_'.time().'.'.$dematExtention;
-            $dematPath = $request->file('dematAccountFile')->storeAs('public/dematAccountFiles', $dematFileNameToStore);
+            $dematPath = $request->file('dematAccountFile')->storeAs('public/DematAccount', $dematFileNameToStore);
          }
 
         $user = Auth::user();
@@ -89,7 +90,7 @@ class DematAccountController extends BaseController
             $dematFilename = pathinfo($dematFileNameWithExtention, PATHINFO_FILENAME);
             $dematExtention = $request->file('dematAccountFile')->getClientOriginalExtension();
             $dematFileNameToStore = $dematFilename.'_'.time().'.'.$dematExtention;
-            $dematPath = $request->file('dematAccountFile')->storeAs('public/dematAccountFiles', $dematFileNameToStore);
+            $dematPath = $request->file('dematAccountFile')->storeAs('public/DematAccount', $dematFileNameToStore);
          }
 
         $dematAccount = DematAccount::find($id);
@@ -140,6 +141,7 @@ class DematAccountController extends BaseController
         if($user->profile->id !== $dematAccount->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Demat Account']);
         }
+        Storage::delete('public/DematAccount/'.$dematAccount->image);
         $dematAccount->delete();
 
         return $this->sendResponse([], 'Demat Account deleted successfully');
