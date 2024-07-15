@@ -96,8 +96,28 @@ class LandController extends BaseController
             $litigationFilename = pathinfo($litigationFileNameWithExtention, PATHINFO_FILENAME);
             $litigationExtention = $request->file('litigationFile')->getClientOriginalExtension();
             $litigationFileNameToStore = $litigationFilename.'_'.time().'.'.$litigationExtention;
-            $litigationPath = $request->file('litigationFile')->storeAs('public/litigationFile', $litigationFileNameToStore);
+            $litigationPath = $request->file('litigationFile')->storeAs('public/DigitalAsset/LitigationFiles', $litigationFileNameToStore);
          }
+
+
+        if($request->hasFile('leaseDocumentFile')){
+            $ldfFileNameWithExtention = $request->file('leaseDocumentFile')->getClientOriginalName();
+            $ldFilename = pathinfo($ldFileNameWithExtention, PATHINFO_FILENAME);
+            $ldExtention = $request->file('leaseDocumentFile')->getClientOriginalExtension();
+            $ldFileNameToStore = $ldFilename.'_'.time().'.'.$ldExtention;
+            $ldPath = $request->file('leaseDocumentFile')->storeAs('public/DigitalAsset/LeaseDocumentFiles', $ldFileNameToStore);
+         }
+
+
+
+        if($request->hasFile('agreementFile')){
+            $litigationFileNameWithExtention = $request->file('agreementFile')->getClientOriginalName();
+            $litigationFilename = pathinfo($litigationFileNameWithExtention, PATHINFO_FILENAME);
+            $litigationExtention = $request->file('agreementFile')->getClientOriginalExtension();
+            $litigationFileNameToStore = $litigationFilename.'_'.time().'.'.$litigationExtention;
+            $litigationPath = $request->file('agreementFile')->storeAs('public/DigitalAsset/AgreementFiles', $litigationFileNameToStore);
+         }
+
 
         $land = Land::find($id);
         if(!$land){
@@ -126,8 +146,11 @@ class LandController extends BaseController
          $land->joint_holders_aadhar = $request->input('jointHoldersAadhar');
          $land->any_loan_litigation = $request->input('anyLoanLitigation');
          if($request->hasFile('litigationFile')){
-             $land->image = $litigationFileNameToStore;
+             $land->litigation_file = $litigationFileNameToStore;
           }
+          if($request->hasFile('leaseDocumentFile')){
+            $land->lease_document_file = $ldFileNameToStore;
+         }
          $land->name = $request->input('name');
          $land->mobile = $request->input('mobile');
          $land->email = $request->input('email');

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\SuperAnnuation;
+use App\Models\Beneficiary;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -12,7 +12,7 @@ class SuperAnnuation extends Model
 
 
     public function nominee(){
-        return $this->belongsToMany(SuperAnnuation::class, 'super_annuation_nominee');
+        return $this->belongsToMany(Beneficiary::class, 'super_annuation_nominee');
     }
     
 }

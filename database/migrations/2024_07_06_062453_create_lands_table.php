@@ -31,9 +31,9 @@ return new class extends Migration
             $table->string('joint_holders_pan')->nullable();
             $table->string('joint_holders_aadhar')->nullable();
             $table->string('any_loan_litigation')->nullable();
-            $table->string('litigationFile')->nullable();
-            $table->string('leaseDocumentFile')->nullable();
-            $table->string('agreementFile')->nullable();
+            $table->string('litigation_file')->nullable();
+            $table->string('lease_document_file')->nullable();
+            $table->string('agreement_file')->nullable();
             $table->string('7_12_extract')->nullable();
             $table->string('name')->nullable();
             $table->string('mobile')->nullable();

@@ -57,7 +57,6 @@ class SuperAnnuationController extends BaseController
             $superAnnuation->nominee()->attach($nominee_id);
         }
 
-       
         return $this->sendResponse(['SuperAnnuation'=> new SuperAnnuationResource($superAnnuation)], 'Super Annuation details stored successfully');
 
     }

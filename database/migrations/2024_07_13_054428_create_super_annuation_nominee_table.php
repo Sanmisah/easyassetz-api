@@ -13,11 +13,8 @@ return new class extends Migration
     {
         Schema::create('super_annuation_nominee', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('super_annuation_id');
-            $table->unsignedBigInteger('beneficiary_id')->nullable(); // This corresponds to nominee_id
-        
-            $table->foreign('super_annuation_id')->references('id')->on('super_annuations')->onDelete('cascade');
-            $table->foreign('beneficiary_id')->references('id')->on('beneficiaries')->onDelete('cascade');
+            $table->foreignId('super_annuation_id')->constrained()->onDelete('cascade');
+            $table->foreignId('beneficiary_id')->contrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

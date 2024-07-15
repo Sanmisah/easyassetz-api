@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\ProvidentFund;
+use App\Models\Beneficiary;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -11,7 +11,7 @@ class ProvidentFund extends Model
     use HasFactory;
 
     public function nominee(){
-        return $this->belongsToMany(ProvidentFund::class,'provident_fund_nominee');
+        return $this->belongsToMany(Beneficiary::class,'provident_fund_nominee');
      }
 
 }
