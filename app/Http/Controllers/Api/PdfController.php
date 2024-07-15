@@ -8,9 +8,8 @@ use Illuminate\Support\Facades\Storage; // Import Storage facade
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Api\BaseController;
 
-class PdfController extends BaseController
+class PdfController extends Controller
 {
     protected $pdf;
 
@@ -45,7 +44,7 @@ class PdfController extends BaseController
     //     return $this->pdf->download('test.pdf');
     // }
 
-    public function generatePDF(): JsonResponse
+    public function generatePDF()
     {
         $data = [
             'title' => 'Welcome to Laravel PDF generation',
@@ -56,7 +55,12 @@ class PdfController extends BaseController
 
         $pdf = $this->pdf->output(); // Get the PDF content
 
-        return response()->json(['message' => 'PDF generated successfully', 'pdf' => base64_encode($pdf)]);
+       // return response()->json(['message' => 'PDF generated successfully', 'pdf' => base64_encode($pdf)]);
+    //    return response($pdf, 200)
+    //    ->header('Content-Type', 'application/pdf')
+    //    ->header('Content-Disposition', 'attachment; filename="test.pdf"');
+    return $this->pdf->download('test.pdf');
+
     }
 
 }

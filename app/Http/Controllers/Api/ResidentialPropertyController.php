@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use App\Models\ResidentialProperty;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\ResidentialPropertyResource;
 
@@ -177,7 +178,7 @@ class ResidentialPropertyController extends BaseController
             $leaseDocumentFilename = pathinfo($leaseDocumentFileNameWithExtention, PATHINFO_FILENAME);
             $leaseDocumentExtention = $request->file('leaseDocumentFile')->getClientOriginalExtension();
             $leaseDocumentFileNameToStore = $leaseDocumentFilename.'_'.time().'.'.$leaseDocumentExtention;
-            $leaseDocumentPath = $request->file('leaseDocumentFile')->storeAs('public/ResidentialProperty/leaseDocumentFile', $leaseDocumentFileNameToStore);
+            $leaseDocumentPath = $request->file('leaseDocumentFile')->storeAs('public/ResidentialProperty/LeaseDocumentFile', $leaseDocumentFileNameToStore);
          }
 
          $residentialProperty = ResidentialProperty::find($id);
@@ -250,6 +251,26 @@ class ResidentialPropertyController extends BaseController
         $user = Auth::user();
         if($user->profile->id !== $residentialProperty->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Residential Property']);
+        }
+
+        if (!empty($residentialProperty->litigation_file) && Storage::exists('public/ResidentialProperty/LitigationFiles/' . $residentialProperty->litigation_file)) {
+         Storage::delete('public/ResidentialProperty/LitigationFiles/' . $residentialProperty->litigation_file);
+        }
+
+        if (!empty($residentialProperty->agreement_file) && Storage::exists('public/ResidentialProperty/AgreementCopy/' . $residentialProperty->agreement_file)) {
+         Storage::delete('public/ResidentialProperty/AgreementCopy/' . $residentialProperty->agreement_file);
+        }
+
+        if (!empty($residentialProperty->rent_agreement_file) && Storage::exists('public/ResidentialProperty/RentAgreementFile/' . $residentialProperty->rent_agreement_file)) {
+         Storage::delete('public/ResidentialProperty/RentAgreementFile/' . $residentialProperty->rent_agreement_file);
+        }
+
+        if (!empty($residentialProperty->share_certificate_file) && Storage::exists('public/ResidentialProperty/ShareCertificateFile/' . $residentialProperty->share_certificate_file)) {
+         Storage::delete('public/ResidentialProperty/ShareCertificateFile/' . $residentialProperty->share_certificate_file);
+        }
+
+        if (!empty($residentialProperty->leaseDocumentFile) && Storage::exists('public/ResidentialProperty/LeaseDocumentFile/' . $residentialProperty->leaseDocumentFile)) {
+         Storage::delete('public/ResidentialProperty/LeaseDocumentFile/' . $residentialProperty->leaseDocumentFile);
         }
         $residentialProperty->delete();
 
