@@ -97,14 +97,14 @@ class ProvidentFundController extends BaseController
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Provident fund']);
           }
 
-          $ProvidentFund->employer_name = $request->input('employerName');
+          $providentFund->employer_name = $request->input('employerName');
           $providentFund->uan_number = $request->input('uanNumber');
           $providentFund->bank_name = $request->input('bankName');
           $providentFund->branch = $request->input('branch');
           $providentFund->bank_account_number = $request->input('bankAccountNumber');
           $providentFund->additional_details = $request->input('additionalDetails');
           if($request->hasFile('image')){
-              $ProvidentFund->image = $pfFileNameToStore;
+              $providentFund->image = $pfFileNameToStore;
            }         
           $providentFund->name = $request->input('name');
           $providentFund->mobile = $request->input('mobile');
