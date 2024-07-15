@@ -18,7 +18,7 @@ class ProvidentFundController extends BaseController
     public function index(): JsonResponse
     {
         $user = Auth::user();
-        $ProvidentFund = $user->profile->providentFund()->get();
+        $ProvidentFund = $user->profile->providentFund()->with('nominee')->get();
         return $this->sendResponse(['ProvidentFund'=>ProvidentFundResource::collection($ProvidentFund)],'Provident fund details retrived Successfully');
     }
 
@@ -72,6 +72,7 @@ class ProvidentFundController extends BaseController
         if($user->profile->id !== $providentFund->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Provident fund']);
          }
+         $providentFund->load('nominee');
         return $this->sendResponse(['ProvidentFund'=>new ProvidentFundResource($providentFund)], 'Provident Fund retrived successfully');
     }
 
@@ -110,6 +111,13 @@ class ProvidentFundController extends BaseController
           $providentFund->mobile = $request->input('mobile');
           $providentFund->email = $request->input('email');
           $providentFund->save();
+
+          if($request->has('nominees')) {
+            $nominee_ids = $request->input('nominees');
+            $providentFund->nominee()->sync($nominee_ids);
+        }else {
+            $providentFund->nominee()->detach();
+        }
 
          return $this->sendResponse(['ProvidentFund'=> new ProvidentFundResource($providentFund)], 'Provident Fund details updated successfully');
 
