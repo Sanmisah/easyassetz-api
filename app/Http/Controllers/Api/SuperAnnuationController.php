@@ -19,7 +19,7 @@ class SuperAnnuationController extends BaseController
     {
         $user = Auth::user();
         $superAnnuation = $user->profile->superAnnuation()->with('nominee')->get();
-        return sendResponse(['SuperAnnuation'=>SuperAnnuationResource::collection($superAnnuation)],'Super Annuation details retrived Successfully');
+        return $this->sendResponse(['SuperAnnuation'=>SuperAnnuationResource::collection($superAnnuation)],'Super Annuation details retrived Successfully');
     }
 
     /**

@@ -99,7 +99,6 @@ class LandController extends BaseController
             $litigationPath = $request->file('litigationFile')->storeAs('public/DigitalAsset/LitigationFiles', $litigationFileNameToStore);
          }
 
-
         if($request->hasFile('leaseDocumentFile')){
             $ldfFileNameWithExtention = $request->file('leaseDocumentFile')->getClientOriginalName();
             $ldFilename = pathinfo($ldFileNameWithExtention, PATHINFO_FILENAME);
@@ -108,14 +107,20 @@ class LandController extends BaseController
             $ldPath = $request->file('leaseDocumentFile')->storeAs('public/DigitalAsset/LeaseDocumentFiles', $ldFileNameToStore);
          }
 
-
-
         if($request->hasFile('agreementFile')){
-            $litigationFileNameWithExtention = $request->file('agreementFile')->getClientOriginalName();
-            $litigationFilename = pathinfo($litigationFileNameWithExtention, PATHINFO_FILENAME);
-            $litigationExtention = $request->file('agreementFile')->getClientOriginalExtension();
-            $litigationFileNameToStore = $litigationFilename.'_'.time().'.'.$litigationExtention;
-            $litigationPath = $request->file('agreementFile')->storeAs('public/DigitalAsset/AgreementFiles', $litigationFileNameToStore);
+            $agreementFileNameWithExtention = $request->file('agreementFile')->getClientOriginalName();
+            $agreementFilename = pathinfo($agreementFileNameWithExtention, PATHINFO_FILENAME);
+            $agreementExtention = $request->file('agreementFile')->getClientOriginalExtension();
+            $agreementFileNameToStore = $agreementFilename.'_'.time().'.'.$agreementExtention;
+            $agreementPath = $request->file('agreementFile')->storeAs('public/DigitalAsset/AgreementFiles', $agreementFileNameToStore);
+         }
+
+         if($request->hasFile('extractFile')){
+            $extractFileNameWithExtention = $request->file('extractFile')->getClientOriginalName();
+            $extractFilename = pathinfo($extractFileNameWithExtention, PATHINFO_FILENAME);
+            $extractExtention = $request->file('extractFile')->getClientOriginalExtension();
+            $extractFileNameToStore = $extractFilename.'_'.time().'.'.$extractExtention;
+            $extractPath = $request->file('extractFile')->storeAs('public/DigitalAsset/Extract_7_12', $extractFileNameToStore);
          }
 
 
@@ -150,6 +155,12 @@ class LandController extends BaseController
           }
           if($request->hasFile('leaseDocumentFile')){
             $land->lease_document_file = $ldFileNameToStore;
+         }
+         if($request->hasFile('agreementFile')){
+            $land->agreement_file = $agreementFileNameToStore;
+         }
+         if($request->hasFile('extractFile')){
+            $land->extract_7_12 = $extractFileNameToStore;
          }
          $land->name = $request->input('name');
          $land->mobile = $request->input('mobile');

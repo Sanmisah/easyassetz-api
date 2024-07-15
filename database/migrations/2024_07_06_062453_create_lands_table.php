@@ -34,7 +34,7 @@ return new class extends Migration
             $table->string('litigation_file')->nullable();
             $table->string('lease_document_file')->nullable();
             $table->string('agreement_file')->nullable();
-            $table->string('7_12_extract')->nullable();
+            $table->string('extract_7_12')->nullable();
             $table->string('name')->nullable();
             $table->string('mobile')->nullable();
             $table->string('email')->nullable();
