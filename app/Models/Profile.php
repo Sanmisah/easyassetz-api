@@ -24,6 +24,7 @@ use App\Models\FixDeposite;
 use App\Models\ShareDetail;
 use App\Models\VehicleLoan;
 use App\Models\DematAccount;
+use App\Models\DigitalAsset;
 use App\Models\PersonalLoan;
 use App\Models\BusinessAsset;
 use App\Models\LifeInsurance;
@@ -388,6 +389,10 @@ class Profile extends Model
 
     public function commercialProperty(){
         return $this->hasMany(CommercialProperty::class, 'profile_id');
+    }
+
+    public function digitalAsset(){
+        return $this->hasMany(DigitalAsset::class, 'profile_id');
     }
 
 
