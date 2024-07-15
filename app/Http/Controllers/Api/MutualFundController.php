@@ -139,7 +139,10 @@ class MutualFundController extends BaseController
         if($user->profile->id !== $mutualFund->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Mutual Fund Details']);
         }
-        Storage::delete('public/MutualFund/'.$mutualFund->image);
+
+        if (!empty($mutualFund->image) && Storage::exists('public/MutualFund/' . $mutualFund->image)) {
+            Storage::delete('public/MutualFund/' . $mutualFund->image);
+        }
         $mutualFund->delete();
 
         return $this->sendResponse([], 'Mutual Fund Details deleted successfully');

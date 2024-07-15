@@ -167,7 +167,10 @@ class HealthInsuranceController extends BaseController
         if($user->profile->id !== $healthInsurance->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Health Insurance']);
         }
-        Storage::delete('public/HealthInsurance/'.$healthInsurance->image);
+
+        if (!empty($healthInsurance->image) && Storage::exists('public/HealthInsurance/' . $healthInsurance->image)) {
+            Storage::delete('public/HealthInsurance/' . $healthInsurance->image);
+        }
         $healthInsurance->delete();
 
         return $this->sendResponse([], 'Health Insurance deleted successfully');

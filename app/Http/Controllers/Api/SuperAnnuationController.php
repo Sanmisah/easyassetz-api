@@ -130,15 +130,15 @@ class SuperAnnuationController extends BaseController
      */
     public function destroy(string $id): JsonResponse
     {
-        $nps = NPS::find($id);
-        if(!$nps){
+        $superAnnuation = SuperAnnuation::find($id);
+        if(!$superAnnuation){
             return $this->sendError('Super Annuation not found', ['error'=>'Super Annuation not found']);
         }
         $user = Auth::user();
-        if($user->profile->id !== $nps->profile_id){
+        if($user->profile->id !== $superAnnuation->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Super Annuation']);
         }
-        $nps->delete();
+        $superAnnuation->delete();
 
         return $this->sendResponse([], 'Super Annuation deleted successfully');
     }

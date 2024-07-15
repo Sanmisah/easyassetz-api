@@ -161,7 +161,10 @@ class LifeInsuranceController extends BaseController
         if($user->profile->id !== $lifeInsurance->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Life Insurance']);
         }
-        Storage::delete('public/LifeInsurance/'.$lifeInsurance->image);
+
+        if (!empty($lifeInsurance->image) && Storage::exists('public/LifeInsurance/' . $lifeInsurance->image)) {
+            Storage::delete('public/LifeInsurance/' . $lifeInsurance->image);
+        }
         $lifeInsurance->delete();
 
         return $this->sendResponse([], 'Life Insurance deleted successfully');

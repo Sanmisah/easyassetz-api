@@ -167,7 +167,11 @@ class MotorInsuranceController extends BaseController
         if($user->profile->id !== $motorInsurance->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Motor Insurance']);
         }
-        Storage::delete('public/MotorInsurance/'.$motorInsurance->image);
+
+        if (!empty($motorInsurance->image) && Storage::exists('public/MotorInsurance/' . $motorInsurance->image)) {
+            Storage::delete('public/MotorInsurance/' . $motorInsurance->image);
+        }
+
         $motorInsurance->delete();
 
         return $this->sendResponse([], 'Motor Insurance deleted successfully');

@@ -157,7 +157,10 @@ class GeneralInsuranceController extends BaseController
         if($user->profile->id !== $generalInsurance->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this General Insurance']);
         }
-        Storage::delete('public/GeneralInsurance/'.$generalInsurance->image);
+
+        if (!empty($generalInsurance->image) && Storage::exists('public/GeneralInsurance/' . $generalInsurance->image)) {
+            Storage::delete('public/GeneralInsurance/' . $generalInsurance->image);
+        }
         $generalInsurance->delete();
 
         return $this->sendResponse([], 'General Insurance deleted successfully');

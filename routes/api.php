@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\NPSController;
+use App\Http\Controllers\Api\PdfController;
 use App\Http\Controllers\Api\BondController;
 use App\Http\Controllers\Api\FileController;
 use App\Http\Controllers\Api\UserController;
@@ -78,3 +79,5 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('super-annuations', SuperAnnuationController::class);
 
 });
+
+Route::get('/generate-pdf', [PdfController::class,'generatePDF']);
