@@ -158,7 +158,11 @@ class OtherInsuranceController extends BaseController
         if($user->profile->id !== $otherInsurance->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Other Insurance']);
         }
-        Storage::delete('public/OtherInsurance/'.$otherInsurance->image);
+
+        if (!empty($otherInsurance->image) && Storage::exists('public/OtherInsurance/'.$otherInsurance->image)) {
+            Storage::delete('public/OtherInsurance/'.$otherInsurance->image);
+           }
+
         $otherInsurance->delete();
 
         return $this->sendResponse([], 'Other Insurance deleted successfully');

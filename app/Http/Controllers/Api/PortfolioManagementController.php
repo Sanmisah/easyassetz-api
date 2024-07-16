@@ -140,7 +140,11 @@ class PortfolioManagementController extends BaseController
         if($user->profile->id !== $portfolioManagement->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this portfolio management service']);
         }
-        Storage::delete('public/PortfolioManagement/'.$portfolioManagement->image);
+
+        if (!empty($portfolioManagement->image) && Storage::exists('public/PortfolioManagement/'.$portfolioManagement->image)) {
+            Storage::delete('public/PortfolioManagement/'.$portfolioManagement->image);
+           }
+
         $portfolioManagement->delete();
 
         return $this->sendResponse([], 'portfolio management service deleted successfully');

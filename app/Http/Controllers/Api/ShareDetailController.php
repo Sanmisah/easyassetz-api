@@ -148,7 +148,11 @@ class ShareDetailController extends BaseController
         if($user->profile->id !== $shareDetail->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Share Details']);
         }
-        Storage::delete('public/ShareDetail/'.$shareDetail->image);
+
+        if (!empty($shareDetail->image) && Storage::exists('public/ShareDetail/'.$shareDetail->image)) {
+            Storage::delete('public/ShareDetail/'.$shareDetail->image);
+           }
+
         $shareDetail->delete();
 
         return $this->sendResponse([], 'Share Details deleted successfully');

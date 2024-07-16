@@ -141,7 +141,11 @@ class ESOPController extends BaseController
         if($user->profile->id !== $esop->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this ESOP Details']);
         }
-        Storage::delete('public/ESOP/'.$esop->image);
+
+        if (!empty($esop->image) && Storage::exists('public/ESOP/'.$esop->image)) {
+            Storage::delete('public/ESOP/'.$esop->image);
+           }
+
         $esop->delete();
 
         return $this->sendResponse([], 'ESOP Details deleted successfully');

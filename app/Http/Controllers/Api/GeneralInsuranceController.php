@@ -158,9 +158,10 @@ class GeneralInsuranceController extends BaseController
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this General Insurance']);
         }
 
-        if (!empty($generalInsurance->image) && Storage::exists('public/GeneralInsurance/' . $generalInsurance->image)) {
-            Storage::delete('public/GeneralInsurance/' . $generalInsurance->image);
+        if (!empty($generalInsurance->image) && Storage::exists('public/GeneralInsurance/'.$generalInsurance->image)) {
+            Storage::delete('public/GeneralInsurance/'.$generalInsurance->image);
         }
+        
         $generalInsurance->delete();
 
         return $this->sendResponse([], 'General Insurance deleted successfully');

@@ -141,7 +141,11 @@ class DematAccountController extends BaseController
         if($user->profile->id !== $dematAccount->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Demat Account']);
         }
-        Storage::delete('public/DematAccount/'.$dematAccount->image);
+
+        if (!empty($dematAccount->image) && Storage::exists('public/DematAccount/'.$dematAccount->image)) {
+            Storage::delete('public/DematAccount/'.$dematAccount->image);
+           }
+
         $dematAccount->delete();
 
         return $this->sendResponse([], 'Demat Account deleted successfully');

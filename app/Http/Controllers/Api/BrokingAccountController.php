@@ -139,7 +139,11 @@ class BrokingAccountController extends BaseController
         if($user->profile->id !== $brokingAccount->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Broking Account']);
         }
-        Storage::delete('public/BrokingAccount/'.$brokingAccount->image);
+
+        if (!empty($brokingAccount->image) && Storage::exists('public/BrokingAccount/'.$brokingAccount->image)) {
+            Storage::delete('public/BrokingAccount/'.$brokingAccount->image);
+           }
+
         $brokingAccount->delete();
 
         return $this->sendResponse([], 'Broking Account deleted successfully');

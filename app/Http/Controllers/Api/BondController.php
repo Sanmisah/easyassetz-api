@@ -149,7 +149,11 @@ class BondController extends BaseController
         if($user->profile->id !== $bond->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Bond Details']);
         }
-        Storage::delete('public/Bond/'.$bond->image);
+
+        if (!empty($bond->image) && Storage::exists('public/Bond/'.$bond->image)) {
+            Storage::delete('public/Bond/'.$bond->image);
+           }
+        
         $bond->delete();
 
         return $this->sendResponse([], 'Bond Details deleted successfully');

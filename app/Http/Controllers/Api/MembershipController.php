@@ -137,7 +137,11 @@ class MembershipController extends BaseController
     if($user->profile->id !== $membership->profile_id){
         return $this->sendError('Unauthorized',['error' =>'You are not allowed to access this Membership' ]);
     }
-    Storage::delete('public/Membership/'.$membership->image);
+
+    if(!empty($membership->image) && Storage::exists('public/Membership/'.$membership->image)) {
+        Storage::delete('public/Membership/'.$membership->image);
+    }
+
     $membership->delete();
 
     return $this->sendResponse([], 'Membership deleted successfully');

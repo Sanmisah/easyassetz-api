@@ -139,7 +139,11 @@ class WealthManagementAccountController extends BaseController
         if($user->profile->id !== $wealthManagementAccount->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Wealth Management Account']);
         }
-        Storage::delete('public/WealthManagementAccount'.$wealthManagementAccount->image);
+
+        if (!empty($wealthManagementAccount->image) && Storage::exists('public/WealthManagementAccount/'.$wealthManagementAccount->image)) {
+            Storage::delete('public/WealthManagementAccount/'.$wealthManagementAccount->image);
+           }
+
         $wealthManagementAccount->delete();
 
         return $this->sendResponse([], 'Wealth Management Account deleted successfully');

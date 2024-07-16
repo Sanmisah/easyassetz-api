@@ -142,7 +142,11 @@ class AlternateInvestmentFundController extends BaseController
         if($user->profile->id !== $investmentFund->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this alternate Investment fund']);
         }
-        Storage::delete('public/InvestmentFund/'.$investmentFund->image);
+
+        if (!empty($investmentFund->image) && Storage::exists('public/InvestmentFund/'.$investmentFund->image)) {
+            Storage::delete('public/InvestmentFund/'.$investmentFund->image);
+           }
+
         $investmentFund->delete();
 
         return $this->sendResponse([], 'Alternate investment fund deleted successfully');

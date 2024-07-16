@@ -141,6 +141,11 @@ class FixDepositeController extends BaseController
         if($user->profile->id !== $fixDeposit->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Fix deposite']);
         }
+
+        if (!empty($fixDeposit->image) && Storage::exists('public/FixDeposite/'.$fixDeposit->image)) {
+            Storage::delete('public/FixDeposite/'.$fixDeposit->image);
+        }
+
         $fixDeposit->delete();
 
         return $this->sendResponse([], 'Fix deposite deleted successfully');

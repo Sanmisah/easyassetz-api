@@ -149,7 +149,11 @@ class CryptoController extends BaseController
         if($user->profile->id !== $crypto->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Crypto']);
         }
-        Storage::delete('public/Crypto/'.$crypto->image);
+
+        if(!empty($crypto->image) && Storage::exists('public/Crypto/'.$crypto->image)) {
+            Storage::delete('public/Crypto/'.$crypto->image);
+        }
+
         $crypto->delete();
 
         return $this->sendResponse([], 'Crypto deleted successfully');

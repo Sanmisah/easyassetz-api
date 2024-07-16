@@ -48,7 +48,7 @@ class PublicProvidentFundController extends BaseController
             $pubilcProvidentFund->image = $ppfFileNameToStore;
          }  
         $pubilcProvidentFund->name = $request->input('name');
-        $pubilcProvidentFund->mobile = $request->input('mobile');
+        $pubilcProvidentFund->mobile = $request->input('phone');
         $pubilcProvidentFund->email = $request->input('email');
 
         $pubilcProvidentFund->save();
@@ -112,7 +112,7 @@ class PublicProvidentFundController extends BaseController
              $pubilcProvidentFund->image = $ppfFileNameToStore;
           }  
          $pubilcProvidentFund->name = $request->input('name');
-         $pubilcProvidentFund->mobile = $request->input('mobile');
+         $pubilcProvidentFund->mobile = $request->input('phone');
          $pubilcProvidentFund->email = $request->input('email');
  
          $pubilcProvidentFund->save();

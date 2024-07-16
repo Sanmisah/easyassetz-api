@@ -151,7 +151,11 @@ class DebentureController extends BaseController
         if($user->profile->id !== $debenture->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Debenture Details']);
         }
-        Storage::delete('public/Debenture/'.$debenture->image);
+        
+        if (!empty($debenture->image) && Storage::exists('public/Debenture/'.$debenture->image)) {
+            Storage::delete('public/Debenture/'.$debenture->image);
+           }
+
         $debenture->delete();
 
         return $this->sendResponse([], 'Debenture Details deleted successfully');

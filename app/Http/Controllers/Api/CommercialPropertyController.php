@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use App\Models\CommercialProperty;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\CommercialPropertyResource;
 
@@ -32,7 +33,7 @@ class CommercialPropertyController extends BaseController
             $litigationFilename = pathinfo($litigationFileNameWithExtention, PATHINFO_FILENAME);
             $litigationExtention = $request->file('litigationFile')->getClientOriginalExtension();
             $litigationFileNameToStore = $litigationFilename.'_'.time().'.'.$litigationExtention;
-            $litigationPath = $request->file('litigationFile')->storeAs('public/ResidentialProperty/LitigationFiles', $portfolioFileNameToStore);
+            $litigationPath = $request->file('litigationFile')->storeAs('public/CommercialProperty/LitigationFiles', $portfolioFileNameToStore);
          }
 
          if($request->hasFile('agreementCopy')){
@@ -40,7 +41,7 @@ class CommercialPropertyController extends BaseController
             $agreementCopyFilename = pathinfo($agreementCopyFileNameWithExtention, PATHINFO_FILENAME);
             $agreementCopyExtention = $request->file('agreementCopy')->getClientOriginalExtension();
             $agreementCopyFileNameToStore = $agreementCopyFilename.'_'.time().'.'.$agreementCopyExtention;
-            $agreementCopyPath = $request->file('agreementCopy')->storeAs('public/ResidentialProperty/AgreementCopy', $agreementCopyFileNameToStore);
+            $agreementCopyPath = $request->file('agreementCopy')->storeAs('public/CommercialProperty/AgreementCopy', $agreementCopyFileNameToStore);
          }
 
          if($request->hasFile('rentAgreementFile')){
@@ -48,7 +49,7 @@ class CommercialPropertyController extends BaseController
             $rentAgreementFilename = pathinfo($rentAgreementFileNameWithExtention, PATHINFO_FILENAME);
             $rentAgreementExtention = $request->file('rentAgreementFile')->getClientOriginalExtension();
             $rentAgreementFileNameToStore = $rentAgreementFilename.'_'.time().'.'.$rentAgreementExtention;
-            $rentAgreementPath = $request->file('rentAgreementFile')->storeAs('public/ResidentialProperty/RentAgreementFile', $rentAgreementFileNameToStore);
+            $rentAgreementPath = $request->file('rentAgreementFile')->storeAs('public/CommercialProperty/RentAgreementFile', $rentAgreementFileNameToStore);
          }
 
          if($request->hasFile('shareCertificateFile')){
@@ -56,7 +57,7 @@ class CommercialPropertyController extends BaseController
             $shareCertificateFilename = pathinfo($shareCertificateFileNameWithExtention, PATHINFO_FILENAME);
             $shareCertificateExtention = $request->file('shareCertificateFile')->getClientOriginalExtension();
             $shareCertificateFileNameToStore = $shareCertificateFilename.'_'.time().'.'.$shareCertificateExtention;
-            $shareCertificatePath = $request->file('shareCertificateFile')->storeAs('public/ResidentialProperty/ShareCertificateFile', $shareCertificateFileNameToStore);
+            $shareCertificatePath = $request->file('shareCertificateFile')->storeAs('public/CommercialProperty/ShareCertificateFile', $shareCertificateFileNameToStore);
          }
 
          if($request->hasFile('leaseDocumentFile')){
@@ -64,7 +65,7 @@ class CommercialPropertyController extends BaseController
             $leaseDocumentFilename = pathinfo($leaseDocumentFileNameWithExtention, PATHINFO_FILENAME);
             $leaseDocumentExtention = $request->file('leaseDocumentFile')->getClientOriginalExtension();
             $leaseDocumentFileNameToStore = $leaseDocumentFilename.'_'.time().'.'.$leaseDocumentExtention;
-            $leaseDocumentPath = $request->file('leaseDocumentFile')->storeAs('public/ResidentialProperty/leaseDocumentFile', $leaseDocumentFileNameToStore);
+            $leaseDocumentPath = $request->file('leaseDocumentFile')->storeAs('public/CommercialProperty/LeaseDocumentFile', $leaseDocumentFileNameToStore);
          }
 
         $user = Auth::user();
@@ -144,7 +145,7 @@ class CommercialPropertyController extends BaseController
             $litigationFilename = pathinfo($litigationFileNameWithExtention, PATHINFO_FILENAME);
             $litigationExtention = $request->file('litigationFile')->getClientOriginalExtension();
             $litigationFileNameToStore = $litigationFilename.'_'.time().'.'.$litigationExtention;
-            $litigationPath = $request->file('litigationFile')->storeAs('public/ResidentialProperty/LitigationFiles', $portfolioFileNameToStore);
+            $litigationPath = $request->file('litigationFile')->storeAs('public/CommercialProperty/LitigationFiles', $portfolioFileNameToStore);
          }
 
          if($request->hasFile('agreementCopy')){
@@ -152,7 +153,7 @@ class CommercialPropertyController extends BaseController
             $agreementCopyFilename = pathinfo($agreementCopyFileNameWithExtention, PATHINFO_FILENAME);
             $agreementCopyExtention = $request->file('agreementCopy')->getClientOriginalExtension();
             $agreementCopyFileNameToStore = $agreementCopyFilename.'_'.time().'.'.$agreementCopyExtention;
-            $agreementCopyPath = $request->file('agreementCopy')->storeAs('public/ResidentialProperty/AgreementCopy', $agreementCopyFileNameToStore);
+            $agreementCopyPath = $request->file('agreementCopy')->storeAs('public/CommercialProperty/AgreementCopy', $agreementCopyFileNameToStore);
          }
 
          if($request->hasFile('rentAgreementFile')){
@@ -160,7 +161,7 @@ class CommercialPropertyController extends BaseController
             $rentAgreementFilename = pathinfo($rentAgreementFileNameWithExtention, PATHINFO_FILENAME);
             $rentAgreementExtention = $request->file('rentAgreementFile')->getClientOriginalExtension();
             $rentAgreementFileNameToStore = $rentAgreementFilename.'_'.time().'.'.$rentAgreementExtention;
-            $rentAgreementPath = $request->file('rentAgreementFile')->storeAs('public/ResidentialProperty/RentAgreementFile', $rentAgreementFileNameToStore);
+            $rentAgreementPath = $request->file('rentAgreementFile')->storeAs('public/CommercialProperty/RentAgreementFile', $rentAgreementFileNameToStore);
          }
 
          if($request->hasFile('shareCertificateFile')){
@@ -168,7 +169,7 @@ class CommercialPropertyController extends BaseController
             $shareCertificateFilename = pathinfo($shareCertificateFileNameWithExtention, PATHINFO_FILENAME);
             $shareCertificateExtention = $request->file('shareCertificateFile')->getClientOriginalExtension();
             $shareCertificateFileNameToStore = $shareCertificateFilename.'_'.time().'.'.$shareCertificateExtention;
-            $shareCertificatePath = $request->file('shareCertificateFile')->storeAs('public/ResidentialProperty/ShareCertificateFile', $shareCertificateFileNameToStore);
+            $shareCertificatePath = $request->file('shareCertificateFile')->storeAs('public/CommercialProperty/ShareCertificateFile', $shareCertificateFileNameToStore);
          }
 
          if($request->hasFile('leaseDocumentFile')){
@@ -176,7 +177,7 @@ class CommercialPropertyController extends BaseController
             $leaseDocumentFilename = pathinfo($leaseDocumentFileNameWithExtention, PATHINFO_FILENAME);
             $leaseDocumentExtention = $request->file('leaseDocumentFile')->getClientOriginalExtension();
             $leaseDocumentFileNameToStore = $leaseDocumentFilename.'_'.time().'.'.$leaseDocumentExtention;
-            $leaseDocumentPath = $request->file('leaseDocumentFile')->storeAs('public/ResidentialProperty/leaseDocumentFile', $leaseDocumentFileNameToStore);
+            $leaseDocumentPath = $request->file('leaseDocumentFile')->storeAs('public/CommercialProperty/LeaseDocumentFile', $leaseDocumentFileNameToStore);
          }
 
          $commercialProperty = CommercialProperty::find($id);
@@ -249,6 +250,27 @@ class CommercialPropertyController extends BaseController
         if($user->profile->id !== $commercialProperty->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Commercial Property']);
         }
+        
+        if (!empty($commercialProperty->litigation_file) && Storage::exists('public/CommercialProperty/LitigationFiles/'.$commercialProperty->litigation_file)) {
+         Storage::delete('public/CommercialProperty/LitigationFiles/'.$commercialProperty->litigation_file);
+        }
+
+        if (!empty($commercialProperty->agreement_file) && Storage::exists('public/CommercialProperty/AgreementCopy/'.$commercialProperty->agreement_file)) {
+         Storage::delete('public/CommercialProperty/AgreementCopy/'.$commercialProperty->agreement_file);
+        }
+
+        if (!empty($commercialProperty->rent_agreement_file) && Storage::exists('public/CommercialProperty/RentAgreementFile/'.$commercialProperty->rent_agreement_file)) {
+         Storage::delete('public/CommercialProperty/RentAgreementFile/'.$commercialProperty->rent_agreement_file);
+        }
+
+        if (!empty($commercialProperty->share_certificate_file) && Storage::exists('public/CommercialProperty/ShareCertificateFile/'.$commercialProperty->share_certificate_file)) {
+         Storage::delete('public/CommercialProperty/ShareCertificateFile/'.$commercialProperty->share_certificate_file);
+        }
+
+        if (!empty($commercialProperty->lease_document_file) && Storage::exists('public/CommercialProperty/LeaseDocumentFile/'.$commercialProperty->lease_document_file)) {
+         Storage::delete('public/CommercialProperty/LeaseDocumentFile/'.$commercialProperty->lease_document_file);
+        }
+
         $commercialProperty->delete();
 
         return $this->sendResponse([], 'Commercial Property deleted successfully');

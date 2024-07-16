@@ -142,7 +142,11 @@ class OtherFinancialAssetController extends BaseController
         if($user->profile->id !== $otherFinancialAsset->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Other Financial Assets']);
         }
-        Storage::delete('public/OtherFinancialAsset/'.$otherFinancialAsset->image);
+
+        if (!empty($otherFinancialAsset->image) && Storage::exists('public/OtherFinancialAsset/'.$otherFinancialAsset->image)) {
+            Storage::delete('public/OtherFinancialAsset/'.$otherFinancialAsset->image);
+           }
+
         $otherFinancialAsset->delete();
 
         return $this->sendResponse([], 'Other Financial Assets deleted successfully');
