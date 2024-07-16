@@ -7,6 +7,7 @@ use App\Models\ProvidentFund;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\ProvidentFundResource;
 
@@ -136,6 +137,11 @@ class ProvidentFundController extends BaseController
         if($user->profile->id !== $providentFund->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Provident fund']);
         }
+
+        if(!empty($providentFund->image) && Storage::exists('public/ProvidentFund/'.$providentFund->image)) {
+            Storage::delete('public/ProvidentFund/'.$providentFund->image);
+        }
+        
         $providentFund->delete();
 
         return $this->sendResponse([], 'Provident fund deleted successfully');

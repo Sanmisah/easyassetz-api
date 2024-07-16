@@ -6,6 +6,7 @@ use App\Models\BankAccount;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\BankAccountResource;
 use App\Http\Controllers\Api\BaseController;
 
@@ -139,6 +140,11 @@ class BankAccountController extends BaseController
         if($user->profile->id !== $bankAccount->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Bank Account']);
         }
+
+        if(!empty($bankAccount->image) && Storage::exists('public/BankAccount/'.$bankAccount->image)) {
+            Storage::delete('public/BankAccount/'.$bankAccount->image);
+        }
+        
         $bankAccount->delete();
 
         return $this->sendResponse([], 'bank Account fund deleted successfully');

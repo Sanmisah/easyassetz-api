@@ -7,6 +7,7 @@ use App\Models\PostSavingScheme;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\PostSavingSchemeResource;
 
@@ -131,6 +132,11 @@ class PostSavingSchemeController extends BaseController
         if($user->profile->id !== $postSavingScheme->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Post Saving Scheme']);
         }
+
+        if(!empty($postSavingScheme->image) && Storage::exists('public/PostSavingScheme/'.$postSavingScheme->image)) {
+            Storage::delete('public/PostSavingScheme/'.$postSavingScheme->image);
+        }
+        
         $postSavingScheme->delete();
 
         return $this->sendResponse([], 'Post Saving Scheme deleted successfully');

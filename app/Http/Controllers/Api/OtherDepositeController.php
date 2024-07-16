@@ -7,6 +7,7 @@ use App\Models\OtherDeposite;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\OtherDepositeResource;
 
@@ -28,11 +29,11 @@ class OtherDepositeController extends BaseController
     public function store(Request $request): JsonResponse
     {
         if($request->hasFile('image')){
-            $fundFileNameWithExtention = $request->file('image')->getClientOriginalName();
-            $fundFilename = pathinfo($fundFileNameWithExtention, PATHINFO_FILENAME);
-            $fundExtention = $request->file('image')->getClientOriginalExtension();
-            $fundFileNameToStore = $fundFilename.'_'.time().'.'.$fundExtention;
-            $fundPath = $request->file('image')->storeAs('public/OtherDeposite', $fundFileNameToStore);
+            $depositFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $depositFilename = pathinfo($depositFileNameWithExtention, PATHINFO_FILENAME);
+            $depositExtention = $request->file('image')->getClientOriginalExtension();
+            $depositFileNameToStore = $depositFilename.'_'.time().'.'.$depositExtention;
+            $depositPath = $request->file('image')->storeAs('public/OtherDeposit', $depositFileNameToStore);
          }
 
         $user = Auth::user();
@@ -47,7 +48,9 @@ class OtherDepositeController extends BaseController
         $otherDeposite->joint_holder_name = $request->input('jointHolderName');
         $otherDeposite->joint_holder_pan = $request->input('jointHolderPan');
         $otherDeposite->additional_details = $request->input('additional_details');
-        $otherDeposite->image = $request->input('image');
+        if($request->hasFile('image')){
+            $otherDeposite->image = $depositFileNameToStore;
+         } 
         $otherDeposite->save();
 
         if($request->has('nominees')){
@@ -83,11 +86,11 @@ class OtherDepositeController extends BaseController
     public function update(Request $request, string $id): JsonResponse
     {
         if($request->hasFile('image')){
-            $fundFileNameWithExtention = $request->file('image')->getClientOriginalName();
-            $fundFilename = pathinfo($fundFileNameWithExtention, PATHINFO_FILENAME);
-            $fundExtention = $request->file('image')->getClientOriginalExtension();
-            $fundFileNameToStore = $fundFilename.'_'.time().'.'.$fundExtention;
-            $fundPath = $request->file('image')->storeAs('public/OtherDeposite', $fundFileNameToStore);
+            $depositFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $depositFilename = pathinfo($depositFileNameWithExtention, PATHINFO_FILENAME);
+            $depositExtention = $request->file('image')->getClientOriginalExtension();
+            $depositFileNameToStore = $depositFilename.'_'.time().'.'.$depositExtention;
+            $depositPath = $request->file('image')->storeAs('public/OtherDeposit', $depositFileNameToStore);
          }
 
         $otherDeposite = OtherDeposite::find($id);
@@ -108,7 +111,9 @@ class OtherDepositeController extends BaseController
          $otherDeposite->joint_holder_name = $request->input('jointHolderName');
          $otherDeposite->joint_holder_pan = $request->input('jointHolderPan');
          $otherDeposite->additional_details = $request->input('additional_details');
-         $otherDeposite->image = $request->input('image');
+         if($request->hasFile('image')){
+            $otherDeposite->image = $depositFileNameToStore;
+         } 
          $otherDeposite->save();
 
          if($request->has('nominees')) {
@@ -135,6 +140,11 @@ class OtherDepositeController extends BaseController
         if($user->profile->id !== $otherDeposite->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Other Deposite']);
         }
+
+        if(!empty($otherDeposite->image) && Storage::exists('public/OtherDeposit/'.$otherDeposite->image)) {
+            Storage::delete('public/OtherDeposit/'.$otherDeposite->image);
+        }
+
         $otherDeposite->delete();
 
         return $this->sendResponse([], 'Other Deposite deleted successfully');

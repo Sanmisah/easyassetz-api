@@ -7,6 +7,7 @@ use App\Models\SuperAnnuation;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\SuperAnnuationResource;
 
@@ -138,6 +139,11 @@ class SuperAnnuationController extends BaseController
         if($user->profile->id !== $superAnnuation->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Super Annuation']);
         }
+         
+        if(!empty($superAnnuation->image) && Storage::exists('public/SuperAnnuation/'.$superAnnuation->image)) {
+            Storage::delete('public/SuperAnnuation/'.$superAnnuation->image);
+        }
+
         $superAnnuation->delete();
 
         return $this->sendResponse([], 'Super Annuation deleted successfully');

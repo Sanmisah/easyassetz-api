@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\GratuityResource;
 use App\Http\Controllers\Api\BaseController;
 
@@ -134,6 +135,11 @@ class GratuityController extends BaseController
         if($user->profile->id !== $gratuity->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Gratuity']);
         }
+
+        if(!empty($gratuity->image) && Storage::exists('public/Gratuity/'.$gratuity->image)) {
+            Storage::delete('public/Gratuity/'.$gratuity->image);
+        }
+        
         $gratuity->delete();
 
         return $this->sendResponse([], 'Gratuity deleted successfully');

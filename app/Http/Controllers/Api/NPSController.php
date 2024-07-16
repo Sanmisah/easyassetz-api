@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Resources\NPSResource;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
 
 class NPSController extends BaseController
@@ -137,6 +138,11 @@ class NPSController extends BaseController
         if($user->profile->id !== $nps->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this NPS']);
         }
+
+        if(!empty($nps->image) && Storage::exists('public/NPS/'.$nps->image)) {
+            Storage::delete('public/NPS/'.$nps->image);
+        }
+
         $nps->delete();
 
         return $this->sendResponse([], 'NPS deleted successfully');

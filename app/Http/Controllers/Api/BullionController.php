@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\BullionResource;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Controllers\Api\BullionController;
 
@@ -29,19 +30,16 @@ class BullionController extends BaseController
      */
     public function store(Request $request): JsonResponse
     {
-            $fileNames[] = null;
-        if($request->hasFile('bullionFile')){
-            foreach($request->file('bullionFile') as $image){
-            $bullionfileNameWithExt = $image->getClientOriginalName();
-            $bullionfilename = pathinfo($bullionfileNameWithExt, PATHINFO_FILENAME);
-            $bullionExtention = $image->getClientOriginalExtension();
-            $bullionFileNameToStore = $bullionfilename.'_'.time().'.'.$bullionExtention;
-            $bullionPath = $image->storeAs('public/Bullion/bullionFile', $bullionFileNameToStore);
-            $fileNames[] = $bullionFileNameToStore;
-         }
-      }
-           $images  = json_encode($fileNames);
 
+        if($request->hasFile('bullionFile')){
+            $bullionFileNameWithExtention = $request->file('bullionFile')->getClientOriginalName();
+            $bullionFilename = pathinfo($bullionFileNameWithExtention, PATHINFO_FILENAME);
+            $bullionExtention = $request->file('bullionFile')->getClientOriginalExtension();
+            $bullionFileNameToStore = $bullionFilename.'_'.time().'.'.$bullionExtention;
+            $bullionPath = $request->file('bullionFile')->storeAs('public/Bullion/', $bullionFileNameToStore);
+         }
+
+        
             $user = Auth::user();
             $bullion = new Bullion();
             $bullion->profile_id = $user->profile->id;
@@ -54,7 +52,7 @@ class BullionController extends BaseController
             $bullion->mobile = $request->input('mobile');
             $bullion->email = $request->input('email');
             if($request->hasFile('bullionFile')){
-                $bullion->image = $images;
+                $bullion->image = $bullionFileNameToStore;
             }
             $bullion->save();
 
@@ -85,18 +83,13 @@ class BullionController extends BaseController
      */
     public function update(Request $request, string $id): JsonResponse
     {
-        $fileNames[] = null;
         if($request->hasFile('bullionFile')){
-            foreach($request->file('bullionFile') as $image){
-            $bullionfileNameWithExt = $image->getClientOriginalName();
-            $bullionfilename = pathinfo($bullionfileNameWithExt, PATHINFO_FILENAME);
-            $bullionExtention = $image->getClientOriginalExtension();
-            $bullionFileNameToStore = $bullionfilename.'_'.time().'.'.$bullionExtention;
-            $bullionPath = $image->storeAs('public/Bullion/bullionFile', $bullionFileNameToStore);
-            $fileNames[] = $bullionFileNameToStore;
+            $bullionFileNameWithExtention = $request->file('bullionFile')->getClientOriginalName();
+            $bullionFilename = pathinfo($bullionFileNameWithExtention, PATHINFO_FILENAME);
+            $bullionExtention = $request->file('bullionFile')->getClientOriginalExtension();
+            $bullionFileNameToStore = $bullionFilename.'_'.time().'.'.$bullionExtention;
+            $bullionPath = $request->file('bullionFile')->storeAs('public/Bullion/', $bullionFileNameToStore);
          }
-      }
-           $images  = json_encode($fileNames);
 
         $bullion = Bullion::find($id);
         if(!$bullion){
@@ -117,7 +110,7 @@ class BullionController extends BaseController
          $bullion->mobile = $request->input('mobile');
          $bullion->email = $request->input('email');
          if($request->hasFile('bullionFile')){
-            $bullion->image = $images;
+            $bullion->image = $bullionFileNameToStore;
         }
          $bullion->save();
          
@@ -138,6 +131,11 @@ class BullionController extends BaseController
     if($user->profile->id !== $bullion->profile_id){
         return $this->sendError('Unauthorized',['error' =>'You are not allowed to access this Bullion' ]);
     }
+
+    if(!empty($bullion->image) && Storage::exists('public/Bullion/'.$bullion->image)) {
+        Storage::delete('public/Bullion/'.$bullion->image);
+    }
+    
     $bullion->delete();
 
     return $this->sendResponse([], 'Bullion deleted successfully');

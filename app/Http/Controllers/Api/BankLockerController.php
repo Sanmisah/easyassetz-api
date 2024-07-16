@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\BankLockerResource;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Requests\StoreBankLockerRequest;
@@ -132,15 +133,20 @@ class BankLockerController extends BaseController
      */
     public function destroy(string $id): JsonResponse
     {
-        $fixDeposit = BankLocker::find($id);
-        if(!$fixDeposit){
+        $bankLocker = BankLocker::find($id);
+        if(!$bankLocker){
             return $this->sendError('Bank Locker details not found', ['error'=>'Bank Locker details not found']);
         }
         $user = Auth::user();
-        if($user->profile->id !== $fixDeposit->profile_id){
+        if($user->profile->id !== $bankLocker->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Bank Locker details']);
         }
-        $fixDeposit->delete();
+        
+        if(!empty($bankLocker->image) && Storage::exists('public/BankLocker/'.$bankLocker->image)) {
+            Storage::delete('public/BankLocker/'.$bankLocker->image);
+        }
+
+        $bankLocker->delete();
 
         return $this->sendResponse([], 'Bank Locker details deleted successfully');
     }

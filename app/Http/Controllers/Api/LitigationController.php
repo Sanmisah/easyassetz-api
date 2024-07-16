@@ -135,7 +135,11 @@ class LitigationController extends BaseController
         if($user->profile->id !== $litigation->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Litigation']);
         }
-        Storage::delete('public/Litigation/'.$litigation->image);
+
+        if(!empty($litigation->image) && Storage::exists('public/Litigation/'.$litigation->image)) {
+            Storage::delete('public/Litigation/'.$litigation->image);
+        }
+
         $litigation->delete();
 
         return $this->sendResponse([], 'Litigation deleted successfully');

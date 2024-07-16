@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use App\Models\PostalSavingAccount;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\PostalSavingAccountResource;
 
@@ -134,6 +135,11 @@ class PostalSavingAccountController extends BaseController
         if($user->profile->id !== $postalSavingAccount->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Postal Saving Account']);
         }
+
+        if(!empty($postalSavingAccount->image) && Storage::exists('public/PostalSavingAccount/'.$postalSavingAccount->image)) {
+            Storage::delete('public/PostalSavingAccount/'.$postalSavingAccount->image);
+        }
+        
         $postalSavingAccount->delete();
 
         return $this->sendResponse([], 'Postal Saving Account deleted successfully');
