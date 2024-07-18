@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\PortfolioManagementResource;
+use App\Http\Requests\StorePortfolioManagementRequest;
+use App\Http\Requests\UpdatePortfolioManagementRequest;
 
 class PortfolioManagementController extends BaseController
 {
@@ -27,14 +29,14 @@ class PortfolioManagementController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(StorePortfolioManagementRequest $request): JsonResponse
     {
-        if($request->hasFile('portfolioFile')){
-            $portfolioFileNameWithExtention = $request->file('portfolioFile')->getClientOriginalName();
+        if($request->hasFile('image')){
+            $portfolioFileNameWithExtention = $request->file('image')->getClientOriginalName();
             $portfolioFilename = pathinfo($portfolioFileNameWithExtention, PATHINFO_FILENAME);
-            $portfolioExtention = $request->file('portfolioFile')->getClientOriginalExtension();
+            $portfolioExtention = $request->file('image')->getClientOriginalExtension();
             $portfolioFileNameToStore = $portfolioFilename.'_'.time().'.'.$portfolioExtention;
-            $portfolioPath = $request->file('portfolioFile')->storeAs('public/PortfolioManagement', $portfolioFileNameToStore);
+            $portfolioPath = $request->file('image')->storeAs('public/PortfolioManagement', $portfolioFileNameToStore);
          }
 
         $user = Auth::user();
@@ -46,7 +48,7 @@ class PortfolioManagementController extends BaseController
         $portfolioManagement->joint_holder_name = $request->input('jointHolderName');
         $portfolioManagement->joint_holder_pan = $request->input('jointHolderPan');
         $portfolioManagement->additional_details = $request->input('additionalDetails');
-        if($request->hasFile('portfolioFile')){
+        if($request->hasFile('image')){
             $portfolioManagement->image = $portfolioFileNameToStore;
          } 
         $portfolioManagement->name = $request->input('name');
@@ -84,14 +86,14 @@ class PortfolioManagementController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): JsonResponse
+    public function update(UpdatePortfolioManagementRequest $request, string $id): JsonResponse
     {
-        if($request->hasFile('portfolioFile')){
-            $portfolioFileNameWithExtention = $request->file('portfolioFile')->getClientOriginalName();
+        if($request->hasFile('image')){
+            $portfolioFileNameWithExtention = $request->file('image')->getClientOriginalName();
             $portfolioFilename = pathinfo($portfolioFileNameWithExtention, PATHINFO_FILENAME);
-            $portfolioExtention = $request->file('portfolioFile')->getClientOriginalExtension();
+            $portfolioExtention = $request->file('image')->getClientOriginalExtension();
             $portfolioFileNameToStore = $portfolioFilename.'_'.time().'.'.$portfolioExtention;
-            $portfolioPath = $request->file('portfolioFile')->storeAs('public/PortfolioManagement', $portfolioFileNameToStore);
+            $portfolioPath = $request->file('image')->storeAs('public/PortfolioManagement', $portfolioFileNameToStore);
          }
 
          $portfolioManagement = PortfolioManagement::find($id);
@@ -109,7 +111,7 @@ class PortfolioManagementController extends BaseController
           $portfolioManagement->joint_holder_name = $request->input('jointHolderName');
           $portfolioManagement->joint_holder_pan = $request->input('jointHolderPan');
           $portfolioManagement->additional_details = $request->input('additionalDetails');
-          if($request->hasFile('portfolioFile')){
+          if($request->hasFile('image')){
               $portfolioManagement->image = $portfolioFileNameToStore;
            } 
           $portfolioManagement->name = $request->input('name');

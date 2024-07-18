@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\OtherFinancialAssetResource;
+use App\Http\Requests\StoreOtherFinancialAssetRequest;
+use App\Http\Requests\UpdateOtherFinancialAssetRequest;
 
 class OtherFinancialAssetController extends BaseController
 {
@@ -27,7 +29,7 @@ class OtherFinancialAssetController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(StoreOtherFinancialAssetRequest $request): JsonResponse
     {
         if($request->hasFile('image')){
             $ofaFileNameWithExtention = $request->file('image')->getClientOriginalName();
@@ -83,7 +85,7 @@ class OtherFinancialAssetController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): JsonResponse
+    public function update(UpdateOtherFinancialAssetRequest $request, string $id): JsonResponse
     {
         if($request->hasFile('image')){
             $ofaFileNameWithExtention = $request->file('image')->getClientOriginalName();

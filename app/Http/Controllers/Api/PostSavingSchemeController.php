@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\PostSavingSchemeResource;
+use App\Http\Requests\StorePostSavingSchemeRequest;
+use App\Http\Requests\UpdatePostSavingSchemeRequest;
 
 class PostSavingSchemeController extends BaseController
 {
@@ -26,7 +28,7 @@ class PostSavingSchemeController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(StorePostSavingSchemeRequest $request): JsonResponse
     {
         if($request->hasFile('image')){
             $imageFileNameWithExtention = $request->file('image')->getClientOriginalName();
@@ -82,7 +84,7 @@ class PostSavingSchemeController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdatePostSavingSchemeRequest $request, string $id)
     {
         if($request->hasFile('image')){
             $imageFileNameWithExtention = $request->file('image')->getClientOriginalName();

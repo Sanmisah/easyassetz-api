@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\OtherDepositeResource;
+use App\Http\Requests\StoreOtherDepositRequest;
+use App\Http\Requests\UpdateOtherDepositRequest;
 
 class OtherDepositeController extends BaseController
 {
@@ -26,7 +28,7 @@ class OtherDepositeController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(StoreOtherDepositRequest $request): JsonResponse
     {
         if($request->hasFile('image')){
             $depositFileNameWithExtention = $request->file('image')->getClientOriginalName();
@@ -83,7 +85,7 @@ class OtherDepositeController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): JsonResponse
+    public function update(UpdateOtherDepositRequest $request, string $id): JsonResponse
     {
         if($request->hasFile('image')){
             $depositFileNameWithExtention = $request->file('image')->getClientOriginalName();

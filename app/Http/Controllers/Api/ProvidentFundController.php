@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\ProvidentFundResource;
+use App\Http\Requests\StoreProvidentFundRequest;
+use App\Http\Requests\UpdateProvidentFundRequest;
 
 class ProvidentFundController extends BaseController
 {
@@ -26,7 +28,7 @@ class ProvidentFundController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(StoreProvidentFundRequest $request): JsonResponse
     {
         if($request->hasFile('image')){
             $pfFileNameWithExtention = $request->file('image')->getClientOriginalName();
@@ -80,7 +82,7 @@ class ProvidentFundController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): JsonResponse
+    public function update(UpdateProvidentFundRequest $request, string $id): JsonResponse
     {
         if($request->hasFile('image')){
             $pfFileNameWithExtention = $request->file('image')->getClientOriginalName();

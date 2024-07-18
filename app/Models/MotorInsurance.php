@@ -55,6 +55,20 @@ class MotorInsurance extends Model
     }   
 
 
+    public function setImageAttribute($value)
+    {
+        if($value === "undefined") {
+            $value = null;
+        }
+        return $this->attributes['image'] = $value ? $value : null;
+    }
+
+    public function getImageAttribute($value)
+    {
+        return $value ? $value : null;     
+    }   
+
+
    public function nominee(){
       return $this->belongsToMany(Beneficiary::class,'motor_insurance_nominee');
    }
