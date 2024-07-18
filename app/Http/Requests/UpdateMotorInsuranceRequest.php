@@ -23,9 +23,21 @@ class UpdateMotorInsuranceRequest extends FormRequest
      */
     public function rules(): array
     {
+        // return [
+        //     'aadharFile' => ['nullable','file', 'mimes:jpg,png,jpeg,pdf,doc', 'max:2048'],
+        // ];
+
+        if ($this->input('image') === "undefined") {
+            $this->merge(['image' => null]);
+        }
+    
+        // Define the validation rules for 'image'
+        $imageRule = ['nullable', 'file', 'mimes:jpg,png,jpeg,pdf,doc', 'max:2048'];
+    
         return [
-            'aadharFile' => ['nullable','file', 'mimes:jpg,png,jpeg,pdf,doc', 'max:2048'],
+            'image' => $imageRule,
         ];
+        
     }
 
     protected function failedValidation(Validator $validator)
