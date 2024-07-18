@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class StoreLitigationRequest extends FormRequest
+class StoreAlternateInvestmentFundRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -33,5 +33,4 @@ class StoreLitigationRequest extends FormRequest
         $errors = $validator->errors();
         throw new HttpResponseException(response()->json(['success'=>false, 'message' => $errors], 422));
     }
-    
 }

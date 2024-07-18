@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\OtherAssetResource;
 use App\Http\Controllers\Api\BaseController;
+use App\Http\Requests\StoreOtherAssetRequest;
+use App\Http\Requests\UpdateOtherAssetRequest;
 
 class OtherAssetController extends BaseController
 {
@@ -34,7 +36,7 @@ class OtherAssetController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(StoreOtherAssetRequest $request): JsonResponse
     {
 
         if($request->hasFile('jewelleryImages')){
@@ -146,7 +148,7 @@ class OtherAssetController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): JsonResponse
+    public function update(UpdateOtherAssetRequest $request, string $id): JsonResponse
     {
 
         if($request->hasFile('jewelleryImages')){

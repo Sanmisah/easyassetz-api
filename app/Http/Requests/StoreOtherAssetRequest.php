@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class StoreLitigationRequest extends FormRequest
+class StoreOtherAssetRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,10 @@ class StoreLitigationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => ['nullable','file', 'mimes:jpg,png,jpeg,pdf,doc', 'max:2048'],
+            'jewelleryImages' => ['nullable','file', 'mimes:jpg,png,jpeg,pdf,doc', 'max:2048'],
+            'watchImages' => ['nullable','file', 'mimes:jpg,png,jpeg,pdf,doc', 'max:2048'],
+            'artifactImages' => ['nullable','file', 'mimes:jpg,png,jpeg,pdf,doc', 'max:2048'],
+            'otherAssetImages' => ['nullable','file', 'mimes:jpg,png,jpeg,pdf,doc', 'max:2048'],
         ];
     }
 

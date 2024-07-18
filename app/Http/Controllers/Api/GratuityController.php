@@ -10,7 +10,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\GratuityResource;
+use App\Http\Requests\StoreGratuityRequest;
 use App\Http\Controllers\Api\BaseController;
+use App\Http\Requests\UpdateGratuityRequest;
 
 class GratuityController extends BaseController
 {
@@ -28,7 +30,7 @@ class GratuityController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(StoreGratuityRequest $request): JsonResponse
     {
         if($request->hasFile('image')){
             $gratuityFileNameWithExtention = $request->file('image')->getClientOriginalName();
@@ -81,7 +83,7 @@ class GratuityController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): JsonResponse
+    public function update(UpdateGratuityRequest $request, string $id): JsonResponse
     {
         if($request->hasFile('image')){
             $gratuityFileNameWithExtention = $request->file('image')->getClientOriginalName();

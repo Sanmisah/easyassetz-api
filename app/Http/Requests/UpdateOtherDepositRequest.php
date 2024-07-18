@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateBondReqest extends FormRequest
+class UpdateOtherDepositRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

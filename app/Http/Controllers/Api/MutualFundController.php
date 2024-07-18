@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\MutualFundResource;
 use App\Http\Controllers\Api\BaseController;
+use App\Http\Requests\StoreMutualFundRequest;
+use App\Http\Requests\UpdateMutualFundRequest;
 
 class MutualFundController extends BaseController
 {
@@ -26,7 +28,7 @@ class MutualFundController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(StoreMutualFundRequest $request): JsonResponse
     {
         if($request->hasFile('image')){
             $mfFileNameWithExtention = $request->file('image')->getClientOriginalName();
@@ -81,7 +83,7 @@ class MutualFundController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): JsonResponse
+    public function update(UpdateMutualFundRequest $request, string $id): JsonResponse
     {
         if($request->hasFile('image')){
             $mfFileNameWithExtention = $request->file('image')->getClientOriginalName();

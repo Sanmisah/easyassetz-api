@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\BusinessAssetsResource;
+use App\Http\Requests\StoreBusinessAssetRequest;
+use App\Http\Requests\UpdateBusinessAssetRequest;
 
 class BusinessAssetController extends BaseController
 {
@@ -72,7 +74,7 @@ class BusinessAssetController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(StoreBusinessAssetRequest $request): JsonResponse
     {
         if($request->hasFile('shareCentificateFile')){
             $shareFileNameWithExtention = $request->file('shareCentificateFile')->getClientOriginalName();
@@ -187,7 +189,7 @@ class BusinessAssetController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): JsonResponse
+    public function update(UpdateBusinessAssetRequest $request, string $id): JsonResponse
     {
       
         if($request->hasFile('shareCentificateFile')){

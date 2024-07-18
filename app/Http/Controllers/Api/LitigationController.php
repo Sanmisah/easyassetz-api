@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\LitigationResource;
 use App\Http\Controllers\Api\BaseController;
+use App\Http\Requests\StoreLitigationRequest;
+use App\Http\Requests\UpdateLitigationRequest;
 
 class LitigationController extends BaseController
 {
@@ -26,7 +28,7 @@ class LitigationController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(StoreLitigationRequest $request): JsonResponse
     {
 
         if($request->hasFile('image')){
@@ -81,7 +83,7 @@ class LitigationController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): JsonResponse
+    public function update(UpdateLitigationRequest $request, string $id): JsonResponse
     {
 
         if($request->hasFile('image')){

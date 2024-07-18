@@ -11,7 +11,7 @@ use App\Http\Controllers\Api\CryptoController;
 use App\Http\Controllers\Api\BullionController;
 use App\Http\Controllers\Api\CharityController;
 use App\Http\Controllers\Api\ProfileController;
-use App\Http\Controllers\BankAccountController;
+use App\Http\Controllers\Api\BankAccountController;
 use App\Http\Controllers\Api\GratuityController;
 use App\Http\Controllers\Api\HomeLoanController;
 use App\Http\Controllers\Api\DebentureController;

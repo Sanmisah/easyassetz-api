@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\CryptoResource;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\StoreCryptoRequest;
+use App\Http\Requests\UpdateCryptoRequest;
 use App\Http\Resources\LitigationResource;
 use App\Http\Controllers\Api\BaseController;
 
@@ -27,15 +29,15 @@ class CryptoController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(StoreCryptoRequest $request): JsonResponse
     {
 
-        if($request->hasFile('cryptoFile')){
-            $cryptoFileNameWithExtention = $request->file('cryptoFile')->getClientOriginalName();
+        if($request->hasFile('image')){
+            $cryptoFileNameWithExtention = $request->file('image')->getClientOriginalName();
             $cryptoFilename = pathinfo($cryptoFileNameWithExtention, PATHINFO_FILENAME);
-            $cryptoExtention = $request->file('cryptoFile')->getClientOriginalExtension();
+            $cryptoExtention = $request->file('image')->getClientOriginalExtension();
             $cryptoFileNameToStore = $cryptoFilename.'_'.time().'.'.$cryptoExtention;
-            $cryptoPath = $request->file('cryptoFile')->storeAs('public/Crypto', $cryptoFileNameToStore);
+            $cryptoPath = $request->file('image')->storeAs('public/Crypto', $cryptoFileNameToStore);
          }
 
         $user = Auth::user();
@@ -51,7 +53,7 @@ class CryptoController extends BaseController
         $crypto->type_of_currency = $request->input('typeOfCurrency');
         $crypto->holding_qty = $request->input('holdingQty');
         $crypto->additional_details = $request->input('additionalDetails');
-        if($request->hasFile('cryptoFile')){
+        if($request->hasFile('image')){
             $crypto->image = $cryptoFileNameToStore;
         }
         $crypto->name = $request->input('name');
@@ -87,15 +89,15 @@ class CryptoController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): JsonResponse
+    public function update(UpdateCryptoRequest $request, string $id): JsonResponse
     {
           
-        if($request->hasFile('cryptoFile')){
-            $cryptoFileNameWithExtention = $request->file('cryptoFile')->getClientOriginalName();
+        if($request->hasFile('image')){
+            $cryptoFileNameWithExtention = $request->file('image')->getClientOriginalName();
             $cryptoFilename = pathinfo($cryptoFileNameWithExtention, PATHINFO_FILENAME);
-            $cryptoExtention = $request->file('cryptoFile')->getClientOriginalExtension();
+            $cryptoExtention = $request->file('image')->getClientOriginalExtension();
             $cryptoFileNameToStore = $cryptoFilename.'_'.time().'.'.$cryptoExtention;
-            $cryptoPath = $request->file('cryptoFile')->storeAs('public/Crypto', $cryptoFileNameToStore);
+            $cryptoPath = $request->file('image')->storeAs('public/Crypto', $cryptoFileNameToStore);
          }
 
         $crypto = Crypto::find($id);
@@ -117,7 +119,7 @@ class CryptoController extends BaseController
          $crypto->type_of_currency = $request->input('typeOfCurrency');
          $crypto->holding_qty = $request->input('holdingQty');
          $crypto->additional_details = $request->input('additionalDetails');
-         if($request->hasFile('cryptoFile')){
+         if($request->hasFile('image')){
             $profile->image = $cryptoFileNameToStore;
          }
          $crypto->name = $request->input('name');

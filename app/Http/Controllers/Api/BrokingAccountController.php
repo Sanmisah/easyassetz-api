@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\BrokingAccountResource;
+use App\Http\Requests\StoreBrokingAccountRequest;
+use App\Http\Requests\UpdateBrokingAccountRequest;
 
 class BrokingAccountController extends BaseController
 {
@@ -26,14 +28,14 @@ class BrokingAccountController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(StoreBrokingAccountRequest $request): JsonResponse
     {
-        if($request->hasFile('brokingAccountFile')){
-            $brokingFileNameWithExtention = $request->file('brokingAccountFile')->getClientOriginalName();
+        if($request->hasFile('image')){
+            $brokingFileNameWithExtention = $request->file('image')->getClientOriginalName();
             $brokingFilename = pathinfo($brokingFileNameWithExtention, PATHINFO_FILENAME);
-            $brokingExtention = $request->file('brokingAccountFile')->getClientOriginalExtension();
+            $brokingExtention = $request->file('image')->getClientOriginalExtension();
             $brokingFileNameToStore = $brokingFilename.'_'.time().'.'.$brokingExtention;
-            $brokingPath = $request->file('brokingAccountFile')->storeAs('public/BrokingAccount', $brokingFileNameToStore);
+            $brokingPath = $request->file('image')->storeAs('public/BrokingAccount', $brokingFileNameToStore);
          }
 
         $user = Auth::user();
@@ -48,7 +50,7 @@ class BrokingAccountController extends BaseController
         $brokingAccount->name = $request->input('name');
         $brokingAccount->mobile = $request->input('mobile');
         $brokingAccount->email = $request->input('email');
-        if($request->hasFile('brokingAccountFile')){
+        if($request->hasFile('image')){
             $brokingAccount->image = $brokingFileNameToStore;
          } 
         $brokingAccount->save();
@@ -82,14 +84,14 @@ class BrokingAccountController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): JsonResponse
+    public function update(UpdateBrokingAccountRequest $request, string $id): JsonResponse
     {
-        if($request->hasFile('brokingAccountFile')){
-            $brokingFileNameWithExtention = $request->file('brokingAccountFile')->getClientOriginalName();
+        if($request->hasFile('image')){
+            $brokingFileNameWithExtention = $request->file('image')->getClientOriginalName();
             $brokingFilename = pathinfo($brokingFileNameWithExtention, PATHINFO_FILENAME);
-            $brokingExtention = $request->file('brokingAccountFile')->getClientOriginalExtension();
+            $brokingExtention = $request->file('image')->getClientOriginalExtension();
             $brokingFileNameToStore = $brokingFilename.'_'.time().'.'.$brokingExtention;
-            $brokingPath = $request->file('brokingAccountFile')->storeAs('public/BrokingAccount', $brokingFileNameToStore);
+            $brokingPath = $request->file('image')->storeAs('public/BrokingAccount', $brokingFileNameToStore);
          }
 
          $brokingAccount = BrokingAccount::find($id);
@@ -110,7 +112,7 @@ class BrokingAccountController extends BaseController
           $brokingAccount->name = $request->input('name');
           $brokingAccount->mobile = $request->input('mobile');
           $brokingAccount->email = $request->input('email');
-          if($request->hasFile('brokingAccountFile')){
+          if($request->hasFile('image')){
               $brokingAccount->image = $brokingFileNameToStore;
            } 
           $brokingAccount->save();

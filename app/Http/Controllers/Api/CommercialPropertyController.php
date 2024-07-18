@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\CommercialPropertyResource;
+use App\Http\Requests\StoreCommercialPropertyRequest;
+use App\Http\Requests\UpdateCommercialPropertyRequest;
 
 class CommercialPropertyController extends BaseController
 {
@@ -26,7 +28,7 @@ class CommercialPropertyController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(StoreCommercialPropertyRequest $request): JsonResponse
     {
         if($request->hasFile('litigationFile')){
             $litigationFileNameWithExtention = $request->file('litigationFile')->getClientOriginalName();
@@ -138,7 +140,7 @@ class CommercialPropertyController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): JsonResponse
+    public function update(UpdateCommercialPropertyRequest $request, string $id): JsonResponse
     {
         if($request->hasFile('litigationFile')){
             $litigationFileNameWithExtention = $request->file('litigationFile')->getClientOriginalName();

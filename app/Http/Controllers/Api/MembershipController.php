@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\MembershipResource;
 use App\Http\Controllers\Api\BaseController;
+use App\Http\Requests\StoreMembershipRequest;
+use App\Http\Requests\UpdateMembershipRequest;
 use App\Http\Controllers\Api\MembershipController;
 
 class MembershipController extends BaseController
@@ -29,7 +31,7 @@ class MembershipController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(StoreMembershipRequest $request): JsonResponse
     {
         if($request->hasFile('image')){
             $membershipFileNameWithExtention = $request->file('image')->getClientOriginalName();
@@ -85,7 +87,7 @@ class MembershipController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): JsonResponse
+    public function update(UpdateMembershipRequest $request, string $id): JsonResponse
     {
         if($request->hasFile('image')){
             $membershipFileNameWithExtention = $request->file('image')->getClientOriginalName();

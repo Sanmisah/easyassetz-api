@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Resources\DematAccountResource;
+use App\Http\Requests\StoreDematAccountRequest;
+use App\Http\Requests\UpdateDematAccountRequest;
 
 class DematAccountController extends BaseController
 {
@@ -26,14 +28,14 @@ class DematAccountController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(StoreDematAccountRequest $request): JsonResponse
     {
-        if($request->hasFile('dematAccountFile')){
-            $dematFileNameWithExtention = $request->file('dematAccountFile')->getClientOriginalName();
+        if($request->hasFile('image')){
+            $dematFileNameWithExtention = $request->file('image')->getClientOriginalName();
             $dematFilename = pathinfo($dematFileNameWithExtention, PATHINFO_FILENAME);
-            $dematExtention = $request->file('dematAccountFile')->getClientOriginalExtension();
+            $dematExtention = $request->file('image')->getClientOriginalExtension();
             $dematFileNameToStore = $dematFilename.'_'.time().'.'.$dematExtention;
-            $dematPath = $request->file('dematAccountFile')->storeAs('public/DematAccount', $dematFileNameToStore);
+            $dematPath = $request->file('image')->storeAs('public/DematAccount', $dematFileNameToStore);
          }
 
         $user = Auth::user();
@@ -50,7 +52,7 @@ class DematAccountController extends BaseController
         $dematAccount->name = $request->input('name');
         $dematAccount->mobile = $request->input('mobile');
         $dematAccount->email = $request->input('email');
-        if($request->hasFile('dematAccountFile')){
+        if($request->hasFile('image')){
             $dematAccount->image = $dematFileNameToStore;
          }
         $dematAccount->save();
@@ -83,14 +85,14 @@ class DematAccountController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): JsonResponse
+    public function update(UpdateDematAccountRequest $request, string $id): JsonResponse
     {
-        if($request->hasFile('dematAccountFile')){
-            $dematFileNameWithExtention = $request->file('dematAccountFile')->getClientOriginalName();
+        if($request->hasFile('image')){
+            $dematFileNameWithExtention = $request->file('image')->getClientOriginalName();
             $dematFilename = pathinfo($dematFileNameWithExtention, PATHINFO_FILENAME);
-            $dematExtention = $request->file('dematAccountFile')->getClientOriginalExtension();
+            $dematExtention = $request->file('image')->getClientOriginalExtension();
             $dematFileNameToStore = $dematFilename.'_'.time().'.'.$dematExtention;
-            $dematPath = $request->file('dematAccountFile')->storeAs('public/DematAccount', $dematFileNameToStore);
+            $dematPath = $request->file('image')->storeAs('public/DematAccount', $dematFileNameToStore);
          }
 
         $dematAccount = DematAccount::find($id);
@@ -112,7 +114,7 @@ class DematAccountController extends BaseController
         $dematAccount->name = $request->input('name');
         $dematAccount->mobile = $request->input('mobile');
         $dematAccount->email = $request->input('email');
-        if($request->hasFile('dematAccountFile')){
+        if($request->hasFile('image')){
             $dematAccount->image = $dematFileNameToStore;
          }
         $dematAccount->save();

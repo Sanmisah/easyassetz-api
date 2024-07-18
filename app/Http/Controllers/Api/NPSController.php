@@ -8,6 +8,8 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Resources\NPSResource;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\StoreNPSRequest;
+use App\Http\Requests\UpdateNPSRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
 
@@ -27,7 +29,7 @@ class NPSController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(StoreNPSRequest $request): JsonResponse
     {
         if($request->hasFile('image')){
             $npsFileNameWithExtention = $request->file('image')->getClientOriginalName();
@@ -83,7 +85,7 @@ class NPSController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): JsonResponse
+    public function update(UpdateNPSRequest $request, string $id): JsonResponse
     {
         if($request->hasFile('image')){
             $npsFileNameWithExtention = $request->file('image')->getClientOriginalName();

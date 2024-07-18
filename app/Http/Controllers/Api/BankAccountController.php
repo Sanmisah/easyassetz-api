@@ -1,14 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Models\BankAccount;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\BankAccountResource;
 use App\Http\Controllers\Api\BaseController;
+use App\Http\Requests\StoreBankAccountRequest;
+use App\Http\Requests\UpdateBankAccountRequest;
 
 class BankAccountController extends BaseController
 {
@@ -25,7 +28,7 @@ class BankAccountController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(StoreBankAccountRequest $request): JsonResponse
     {
         
         if($request->hasFile('image')){
@@ -39,7 +42,7 @@ class BankAccountController extends BaseController
         $user = Auth::user();
         $bankAccount = new BankAccount();
         $bankAccount->profile_id = $user->profile->id;
-        $bankAccount->fund_name = $request->input('bankName');
+        $bankAccount->bank_name = $request->input('bankName');
         $bankAccount->account_type = $request->input('accountType');
         $bankAccount->account_number = $request->input('accountNumber');
         $bankAccount->branch_name = $request->input('branchName');
@@ -82,7 +85,7 @@ class BankAccountController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): JsonResponse
+    public function update(UpdateBankAccountRequest $request, string $id): JsonResponse
     {
 
         if($request->hasFile('image')){
@@ -103,7 +106,7 @@ class BankAccountController extends BaseController
          }
           
 
-         $bankAccount->fund_name = $request->input('bankName');
+         $bankAccount->bank_name = $request->input('bankName');
          $bankAccount->account_type = $request->input('accountType');
          $bankAccount->account_number = $request->input('accountNumber');
          $bankAccount->branch_name = $request->input('branchName');

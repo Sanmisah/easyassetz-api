@@ -9,7 +9,9 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ESOPResource;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\StoreESOPRequest;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\UpdateESOPRequest;
 use App\Http\Controllers\Api\BaseController;
 
 class ESOPController extends BaseController
@@ -27,7 +29,7 @@ class ESOPController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(StoreESOPRequest $request): JsonResponse
     {
         if($request->hasFile('image')){
             $esopFileNameWithExtention = $request->file('image')->getClientOriginalName();
@@ -84,7 +86,7 @@ class ESOPController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): JsonResponse
+    public function update(UpdateESOPRequest $request, string $id): JsonResponse
     {
         if($request->hasFile('image')){
             $esopFileNameWithExtention = $request->file('image')->getClientOriginalName();

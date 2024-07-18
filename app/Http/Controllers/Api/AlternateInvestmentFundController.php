@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\AlternateInvestmentFundResource;
+use App\Http\Requests\StoreAlternateInvestmentFundRequest;
+use App\Http\Requests\UpdateAlternateInvestmentFundRequest;
 use App\Http\Controllers\Api\AlternateInvestmentFundController;
 
 class AlternateInvestmentFundController extends BaseController
@@ -27,14 +29,14 @@ class AlternateInvestmentFundController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResource
+    public function store(StoreAlternateInvestmentFundRequest $request): JsonResource
     {
-        if($request->hasFile('investmentFund')){
-            $fundFileNameWithExtention = $request->file('investmentFund')->getClientOriginalName();
+        if($request->hasFile('image')){
+            $fundFileNameWithExtention = $request->file('image')->getClientOriginalName();
             $fundFilename = pathinfo($fundFileNameWithExtention, PATHINFO_FILENAME);
-            $fundExtention = $request->file('investmentFund')->getClientOriginalExtension();
+            $fundExtention = $request->file('image')->getClientOriginalExtension();
             $fundFileNameToStore = $fundFilename.'_'.time().'.'.$fundExtention;
-            $fundPath = $request->file('investmentFund')->storeAs('public/InvestmentFund', $fundFileNameToStore);
+            $fundPath = $request->file('image')->storeAs('public/InvestmentFund', $fundFileNameToStore);
          }
 
         $user = Auth::user();
@@ -46,7 +48,7 @@ class AlternateInvestmentFundController extends BaseController
         $investmentFund->joint_holder_name = $request->input('jointHolderName');
         $investmentFund->joint_holder_pan = $request->input('jointHolderPan');
         $investmentFund->additional_details = $request->input('additionalDetails');
-        if($request->hasFile('investmentFund')){
+        if($request->hasFile('image')){
             $investmentFund->image = $fundFileNameToStore;
          } 
         $investmentFund->name = $request->input('name');
@@ -84,15 +86,15 @@ class AlternateInvestmentFundController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): JsonResource
+    public function update(UpdateAlternateInvestmentFundRequest $request, string $id): JsonResource
     {
 
-        if($request->hasFile('investmentFund')){
-            $fundFileNameWithExtention = $request->file('investmentFund')->getClientOriginalName();
+        if($request->hasFile('image')){
+            $fundFileNameWithExtention = $request->file('image')->getClientOriginalName();
             $fundFilename = pathinfo($fundFileNameWithExtention, PATHINFO_FILENAME);
-            $fundExtention = $request->file('investmentFund')->getClientOriginalExtension();
+            $fundExtention = $request->file('image')->getClientOriginalExtension();
             $fundFileNameToStore = $fundFilename.'_'.time().'.'.$fundExtention;
-            $fundPath = $request->file('investmentFund')->storeAs('public/InvestmentFund', $fundFileNameToStore);
+            $fundPath = $request->file('image')->storeAs('public/InvestmentFund', $fundFileNameToStore);
          }
 
         $investmentFund = InvestmentFund::find($id);
@@ -110,7 +112,7 @@ class AlternateInvestmentFundController extends BaseController
          $investmentFund->joint_holder_name = $request->input('jointHolderName');
          $investmentFund->joint_holder_pan = $request->input('jointHolderPan');
          $investmentFund->additional_details = $request->input('additionalDetails');
-         if($request->hasFile('investmentFund')){
+         if($request->hasFile('image')){
              $investmentFund->image = $fundFileNameToStore;
           } 
          $investmentFund->name = $request->input('name');

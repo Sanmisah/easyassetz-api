@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\BullionResource;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\StoreBullionRequest;
+use App\Http\Requests\UpdateBullionRequest;
 use App\Http\Controllers\Api\BaseController;
 use App\Http\Controllers\Api\BullionController;
 
@@ -28,7 +30,7 @@ class BullionController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(StoreBullionRequest $request): JsonResponse
     {
 
         if($request->hasFile('bullionFile')){
@@ -81,7 +83,7 @@ class BullionController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): JsonResponse
+    public function update(UpdateBullionRequest $request, string $id): JsonResponse
     {
         if($request->hasFile('bullionFile')){
             $bullionFileNameWithExtention = $request->file('bullionFile')->getClientOriginalName();

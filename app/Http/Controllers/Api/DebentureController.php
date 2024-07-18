@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\DebentureResource;
 use App\Http\Resources\MutualFundResource;
 use App\Http\Controllers\Api\BaseController;
+use App\Http\Requests\StoreDebentureRequest;
+use App\Http\Requests\UpdateDebentureRequest;
 
 class DebentureController extends BaseController
 {
@@ -27,7 +29,7 @@ class DebentureController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(StoreDebentureRequest $request): JsonResponse
     {
         if($request->hasFile('image')){
             $debentureFileNameWithExtention = $request->file('image')->getClientOriginalName();
@@ -89,7 +91,7 @@ class DebentureController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): JsonResponse
+    public function update(UpdateDebentureRequest $request, string $id): JsonResponse
     {
         if($request->hasFile('image')){
             $debentureFileNameWithExtention = $request->file('image')->getClientOriginalName();

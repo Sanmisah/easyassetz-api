@@ -8,7 +8,9 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BondResource;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\StoreBondRequest;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\UpdateBondRequest;
 use App\Http\Controllers\Api\BaseController;
 
 class BondController extends BaseController
@@ -26,7 +28,7 @@ class BondController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(StoreBondRequest $request): JsonResponse
     {
         if($request->hasFile('image')){
             $bondFileNameWithExtention = $request->file('image')->getClientOriginalName();
@@ -87,7 +89,7 @@ class BondController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id): JsonResponse
+    public function update(UpdateBondRequest $request, string $id): JsonResponse
     {
         if($request->hasFile('image')){
             $bondFileNameWithExtention = $request->file('image')->getClientOriginalName();
