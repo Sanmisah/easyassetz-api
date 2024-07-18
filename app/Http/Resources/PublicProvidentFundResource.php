@@ -29,7 +29,7 @@ class PublicProvidentFundResource extends JsonResource
             'additionalDetails' => $this->additional_details,
             'image' => $this->image,
             'name' => $this->name,
-            'phone' => $this->mobile,
+            'mobile' => $this->mobile,
             'email' => $this->email,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
