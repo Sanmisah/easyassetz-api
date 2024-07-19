@@ -43,13 +43,13 @@ class OtherDepositeController extends BaseController
         $otherDeposite->profile_id = $user->profile->id;
         $otherDeposite->fd_number = $request->input('fdNumber');
         $otherDeposite->company = $request->input('company');
-        $otherDeposite->branch_name = $request->input('branch_name');
-        $otherDeposite->maturity_date = $request->input('maturity_date');
-        $otherDeposite->maturity_amount = $request->input('maturity_amount');
-        $otherDeposite->holding_type = $request->input('holding_type');
+        $otherDeposite->branch_name = $request->input('branchName');
+        $otherDeposite->maturity_date = $request->input('maturityDate');
+        $otherDeposite->maturity_amount = $request->input('maturityAmount');
+        $otherDeposite->holding_type = $request->input('holdingType');
         $otherDeposite->joint_holder_name = $request->input('jointHolderName');
         $otherDeposite->joint_holder_pan = $request->input('jointHolderPan');
-        $otherDeposite->additional_details = $request->input('additional_details');
+        $otherDeposite->additional_details = $request->input('additionalDetails');
         if($request->hasFile('image')){
             $otherDeposite->image = $depositFileNameToStore;
          } 
@@ -106,13 +106,13 @@ class OtherDepositeController extends BaseController
 
          $otherDeposite->fd_number = $request->input('fdNumber');
          $otherDeposite->company = $request->input('company');
-         $otherDeposite->branch_name = $request->input('branch_name');
-         $otherDeposite->maturity_date = $request->input('maturity_date');
-         $otherDeposite->maturity_amount = $request->input('maturity_amount');
-         $otherDeposite->holding_type = $request->input('holding_type');
+         $otherDeposite->branch_name = $request->input('branchName');
+         $otherDeposite->maturity_date = $request->input('maturityDate');
+         $otherDeposite->maturity_amount = $request->input('maturityAmount');
+         $otherDeposite->holding_type = $request->input('holdingType');
          $otherDeposite->joint_holder_name = $request->input('jointHolderName');
          $otherDeposite->joint_holder_pan = $request->input('jointHolderPan');
-         $otherDeposite->additional_details = $request->input('additional_details');
+         $otherDeposite->additional_details = $request->input('additionalDetails');
          if($request->hasFile('image')){
             $otherDeposite->image = $depositFileNameToStore;
          } 

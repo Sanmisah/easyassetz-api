@@ -15,17 +15,20 @@ use App\Http\Controllers\Api\GratuityController;
 use App\Http\Controllers\Api\HomeLoanController;
 use App\Http\Controllers\Api\DebentureController;
 use App\Http\Controllers\Api\OtherLoanController;
+use App\Http\Controllers\Api\BankLockerController;
 use App\Http\Controllers\Api\LitigationController;
 use App\Http\Controllers\Api\MembershipController;
 use App\Http\Controllers\Api\MutualFundController;
 use App\Http\Controllers\Api\OtherAssetController;
 use App\Http\Controllers\Api\BankAccountController;
 use App\Http\Controllers\Api\BeneficiaryController;
+use App\Http\Controllers\Api\FixDepositeController;
 use App\Http\Controllers\Api\VehicleLoanController;
 use App\Http\Controllers\Api\DigitalAssetController;
 use App\Http\Controllers\Api\PersonalLoanController;
 use App\Http\Controllers\Api\BusinessAssetController;
 use App\Http\Controllers\Api\LifeInsuranceController;
+use App\Http\Controllers\Api\OtherDepositeController;
 use App\Http\Controllers\Api\ProvidentFundController;
 use App\Http\Controllers\Api\ForgotPasswordController;
 use App\Http\Controllers\Api\MotorInsuranceController;
@@ -34,7 +37,6 @@ use App\Http\Controllers\Api\SuperAnnuationController;
 use App\Http\Controllers\Api\HealthInsuranceController;
 use App\Http\Controllers\Api\GeneralInsuranceController;
 use App\Http\Controllers\Api\PublicProvidentFundController;
-use App\Http\Controllers\Api\OtherDepositeController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -70,6 +72,8 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('cryptos', CryptoController::class);
     Route::resource('bonds', BondController::class);
     Route::resource('bank-accounts', BankAccountController::class);
+    Route::resource('bank-lockers', BankLockerController::class);
+    Route::resource('fix-deposits', FixDepositeController::class);
     Route::resource('business-assets', BusinessAssetController::class);
     Route::delete('/logout', [UserController::class, 'logout']);
     Route::resource('other-assets', OtherAssetController::class);
