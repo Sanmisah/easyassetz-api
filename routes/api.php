@@ -11,7 +11,6 @@ use App\Http\Controllers\Api\CryptoController;
 use App\Http\Controllers\Api\BullionController;
 use App\Http\Controllers\Api\CharityController;
 use App\Http\Controllers\Api\ProfileController;
-use App\Http\Controllers\Api\BankAccountController;
 use App\Http\Controllers\Api\GratuityController;
 use App\Http\Controllers\Api\HomeLoanController;
 use App\Http\Controllers\Api\DebentureController;
@@ -20,8 +19,10 @@ use App\Http\Controllers\Api\LitigationController;
 use App\Http\Controllers\Api\MembershipController;
 use App\Http\Controllers\Api\MutualFundController;
 use App\Http\Controllers\Api\OtherAssetController;
+use App\Http\Controllers\Api\BankAccountController;
 use App\Http\Controllers\Api\BeneficiaryController;
 use App\Http\Controllers\Api\VehicleLoanController;
+use App\Http\Controllers\Api\DigitalAssetController;
 use App\Http\Controllers\Api\PersonalLoanController;
 use App\Http\Controllers\Api\BusinessAssetController;
 use App\Http\Controllers\Api\LifeInsuranceController;
@@ -77,6 +78,7 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('nps', NPSController::class);
     Route::resource('gratuities', GratuityController::class);
     Route::resource('super-annuations', SuperAnnuationController::class);
+    Route::resource('digital-assets', DigitalAssetController::class);
 
 });
 
