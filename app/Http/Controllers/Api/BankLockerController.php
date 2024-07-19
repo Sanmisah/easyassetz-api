@@ -43,7 +43,7 @@ class BankLockerController extends BaseController
         $bankLocker->profile_id = $user->profile->id;
         $bankLocker->bank_name = $request->input('bankName');
         $bankLocker->branch = $request->input('branch');
-        $bankLocker->locker_number = $request->input('lockerNnumber');
+        $bankLocker->locker_number = $request->input('lockerNumber');
         $bankLocker->nature_of_holding = $request->input('natureOfHolding');
         $bankLocker->joint_holder_name = $request->input('jointHolderName');
         $bankLocker->joint_holder_pan = $request->input('jointHolderPan');
@@ -105,7 +105,7 @@ class BankLockerController extends BaseController
 
           $bankLocker->bank_name = $request->input('bankName');
           $bankLocker->branch = $request->input('branch');
-          $bankLocker->locker_number = $request->input('lockerNnumber');
+          $bankLocker->locker_number = $request->input('lockerNumber');
           $bankLocker->nature_of_holding = $request->input('natureOfHolding');
           $bankLocker->joint_holder_name = $request->input('jointHolderName');
           $bankLocker->joint_holder_pan = $request->input('jointHolderPan');
