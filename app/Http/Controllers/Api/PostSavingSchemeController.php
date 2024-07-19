@@ -42,13 +42,13 @@ class PostSavingSchemeController extends BaseController
          $postSavingScheme = new PostSavingScheme();
          $postSavingScheme->profile_id = $user->profile->id;
          $postSavingScheme->type = $request->input('type');
-         $postSavingScheme->certificate_number = $request->input('certificate_number');
-         $postSavingScheme->maturity_date = $request->input('maturity_date');
+         $postSavingScheme->certificate_number = $request->input('certificateNumber');
+         $postSavingScheme->maturity_date = $request->input('maturityDate');
          $postSavingScheme->amount = $request->input('amount');
-         $postSavingScheme->holding_type = $request->input('holding_type');
+         $postSavingScheme->holding_type = $request->input('holdingType');
          $postSavingScheme->joint_holder_name = $request->input('jointHolderName');
          $postSavingScheme->joint_holder_pan = $request->input('jointHolderPan');
-         $postSavingScheme->additional_details = $request->input('additional_details');
+         $postSavingScheme->additional_details = $request->input('additionalDetails');
          if($request->hasFile('image')){
             $postSavingScheme->image = $imageFileNameToStore;
          } 
@@ -95,13 +95,13 @@ class PostSavingSchemeController extends BaseController
          }
 
          $postSavingScheme->type = $request->input('type');
-         $postSavingScheme->certificate_number = $request->input('certificate_number');
-         $postSavingScheme->maturity_date = $request->input('maturity_date');
+         $postSavingScheme->certificate_number = $request->input('certificateNumber');
+         $postSavingScheme->maturity_date = $request->input('maturityDate');
          $postSavingScheme->amount = $request->input('amount');
-         $postSavingScheme->holding_type = $request->input('holding_type');
+         $postSavingScheme->holding_type = $request->input('holdingType');
          $postSavingScheme->joint_holder_name = $request->input('jointHolderName');
          $postSavingScheme->joint_holder_pan = $request->input('jointHolderPan');
-         $postSavingScheme->additional_details = $request->input('additional_details');
+         $postSavingScheme->additional_details = $request->input('additionalDetails');
          if($request->hasFile('image')){
             $postSavingScheme->image = $imageFileNameToStore;
          } 

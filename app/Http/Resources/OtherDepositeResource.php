@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BeneficiaryResource;
 
 class OtherDepositeResource extends JsonResource
 {
@@ -14,6 +15,9 @@ class OtherDepositeResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $nominees = BeneficiaryResource::collection($this->nominee);
+
+
         return [
             'id' => $this->id,
             'profileId' => $this->profile_id,
@@ -28,6 +32,7 @@ class OtherDepositeResource extends JsonResource
             'image' => $this->image,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
+            'nominees' => $nominees,
         ];
     
     }
