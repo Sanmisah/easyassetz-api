@@ -38,6 +38,7 @@ use App\Http\Controllers\Api\HealthInsuranceController;
 use App\Http\Controllers\Api\GeneralInsuranceController;
 use App\Http\Controllers\Api\PublicProvidentFundController;
 use App\Http\Controllers\Api\PostSavingSchemeController;
+use App\Http\Controllers\Api\PostSavingAccountController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -87,6 +88,8 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('digital-assets', DigitalAssetController::class);
     Route::resource('other-deposites', OtherDepositeController::class);
     Route::resource('post-saving-schemes', PostSavingSchemeController::class);
+    Route::resource('post-saving-account-details', PostSavingAccountController::class);
+
 
 });
 
