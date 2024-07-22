@@ -12,11 +12,11 @@ class OtherDeposite extends Model
     use HasFactory;
 
     public function nominee(){
-        return $this->belongsToMany(Beneficiary::class,'other_financial_nominee');
+        return $this->belongsToMany(Beneficiary::class,'other_deposite_nominee');
      }
 
      public function jointHolder(){
-        return $this->belongsToMany(Beneficiary::class,'other_financial_joint_holder');
+        return $this->belongsToMany(Beneficiary::class,'other_deposite_joint_holder');
      }
 
      public function setMaturityDateAttribute($value)
