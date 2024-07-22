@@ -49,7 +49,6 @@ class FixDepositeController extends BaseController
         $fixDeposit->holding_type = $request->input('holdingType');
         $fixDeposit->joint_holder_name = $request->input('jointHolderName');
         $fixDeposit->joint_holder_pan = $request->input('jointHolderPan');
-        $fixDeposit->joint_holder_pan = $request->input('jointHolderPan');
         $fixDeposit->additional_details = $request->input('additionalDetails');
         if($request->hasFile('image')){
             $fixDeposit->image = $fdFileNameToStore;
@@ -112,7 +111,6 @@ class FixDepositeController extends BaseController
          $fixDeposit->holding_type = $request->input('holdingType');
          $fixDeposit->joint_holder_name = $request->input('jointHolderName');
          $fixDeposit->joint_holder_pan = $request->input('jointHolderPan');
-         $fixDeposit->joint_holders_pan = $request->input('jointHolderPan');
          $fixDeposit->additional_details = $request->input('additionalDetails');
          if($request->hasFile('image')){
              $fixDeposit->image = $fdFileNameToStore;
