@@ -94,6 +94,15 @@ class PostSavingSchemeController extends BaseController
             $imagePath = $request->file('image')->storeAs('public/PostSavingScheme', $imageFileNameToStore);
          }
 
+         $postSavingScheme = PostSavingScheme::find($id);
+         if(!$postSavingScheme){
+             return $this->sendError('Post Saving Scheme Not Found',['error'=>'Postal Saving Account details not found']);
+         }
+         $user = Auth::user();
+         if($user->profile->id !== $postSavingScheme->profile_id){
+            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Post Saving Scheme details']);
+          }
+
          $postSavingScheme->type = $request->input('type');
          $postSavingScheme->certificate_number = $request->input('certificateNumber');
          $postSavingScheme->maturity_date = $request->input('maturityDate');
