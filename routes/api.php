@@ -39,6 +39,9 @@ use App\Http\Controllers\Api\GeneralInsuranceController;
 use App\Http\Controllers\Api\PublicProvidentFundController;
 use App\Http\Controllers\Api\PostSavingSchemeController;
 use App\Http\Controllers\Api\PostalSavingAccountController;
+use App\Http\Controllers\Api\LandController;
+use App\Http\Controllers\Api\ResidentialPropertyController;
+use App\Http\Controllers\Api\CommercialPropertyController;
 
 
 // Route::get('/user', function (Request $request) {
@@ -90,6 +93,9 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('other-deposites', OtherDepositeController::class);
     Route::resource('post-saving-schemes', PostSavingSchemeController::class);
     Route::resource('post-saving-account-details', PostalSavingAccountController::class);
+    Route::resource('lands', LandController::class);
+    Route::resource('residential-properties', ResidentialPropertyController::class);
+    Route::resource('commercial-properties', CommercialPropertyController::class);
 
 
 });
