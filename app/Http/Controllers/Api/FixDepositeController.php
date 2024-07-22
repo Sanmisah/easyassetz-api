@@ -39,8 +39,8 @@ class FixDepositeController extends BaseController
          }
 
         $user = Auth::user();
-        $fixDeposite = new FixDeposite();
-        $fixDeposite->profile_id = $user->profile->id;
+        $fixDeposit = new FixDeposite();
+        $fixDeposit->profile_id = $user->profile->id;
         $fixDeposit->fix_deposite_number = $request->input('fixDepositeNumber');
         $fixDeposit->bank_name = $request->input('bankName');
         $fixDeposit->branch_name = $request->input('branchName');
@@ -49,7 +49,7 @@ class FixDepositeController extends BaseController
         $fixDeposit->holding_type = $request->input('holdingType');
         $fixDeposit->joint_holder_name = $request->input('jointHolderName');
         $fixDeposit->joint_holder_pan = $request->input('jointHolderPan');
-        $fixDeposit->joint_holders_pan = $request->input('jointHoldersPan');
+        $fixDeposit->joint_holder_pan = $request->input('jointHolderPan');
         $fixDeposit->additional_details = $request->input('additionalDetails');
         if($request->hasFile('image')){
             $fixDeposit->image = $fdFileNameToStore;
@@ -112,7 +112,7 @@ class FixDepositeController extends BaseController
          $fixDeposit->holding_type = $request->input('holdingType');
          $fixDeposit->joint_holder_name = $request->input('jointHolderName');
          $fixDeposit->joint_holder_pan = $request->input('jointHolderPan');
-         $fixDeposit->joint_holders_pan = $request->input('jointHoldersPan');
+         $fixDeposit->joint_holders_pan = $request->input('jointHolderPan');
          $fixDeposit->additional_details = $request->input('additionalDetails');
          if($request->hasFile('image')){
              $fixDeposit->image = $fdFileNameToStore;

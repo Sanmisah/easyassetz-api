@@ -27,7 +27,7 @@ class OtherDepositeResource extends JsonResource
             'maturityDate' => $this->maturity_date,
             'maturityAmount' => $this->maturity_amount,
             'holdingType' => $this->holding_type,
-            'jointHoldersPan' => $this->joint_holders_pan,
+            'jointHolderPan' => $this->joint_holder_pan,
             'additionalDetails' => $this->additional_details,
             'image' => $this->image,
             'createdAt' => $this->created_at,
