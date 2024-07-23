@@ -20,7 +20,7 @@ class ShareDetailController extends BaseController
     {
         $user = Auth::user();
         $shareDetail = $user->profile->shareDetail()->with('nominee')->get();
-        return sendResponse(['ShareDetail'=>ShareDetailResource::collection($shareDetail)],'Share Detail retrived Successfully');
+        return $this->sendResponse(['ShareDetail'=>ShareDetailResource::collection($shareDetail)],'Share Detail retrived Successfully');
     }
 
     /**
@@ -80,7 +80,7 @@ class ShareDetailController extends BaseController
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Share Detail']);
          }
          $shareDetail->load('nominee');
-        return $this->sendResponse(['ShareDetail'=>new LitigationResource($shareDetail)], 'Share Details retrived successfully');
+        return $this->sendResponse(['ShareDetail'=>new ShareDetailResource($shareDetail)], 'Share Details retrived successfully');
     }
 
     /**

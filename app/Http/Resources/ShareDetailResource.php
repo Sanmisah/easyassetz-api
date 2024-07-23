@@ -21,6 +21,7 @@ class ShareDetailResource extends JsonResource
             'id' => $this->id,
             'profileId' => $this->profile_id,
             'companyName' => $this->company_name,
+            'folioNumber' => $this->folio_number,
             'certificateNumber' => $this->certificate_number,
             'noOfShares' => $this->no_of_shares,
             'distinguishNoFrom' => $this->distinguish_no_from,

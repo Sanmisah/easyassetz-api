@@ -42,6 +42,7 @@ use App\Http\Controllers\Api\PostalSavingAccountController;
 use App\Http\Controllers\Api\LandController;
 use App\Http\Controllers\Api\ResidentialPropertyController;
 use App\Http\Controllers\Api\CommercialPropertyController;
+use App\Http\Controllers\Api\ShareDetailController;
 
 
 // Route::get('/user', function (Request $request) {
@@ -96,6 +97,7 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('lands', LandController::class);
     Route::resource('residential-properties', ResidentialPropertyController::class);
     Route::resource('commercial-properties', CommercialPropertyController::class);
+    Route::resource('share-details', ShareDetailController::class);
 
 
 });
