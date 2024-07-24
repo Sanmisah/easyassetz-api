@@ -23,7 +23,7 @@ class DebentureController extends BaseController
     {
         $user = Auth::user();
         $debenture = $user->profile->debenture()->with('nominee')->get();
-        return $this->sendResponse(['MutualFund'=>DebentureResource::collection($debenture)],'Debentures retrived Successfully');
+        return $this->sendResponse(['Debenture'=>DebentureResource::collection($debenture)],'Debentures retrived Successfully');
     }
 
     /**

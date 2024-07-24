@@ -72,7 +72,7 @@ class BondController extends BaseController
     /**
      * Display the specified resource.
      */
-    public function show(string $id): JsonResopnse
+    public function show(string $id): JsonResponse
     {
         $bond = Bond::find($id);
         if(!$bond){

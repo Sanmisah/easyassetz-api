@@ -46,6 +46,7 @@ use App\Models\PostalSavingAccount;
 use App\Models\PublicProvidentFund;
 use App\Models\ResidentialProperty;
 use App\Models\WealthManagementAccount;
+use App\Models\ESOP;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -393,6 +394,10 @@ class Profile extends Model
 
     public function digitalAsset(){
         return $this->hasMany(DigitalAsset::class, 'profile_id');
+    }
+
+    public function esop(){
+        return $this->hasMany(ESOP::class, 'profile_id');
     }
 
 
