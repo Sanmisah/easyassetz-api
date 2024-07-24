@@ -98,8 +98,6 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('residential-properties', ResidentialPropertyController::class);
     Route::resource('commercial-properties', CommercialPropertyController::class);
     Route::resource('share-details', ShareDetailController::class);
-
-
 });
 
 Route::get('/generate-pdf', [PdfController::class,'generatePDF']);
