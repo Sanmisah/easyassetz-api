@@ -45,6 +45,7 @@ use App\Http\Controllers\Api\CommercialPropertyController;
 use App\Http\Controllers\Api\ShareDetailController;
 use App\Http\Controllers\Api\ESOPController;
 use App\Http\Controllers\Api\DematAccountController;
+use App\Http\Controllers\Api\WealthManagementAccountController;
 
 
 // Route::get('/user', function (Request $request) {
@@ -102,6 +103,7 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('share-details', ShareDetailController::class);
     Route::resource('esops', ESOPController::class);
     Route::resource('demat-accounts', DematAccountController::class);
+    Route::resource('wealth-accounts', WealthManagementAccountController::class);
 });
 
 Route::get('/generate-pdf', [PdfController::class,'generatePDF']);

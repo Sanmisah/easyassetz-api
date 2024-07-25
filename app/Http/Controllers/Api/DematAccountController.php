@@ -22,7 +22,7 @@ class DematAccountController extends BaseController
     {
         $user = Auth::user();
         $dematAccount = $user->profile->dematAccount()->with('nominee')->get();
-        return $this->sendResponse(['Bond'=>DematAccountResource::collection($dematAccount)],'Demat account retrived Successfully');
+        return $this->sendResponse(['DematAccount'=>DematAccountResource::collection($dematAccount)],'Demat account retrived Successfully');
     }
 
     /**
