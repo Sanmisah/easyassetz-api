@@ -44,6 +44,7 @@ use App\Http\Controllers\Api\ResidentialPropertyController;
 use App\Http\Controllers\Api\CommercialPropertyController;
 use App\Http\Controllers\Api\ShareDetailController;
 use App\Http\Controllers\Api\ESOPController;
+use App\Http\Controllers\Api\DematAccountController;
 
 
 // Route::get('/user', function (Request $request) {
@@ -100,6 +101,7 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('commercial-properties', CommercialPropertyController::class);
     Route::resource('share-details', ShareDetailController::class);
     Route::resource('esops', ESOPController::class);
+    Route::resource('demat-accounts', DematAccountController::class);
 });
 
 Route::get('/generate-pdf', [PdfController::class,'generatePDF']);

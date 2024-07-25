@@ -43,12 +43,12 @@ class ESOPController extends BaseController
         $esop = new ESOP();
         $esop->profile_id = $user->profile->id;
         $esop->company_name = $request->input('companyName');
-        $esop->units_granted = $request->input('units_granted');
-        $esop->esops_vested = $request->input('esops_vested');
-        $esop->nature_of_holding = $request->input('nature_of_holding');
+        $esop->units_granted = $request->input('unitsGranted');
+        $esop->esops_vested = $request->input('esopsVested');
+        $esop->nature_of_holding = $request->input('natureOfHolding');
         $esop->joint_holder_name = $request->input('jointHolderName');
         $esop->joint_holder_pan = $request->input('jointHolderPan');
-        $esop->additional_details = $request->input('additional_details');
+        $esop->additional_details = $request->input('additionalDetails');
         if($request->hasFile('image')){
             $esop->image = $esopFileNameToStore;
          }
@@ -106,12 +106,12 @@ class ESOPController extends BaseController
          }
 
          $esop->company_name = $request->input('companyName');
-         $esop->units_granted = $request->input('units_granted');
-         $esop->esops_vested = $request->input('esops_vested');
-         $esop->nature_of_holding = $request->input('nature_of_holding');
+         $esop->units_granted = $request->input('unitsGranted');
+         $esop->esops_vested = $request->input('esopsVested');
+         $esop->nature_of_holding = $request->input('natureOfHolding');
          $esop->joint_holder_name = $request->input('jointHolderName');
          $esop->joint_holder_pan = $request->input('jointHolderPan');
-         $esop->additional_details = $request->input('additional_details');
+         $esop->additional_details = $request->input('additionalDetails');
          if($request->hasFile('image')){
             $esop->image = $esopFileNameToStore;
          }
