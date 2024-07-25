@@ -10,6 +10,9 @@ class PortfolioManagement extends Model
 {
     use HasFactory;
 
+    protected $table = 'portfolio_managements';
+    protected $primaryKey = 'id';
+
     public function nominee(){
         return $this->belongsToMany(Beneficiary::class,'portfolio_management_nominee');
      }

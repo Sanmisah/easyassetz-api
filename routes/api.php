@@ -46,7 +46,10 @@ use App\Http\Controllers\Api\ShareDetailController;
 use App\Http\Controllers\Api\ESOPController;
 use App\Http\Controllers\Api\DematAccountController;
 use App\Http\Controllers\Api\WealthManagementAccountController;
-
+use App\Http\Controllers\Api\BrokingAccountController;
+use App\Http\Controllers\Api\AlternateInvestmentFundController;
+use App\Http\Controllers\Api\PortfolioManagementController;
+use App\Http\Controllers\Api\OtherFinancialAssetController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -103,7 +106,11 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('share-details', ShareDetailController::class);
     Route::resource('esops', ESOPController::class);
     Route::resource('demat-accounts', DematAccountController::class);
-    Route::resource('wealth-accounts', WealthManagementAccountController::class);
+    Route::resource('wealth-management-accounts', WealthManagementAccountController::class);
+    Route::resource('broking-accounts', BrokingAccountController::class);
+    Route::resource('alternate-investment-funds', AlternateInvestmentFundController::class);
+    Route::resource('portfolio-managements', PortfolioManagementController::class);
+    Route::resource('other-financial-assets', OtherFinancialAssetController::class);
 });
 
 Route::get('/generate-pdf', [PdfController::class,'generatePDF']);

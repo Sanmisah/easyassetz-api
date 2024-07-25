@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Api\BaseController;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\JsonResponse;
 use App\Http\Resources\AlternateInvestmentFundResource;
 use App\Http\Requests\StoreAlternateInvestmentFundRequest;
 use App\Http\Requests\UpdateAlternateInvestmentFundRequest;
@@ -19,7 +19,7 @@ class AlternateInvestmentFundController extends BaseController
     /**
      * Display a listing of the resource.
      */
-    public function index(): JsonResource
+    public function index(): JsonResponse
     {
         $user = Auth::user();
         $investmentFund = $user->profile->investmentFund()->with('nominee')->get();
@@ -29,7 +29,7 @@ class AlternateInvestmentFundController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreAlternateInvestmentFundRequest $request): JsonResource
+    public function store(StoreAlternateInvestmentFundRequest $request): JsonResponse
     {
         if($request->hasFile('image')){
             $fundFileNameWithExtention = $request->file('image')->getClientOriginalName();
@@ -69,7 +69,7 @@ class AlternateInvestmentFundController extends BaseController
     /**
      * Display the specified resource.
      */
-    public function show(string $id): JsonResource
+    public function show(string $id): JsonResponse
     {
         $investmentFund = InvestmentFund::find($id);
         if(!$investmentFund){
@@ -86,7 +86,7 @@ class AlternateInvestmentFundController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAlternateInvestmentFundRequest $request, string $id): JsonResource
+    public function update(UpdateAlternateInvestmentFundRequest $request, string $id): JsonResponse
     {
 
         if($request->hasFile('image')){
@@ -134,7 +134,7 @@ class AlternateInvestmentFundController extends BaseController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id): JsonResource
+    public function destroy(string $id): JsonResponse
     {
         $investmentFund = InvestmentFund::find($id);
         if(!$investmentFund){
