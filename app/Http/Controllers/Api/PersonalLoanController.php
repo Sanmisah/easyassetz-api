@@ -29,7 +29,7 @@ class PersonalLoanController extends BaseController
     public function store(Request $request): JsonResponse
     {
         $user = Auth::user();
-        $personalLoan = new HomeLoan();
+        $personalLoan = new PersonalLoan();
         $personalLoan->profile_id = $user->profile->id;
         $personalLoan->bank_name = $request->input('bankName');
         $personalLoan->loan_account_no = $request->input('loanAccountNo');

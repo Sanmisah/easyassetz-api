@@ -45,7 +45,7 @@ use App\Models\PortfolioManagement;
 use App\Models\PostalSavingAccount;
 use App\Models\PublicProvidentFund;
 use App\Models\ResidentialProperty;
-use App\Models\WealthManagementAccount;
+use App\Models\WealthManagement;
 use App\Models\ESOP;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -309,7 +309,7 @@ class Profile extends Model
     }
 
     public function wealthManagementAccount(){
-        return $this->hasMany(WealthManagementAccount::class, 'profile_id');
+        return $this->hasMany(WealthManagement::class, 'profile_id');
     }
 
     public function brokingAccount(){

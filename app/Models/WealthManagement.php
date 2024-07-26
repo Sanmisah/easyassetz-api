@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class WealthManagement extends Model
 {
     use HasFactory;
+
+    protected $table = 'wealth_managements';
+    protected $primaryKey = 'id';
     
     public function nominee(){
         return $this->belongsToMany(Beneficiary::class,'wealth_management_nominee');
