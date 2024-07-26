@@ -95,16 +95,6 @@ class GeneralInsuranceController extends BaseController
      */
     public function update(UpdateGeneralInsuranceRequest $request, string $id): JsonResponse
     {
-
-        if($request->hasFile('image')){
-            $generalFileNameWithExtention = $request->file('image')->getClientOriginalName();
-            $generalFilename = pathinfo($generalFileNameWithExtention, PATHINFO_FILENAME);
-            $generalExtention = $request->file('image')->getClientOriginalExtension();
-            $generalFileNameToStore = $generalFilename.'_'.time().'.'.$generalExtention;
-            $generalPath = $request->file('image')->storeAs('public/GeneralInsurance', $generalFileNameToStore);
-         }
-
-
         $generalInsurance = GeneralInsurance::find($id);
         if(!$generalInsurance){
             return $this->sendError('General Insurance Not Found',['error'=>'General Insurance not found']);
@@ -112,6 +102,17 @@ class GeneralInsuranceController extends BaseController
         $user = Auth::user();
         if($user->profile->id !== $generalInsurance->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this General Insurance']);
+         }
+         
+        if($request->hasFile('image')){
+            if (!empty($generalInsurance->image) && Storage::exists('public/GeneralInsurance/'.$generalInsurance->image)) {
+                Storage::delete('public/GeneralInsurance/'.$generalInsurance->image);
+            }
+            $generalFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $generalFilename = pathinfo($generalFileNameWithExtention, PATHINFO_FILENAME);
+            $generalExtention = $request->file('image')->getClientOriginalExtension();
+            $generalFileNameToStore = $generalFilename.'_'.time().'.'.$generalExtention;
+            $generalPath = $request->file('image')->storeAs('public/GeneralInsurance', $generalFileNameToStore);
          }
 
          $generalInsurance->company_name = $request->input('companyName');

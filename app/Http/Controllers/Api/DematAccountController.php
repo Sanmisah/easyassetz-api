@@ -87,14 +87,6 @@ class DematAccountController extends BaseController
      */
     public function update(UpdateDematAccountRequest $request, string $id): JsonResponse
     {
-        if($request->hasFile('image')){
-            $dematFileNameWithExtention = $request->file('image')->getClientOriginalName();
-            $dematFilename = pathinfo($dematFileNameWithExtention, PATHINFO_FILENAME);
-            $dematExtention = $request->file('image')->getClientOriginalExtension();
-            $dematFileNameToStore = $dematFilename.'_'.time().'.'.$dematExtention;
-            $dematPath = $request->file('image')->storeAs('public/DematAccount', $dematFileNameToStore);
-         }
-
         $dematAccount = DematAccount::find($id);
         if(!$dematAccount){
             return $this->sendError('Demat Account Not Found',['error'=>'Demat Account not found']);
@@ -102,6 +94,17 @@ class DematAccountController extends BaseController
         $user = Auth::user();
         if($user->profile->id !== $dematAccount->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Demat Account']);
+         }
+         
+        if($request->hasFile('image')){
+            if(!empty($dematAccount->image) && Storage::exists('public/DematAccount/'.$dematAccount->image)) {
+                Storage::delete('public/DematAccount/'.$dematAccount->image);
+               }
+            $dematFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $dematFilename = pathinfo($dematFileNameWithExtention, PATHINFO_FILENAME);
+            $dematExtention = $request->file('image')->getClientOriginalExtension();
+            $dematFileNameToStore = $dematFilename.'_'.time().'.'.$dematExtention;
+            $dematPath = $request->file('image')->storeAs('public/DematAccount', $dematFileNameToStore);
          }
 
         $dematAccount->depository_name = $request->input('depositoryName');
@@ -144,7 +147,7 @@ class DematAccountController extends BaseController
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Demat Account']);
         }
 
-        if (!empty($dematAccount->image) && Storage::exists('public/DematAccount/'.$dematAccount->image)) {
+        if(!empty($dematAccount->image) && Storage::exists('public/DematAccount/'.$dematAccount->image)) {
             Storage::delete('public/DematAccount/'.$dematAccount->image);
            }
 

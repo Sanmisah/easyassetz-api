@@ -86,21 +86,24 @@ class FixDepositeController extends BaseController
      */
     public function update(UpdateFixDepositRequest $request, string $id): JsonResponse
     {
-        if($request->hasFile('image')){
-            $fdFileNameWithExtention = $request->file('image')->getClientOriginalName();
-            $fdFilename = pathinfo($fdFileNameWithExtention, PATHINFO_FILENAME);
-            $fdExtention = $request->file('image')->getClientOriginalExtension();
-            $fdFileNameToStore = $fdFilename.'_'.time().'.'.$fdExtention;
-            $fdPath = $request->file('image')->storeAs('public/FixDeposite', $fdFileNameToStore);
-         }
-
-         $fixDeposit = FixDeposite::find($id);
+        $fixDeposit = FixDeposite::find($id);
         if(!$fixDeposit){
             return $this->sendError('Fix deposite Not Found',['error'=>'fix deposite not found']);
         }
         $user = Auth::user();
         if($user->profile->id !== $fixDeposit->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Fix Deposite']);
+         }
+         
+        if($request->hasFile('image')){
+            if(!empty($fixDeposit->image) && Storage::exists('public/FixDeposite/'.$fixDeposit->image)) {
+                Storage::delete('public/FixDeposite/'.$fixDeposit->image);
+            }
+            $fdFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $fdFilename = pathinfo($fdFileNameWithExtention, PATHINFO_FILENAME);
+            $fdExtention = $request->file('image')->getClientOriginalExtension();
+            $fdFileNameToStore = $fdFilename.'_'.time().'.'.$fdExtention;
+            $fdPath = $request->file('image')->storeAs('public/FixDeposite', $fdFileNameToStore);
          }
        
          $fixDeposit->fix_deposite_number = $request->input('fixDepositeNumber');
@@ -143,7 +146,7 @@ class FixDepositeController extends BaseController
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Fix deposite']);
         }
 
-        if (!empty($fixDeposit->image) && Storage::exists('public/FixDeposite/'.$fixDeposit->image)) {
+        if(!empty($fixDeposit->image) && Storage::exists('public/FixDeposite/'.$fixDeposit->image)) {
             Storage::delete('public/FixDeposite/'.$fixDeposit->image);
         }
 

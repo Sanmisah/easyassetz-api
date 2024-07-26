@@ -88,15 +88,7 @@ class PortfolioManagementController extends BaseController
      */
     public function update(UpdatePortfolioManagementRequest $request, string $id): JsonResponse
     {
-        if($request->hasFile('image')){
-            $portfolioFileNameWithExtention = $request->file('image')->getClientOriginalName();
-            $portfolioFilename = pathinfo($portfolioFileNameWithExtention, PATHINFO_FILENAME);
-            $portfolioExtention = $request->file('image')->getClientOriginalExtension();
-            $portfolioFileNameToStore = $portfolioFilename.'_'.time().'.'.$portfolioExtention;
-            $portfolioPath = $request->file('image')->storeAs('public/PortfolioManagement', $portfolioFileNameToStore);
-         }
-
-         $portfolioManagement = PortfolioManagement::find($id);
+        $portfolioManagement = PortfolioManagement::find($id);
          if(!$portfolioManagement){
              return $this->sendError('portfolio management service Not Found',['error'=>'portfolio management service not found']);
          }
@@ -104,6 +96,17 @@ class PortfolioManagementController extends BaseController
          if($user->profile->id !== $portfolioManagement->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this portfolio management service']);
           }
+          
+        if($request->hasFile('image')){
+            if(!empty($portfolioManagement->image) && Storage::exists('public/PortfolioManagement/'.$portfolioManagement->image)) {
+                Storage::delete('public/PortfolioManagement/'.$portfolioManagement->image);
+               }
+            $portfolioFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $portfolioFilename = pathinfo($portfolioFileNameWithExtention, PATHINFO_FILENAME);
+            $portfolioExtention = $request->file('image')->getClientOriginalExtension();
+            $portfolioFileNameToStore = $portfolioFilename.'_'.time().'.'.$portfolioExtention;
+            $portfolioPath = $request->file('image')->storeAs('public/PortfolioManagement', $portfolioFileNameToStore);
+         }
 
           $portfolioManagement->fund_name = $request->input('fundName');
           $portfolioManagement->folio_number = $request->input('folioNumber');
@@ -143,7 +146,7 @@ class PortfolioManagementController extends BaseController
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this portfolio management service']);
         }
 
-        if (!empty($portfolioManagement->image) && Storage::exists('public/PortfolioManagement/'.$portfolioManagement->image)) {
+        if(!empty($portfolioManagement->image) && Storage::exists('public/PortfolioManagement/'.$portfolioManagement->image)) {
             Storage::delete('public/PortfolioManagement/'.$portfolioManagement->image);
            }
 

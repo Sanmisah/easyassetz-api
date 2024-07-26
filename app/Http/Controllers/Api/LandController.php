@@ -126,8 +126,19 @@ class LandController extends BaseController
      */
     public function update(UpdateLandRequest $request, string $id): JsonResponse
     {
+        $land = Land::find($id);
+        if(!$land){
+            return $this->sendError('Land Not Found',['error'=>'Land not found']);
+        }
+        $user = Auth::user();
+        if($user->profile->id !== $land->profile_id){
+           return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Land']);
+         }
 
         if($request->hasFile('litigationFile')){
+            if (!empty($land->litigation_file) && Storage::exists('public/DigitalAsset/LitigationFiles/' . $land->litigation_file)) {
+                Storage::delete('public/DigitalAsset/LitigationFiles/' . $land->litigation_file);
+            }
             $litigationFileNameWithExtention = $request->file('litigationFile')->getClientOriginalName();
             $litigationFilename = pathinfo($litigationFileNameWithExtention, PATHINFO_FILENAME);
             $litigationExtention = $request->file('litigationFile')->getClientOriginalExtension();
@@ -136,6 +147,9 @@ class LandController extends BaseController
          }
 
         if($request->hasFile('leaseDocumentFile')){
+            if (!empty($land->lease_document_file) && Storage::exists('public/DigitalAsset/LeaseDocumentFiles/' . $land->lease_document_file)) {
+                Storage::delete('public/DigitalAsset/LeaseDocumentFiles/' . $land->lease_document_file);
+            }
             $ldfFileNameWithExtention = $request->file('leaseDocumentFile')->getClientOriginalName();
             $ldFilename = pathinfo($ldFileNameWithExtention, PATHINFO_FILENAME);
             $ldExtention = $request->file('leaseDocumentFile')->getClientOriginalExtension();
@@ -144,6 +158,9 @@ class LandController extends BaseController
          }
 
         if($request->hasFile('agreementFile')){
+            if (!empty($land->agreement_file) && Storage::exists('public/DigitalAsset/AgreementFiles/' . $land->agreement_file)) {
+                Storage::delete('public/DigitalAsset/AgreementFiles/' . $land->agreement_file);
+            }
             $agreementFileNameWithExtention = $request->file('agreementFile')->getClientOriginalName();
             $agreementFilename = pathinfo($agreementFileNameWithExtention, PATHINFO_FILENAME);
             $agreementExtention = $request->file('agreementFile')->getClientOriginalExtension();
@@ -152,21 +169,14 @@ class LandController extends BaseController
          }
 
          if($request->hasFile('extractFile')){
+            if (!empty($land->extract_7_12) && Storage::exists('public/DigitalAsset/Extract_7_12/' . $land->extract_7_12)) {
+                Storage::delete('public/DigitalAsset/Extract_7_12/' . $land->extract_7_12);
+            }
             $extractFileNameWithExtention = $request->file('extractFile')->getClientOriginalName();
             $extractFilename = pathinfo($extractFileNameWithExtention, PATHINFO_FILENAME);
             $extractExtention = $request->file('extractFile')->getClientOriginalExtension();
             $extractFileNameToStore = $extractFilename.'_'.time().'.'.$extractExtention;
             $extractPath = $request->file('extractFile')->storeAs('public/DigitalAsset/Extract_7_12', $extractFileNameToStore);
-         }
-
-
-        $land = Land::find($id);
-        if(!$land){
-            return $this->sendError('Land Not Found',['error'=>'Land not found']);
-        }
-        $user = Auth::user();
-        if($user->profile->id !== $land->profile_id){
-           return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Land']);
          }
 
          $land->property_type = $request->input('propertyType');

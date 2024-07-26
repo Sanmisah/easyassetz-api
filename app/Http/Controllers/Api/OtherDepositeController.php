@@ -87,14 +87,6 @@ class OtherDepositeController extends BaseController
      */
     public function update(UpdateOtherDepositRequest $request, string $id): JsonResponse
     {
-        if($request->hasFile('image')){
-            $depositFileNameWithExtention = $request->file('image')->getClientOriginalName();
-            $depositFilename = pathinfo($depositFileNameWithExtention, PATHINFO_FILENAME);
-            $depositExtention = $request->file('image')->getClientOriginalExtension();
-            $depositFileNameToStore = $depositFilename.'_'.time().'.'.$depositExtention;
-            $depositPath = $request->file('image')->storeAs('public/OtherDeposit', $depositFileNameToStore);
-         }
-
         $otherDeposite = OtherDeposite::find($id);
         if(!$otherDeposite){
             return $this->sendError('Other Deposite Not Found',['error'=>'Other deposite not found']);
@@ -102,6 +94,17 @@ class OtherDepositeController extends BaseController
         $user = Auth::user();
         if($user->profile->id !== $otherDeposite->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Other Deposite']);
+         }
+         
+        if($request->hasFile('image')){
+            if(!empty($otherDeposite->image) && Storage::exists('public/OtherDeposit/'.$otherDeposite->image)) {
+                Storage::delete('public/OtherDeposit/'.$otherDeposite->image);
+            }
+            $depositFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $depositFilename = pathinfo($depositFileNameWithExtention, PATHINFO_FILENAME);
+            $depositExtention = $request->file('image')->getClientOriginalExtension();
+            $depositFileNameToStore = $depositFilename.'_'.time().'.'.$depositExtention;
+            $depositPath = $request->file('image')->storeAs('public/OtherDeposit', $depositFileNameToStore);
          }
 
          $otherDeposite->fd_number = $request->input('fdNumber');

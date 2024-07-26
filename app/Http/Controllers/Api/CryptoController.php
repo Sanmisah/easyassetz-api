@@ -91,15 +91,6 @@ class CryptoController extends BaseController
      */
     public function update(UpdateCryptoRequest $request, string $id): JsonResponse
     {
-          
-        if($request->hasFile('image')){
-            $cryptoFileNameWithExtention = $request->file('image')->getClientOriginalName();
-            $cryptoFilename = pathinfo($cryptoFileNameWithExtention, PATHINFO_FILENAME);
-            $cryptoExtention = $request->file('image')->getClientOriginalExtension();
-            $cryptoFileNameToStore = $cryptoFilename.'_'.time().'.'.$cryptoExtention;
-            $cryptoPath = $request->file('image')->storeAs('public/Crypto', $cryptoFileNameToStore);
-         }
-
         $crypto = Crypto::find($id);
         if(!$crypto){
             return $this->sendError('Crypto Not Found',['error'=>'Crypto not found']);
@@ -107,6 +98,17 @@ class CryptoController extends BaseController
         $user = Auth::user();
         if($user->profile->id !== $crypto->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Crypto']);
+         }
+         
+        if($request->hasFile('image')){
+            if(!empty($crypto->image) && Storage::exists('public/Crypto/'.$crypto->image)) {
+                Storage::delete('public/Crypto/'.$crypto->image);
+            }
+            $cryptoFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $cryptoFilename = pathinfo($cryptoFileNameWithExtention, PATHINFO_FILENAME);
+            $cryptoExtention = $request->file('image')->getClientOriginalExtension();
+            $cryptoFileNameToStore = $cryptoFilename.'_'.time().'.'.$cryptoExtention;
+            $cryptoPath = $request->file('image')->storeAs('public/Crypto', $cryptoFileNameToStore);
          }
 
          $crypto->crypto_wallet_type = $request->input('cryptoWalletType');

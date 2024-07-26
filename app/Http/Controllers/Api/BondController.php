@@ -91,14 +91,6 @@ class BondController extends BaseController
      */
     public function update(UpdateBondRequest $request, string $id): JsonResponse
     {
-        if($request->hasFile('image')){
-            $bondFileNameWithExtention = $request->file('image')->getClientOriginalName();
-            $bondFilename = pathinfo($bondFileNameWithExtention, PATHINFO_FILENAME);
-            $bondExtention = $request->file('image')->getClientOriginalExtension();
-            $bondFileNameToStore = $bondFilename.'_'.time().'.'.$bondExtention;
-            $bondPath = $request->file('image')->storeAs('public/Bond', $bondFileNameToStore);
-         }
-
         $bond = Bond::find($id);
         if(!$bond){
             return $this->sendError('Bond Detail Not Found',['error'=>'Bond Detail not found']);
@@ -106,6 +98,19 @@ class BondController extends BaseController
         $user = Auth::user();
         if($user->profile->id !== $bond->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Bond Detail']);
+         }
+         
+        if($request->hasFile('image')){
+
+            if(!empty($bond->image) && Storage::exists('public/Bond/'.$bond->image)) {
+                Storage::delete('public/Bond/'.$bond->image);
+               }
+
+            $bondFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $bondFilename = pathinfo($bondFileNameWithExtention, PATHINFO_FILENAME);
+            $bondExtention = $request->file('image')->getClientOriginalExtension();
+            $bondFileNameToStore = $bondFilename.'_'.time().'.'.$bondExtention;
+            $bondPath = $request->file('image')->storeAs('public/Bond', $bondFileNameToStore);
          }
 
          $bond->bank_service_provider = $request->input('bankServiceProvider');
@@ -152,7 +157,7 @@ class BondController extends BaseController
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Bond Details']);
         }
 
-        if (!empty($bond->image) && Storage::exists('public/Bond/'.$bond->image)) {
+        if(!empty($bond->image) && Storage::exists('public/Bond/'.$bond->image)) {
             Storage::delete('public/Bond/'.$bond->image);
            }
         

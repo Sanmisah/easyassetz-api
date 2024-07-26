@@ -85,15 +85,6 @@ class LitigationController extends BaseController
      */
     public function update(UpdateLitigationRequest $request, string $id): JsonResponse
     {
-
-        if($request->hasFile('image')){
-            $litigationFileNameWithExtention = $request->file('image')->getClientOriginalName();
-            $litigationFilename = pathinfo($litigationFileNameWithExtention, PATHINFO_FILENAME);
-            $litigationExtention = $request->file('image')->getClientOriginalExtension();
-            $litigationFileNameToStore = $litigationFilename.'_'.time().'.'.$litigationExtention;
-            $litigationPath = $request->file('image')->storeAs('public/Litigation', $litigationFileNameToStore);
-         }
-
         $litigation = Litigation::find($id);
         if(!$litigation){
             return $this->sendError('Other Insurance Not Found',['error'=>'Other Insurance not found']);
@@ -101,6 +92,17 @@ class LitigationController extends BaseController
         $user = Auth::user();
         if($user->profile->id !== $litigation->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Other Insurance']);
+         }
+         
+        if($request->hasFile('image')){
+            if(!empty($litigation->image) && Storage::exists('public/Litigation/'.$litigation->image)) {
+                Storage::delete('public/Litigation/'.$litigation->image);
+            }
+            $litigationFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $litigationFilename = pathinfo($litigationFileNameWithExtention, PATHINFO_FILENAME);
+            $litigationExtention = $request->file('image')->getClientOriginalExtension();
+            $litigationFileNameToStore = $litigationFilename.'_'.time().'.'.$litigationExtention;
+            $litigationPath = $request->file('image')->storeAs('public/Litigation', $litigationFileNameToStore);
          }
 
         $litigation->litigation_type = $request->input('litigationType');

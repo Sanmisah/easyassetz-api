@@ -53,8 +53,19 @@ class ProfileController extends BaseController
      */
     public function update(Request $request, string $id)
     {  
-       // dd($request->all());
+        $profile = Profile::find($id); 
+        if(!$profile){
+            return $this->sendError('Profile Not Found', ['error'=>'Profile not found']);
+        }
+        $user = Auth::user();
+        if($user->id !== $profile->user_id){
+            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to update this profile.']);
+        }
+
         if($request->hasFile('aadharFile')){
+            if(!empty($profile->adhar_file) && Storage::exists('public/profiles/aadharFile/'.$profile->adhar_file)) {
+                Storage::delete('public/profiles/aadharFile/'.$profile->adhar_file);
+            }
             $aadharfileNameWithExt = $request->file('aadharFile')->getClientOriginalName();
             $aadharfilename = pathinfo($aadharfileNameWithExt, PATHINFO_FILENAME);
             $aadharExtention = $request->file('aadharFile')->getClientOriginalExtension();
@@ -63,6 +74,9 @@ class ProfileController extends BaseController
          }
 
          if($request->hasFile('panFile')){
+            if(!empty($profile->adhar_file) && Storage::exists('public/profiles/aadharFile/'.$profile->adhar_file)) {
+                Storage::delete('public/profiles/aadharFile/'.$profile->adhar_file);
+            }
             $panFileNameWithExt = $request->file('panFile')->getClientOriginalName();
             $panFilename = pathinfo($panFileNameWithExt, PATHINFO_FILENAME);
             $panExtention = $request->file('panFile')->getClientOriginalExtension();
@@ -86,14 +100,6 @@ class ProfileController extends BaseController
             $drivingPath = $request->file('drivingFile')->storeAs('public/profiles/drivingLicenceFiles', $drivingFileNameToStore);
          }
 
-        $profile = Profile::find($id); 
-        if(!$profile){
-            return $this->sendError('Profile Not Found', ['error'=>'Profile not found']);
-        }
-        $user = Auth::user();
-        if($user->id !== $profile->user_id){
-            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to update this profile.']);
-        }
         $profile->full_legal_name = $request->input('fullLegalName');
         $profile->gender = $request->input('gender');
         $profile->dob = $request->input('dob');

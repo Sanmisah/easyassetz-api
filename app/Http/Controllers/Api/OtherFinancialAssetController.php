@@ -87,15 +87,6 @@ class OtherFinancialAssetController extends BaseController
      */
     public function update(UpdateOtherFinancialAssetRequest $request, string $id): JsonResponse
     {
-        if($request->hasFile('image')){
-            $ofaFileNameWithExtention = $request->file('image')->getClientOriginalName();
-            $ofaFilename = pathinfo($ofaFileNameWithExtention, PATHINFO_FILENAME);
-            $ofaExtention = $request->file('image')->getClientOriginalExtension();
-            $ofaFileNameToStore = $ofaFilename.'_'.time().'.'.$ofaExtention;
-            $ofaPath = $request->file('image')->storeAs('public/OtherFinancialAsset', $ofaFileNameToStore);
-         }
-
-
         $otherFinancialAsset = OtherFinancialAsset::find($id);
         if(!$otherFinancialAsset){
             return $this->sendError('Other Financial asset Not Found',['error'=>'Other Financial assets not found']);
@@ -103,6 +94,17 @@ class OtherFinancialAssetController extends BaseController
         $user = Auth::user();
         if($user->profile->id !== $otherFinancialAsset->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Other Financial Assets']);
+         }
+         
+        if($request->hasFile('image')){
+            if (!empty($otherFinancialAsset->image) && Storage::exists('public/OtherFinancialAsset/'.$otherFinancialAsset->image)) {
+                Storage::delete('public/OtherFinancialAsset/'.$otherFinancialAsset->image);
+               }
+            $ofaFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $ofaFilename = pathinfo($ofaFileNameWithExtention, PATHINFO_FILENAME);
+            $ofaExtention = $request->file('image')->getClientOriginalExtension();
+            $ofaFileNameToStore = $ofaFilename.'_'.time().'.'.$ofaExtention;
+            $ofaPath = $request->file('image')->storeAs('public/OtherFinancialAsset', $ofaFileNameToStore);
          }
 
          $otherFinancialAsset->profile_id = $user->profile->id;

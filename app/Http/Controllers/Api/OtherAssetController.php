@@ -151,38 +151,6 @@ class OtherAssetController extends BaseController
     public function update(UpdateOtherAssetRequest $request, string $id): JsonResponse
     {
 
-        if($request->hasFile('jewelleryImages')){
-            $jewelleryFileNameWithExtention = $request->file('jewelleryImages')->getClientOriginalName();
-            $jewelleryFilename = pathinfo($jewelleryFileNameWithExtention, PATHINFO_FILENAME);
-            $jewelleryExtention = $request->file('jewelleryImages')->getClientOriginalExtension();
-            $jewelleryFileNameToStore = $jewelleryFilename.'_'.time().'.'.$jewelleryExtention;
-            $jewelleryPath = $request->file('jewelleryImages')->storeAs('public/OtherAsset/JewelleryImages', $jewelleryFileNameToStore);
-         }
-
-         if($request->hasFile('watchImages')){
-            $watchFileNameWithExtention = $request->file('watchImages')->getClientOriginalName();
-            $watchFilename = pathinfo($watchFileNameWithExtention, PATHINFO_FILENAME);
-            $watchExtention = $request->file('watchImages')->getClientOriginalExtension();
-            $watchFileNameToStore = $watchFilename.'_'.time().'.'.$watchExtention;
-            $watchPath = $request->file('watchImages')->storeAs('public/OtherAsset/WatchImages', $watchFileNameToStore);
-         }
-
-         if($request->hasFile('artifactImages')){
-            $artifactFileNameWithExtention = $request->file('artifactImages')->getClientOriginalName();
-            $artifactFilename = pathinfo($artifactFileNameWithExtention, PATHINFO_FILENAME);
-            $artifactExtention = $request->file('artifactImages')->getClientOriginalExtension();
-            $artifactFileNameToStore = $artifactFilename.'_'.time().'.'.$artifactExtention;
-            $artifactPath = $request->file('artifactImages')->storeAs('public/OtherAsset/ArtifactImages', $artifactFileNameToStore);
-         }
-
-         if($request->hasFile('otherAssetImages')){
-            $otherAssetFileNameWithExtention = $request->file('otherAssetImages')->getClientOriginalName();
-            $otherAssetFilename = pathinfo($otherAssetFileNameWithExtention, PATHINFO_FILENAME);
-            $otherAssetExtention = $request->file('otherAssetImages')->getClientOriginalExtension();
-            $otherAssetFileNameToStore = $otherAssetFilename.'_'.time().'.'.$otherAssetExtention;
-            $otherAssetPath = $request->file('otherAssetImages')->storeAs('public/OtherAsset/OtherAssetImages', $otherAssetFileNameToStore);
-         }
-
         $otherAsset = OtherAsset::find($id);
         if(!$otherAsset){
             return $this->sendError('Other Asset Not Found',['error'=>'Other Asset not found']);
@@ -191,6 +159,52 @@ class OtherAssetController extends BaseController
         if($user->profile->id !== $otherAsset->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Other Asset']);
          }
+
+        if($request->hasFile('jewelleryImages')){
+            if(!empty($otherAsset->jewellery_images) && Storage::exists('public/OtherAsset/JewelleryImages/'.$otherAsset->jewellery_images)) {
+                Storage::delete('public/OtherAsset/JewelleryImages/'.$otherAsset->jewellery_images);
+            }
+            $jewelleryFileNameWithExtention = $request->file('jewelleryImages')->getClientOriginalName();
+            $jewelleryFilename = pathinfo($jewelleryFileNameWithExtention, PATHINFO_FILENAME);
+            $jewelleryExtention = $request->file('jewelleryImages')->getClientOriginalExtension();
+            $jewelleryFileNameToStore = $jewelleryFilename.'_'.time().'.'.$jewelleryExtention;
+            $jewelleryPath = $request->file('jewelleryImages')->storeAs('public/OtherAsset/JewelleryImages', $jewelleryFileNameToStore);
+         }
+
+         if($request->hasFile('watchImages')){
+            if(!empty($otherAsset->watch_images) && Storage::exists('public/OtherAsset/WatchImages/'.$otherAsset->watch_images)) {
+                Storage::delete('public/OtherAsset/WatchImages/'.$otherAsset->watch_images);
+            }
+            $watchFileNameWithExtention = $request->file('watchImages')->getClientOriginalName();
+            $watchFilename = pathinfo($watchFileNameWithExtention, PATHINFO_FILENAME);
+            $watchExtention = $request->file('watchImages')->getClientOriginalExtension();
+            $watchFileNameToStore = $watchFilename.'_'.time().'.'.$watchExtention;
+            $watchPath = $request->file('watchImages')->storeAs('public/OtherAsset/WatchImages', $watchFileNameToStore);
+         }
+
+         if($request->hasFile('artifactImages')){
+            if(!empty($otherAsset->artifact_images) && Storage::exists('public/OtherAsset/ArtifactImages/'.$otherAsset->artifact_images)) {
+                Storage::delete('public/OtherAsset/ArtifactImages/'.$otherAsset->artifact_images);
+            }
+            $artifactFileNameWithExtention = $request->file('artifactImages')->getClientOriginalName();
+            $artifactFilename = pathinfo($artifactFileNameWithExtention, PATHINFO_FILENAME);
+            $artifactExtention = $request->file('artifactImages')->getClientOriginalExtension();
+            $artifactFileNameToStore = $artifactFilename.'_'.time().'.'.$artifactExtention;
+            $artifactPath = $request->file('artifactImages')->storeAs('public/OtherAsset/ArtifactImages', $artifactFileNameToStore);
+         }
+
+         if($request->hasFile('otherAssetImages')){
+            if(!empty($otherAsset->other_asset_images) && Storage::exists('public/OtherAsset/OtherAssetImages/'.$otherAsset->other_asset_images)) {
+                Storage::delete('public/OtherAsset/OtherAssetImages/'.$otherAsset->other_asset_images);
+            }
+            $otherAssetFileNameWithExtention = $request->file('otherAssetImages')->getClientOriginalName();
+            $otherAssetFilename = pathinfo($otherAssetFileNameWithExtention, PATHINFO_FILENAME);
+            $otherAssetExtention = $request->file('otherAssetImages')->getClientOriginalExtension();
+            $otherAssetFileNameToStore = $otherAssetFilename.'_'.time().'.'.$otherAssetExtention;
+            $otherAssetPath = $request->file('otherAssetImages')->storeAs('public/OtherAsset/OtherAssetImages', $otherAssetFileNameToStore);
+         }
+
+        
          $otherAsset->type = $request->input('type');
          $otherAsset->vehicle_type = $request->input('vehicleType');
          $otherAsset->four_wheeler = $request->input('fourWheeler');

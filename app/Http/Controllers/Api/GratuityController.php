@@ -85,22 +85,25 @@ class GratuityController extends BaseController
      */
     public function update(UpdateGratuityRequest $request, string $id): JsonResponse
     {
+        $gratuity = Gratuity::find($id);
+        if(!$gratuity){
+            return $this->sendError('Gratuity Not Found',['error'=>'Gratuity details not found']);
+        }
+        $user = Auth::user();
+        if($user->profile->id !== $gratuity->profile_id){
+           return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Gratuity']);
+         }
+         
         if($request->hasFile('image')){
+            if(!empty($gratuity->image) && Storage::exists('public/Gratuity/'.$gratuity->image)) {
+                Storage::delete('public/Gratuity/'.$gratuity->image);
+            }
             $gratuityFileNameWithExtention = $request->file('image')->getClientOriginalName();
             $gratuityFilename = pathinfo($gratuityFileNameWithExtention, PATHINFO_FILENAME);
             $gratuityExtention = $request->file('image')->getClientOriginalExtension();
             $gratuityFileNameToStore = $gratuityFilename.'_'.time().'.'.$gratuityExtention;
             $gratuityPath = $request->file('image')->storeAs('public/Gratuity', $gratuityFileNameToStore);
          }
-
-         $gratuity = Gratuity::find($id);
-         if(!$gratuity){
-             return $this->sendError('Gratuity Not Found',['error'=>'Gratuity details not found']);
-         }
-         $user = Auth::user();
-         if($user->profile->id !== $gratuity->profile_id){
-            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Gratuity']);
-          }
 
           $gratuity->employer_name = $request->input('employerName');
           $gratuity->employer_id = $request->input('employerId');

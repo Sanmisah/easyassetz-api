@@ -86,22 +86,28 @@ class BankLockerController extends BaseController
      */
     public function update(UpdateBankLockerRequest $request, string $id): JsonResponse
     {
+
+        $bankLocker = BankLocker::find($id);
+        if(!$bankLocker){
+            return $this->sendError('Bank Locker Not Found',['error'=>'Bank Locker not found']);
+        }
+        $user = Auth::user();
+        if($user->profile->id !== $bankLocker->profile_id){
+           return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Bank Locker']);
+         }
+         
         if($request->hasFile('bankLockerImage')){
+
+            if(!empty($bankLocker->image) && Storage::exists('public/BankLocker/'.$bankLocker->image)) {
+                Storage::delete('public/BankLocker/'.$bankLocker->image);
+            }
+
             $bankFileNameWithExtention = $request->file('bankLockerImage')->getClientOriginalName();
             $bankFilename = pathinfo($bankFileNameWithExtention, PATHINFO_FILENAME);
             $bankExtention = $request->file('bankLockerImage')->getClientOriginalExtension();
             $bankFileNameToStore = $bankFilename.'_'.time().'.'.$bankExtention;
             $bankPath = $request->file('bankLockerImage')->storeAs('public/BankLocker', $bankFileNameToStore);
          }
-
-         $bankLocker = BankLocker::find($id);
-         if(!$bankLocker){
-             return $this->sendError('Bank Locker Not Found',['error'=>'Bank Locker not found']);
-         }
-         $user = Auth::user();
-         if($user->profile->id !== $bankLocker->profile_id){
-            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Bank Locker']);
-          }
 
           $bankLocker->bank_name = $request->input('bankName');
           $bankLocker->branch = $request->input('branch');

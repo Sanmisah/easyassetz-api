@@ -99,14 +99,6 @@ class HealthInsuranceController extends BaseController
      */
     public function update(UpdateHealthInsurnaceRequest $request, string $id): JsonResponse
     {
-        if($request->hasFile('image')){
-            $healthFileNameWithExtention = $request->file('image')->getClientOriginalName();
-            $healthFilename = pathinfo($healthFileNameWithExtention, PATHINFO_FILENAME);
-            $healthExtention = $request->file('image')->getClientOriginalExtension();
-            $healthFileNameToStore = $healthFilename.'_'.time().'.'.$healthExtention;
-            $healthPath = $request->file('image')->storeAs('public/HealthInsurance', $healthFileNameToStore);
-         }
-
         $healthInsurance = HealthInsurance::find($id);
         if(!$healthInsurance){
             return $this->sendError('Health Insurance Not Found',['error'=>'Health Insurance not found']);
@@ -114,6 +106,17 @@ class HealthInsuranceController extends BaseController
         $user = Auth::user();
         if($user->profile->id !== $healthInsurance->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Health Insurance']);
+         }
+         
+        if($request->hasFile('image')){
+            if(!empty($healthInsurance->image) && Storage::exists('public/HealthInsurance/'.$healthInsurance->image)) {
+                Storage::delete('public/HealthInsurance/'.$healthInsurance->image);
+            }
+            $healthFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $healthFilename = pathinfo($healthFileNameWithExtention, PATHINFO_FILENAME);
+            $healthExtention = $request->file('image')->getClientOriginalExtension();
+            $healthFileNameToStore = $healthFilename.'_'.time().'.'.$healthExtention;
+            $healthPath = $request->file('image')->storeAs('public/HealthInsurance', $healthFileNameToStore);
          }
 
          $healthInsurance->company_name = $request->input('companyName');
@@ -168,7 +171,7 @@ class HealthInsuranceController extends BaseController
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Health Insurance']);
         }
 
-        if (!empty($healthInsurance->image) && Storage::exists('public/HealthInsurance/'.$healthInsurance->image)) {
+        if(!empty($healthInsurance->image) && Storage::exists('public/HealthInsurance/'.$healthInsurance->image)) {
             Storage::delete('public/HealthInsurance/'.$healthInsurance->image);
         }
         

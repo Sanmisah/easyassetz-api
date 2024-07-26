@@ -86,15 +86,7 @@ class BrokingAccountController extends BaseController
      */
     public function update(UpdateBrokingAccountRequest $request, string $id): JsonResponse
     {
-        if($request->hasFile('image')){
-            $brokingFileNameWithExtention = $request->file('image')->getClientOriginalName();
-            $brokingFilename = pathinfo($brokingFileNameWithExtention, PATHINFO_FILENAME);
-            $brokingExtention = $request->file('image')->getClientOriginalExtension();
-            $brokingFileNameToStore = $brokingFilename.'_'.time().'.'.$brokingExtention;
-            $brokingPath = $request->file('image')->storeAs('public/BrokingAccount', $brokingFileNameToStore);
-         }
-
-         $brokingAccount = BrokingAccount::find($id);
+        $brokingAccount = BrokingAccount::find($id);
          if(!$brokingAccount){
              return $this->sendError('Broking Account Not Found',['error'=>'Broking Account not found']);
          }
@@ -102,6 +94,19 @@ class BrokingAccountController extends BaseController
          if($user->profile->id !== $brokingAccount->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Broking Account']);
           }
+          
+        if($request->hasFile('image')){
+
+            if (!empty($brokingAccount->image) && Storage::exists('public/BrokingAccount/'.$brokingAccount->image)) {
+                Storage::delete('public/BrokingAccount/'.$brokingAccount->image);
+               }
+
+            $brokingFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $brokingFilename = pathinfo($brokingFileNameWithExtention, PATHINFO_FILENAME);
+            $brokingExtention = $request->file('image')->getClientOriginalExtension();
+            $brokingFileNameToStore = $brokingFilename.'_'.time().'.'.$brokingExtention;
+            $brokingPath = $request->file('image')->storeAs('public/BrokingAccount', $brokingFileNameToStore);
+         }
 
           $brokingAccount->broker_name = $request->input('brokerName');
           $brokingAccount->broking_account_number = $request->input('brokingAccountNumber');

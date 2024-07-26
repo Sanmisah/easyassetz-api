@@ -83,15 +83,6 @@ class PostalSavingAccountController extends BaseController
      */
     public function update(UpdatePostalSavingAccountRequest $request, string $id): JsonResponse
     {
-
-        if($request->hasFile('image')){
-            $imageFileNameWithExtention = $request->file('image')->getClientOriginalName();
-            $imageFilename = pathinfo($imageFileNameWithExtention, PATHINFO_FILENAME);
-            $imageExtention = $request->file('image')->getClientOriginalExtension();
-            $imageFileNameToStore = $imageFilename.'_'.time().'.'.$imageExtention;
-            $imagePath = $request->file('image')->storeAs('public/PostalSavingAccount', $imageFileNameToStore);
-         }
-
         $postalSavingAccount = PostalSavingAccount::find($id);
         if(!$postalSavingAccount){
             return $this->sendError('Postal Saving Account Not Found',['error'=>'Postal Saving Account details not found']);
@@ -99,6 +90,17 @@ class PostalSavingAccountController extends BaseController
         $user = Auth::user();
         if($user->profile->id !== $postalSavingAccount->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Postal Saving Account details']);
+         }
+         
+        if($request->hasFile('image')){
+            if(!empty($postalSavingAccount->image) && Storage::exists('public/PostalSavingAccount/'.$postalSavingAccount->image)) {
+                Storage::delete('public/PostalSavingAccount/'.$postalSavingAccount->image);
+            }
+            $imageFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $imageFilename = pathinfo($imageFileNameWithExtention, PATHINFO_FILENAME);
+            $imageExtention = $request->file('image')->getClientOriginalExtension();
+            $imageFileNameToStore = $imageFilename.'_'.time().'.'.$imageExtention;
+            $imagePath = $request->file('image')->storeAs('public/PostalSavingAccount', $imageFileNameToStore);
          }
 
          $postalSavingAccount->account_number = $request->input('accountNumber');

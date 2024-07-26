@@ -88,13 +88,6 @@ class ESOPController extends BaseController
      */
     public function update(UpdateESOPRequest $request, string $id): JsonResponse
     {
-        if($request->hasFile('image')){
-            $esopFileNameWithExtention = $request->file('image')->getClientOriginalName();
-            $esopFilename = pathinfo($esopFileNameWithExtention, PATHINFO_FILENAME);
-            $esopExtention = $request->file('image')->getClientOriginalExtension();
-            $esopFileNameToStore = $esopFilename.'_'.time().'.'.$esopExtention;
-            $esopPath = $request->file('image')->storeAs('public/ESOP', $esopFileNameToStore);
-         }
 
         $esop = ESOP::find($id);
         if(!$esop){
@@ -103,6 +96,17 @@ class ESOPController extends BaseController
         $user = Auth::user();
         if($user->profile->id !== $esop->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this ESOP Detail']);
+         }
+         
+        if($request->hasFile('image')){
+            if(!empty($esop->image) && Storage::exists('public/ESOP/'.$esop->image)) {
+                Storage::delete('public/ESOP/'.$esop->image);
+               }
+            $esopFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $esopFilename = pathinfo($esopFileNameWithExtention, PATHINFO_FILENAME);
+            $esopExtention = $request->file('image')->getClientOriginalExtension();
+            $esopFileNameToStore = $esopFilename.'_'.time().'.'.$esopExtention;
+            $esopPath = $request->file('image')->storeAs('public/ESOP', $esopFileNameToStore);
          }
 
          $esop->company_name = $request->input('companyName');
@@ -144,7 +148,7 @@ class ESOPController extends BaseController
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this ESOP Details']);
         }
 
-        if (!empty($esop->image) && Storage::exists('public/ESOP/'.$esop->image)) {
+        if(!empty($esop->image) && Storage::exists('public/ESOP/'.$esop->image)) {
             Storage::delete('public/ESOP/'.$esop->image);
            }
 

@@ -85,14 +85,6 @@ class MutualFundController extends BaseController
      */
     public function update(UpdateMutualFundRequest $request, string $id): JsonResponse
     {
-        if($request->hasFile('image')){
-            $mfFileNameWithExtention = $request->file('image')->getClientOriginalName();
-            $mfFilename = pathinfo($mfFileNameWithExtention, PATHINFO_FILENAME);
-            $mfExtention = $request->file('image')->getClientOriginalExtension();
-            $mfFileNameToStore = $mfilename.'_'.time().'.'.$mfExtention;
-            $mfPath = $request->file('image')->storeAs('public/MutualFund', $mfFileNameToStore);
-         }
-
         $mutualFund = MutualFund::find($id);
         if(!$mutualFund){
             return $this->sendError('Mutual Fund Detail Not Found',['error'=>'Mutual Fund Detail not found']);
@@ -100,6 +92,17 @@ class MutualFundController extends BaseController
         $user = Auth::user();
         if($user->profile->id !== $mutualFund->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Mutual Fund Detail']);
+         }
+         
+        if($request->hasFile('image')){
+            if(!empty($mutualFund->image) && Storage::exists('public/MutualFund/' . $mutualFund->image)) {
+                Storage::delete('public/MutualFund/' . $mutualFund->image);
+            }
+            $mfFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $mfFilename = pathinfo($mfFileNameWithExtention, PATHINFO_FILENAME);
+            $mfExtention = $request->file('image')->getClientOriginalExtension();
+            $mfFileNameToStore = $mfilename.'_'.time().'.'.$mfExtention;
+            $mfPath = $request->file('image')->storeAs('public/MutualFund', $mfFileNameToStore);
          }
 
          $mutualFund->fund_name = $request->input('fundName');
@@ -142,7 +145,7 @@ class MutualFundController extends BaseController
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Mutual Fund Details']);
         }
 
-        if (!empty($mutualFund->image) && Storage::exists('public/MutualFund/' . $mutualFund->image)) {
+        if(!empty($mutualFund->image) && Storage::exists('public/MutualFund/' . $mutualFund->image)) {
             Storage::delete('public/MutualFund/' . $mutualFund->image);
         }
         $mutualFund->delete();

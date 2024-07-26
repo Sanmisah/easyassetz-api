@@ -85,14 +85,6 @@ class BullionController extends BaseController
      */
     public function update(UpdateBullionRequest $request, string $id): JsonResponse
     {
-        if($request->hasFile('bullionFile')){
-            $bullionFileNameWithExtention = $request->file('bullionFile')->getClientOriginalName();
-            $bullionFilename = pathinfo($bullionFileNameWithExtention, PATHINFO_FILENAME);
-            $bullionExtention = $request->file('bullionFile')->getClientOriginalExtension();
-            $bullionFileNameToStore = $bullionFilename.'_'.time().'.'.$bullionExtention;
-            $bullionPath = $request->file('bullionFile')->storeAs('public/Bullion/', $bullionFileNameToStore);
-         }
-
         $bullion = Bullion::find($id);
         if(!$bullion){
             return $this->sendError('Bullion Not Found', ['error'=>'Bullion not found']);     
@@ -101,6 +93,19 @@ class BullionController extends BaseController
         $user = Auth::user();
          if($user->profile->id !== $bullion->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to update this Bullion']);
+         }
+
+        if($request->hasFile('bullionFile')){
+
+            if(!empty($bullion->image) && Storage::exists('public/Bullion/'.$bullion->image)) {
+                Storage::delete('public/Bullion/'.$bullion->image);
+            }
+
+            $bullionFileNameWithExtention = $request->file('bullionFile')->getClientOriginalName();
+            $bullionFilename = pathinfo($bullionFileNameWithExtention, PATHINFO_FILENAME);
+            $bullionExtention = $request->file('bullionFile')->getClientOriginalExtension();
+            $bullionFileNameToStore = $bullionFilename.'_'.time().'.'.$bullionExtention;
+            $bullionPath = $request->file('bullionFile')->storeAs('public/Bullion/', $bullionFileNameToStore);
          }
 
          $bullion->metal_type = $request->input('metalType');

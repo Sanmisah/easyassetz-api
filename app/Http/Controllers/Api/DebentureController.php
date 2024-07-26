@@ -93,14 +93,6 @@ class DebentureController extends BaseController
      */
     public function update(UpdateDebentureRequest $request, string $id): JsonResponse
     {
-        if($request->hasFile('image')){
-            $debentureFileNameWithExtention = $request->file('image')->getClientOriginalName();
-            $debentureFilename = pathinfo($debentureFileNameWithExtention, PATHINFO_FILENAME);
-            $debentureExtention = $request->file('image')->getClientOriginalExtension();
-            $debentureFileNameToStore = $debentureFilename.'_'.time().'.'.$debentureExtention;
-            $debenturePath = $request->file('image')->storeAs('public/Debenture', $debentureFileNameToStore);
-         }
-
         $debenture = Debenture::find($id);
         if(!$debenture){
             return $this->sendError('Debenture Detail Not Found',['error'=>'Debenture Detail not found']);
@@ -108,6 +100,17 @@ class DebentureController extends BaseController
         $user = Auth::user();
         if($user->profile->id !== $debenture->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Debenture Detail']);
+         }
+         
+        if($request->hasFile('image')){
+            if(!empty($debenture->image) && Storage::exists('public/Debenture/'.$debenture->image)) {
+                Storage::delete('public/Debenture/'.$debenture->image);
+               }
+            $debentureFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $debentureFilename = pathinfo($debentureFileNameWithExtention, PATHINFO_FILENAME);
+            $debentureExtention = $request->file('image')->getClientOriginalExtension();
+            $debentureFileNameToStore = $debentureFilename.'_'.time().'.'.$debentureExtention;
+            $debenturePath = $request->file('image')->storeAs('public/Debenture', $debentureFileNameToStore);
          }
 
          $debenture->bank_service_provider = $request->input('bankServiceProvider');
@@ -154,7 +157,7 @@ class DebentureController extends BaseController
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Debenture Details']);
         }
         
-        if (!empty($debenture->image) && Storage::exists('public/Debenture/'.$debenture->image)) {
+        if(!empty($debenture->image) && Storage::exists('public/Debenture/'.$debenture->image)) {
             Storage::delete('public/Debenture/'.$debenture->image);
            }
 

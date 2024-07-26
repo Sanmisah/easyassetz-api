@@ -88,15 +88,6 @@ class AlternateInvestmentFundController extends BaseController
      */
     public function update(UpdateAlternateInvestmentFundRequest $request, string $id): JsonResponse
     {
-
-        if($request->hasFile('image')){
-            $fundFileNameWithExtention = $request->file('image')->getClientOriginalName();
-            $fundFilename = pathinfo($fundFileNameWithExtention, PATHINFO_FILENAME);
-            $fundExtention = $request->file('image')->getClientOriginalExtension();
-            $fundFileNameToStore = $fundFilename.'_'.time().'.'.$fundExtention;
-            $fundPath = $request->file('image')->storeAs('public/InvestmentFund', $fundFileNameToStore);
-         }
-
         $investmentFund = InvestmentFund::find($id);
         if(!$investmentFund){
             return $this->sendError('alternate investment fund Not Found',['error'=>'alternate investment fund not found']);
@@ -104,6 +95,19 @@ class AlternateInvestmentFundController extends BaseController
         $user = Auth::user();
         if($user->profile->id !== $investmentFund->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this alternate investment fund']);
+         }
+
+        if($request->hasFile('image')){
+
+            if(!empty($investmentFund->image) && Storage::exists('public/InvestmentFund/'.$investmentFund->image)) {
+                Storage::delete('public/InvestmentFund/'.$investmentFund->image);
+               }
+
+            $fundFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $fundFilename = pathinfo($fundFileNameWithExtention, PATHINFO_FILENAME);
+            $fundExtention = $request->file('image')->getClientOriginalExtension();
+            $fundFileNameToStore = $fundFilename.'_'.time().'.'.$fundExtention;
+            $fundPath = $request->file('image')->storeAs('public/InvestmentFund', $fundFileNameToStore);
          }
 
          $investmentFund->fund_name = $request->input('fundName');
@@ -145,7 +149,7 @@ class AlternateInvestmentFundController extends BaseController
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this alternate Investment fund']);
         }
 
-        if (!empty($investmentFund->image) && Storage::exists('public/InvestmentFund/'.$investmentFund->image)) {
+        if(!empty($investmentFund->image) && Storage::exists('public/InvestmentFund/'.$investmentFund->image)) {
             Storage::delete('public/InvestmentFund/'.$investmentFund->image);
            }
 

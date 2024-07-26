@@ -142,7 +142,21 @@ class CommercialPropertyController extends BaseController
      */
     public function update(UpdateCommercialPropertyRequest $request, string $id): JsonResponse
     {
+      $commercialProperty = CommercialProperty::find($id);
+      if(!$commercialProperty){
+          return $this->sendError('Commercial Property Not Found',['error'=>'Commercial Property details not found']);
+      }
+      $user = Auth::user();
+      if($user->profile->id !== $commercialProperty->profile_id){
+         return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Commercial Property details']);
+       }
+
         if($request->hasFile('litigationFile')){
+
+         if (!empty($commercialProperty->litigation_file) && Storage::exists('public/CommercialProperty/LitigationFiles/'.$commercialProperty->litigation_file)) {
+            Storage::delete('public/CommercialProperty/LitigationFiles/'.$commercialProperty->litigation_file);
+           }
+
             $litigationFileNameWithExtention = $request->file('litigationFile')->getClientOriginalName();
             $litigationFilename = pathinfo($litigationFileNameWithExtention, PATHINFO_FILENAME);
             $litigationExtention = $request->file('litigationFile')->getClientOriginalExtension();
@@ -151,6 +165,11 @@ class CommercialPropertyController extends BaseController
          }
 
          if($request->hasFile('agreementCopy')){
+
+            if (!empty($commercialProperty->agreement_file) && Storage::exists('public/CommercialProperty/AgreementCopy/'.$commercialProperty->agreement_file)) {
+               Storage::delete('public/CommercialProperty/AgreementCopy/'.$commercialProperty->agreement_file);
+              }
+
             $agreementCopyFileNameWithExtention = $request->file('agreementCopy')->getClientOriginalName();
             $agreementCopyFilename = pathinfo($agreementCopyFileNameWithExtention, PATHINFO_FILENAME);
             $agreementCopyExtention = $request->file('agreementCopy')->getClientOriginalExtension();
@@ -159,6 +178,9 @@ class CommercialPropertyController extends BaseController
          }
 
          if($request->hasFile('rentAgreementFile')){
+            if (!empty($commercialProperty->rent_agreement_file) && Storage::exists('public/CommercialProperty/RentAgreementFile/'.$commercialProperty->rent_agreement_file)) {
+               Storage::delete('public/CommercialProperty/RentAgreementFile/'.$commercialProperty->rent_agreement_file);
+              }
             $rentAgreementFileNameWithExtention = $request->file('rentAgreementFile')->getClientOriginalName();
             $rentAgreementFilename = pathinfo($rentAgreementFileNameWithExtention, PATHINFO_FILENAME);
             $rentAgreementExtention = $request->file('rentAgreementFile')->getClientOriginalExtension();
@@ -167,6 +189,9 @@ class CommercialPropertyController extends BaseController
          }
 
          if($request->hasFile('shareCertificateFile')){
+            if (!empty($commercialProperty->share_certificate_file) && Storage::exists('public/CommercialProperty/ShareCertificateFile/'.$commercialProperty->share_certificate_file)) {
+               Storage::delete('public/CommercialProperty/ShareCertificateFile/'.$commercialProperty->share_certificate_file);
+              }
             $shareCertificateFileNameWithExtention = $request->file('shareCertificateFile')->getClientOriginalName();
             $shareCertificateFilename = pathinfo($shareCertificateFileNameWithExtention, PATHINFO_FILENAME);
             $shareCertificateExtention = $request->file('shareCertificateFile')->getClientOriginalExtension();
@@ -175,21 +200,15 @@ class CommercialPropertyController extends BaseController
          }
 
          if($request->hasFile('leaseDocumentFile')){
+            if (!empty($commercialProperty->lease_document_file) && Storage::exists('public/CommercialProperty/LeaseDocumentFile/'.$commercialProperty->lease_document_file)) {
+               Storage::delete('public/CommercialProperty/LeaseDocumentFile/'.$commercialProperty->lease_document_file);
+              }
             $leaseDocumentFileNameWithExtention = $request->file('leaseDocumentFile')->getClientOriginalName();
             $leaseDocumentFilename = pathinfo($leaseDocumentFileNameWithExtention, PATHINFO_FILENAME);
             $leaseDocumentExtention = $request->file('leaseDocumentFile')->getClientOriginalExtension();
             $leaseDocumentFileNameToStore = $leaseDocumentFilename.'_'.time().'.'.$leaseDocumentExtention;
             $leaseDocumentPath = $request->file('leaseDocumentFile')->storeAs('public/CommercialProperty/LeaseDocumentFile', $leaseDocumentFileNameToStore);
          }
-
-         $commercialProperty = CommercialProperty::find($id);
-         if(!$commercialProperty){
-             return $this->sendError('Commercial Property Not Found',['error'=>'Commercial Property details not found']);
-         }
-         $user = Auth::user();
-         if($user->profile->id !== $commercialProperty->profile_id){
-            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Commercial Property details']);
-          }
 
           $commercialProperty->property_type = $request->input('propertyType');
           $commercialProperty->house_number = $request->input('houseNumber');

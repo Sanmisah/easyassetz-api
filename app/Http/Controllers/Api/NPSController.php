@@ -87,22 +87,25 @@ class NPSController extends BaseController
      */
     public function update(UpdateNPSRequest $request, string $id): JsonResponse
     {
+        $nps = NPS::find($id);
+        if(!$nps){
+            return $this->sendError('NPS Not Found',['error'=>'NPS details not found']);
+        }
+        $user = Auth::user();
+        if($user->profile->id !== $nps->profile_id){
+           return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this NPS']);
+         }
+         
         if($request->hasFile('image')){
+            if(!empty($nps->image) && Storage::exists('public/NPS/'.$nps->image)) {
+                Storage::delete('public/NPS/'.$nps->image);
+            }
             $npsFileNameWithExtention = $request->file('image')->getClientOriginalName();
             $npsFilename = pathinfo($npsFileNameWithExtention, PATHINFO_FILENAME);
             $npsExtention = $request->file('image')->getClientOriginalExtension();
             $npsFileNameToStore = $npsFilename.'_'.time().'.'.$npsExtention;
             $npsPath = $request->file('image')->storeAs('public/NPS', $npsFileNameToStore);
          }
-
-         $nps = NPS::find($id);
-         if(!$nps){
-             return $this->sendError('NPS Not Found',['error'=>'NPS details not found']);
-         }
-         $user = Auth::user();
-         if($user->profile->id !== $nps->profile_id){
-            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this NPS']);
-          }
 
           $nps->permanent_retirement_account_no = $request->input('PRAN');
           $nps->nature_of_holding = $request->input('natureOfHolding');

@@ -95,13 +95,6 @@ class OtherInsuranceController extends BaseController
      */
     public function update(UpdateOtherInsuranceRequest $request, string $id): JsonResponse
     {
-        if($request->hasFile('image')){
-            $otherFileNameWithExtention = $request->file('image')->getClientOriginalName();
-            $otherFilename = pathinfo($otherFileNameWithExtention, PATHINFO_FILENAME);
-            $otherExtention = $request->file('image')->getClientOriginalExtension();
-            $otherFileNameToStore = $otherFilename.'_'.time().'.'.$otherExtention;
-            $otherPath = $request->file('image')->storeAs('public/OtherInsurance', $otherFileNameToStore);
-         }
 
         $otherInsurance = OtherInsurance::find($id);
         if(!$otherInsurance){
@@ -111,6 +104,17 @@ class OtherInsuranceController extends BaseController
         $user = Auth::user();
         if($user->profile->id !== $otherInsurance->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Other Insurance']);
+         }
+         
+        if($request->hasFile('image')){
+            if (!empty($otherInsurance->image) && Storage::exists('public/OtherInsurance/'.$otherInsurance->image)) {
+                Storage::delete('public/OtherInsurance/'.$otherInsurance->image);
+               }
+            $otherFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $otherFilename = pathinfo($otherFileNameWithExtention, PATHINFO_FILENAME);
+            $otherExtention = $request->file('image')->getClientOriginalExtension();
+            $otherFileNameToStore = $otherFilename.'_'.time().'.'.$otherExtention;
+            $otherPath = $request->file('image')->storeAs('public/OtherInsurance', $otherFileNameToStore);
          }
 
          $otherInsurance->company_name = $request->input('companyName');

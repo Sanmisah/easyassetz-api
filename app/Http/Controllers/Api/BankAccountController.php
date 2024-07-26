@@ -87,15 +87,6 @@ class BankAccountController extends BaseController
      */
     public function update(UpdateBankAccountRequest $request, string $id): JsonResponse
     {
-
-        if($request->hasFile('image')){
-            $bankFileNameWithExtention = $request->file('image')->getClientOriginalName();
-            $bankFilename = pathinfo($bankFileNameWithExtention, PATHINFO_FILENAME);
-            $bankExtention = $request->file('image')->getClientOriginalExtension();
-            $bankFileNameToStore = $bankFilename.'_'.time().'.'.$bankExtention;
-            $bankPath = $request->file('image')->storeAs('public/BankAccount', $bankFileNameToStore);
-         }
-
         $bankAccount = BankAccount::find($id);
         if(!$bankAccount){
             return $this->sendError('Bank Account fund Not Found',['error'=>'Bank Account not found']);
@@ -105,6 +96,18 @@ class BankAccountController extends BaseController
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Bank Account']);
          }
           
+         if($request->hasFile('image')){
+
+            if(!empty($bankAccount->image) && Storage::exists('public/BankAccount/'.$bankAccount->image)) {
+                Storage::delete('public/BankAccount/'.$bankAccount->image);
+            }
+            
+            $bankFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $bankFilename = pathinfo($bankFileNameWithExtention, PATHINFO_FILENAME);
+            $bankExtention = $request->file('image')->getClientOriginalExtension();
+            $bankFileNameToStore = $bankFilename.'_'.time().'.'.$bankExtention;
+            $bankPath = $request->file('image')->storeAs('public/BankAccount', $bankFileNameToStore);
+         }
 
          $bankAccount->bank_name = $request->input('bankName');
          $bankAccount->account_type = $request->input('accountType');

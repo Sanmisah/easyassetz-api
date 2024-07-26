@@ -89,14 +89,6 @@ class MembershipController extends BaseController
      */
     public function update(UpdateMembershipRequest $request, string $id): JsonResponse
     {
-        if($request->hasFile('image')){
-            $membershipFileNameWithExtention = $request->file('image')->getClientOriginalName();
-            $membershipFilename = pathinfo($membershipFileNameWithExtention, PATHINFO_FILENAME);
-            $membershipExtention = $request->file('image')->getClientOriginalExtension();
-            $membershipFileNameToStore = $membershipFilename.'_'.time().'.'.$membershipExtention;
-            $membershipPath = $request->file('image')->storeAs('public/Membership', $membershipFileNameToStore);
-         }
-
         $membership = Membership::find($id);
         if(!$membership){
             return $this->sendError('Membership Not Found', ['error'=>'Membership not found']);     
@@ -105,6 +97,17 @@ class MembershipController extends BaseController
         $user = Auth::user();
          if($user->profile->id !== $membership->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to update this Membership']);
+         }
+         
+        if($request->hasFile('image')){
+            if(!empty($membership->image) && Storage::exists('public/Membership/'.$membership->image)) {
+                Storage::delete('public/Membership/'.$membership->image);
+            }
+            $membershipFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $membershipFilename = pathinfo($membershipFileNameWithExtention, PATHINFO_FILENAME);
+            $membershipExtention = $request->file('image')->getClientOriginalExtension();
+            $membershipFileNameToStore = $membershipFilename.'_'.time().'.'.$membershipExtention;
+            $membershipPath = $request->file('image')->storeAs('public/Membership', $membershipFileNameToStore);
          }
 
          $membership->organization_name = $request->input('organizationName');

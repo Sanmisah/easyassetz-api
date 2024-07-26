@@ -86,22 +86,26 @@ class PostSavingSchemeController extends BaseController
      */
     public function update(UpdatePostSavingSchemeRequest $request, string $id)
     {
+
+        $postSavingScheme = PostSavingScheme::find($id);
+        if(!$postSavingScheme){
+            return $this->sendError('Post Saving Scheme Not Found',['error'=>'Postal Saving Account details not found']);
+        }
+        $user = Auth::user();
+        if($user->profile->id !== $postSavingScheme->profile_id){
+           return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Post Saving Scheme details']);
+         }
+         
         if($request->hasFile('image')){
+            if(!empty($postSavingScheme->image) && Storage::exists('public/PostSavingScheme/'.$postSavingScheme->image)) {
+                Storage::delete('public/PostSavingScheme/'.$postSavingScheme->image);
+            }
             $imageFileNameWithExtention = $request->file('image')->getClientOriginalName();
             $imageFilename = pathinfo($imageFileNameWithExtention, PATHINFO_FILENAME);
             $imageExtention = $request->file('image')->getClientOriginalExtension();
             $imageFileNameToStore = $imageFilename.'_'.time().'.'.$imageExtention;
             $imagePath = $request->file('image')->storeAs('public/PostSavingScheme', $imageFileNameToStore);
          }
-
-         $postSavingScheme = PostSavingScheme::find($id);
-         if(!$postSavingScheme){
-             return $this->sendError('Post Saving Scheme Not Found',['error'=>'Postal Saving Account details not found']);
-         }
-         $user = Auth::user();
-         if($user->profile->id !== $postSavingScheme->profile_id){
-            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Post Saving Scheme details']);
-          }
 
          $postSavingScheme->type = $request->input('type');
          $postSavingScheme->certificate_number = $request->input('certificateNumber');
