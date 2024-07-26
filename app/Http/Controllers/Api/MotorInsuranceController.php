@@ -98,14 +98,6 @@ class MotorInsuranceController extends BaseController
      */
     public function update(UpdateMotorInsuranceRequest $request, string $id)
     {
-        if($request->hasFile('image')){
-            $motorFileNameWithExtention = $request->file('image')->getClientOriginalName();
-            $motorFilename = pathinfo($motorFileNameWithExtention, PATHINFO_FILENAME);
-            $motorExtention = $request->file('image')->getClientOriginalExtension();
-            $motorFileNameToStore = $motorFilename.'_'.time().'.'.$motorExtention;
-            $motorPath = $request->file('image')->storeAs('public/MotorInsurance', $motorFileNameToStore);
-         }
-
 
         $motorInsurance = MotorInsurance::find($id);
         if(!$motorInsurance){
@@ -115,6 +107,19 @@ class MotorInsuranceController extends BaseController
          $user = Auth::user();
          if($user->profile->id !== $motorInsurance->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to update this Motor Insurance']);
+         }
+         
+        if($request->hasFile('image')){
+
+            if (!empty($motorInsurance->image) && Storage::exists('public/MotorInsurance/'.$motorInsurance->image)) {
+                Storage::delete('public/MotorInsurance/'.$motorInsurance->image);
+            }
+
+            $motorFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $motorFilename = pathinfo($motorFileNameWithExtention, PATHINFO_FILENAME);
+            $motorExtention = $request->file('image')->getClientOriginalExtension();
+            $motorFileNameToStore = $motorFilename.'_'.time().'.'.$motorExtention;
+            $motorPath = $request->file('image')->storeAs('public/MotorInsurance', $motorFileNameToStore);
          }
 
          $motorInsurance->company_name = $request->input('companyName');

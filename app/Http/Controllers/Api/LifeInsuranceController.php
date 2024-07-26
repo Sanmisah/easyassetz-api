@@ -98,13 +98,7 @@ class LifeInsuranceController extends BaseController
      */
     public function update(UpdateLifeInsuranceRequest $request, string $id): JsonResponse
     {
-        if($request->hasFile('image')){
-            $lifeFileNameWithExtention = $request->file('image')->getClientOriginalName();
-            $lifeFilename = pathinfo($lifeFileNameWithExtention, PATHINFO_FILENAME);
-            $lifeExtention = $request->file('image')->getClientOriginalExtension();
-            $lifeFileNameToStore = $lifeFilename.'_'.time().'.'.$lifeExtention;
-            $lifePath = $request->file('image')->storeAs('public/LifeInsurance', $lifeFileNameToStore);
-         }
+       
 
         $lifeInsurance = LifeInsurance::find($id);
         if(!$lifeInsurance){
@@ -115,6 +109,20 @@ class LifeInsuranceController extends BaseController
          if($user->profile->id !== $lifeInsurance->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to update this Life Insurance']);
          }
+
+         if($request->hasFile('image')){
+
+            if (!empty($lifeInsurance->image) && Storage::exists('public/LifeInsurance/'.$lifeInsurance->image)) {
+                Storage::delete('public/LifeInsurance/'.$lifeInsurance->image);
+            }
+            
+            $lifeFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $lifeFilename = pathinfo($lifeFileNameWithExtention, PATHINFO_FILENAME);
+            $lifeExtention = $request->file('image')->getClientOriginalExtension();
+            $lifeFileNameToStore = $lifeFilename.'_'.time().'.'.$lifeExtention;
+            $lifePath = $request->file('image')->storeAs('public/LifeInsurance', $lifeFileNameToStore);
+         }
+         
           $lifeInsurance->company_name = $request->input('companyName');
           $lifeInsurance->insurance_type = $request->input('insuranceType');
           $lifeInsurance->policy_number = $request->input('policyNumber');

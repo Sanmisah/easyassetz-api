@@ -136,7 +136,7 @@ class OtherFinancialAssetController extends BaseController
      */
     public function destroy(string $id): JsonResponse
     {
-        $otherFinancialAsset = InvestmentFund::find($id);
+        $otherFinancialAsset = OtherFinancialAsset::find($id);
         if(!$otherFinancialAsset){
             return $this->sendError('Other Financial Assets not found', ['error'=>'Other Financial Assets not found']);
         }
