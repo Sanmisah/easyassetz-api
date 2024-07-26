@@ -19,9 +19,9 @@ class VehicleLoanController extends BaseController
     public function index(): JsonResponse
     {
         $user = Auth::user();
-        $vehicleLoan = $user->profile->s()->get();
+        $vehicleLoan = $user->profile->vehicleLoan()->get();
        
-        return $this->sendResponse(['Vehicle Loan'=>VehicleLoanResource::collection($vehicleloan)], "Vehicle Loan retrived successfully");
+        return $this->sendResponse(['VehicleLoan'=>VehicleLoanResource::collection($vehicleloan)], "Vehicle Loan retrived successfully");
 
     }
 
@@ -43,7 +43,7 @@ class VehicleLoanController extends BaseController
      $vehicleLoan->guarantor_email = $request->input('guarantorEmail');
      $vehicleLoan->save();
 
-     return $this->sendResponse(['Vehicle Loan'=> new VehicleLoanResource($vehicleLoan)], 'Vehicle Loan details stored successfully');
+     return $this->sendResponse(['VehicleLoan'=> new VehicleLoanResource($vehicleLoan)], 'Vehicle Loan details stored successfully');
 
     }
 
@@ -61,7 +61,7 @@ class VehicleLoanController extends BaseController
             return $this->sendError('Unauthorized', ['error' => 'You are Not Allowed to view this Vehicle Loan']);
         }
         
-        return $this->sendResponse(['Vehicle Loan' => new VehicleLoanResource($vehicleLoan)], 'Vehicle Loan retrived successfully');
+        return $this->sendResponse(['VehicleLoan' => new VehicleLoanResource($vehicleLoan)], 'Vehicle Loan retrived successfully');
         
     }
 
@@ -72,7 +72,7 @@ class VehicleLoanController extends BaseController
     {
         $vehicleLoan = VehicleLoan::find($id);
         if(!$vehicleLoan){
-            return $this->sendError('Vehicle Loan Not Found', ['error'=>'Vehicle Loan not found']);     
+            return $this->sendError('VehicleLoan Not Found', ['error'=>'Vehicle Loan not found']);     
         }
 
         $user = Auth::user();
@@ -92,7 +92,7 @@ class VehicleLoanController extends BaseController
          
 
 
-         return $this->sendResponse(['Vehicle Loan' => new VehicleLoanResource($vehicleLoan)], 'Vehicle Loan updated successfully');
+         return $this->sendResponse(['VehicleLoan' => new VehicleLoanResource($vehicleLoan)], 'Vehicle Loan updated successfully');
 
     }
 
@@ -111,7 +111,7 @@ class VehicleLoanController extends BaseController
     }
     $vehicleLoan->delete();
 
-    return $this->sendResponse([], 'Vehicle Loan deleted successfully');
+    return $this->sendResponse([], 'VehicleLoan deleted successfully');
 
     }
 }
