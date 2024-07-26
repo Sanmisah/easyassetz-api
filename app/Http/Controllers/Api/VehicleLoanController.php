@@ -20,8 +20,7 @@ class VehicleLoanController extends BaseController
     {
         $user = Auth::user();
         $vehicleLoan = $user->profile->vehicleLoan()->get();
-       
-        return $this->sendResponse(['VehicleLoan'=>VehicleLoanResource::collection($vehicleloan)], "Vehicle Loan retrived successfully");
+        return $this->sendResponse(['VehicleLoan'=>VehicleLoanResource::collection($vehicleLoan)], "Vehicle Loan retrived successfully");
 
     }
 
