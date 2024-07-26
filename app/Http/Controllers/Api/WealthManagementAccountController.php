@@ -84,15 +84,7 @@ class WealthManagementAccountController extends BaseController
      */
     public function update(Request $request, string $id): JsonResponse
     {
-        if($request->hasFile('wealthManagementFile')){
-            $wealthFileNameWithExtention = $request->file('wealthManagementFile')->getClientOriginalName();
-            $wealthFilename = pathinfo($wealthFileNameWithExtention, PATHINFO_FILENAME);
-            $wealthExtention = $request->file('wealthManagementFile')->getClientOriginalExtension();
-            $wealthFileNameToStore = $wealthFilename.'_'.time().'.'.$wealthExtention;
-            $wealthPath = $request->file('wealthManagementFile')->storeAs('public/WealthManagementAccount', $wealthFileNameToStore);
-         }
-
-         $wealthManagementAccount = WealthManagement::find($id);
+        $wealthManagementAccount = WealthManagement::find($id);
          if(!$wealthManagementAccount){
              return $this->sendError('Wealth management Account Not Found',['error'=>'wealth management Account not found']);
          }
@@ -100,6 +92,17 @@ class WealthManagementAccountController extends BaseController
          if($user->profile->id !== $wealthManagementAccount->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Wealth management Account']);
           }
+          
+        if($request->hasFile('wealthManagementFile')){
+            if(!empty($wealthManagementAccount->image) && Storage::exists('public/WealthManagementAccount/'.$wealthManagementAccount->image)) {
+                Storage::delete('public/WealthManagementAccount/'.$wealthManagementAccount->image);
+               }
+            $wealthFileNameWithExtention = $request->file('wealthManagementFile')->getClientOriginalName();
+            $wealthFilename = pathinfo($wealthFileNameWithExtention, PATHINFO_FILENAME);
+            $wealthExtention = $request->file('wealthManagementFile')->getClientOriginalExtension();
+            $wealthFileNameToStore = $wealthFilename.'_'.time().'.'.$wealthExtention;
+            $wealthPath = $request->file('wealthManagementFile')->storeAs('public/WealthManagementAccount', $wealthFileNameToStore);
+         }
 
           $wealthManagementAccount->profile_id = $user->profile->id;
           $wealthManagementAccount->wealth_manager_name = $request->input('wealthManagerName');
@@ -140,7 +143,7 @@ class WealthManagementAccountController extends BaseController
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Wealth Management Account']);
         }
 
-        if (!empty($wealthManagementAccount->image) && Storage::exists('public/WealthManagementAccount/'.$wealthManagementAccount->image)) {
+        if(!empty($wealthManagementAccount->image) && Storage::exists('public/WealthManagementAccount/'.$wealthManagementAccount->image)) {
             Storage::delete('public/WealthManagementAccount/'.$wealthManagementAccount->image);
            }
 

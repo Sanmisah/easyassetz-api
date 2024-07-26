@@ -84,21 +84,24 @@ class PublicProvidentFundController extends BaseController
      */
     public function update(Request $request, string $id): JsonResponse
     {
-        if($request->hasFile('image')){
-            $ppfFileNameWithExtention = $request->file('image')->getClientOriginalName();
-            $ppfFilename = pathinfo($ppfFileNameWithExtention, PATHINFO_FILENAME);
-            $ppfExtention = $request->file('image')->getClientOriginalExtension();
-            $ppfFileNameToStore = $ppfFilename.'_'.time().'.'.$ppfExtention;
-            $ppfPath = $request->file('image')->storeAs('public/PublicProvidentFund', $ppfFileNameToStore);
-         }
-        
-         $pubilcProvidentFund = PublicProvidentFund::find($id);
+        $pubilcProvidentFund = PublicProvidentFund::find($id);
         if(!$pubilcProvidentFund){
             return $this->sendError('Public Provident fund Not Found',['error'=>'Public Provident fund not found']);
         }
         $user = Auth::user();
         if($user->profile->id !== $pubilcProvidentFund->profile_id){
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Public Provident fund']);
+         }
+         
+        if($request->hasFile('image')){
+            if(!empty($pubilcProvidentFund->image) && Storage::exists('public/PublicProvidentFund/'.$pubilcProvidentFund->image)) {
+                Storage::delete('public/PublicProvidentFund/'.$pubilcProvidentFund->image);
+            }
+            $ppfFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $ppfFilename = pathinfo($ppfFileNameWithExtention, PATHINFO_FILENAME);
+            $ppfExtention = $request->file('image')->getClientOriginalExtension();
+            $ppfFileNameToStore = $ppfFilename.'_'.time().'.'.$ppfExtention;
+            $ppfPath = $request->file('image')->storeAs('public/PublicProvidentFund', $ppfFileNameToStore);
          }
 
          $pubilcProvidentFund->profile_id = $user->profile->id;

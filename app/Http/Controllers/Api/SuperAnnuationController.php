@@ -84,15 +84,7 @@ class SuperAnnuationController extends BaseController
      */
     public function update(Request $request, string $id): JsonResponse
     {
-        if($request->hasFile('image')){
-            $saFileNameWithExtention = $request->file('image')->getClientOriginalName();
-            $saFilename = pathinfo($saFileNameWithExtention, PATHINFO_FILENAME);
-            $saExtention = $request->file('image')->getClientOriginalExtension();
-            $saFileNameToStore = $saFilename.'_'.time().'.'.$saExtention;
-            $saPath = $request->file('image')->storeAs('public/SuperAnnuation', $saFileNameToStore);
-         }
-
-         $superAnnuation = SuperAnnuation::find($id);
+        $superAnnuation = SuperAnnuation::find($id);
          if(!$superAnnuation){
              return $this->sendError('Super Annuation Not Found',['error'=>'Super Annuation details not found']);
          }
@@ -100,6 +92,17 @@ class SuperAnnuationController extends BaseController
          if($user->profile->id !== $superAnnuation->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Super Annuation']);
           }
+          
+        if($request->hasFile('image')){
+            if(!empty($superAnnuation->image) && Storage::exists('public/SuperAnnuation/'.$superAnnuation->image)) {
+                Storage::delete('public/SuperAnnuation/'.$superAnnuation->image);
+            }
+            $saFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $saFilename = pathinfo($saFileNameWithExtention, PATHINFO_FILENAME);
+            $saExtention = $request->file('image')->getClientOriginalExtension();
+            $saFileNameToStore = $saFilename.'_'.time().'.'.$saExtention;
+            $saPath = $request->file('image')->storeAs('public/SuperAnnuation', $saFileNameToStore);
+         }
 
           $superAnnuation->company_name = $request->input('companyName');
           $superAnnuation->master_policy_number = $request->input('masterPolicyNumber');

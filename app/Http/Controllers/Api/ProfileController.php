@@ -74,8 +74,8 @@ class ProfileController extends BaseController
          }
 
          if($request->hasFile('panFile')){
-            if(!empty($profile->adhar_file) && Storage::exists('public/profiles/aadharFile/'.$profile->adhar_file)) {
-                Storage::delete('public/profiles/aadharFile/'.$profile->adhar_file);
+            if(!empty($profile->pan_file) && Storage::exists('public/profiles/panFiles/'.$profile->pan_file)) {
+                Storage::delete('public/profiles/panFiles/'.$profile->pan_file);
             }
             $panFileNameWithExt = $request->file('panFile')->getClientOriginalName();
             $panFilename = pathinfo($panFileNameWithExt, PATHINFO_FILENAME);
@@ -85,6 +85,9 @@ class ProfileController extends BaseController
          }
 
          if($request->hasFile('passportFile')){
+            if(!empty($profile->passport_file) && Storage::exists('public/profiles/passportFiles/'.$profile->passport_file)) {
+                Storage::delete('public/profiles/passportFiles/'.$profile->passport_file);
+            }
             $passportFileNameWithExt = $request->file('passportFile')->getClientOriginalName();
             $passportFilename = pathinfo($passportFileNameWithExt, PATHINFO_FILENAME);
             $passportExtention = $request->file('passportFile')->getClientOriginalExtension();
@@ -93,6 +96,9 @@ class ProfileController extends BaseController
          }
 
          if($request->hasFile('drivingFile')){
+            if(!empty($profile->driving_licence_file) && Storage::exists('public/profiles/drivingLicenceFiles/'.$profile->driving_licence_file)) {
+                Storage::delete('public/profiles/drivingLicenceFiles/'.$profile->driving_licence_file);
+            }
             $drivingFileNameWithExtention = $request->file('drivingFile')->getClientOriginalName();
             $drivingFilename = pathinfo($drivingFileNameWithExtention, PATHINFO_FILENAME);
             $drivingExtention = $request->file('drivingFile')->getClientOriginalExtension();

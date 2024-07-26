@@ -141,7 +141,19 @@ class ResidentialPropertyController extends BaseController
      */
     public function update(Request $request, string $id): JsonResponse
     {
+      $residentialProperty = ResidentialProperty::find($id);
+      if(!$residentialProperty){
+          return $this->sendError('Residential Property Not Found',['error'=>'Residential Property details not found']);
+      }
+      $user = Auth::user();
+      if($user->profile->id !== $residentialProperty->profile_id){
+         return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Residential Property details']);
+       }
+
         if($request->hasFile('litigationFile')){
+         if(!empty($residentialProperty->litigation_file) && Storage::exists('public/ResidentialProperty/LitigationFiles/' . $residentialProperty->litigation_file)) {
+            Storage::delete('public/ResidentialProperty/LitigationFiles/' . $residentialProperty->litigation_file);
+           }
             $litigationFileNameWithExtention = $request->file('litigationFile')->getClientOriginalName();
             $litigationFilename = pathinfo($litigationFileNameWithExtention, PATHINFO_FILENAME);
             $litigationExtention = $request->file('litigationFile')->getClientOriginalExtension();
@@ -150,6 +162,9 @@ class ResidentialPropertyController extends BaseController
          }
 
          if($request->hasFile('agreementCopy')){
+            if(!empty($residentialProperty->agreement_file) && Storage::exists('public/ResidentialProperty/AgreementCopy/' . $residentialProperty->agreement_file)) {
+               Storage::delete('public/ResidentialProperty/AgreementCopy/' . $residentialProperty->agreement_file);
+              }
             $agreementCopyFileNameWithExtention = $request->file('agreementCopy')->getClientOriginalName();
             $agreementCopyFilename = pathinfo($agreementCopyFileNameWithExtention, PATHINFO_FILENAME);
             $agreementCopyExtention = $request->file('agreementCopy')->getClientOriginalExtension();
@@ -158,6 +173,9 @@ class ResidentialPropertyController extends BaseController
          }
 
          if($request->hasFile('rentAgreementFile')){
+            if(!empty($residentialProperty->rent_agreement_file) && Storage::exists('public/ResidentialProperty/RentAgreementFile/' . $residentialProperty->rent_agreement_file)) {
+               Storage::delete('public/ResidentialProperty/RentAgreementFile/' . $residentialProperty->rent_agreement_file);
+              }
             $rentAgreementFileNameWithExtention = $request->file('rentAgreementFile')->getClientOriginalName();
             $rentAgreementFilename = pathinfo($rentAgreementFileNameWithExtention, PATHINFO_FILENAME);
             $rentAgreementExtention = $request->file('rentAgreementFile')->getClientOriginalExtension();
@@ -166,6 +184,9 @@ class ResidentialPropertyController extends BaseController
          }
 
          if($request->hasFile('shareCertificateFile')){
+            if(!empty($residentialProperty->share_certificate_file) && Storage::exists('public/ResidentialProperty/ShareCertificateFile/' . $residentialProperty->share_certificate_file)) {
+               Storage::delete('public/ResidentialProperty/ShareCertificateFile/' . $residentialProperty->share_certificate_file);
+              }
             $shareCertificateFileNameWithExtention = $request->file('shareCertificateFile')->getClientOriginalName();
             $shareCertificateFilename = pathinfo($shareCertificateFileNameWithExtention, PATHINFO_FILENAME);
             $shareCertificateExtention = $request->file('shareCertificateFile')->getClientOriginalExtension();
@@ -174,21 +195,15 @@ class ResidentialPropertyController extends BaseController
          }
 
          if($request->hasFile('leaseDocumentFile')){
+            if(!empty($residentialProperty->leaseDocumentFile) && Storage::exists('public/ResidentialProperty/LeaseDocumentFile/' . $residentialProperty->leaseDocumentFile)) {
+               Storage::delete('public/ResidentialProperty/LeaseDocumentFile/' . $residentialProperty->leaseDocumentFile);
+              }
             $leaseDocumentFileNameWithExtention = $request->file('leaseDocumentFile')->getClientOriginalName();
             $leaseDocumentFilename = pathinfo($leaseDocumentFileNameWithExtention, PATHINFO_FILENAME);
             $leaseDocumentExtention = $request->file('leaseDocumentFile')->getClientOriginalExtension();
             $leaseDocumentFileNameToStore = $leaseDocumentFilename.'_'.time().'.'.$leaseDocumentExtention;
             $leaseDocumentPath = $request->file('leaseDocumentFile')->storeAs('public/ResidentialProperty/LeaseDocumentFile', $leaseDocumentFileNameToStore);
          }
-
-         $residentialProperty = ResidentialProperty::find($id);
-         if(!$residentialProperty){
-             return $this->sendError('Residential Property Not Found',['error'=>'Residential Property details not found']);
-         }
-         $user = Auth::user();
-         if($user->profile->id !== $residentialProperty->profile_id){
-            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Residential Property details']);
-          }
 
           $residentialProperty->property_type = $request->input('propertyType');
           $residentialProperty->house_number = $request->input('houseNumber');

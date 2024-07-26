@@ -84,15 +84,7 @@ class ProvidentFundController extends BaseController
      */
     public function update(UpdateProvidentFundRequest $request, string $id): JsonResponse
     {
-        if($request->hasFile('image')){
-            $pfFileNameWithExtention = $request->file('image')->getClientOriginalName();
-            $pfFilename = pathinfo($pfFileNameWithExtention, PATHINFO_FILENAME);
-            $pfExtention = $request->file('image')->getClientOriginalExtension();
-            $pfFileNameToStore = $pfFilename.'_'.time().'.'.$pfExtention;
-            $pfPath = $request->file('image')->storeAs('public/ProvidentFund', $pfFileNameToStore);
-         }
-
-         $providentFund = ProvidentFund::find($id);
+        $providentFund = ProvidentFund::find($id);
          if(!$providentFund){
              return $this->sendError('Provident fund Not Found',['error'=>'Provident fund not found']);
          }
@@ -100,6 +92,17 @@ class ProvidentFundController extends BaseController
          if($user->profile->id !== $providentFund->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Provident fund']);
           }
+          
+        if($request->hasFile('image')){
+            if(!empty($providentFund->image) && Storage::exists('public/ProvidentFund/'.$providentFund->image)) {
+                Storage::delete('public/ProvidentFund/'.$providentFund->image);
+            }
+            $pfFileNameWithExtention = $request->file('image')->getClientOriginalName();
+            $pfFilename = pathinfo($pfFileNameWithExtention, PATHINFO_FILENAME);
+            $pfExtention = $request->file('image')->getClientOriginalExtension();
+            $pfFileNameToStore = $pfFilename.'_'.time().'.'.$pfExtention;
+            $pfPath = $request->file('image')->storeAs('public/ProvidentFund', $pfFileNameToStore);
+         }
 
           $providentFund->employer_name = $request->input('employerName');
           $providentFund->uan_number = $request->input('uanNumber');
