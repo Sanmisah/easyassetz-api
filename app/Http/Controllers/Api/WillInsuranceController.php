@@ -16,19 +16,13 @@ class WillInsuranceController extends BaseController
     public function index(): JsonResponse
     {
         $user = Auth::user();
-        $motorInsurance = $user->profile->motorInsurance()->select(['id', 'company_name', 'policy_number', 'premium'])->get();
-        $healthInsurance = $user->profile->healthInsurance()->select(['id', 'company_name', 'policy_number', 'premium'])->get();
-        $lifeInsurance = $user->profile->lifeInsurance()->select(['id', 'company_name', 'policy_number', 'premium'])->get();
-        $generalInsurance = $user->profile->generalInsurance()->select(['id', 'company_name', 'policy_number', 'premium'])->get();
-        $otherInsurance = $user->profile->otherInsurance()->select(['id', 'company_name', 'policy_number', 'premium'])->get();
+        $motorInsurance = $user->profile->motorInsurance()->select(['id', 'company_name AS companyName', 'policy_number AS policyNumber'])->get();
+        $healthInsurance = $user->profile->healthInsurance()->select(['id', 'company_name AS companyName', 'policy_number AS policyNumber'])->get();
+        $lifeInsurance = $user->profile->lifeInsurance()->select(['id', 'company_name AS companyName', 'policy_number AS policyNumber'])->get();
+        $generalInsurance = $user->profile->generalInsurance()->select(['id', 'company_name AS companyName', 'policy_number AS policyNumber'])->get();
+        $otherInsurance = $user->profile->otherInsurance()->select(['id', 'company_name AS companyName', 'policy_number AS policyNumber'])->get();
 
-        // $motorInsurance = $user->profile->insurance()->select(['id', 'company_name', 'policy_number ', 'premium'])->get()->toArray();
-        // $healthInsurance = $user->profile->insurance()->select(['id', 'company_name', 'policy_number', 'premium'])->get()->toArray();
-        // $lifeInsurance = $user->profile->insurance()->select(['id', 'company_name', 'policy_number', 'premium'])->get()->toArray();
-        // $generalInsurance = $user->profile->insurance()->select(['id', 'company_name', 'policy_number', 'premium'])->get()->toArray();
-        // $otherInsurance = $user->profile->insurance()->select(['id', 'company_name', 'policy_number', 'premium'])->get()->toArray();
-
-
+       
         return $this->sendResponse(['MotorInsurance'=>$motorInsurance,'HealthInsurance'=>$healthInsurance,'LifeInsurance'=>$lifeInsurance,'GeneralInsurance'=>$generalInsurance,'OtherInsurance'=>$otherInsurance], " retrived successfully");
     }
 }

@@ -13,7 +13,7 @@ class WillBullionController extends BaseController
     public function index(): JsonResponse
     {
         $user = Auth::user();
-        $bullion = $user->profile->bullion()->select(['id', 'metal_type AS metalType', 'article_details AS articleDetails', 'weight_per_article AS weightPerArticle', 'number_of_articles AS numberOfArticles'])->get();
+        $bullion = $user->profile->bullion()->select(['id', 'metal_type AS metalType', 'number_of_articles AS numberOfArticles'])->get();
      
 
         return $this->sendResponse(['Bullion'=>$bullion], " retrived successfully");

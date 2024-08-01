@@ -52,6 +52,7 @@ use App\Http\Controllers\Api\PortfolioManagementController;
 use App\Http\Controllers\Api\OtherFinancialAssetController;
 use App\Http\Controllers\Api\WillInsuranceController;
 use App\Http\Controllers\Api\WillBullionController;
+use App\Http\Controllers\Api\WillBusinessController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -115,6 +116,7 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('other-financial-assets', OtherFinancialAssetController::class);
     Route::get('assets/insurance', [WillInsuranceController::class, 'index']);
     Route::get('assets/bullion', [WillBullionController::class, 'index']);
+    Route::get('assets/business', [WillBusinessController::class, 'index']);
 });
 
 Route::get('/generate-pdf', [PdfController::class,'generatePDF']);
