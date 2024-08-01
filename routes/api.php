@@ -50,6 +50,7 @@ use App\Http\Controllers\Api\BrokingAccountController;
 use App\Http\Controllers\Api\AlternateInvestmentFundController;
 use App\Http\Controllers\Api\PortfolioManagementController;
 use App\Http\Controllers\Api\OtherFinancialAssetController;
+use App\Http\Controllers\Api\AssetsController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -111,6 +112,7 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('alternate-investment-funds', AlternateInvestmentFundController::class);
     Route::resource('portfolio-managements', PortfolioManagementController::class);
     Route::resource('other-financial-assets', OtherFinancialAssetController::class);
+    Route::get('assets/list', [AssetsController::class, 'list']);
 });
 
 Route::get('/generate-pdf', [PdfController::class,'generatePDF']);
