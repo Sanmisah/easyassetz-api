@@ -45,18 +45,13 @@ use App\Http\Controllers\Api\GeneralInsuranceController;
 use App\Http\Controllers\Api\PostSavingSchemeController;
 use App\Http\Controllers\Api\CommercialPropertyController;
 use App\Http\Controllers\Api\OtherFinancialAssetController;
-<<<<<<< HEAD
 use App\Http\Controllers\Api\AssetController;
-
-=======
 use App\Http\Controllers\Api\PortfolioManagementController;
 use App\Http\Controllers\Api\PostalSavingAccountController;
 use App\Http\Controllers\Api\PublicProvidentFundController;
 use App\Http\Controllers\Api\ResidentialPropertyController;
 use App\Http\Controllers\Api\AlternateInvestmentFundController;
 use App\Http\Controllers\Api\WealthManagementAccountController;
->>>>>>> bed3477af29b09ff5b2156e51282b1c34f465601
-
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
 // })->middleware('auth:sanctum');

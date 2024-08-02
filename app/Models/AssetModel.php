@@ -217,5 +217,6 @@ class AssetModel extends Model
     {
         return $this->hasMany(OtherFinancialAsset::class);
     }
+    
 }
 
