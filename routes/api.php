@@ -45,13 +45,13 @@ use App\Http\Controllers\Api\GeneralInsuranceController;
 use App\Http\Controllers\Api\PostSavingSchemeController;
 use App\Http\Controllers\Api\CommercialPropertyController;
 use App\Http\Controllers\Api\OtherFinancialAssetController;
+use App\Http\Controllers\Api\AssetController;
 use App\Http\Controllers\Api\PortfolioManagementController;
 use App\Http\Controllers\Api\PostalSavingAccountController;
 use App\Http\Controllers\Api\PublicProvidentFundController;
 use App\Http\Controllers\Api\ResidentialPropertyController;
 use App\Http\Controllers\Api\AlternateInvestmentFundController;
 use App\Http\Controllers\Api\WealthManagementAccountController;
-
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
 // })->middleware('auth:sanctum');
@@ -112,9 +112,14 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('alternate-investment-funds', AlternateInvestmentFundController::class);
     Route::resource('portfolio-managements', PortfolioManagementController::class);
     Route::resource('other-financial-assets', OtherFinancialAssetController::class);
+<<<<<<< HEAD
+    Route::resource('assets', AssetController::class);
+    
+=======
     Route::post('/will/allocate',[AssetAllocationController::class, 'storeMultipleAssets']);
     Route::get('/will/allocate/{asset_id}/{asset_type}/{level}',[AssetAllocationController::class, 'getMultipleRecords']);
 
+>>>>>>> bed3477af29b09ff5b2156e51282b1c34f465601
 });
 
 Route::get('/generate-pdf', [PdfController::class,'generatePDF']);
