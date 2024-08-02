@@ -5,8 +5,10 @@ namespace App\Models;
 use Carbon\Carbon;
 use App\Models\NPS;
 use App\Models\Bond;
+use App\Models\ESOP;
 use App\Models\Land;
 use App\Models\User;
+use App\Models\Will;
 use App\Models\Crypto;
 use App\Models\Bullion;
 use App\Models\Gratuity;
@@ -36,17 +38,17 @@ use App\Models\InvestmentFund;
 use App\Models\MotorInsurance;
 use App\Models\OtherInsurance;
 use App\Models\SuperAnnuation;
+use App\Models\AssetAllocation;
 use App\Models\HealthInsurance;
 use App\Models\GeneralInsurance;
 use App\Models\PostSavingScheme;
+use App\Models\WealthManagement;
 use App\Models\CommercialProperty;
 use App\Models\OtherFinancialAsset;
 use App\Models\PortfolioManagement;
 use App\Models\PostalSavingAccount;
 use App\Models\PublicProvidentFund;
 use App\Models\ResidentialProperty;
-use App\Models\WealthManagement;
-use App\Models\ESOP;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -398,6 +400,10 @@ class Profile extends Model
 
     public function esop(){
         return $this->hasMany(ESOP::class, 'profile_id');
+    }
+
+    public function will(){
+        return $this->hasOne(Will::class, 'profile_id');
     }
 
 
