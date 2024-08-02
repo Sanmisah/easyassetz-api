@@ -5,7 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\NPSController;
 use App\Http\Controllers\Api\PdfController;
 use App\Http\Controllers\Api\BondController;
+use App\Http\Controllers\Api\ESOPController;
 use App\Http\Controllers\Api\FileController;
+use App\Http\Controllers\Api\LandController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\CryptoController;
 use App\Http\Controllers\Api\BullionController;
@@ -23,35 +25,37 @@ use App\Http\Controllers\Api\OtherAssetController;
 use App\Http\Controllers\Api\BankAccountController;
 use App\Http\Controllers\Api\BeneficiaryController;
 use App\Http\Controllers\Api\FixDepositeController;
+use App\Http\Controllers\Api\ShareDetailController;
 use App\Http\Controllers\Api\VehicleLoanController;
+use App\Http\Controllers\Api\DematAccountController;
 use App\Http\Controllers\Api\DigitalAssetController;
 use App\Http\Controllers\Api\PersonalLoanController;
 use App\Http\Controllers\Api\BusinessAssetController;
 use App\Http\Controllers\Api\LifeInsuranceController;
 use App\Http\Controllers\Api\OtherDepositeController;
 use App\Http\Controllers\Api\ProvidentFundController;
+use App\Http\Controllers\Api\BrokingAccountController;
 use App\Http\Controllers\Api\ForgotPasswordController;
 use App\Http\Controllers\Api\MotorInsuranceController;
 use App\Http\Controllers\Api\OtherInsuranceController;
 use App\Http\Controllers\Api\SuperAnnuationController;
+use App\Http\Controllers\Api\AssetAllocationController;
 use App\Http\Controllers\Api\HealthInsuranceController;
 use App\Http\Controllers\Api\GeneralInsuranceController;
-use App\Http\Controllers\Api\PublicProvidentFundController;
 use App\Http\Controllers\Api\PostSavingSchemeController;
-use App\Http\Controllers\Api\PostalSavingAccountController;
-use App\Http\Controllers\Api\LandController;
-use App\Http\Controllers\Api\ResidentialPropertyController;
 use App\Http\Controllers\Api\CommercialPropertyController;
-use App\Http\Controllers\Api\ShareDetailController;
-use App\Http\Controllers\Api\ESOPController;
-use App\Http\Controllers\Api\DematAccountController;
-use App\Http\Controllers\Api\WealthManagementAccountController;
-use App\Http\Controllers\Api\BrokingAccountController;
-use App\Http\Controllers\Api\AlternateInvestmentFundController;
-use App\Http\Controllers\Api\PortfolioManagementController;
 use App\Http\Controllers\Api\OtherFinancialAssetController;
+<<<<<<< HEAD
 use App\Http\Controllers\Api\AssetController;
 
+=======
+use App\Http\Controllers\Api\PortfolioManagementController;
+use App\Http\Controllers\Api\PostalSavingAccountController;
+use App\Http\Controllers\Api\PublicProvidentFundController;
+use App\Http\Controllers\Api\ResidentialPropertyController;
+use App\Http\Controllers\Api\AlternateInvestmentFundController;
+use App\Http\Controllers\Api\WealthManagementAccountController;
+>>>>>>> bed3477af29b09ff5b2156e51282b1c34f465601
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -113,8 +117,14 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('alternate-investment-funds', AlternateInvestmentFundController::class);
     Route::resource('portfolio-managements', PortfolioManagementController::class);
     Route::resource('other-financial-assets', OtherFinancialAssetController::class);
+<<<<<<< HEAD
     Route::resource('assets', AssetController::class);
     
+=======
+    Route::post('/will/allocate',[AssetAllocationController::class, 'storeMultipleAssets']);
+    Route::get('/will/allocate/{asset_id}/{asset_type}/{level}',[AssetAllocationController::class, 'getMultipleRecords']);
+
+>>>>>>> bed3477af29b09ff5b2156e51282b1c34f465601
 });
 
 Route::get('/generate-pdf', [PdfController::class,'generatePDF']);
