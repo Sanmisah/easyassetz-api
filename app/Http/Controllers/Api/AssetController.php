@@ -89,14 +89,14 @@ class AssetController extends BaseController
 $data = [
     [
         'assetName' => 'Insurance',
-        'assets' => [
+        'assets' => array_filter([
             [
                 'name' => 'Motor Insurance',
                 'totalAssets' => $motorInsurance->map(fn($insurance) => [
                     'id' => $insurance->id,
                     'var1' => $insurance->companyName,
                     'var2' => $insurance->policyNumber,
-                ]),
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Health Insurance',
@@ -104,7 +104,7 @@ $data = [
                     'id' => $insurance->id,
                     'var1' => $insurance->companyName,
                     'var2' => $insurance->policyNumber,
-                ]),
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Life Insurance',
@@ -112,7 +112,7 @@ $data = [
                     'id' => $insurance->id,
                     'var1' => $insurance->companyName,
                     'var2' => $insurance->policyNumber,
-                ]),
+                ])->filter()->values(),
             ],
             [
                 'name' => 'General Insurance',
@@ -120,7 +120,7 @@ $data = [
                     'id' => $insurance->id,
                     'var1' => $insurance->companyName,
                     'var2' => $insurance->policyNumber,
-                ]),
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Other Insurance',
@@ -128,9 +128,9 @@ $data = [
                     'id' => $insurance->id,
                     'var1' => $insurance->companyName,
                     'var2' => $insurance->policyNumber,
-                ]),
+                ])->filter()->values(),
             ],
-        ],
+        ], fn($category) => !$category['totalAssets']->isEmpty()),
     ],
     [
         'assetName' => 'Bullion',
@@ -138,18 +138,18 @@ $data = [
             'id' => $item->id,
             'var1' => $item->metalType,
             'var2' => $item->articleDetails,
-        ]),
+        ])->filter()->values(),
     ],
     [
         'assetName' => 'Business Assets',
-        'assets' => [
+        'assets' => array_filter([
             [
                 'name' => 'Propritorship',
                 'totalAssets' => $propritorship->map(fn($asset) => [
                     'id' => $asset->id,
                     'var1' => $asset->firmName,
                     'var2' => $asset->registeredAddress,
-                ]),
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Partnership Firm',
@@ -157,7 +157,7 @@ $data = [
                     'id' => $asset->id,
                     'var1' => $asset->firmName,
                     'var2' => $asset->registeredAddress,
-                ]),
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Company',
@@ -165,7 +165,7 @@ $data = [
                     'id' => $asset->id,
                     'var1' => $asset->companyName,
                     'var2' => $asset->companyAddress,
-                ]),
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Intellectual Property',
@@ -173,9 +173,9 @@ $data = [
                     'id' => $asset->id,
                     'var1' => $asset->typeOfIp,
                     'var2' => $asset->expiryDate,
-                ]),
+                ])->filter()->values(),
             ],
-        ],
+        ], fn($category) => !$category['totalAssets']->isEmpty()),
     ],
     [
         'assetName' => 'Membership',
@@ -183,18 +183,18 @@ $data = [
             'id' => $item->id,
             'var1' => $item->organizationName,
             'var2' => $item->membershipId,
-        ]),
+        ])->filter()->values(),
     ],
     [
         'assetName' => 'Other Assets',
-        'assets' => [
+        'assets' => array_filter([
             [
                 'name' => 'Vehicles',
                 'totalAssets' => $vehicle->map(fn($asset) => [
                     'id' => $asset->id,
                     'var1' => $asset->vehicleType,
                     'var2' => $asset->company,
-                ]),
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Jewellery',
@@ -202,7 +202,7 @@ $data = [
                     'id' => $item->id,
                     'var1' => $item->jewelleryType,
                     'var2' => $item->weightPerJewellery,
-                ]),
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Watches',
@@ -210,7 +210,7 @@ $data = [
                     'id' => $item->id,
                     'var1' => $item->company,
                     'var2' => $item->panNumber,
-                ]),
+                ])->filter()->values(),
             ],
             [
                 'name' => 'HUF',
@@ -218,7 +218,7 @@ $data = [
                     'id' => $item->id,
                     'var1' => $item->hufName,
                     'var2' => $item->panNumber,
-                ]),
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Recoverable',
@@ -226,7 +226,7 @@ $data = [
                     'id' => $item->id,
                     'var1' => $item->nameOfBorrower,
                     'var2' => $item->address,
-                ]),
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Other Assets',
@@ -234,20 +234,20 @@ $data = [
                     'id' => $item->id,
                     'var1' => $item->nameOfAsset,
                     'var2' => $item->assetDescription,
-                ]),
+                ])->filter()->values(),
             ],
-        ],
+        ], fn($category) => !$category['totalAssets']->isEmpty()),
     ],
     [
         'assetName' => 'Digital Assets',
-        'assets' => [
+        'assets' => array_filter([
             [
                 'name' => 'Crypto',
                 'totalAssets' => $crypto->map(fn($item) => [
                     'id' => $item->id,
                     'var1' => $item->cryptoWalletType,
                     'var2' => $item->cryptoWalletAddress,
-                ]),
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Digital Assets',
@@ -255,20 +255,20 @@ $data = [
                     'id' => $item->id,
                     'var1' => $item->digitalAsset,
                     'var2' => $item->account,
-                ]),
+                ])->filter()->values(),
             ],
-        ],
+        ], fn($category) => !$category['totalAssets']->isEmpty()),
     ],
     [
         'assetName' => 'Loans',
-        'assets' => [
+        'assets' => array_filter([
             [
                 'name' => 'Home Loan',
                 'totalAssets' => $homeLoan->map(fn($loan) => [
                     'id' => $loan->id,
                     'var1' => $loan->bankName,
                     'var2' => $loan->loanAccountNo,
-                ]),
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Personal Loan',
@@ -276,7 +276,7 @@ $data = [
                     'id' => $loan->id,
                     'var1' => $loan->bankName,
                     'var2' => $loan->loanAccountNo,
-                ]),
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Vehicle Loan',
@@ -284,7 +284,7 @@ $data = [
                     'id' => $loan->id,
                     'var1' => $loan->bankName,
                     'var2' => $loan->loanAccountNo,
-                ]),
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Other Loan',
@@ -292,7 +292,7 @@ $data = [
                     'id' => $loan->id,
                     'var1' => $loan->bankName,
                     'var2' => $loan->loanAccountNo,
-                ]),
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Litigation',
@@ -300,118 +300,118 @@ $data = [
                     'id' => $item->id,
                     'var1' => $item->litigationType,
                     'var2' => $item->courtName,
-                ]),
+                ])->filter()->values(),
             ],
-        ],
+        ], fn($category) => !$category['totalAssets']->isEmpty()),
     ],
     [
         'assetName' => 'Bank',
-        'assets' => [
+        'assets' => array_filter([
             [
                 'name' => 'Bank Account',
                 'totalAssets' => $bankAccount->map(fn($account) => [
                     'id' => $account->id,
                     'var1' => $account->bankName,
                     'var2' => $account->accountType,
-                ]),
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Fix Deposit',
-                'totalAssets' => $fixDeposite->map(fn($item) => [
-                    'id' => $item->id,
-                    'var1' => $item->fixDepositeNumber,
-                    'var2' => $item->bankName,
-                ]),
+                'totalAssets' => $fixDeposite->map(fn($account) => [
+                    'id' => $account->id,
+                    'var1' => $account->fixDepositType,
+                    'var2' => $account->bankName,
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Bank Locker',
-                'totalAssets' => $bankLocker->map(fn($item) => [
-                    'id' => $item->id,
-                    'var1' => $item->bankName,
-                    'var2' => $item->branch,
-                ]),
+                'totalAssets' => $bankLocker->map(fn($locker) => [
+                    'id' => $locker->id,
+                    'var1' => $locker->bankName,
+                    'var2' => $locker->branch,
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Postal Saving Account Details',
-                'totalAssets' => $postalSavingAccount->map(fn($item) => [
-                    'id' => $item->id,
-                    'var1' => $item->accountNumber,
-                    'var2' => $item->postOfficeBranch,
-                ]),
+                'totalAssets' => $postalSavingAccount->map(fn($account) => [
+                    'id' => $account->id,
+                    'var1' => $account->accountNumber,
+                    'var2' => $account->postOfficeBranch,
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Post Saving Scheme',
-                'totalAssets' => $postSavingScheme->map(fn($item) => [
-                    'id' => $item->id,
-                    'var1' => $item->type,
-                    'var2' => $item->certificateNumber,
-                ]),
+                'totalAssets' => $postSavingScheme->map(fn($account) => [
+                    'id' => $account->id,
+                    'var1' => $account->type,
+                    'var2' => $account->certificateNumber,
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Other Deposit',
-                'totalAssets' => $otherDeposite->map(fn($item) => [
-                    'id' => $item->id,
-                    'var1' => $item->fdNumber,
-                    'var2' => $item->company,
-                ]),
+                'totalAssets' => $otherDeposite->map(fn($account) => [
+                    'id' => $account->id,
+                    'var1' => $account->fdNumber,
+                    'var2' => $account->company,
+                ])->filter()->values(),
             ],
-        ],
+        ], fn($category) => !$category['totalAssets']->isEmpty()),
     ],
     [
         'assetName' => 'Retirement Funds',
-        'assets' => [
+        'assets' => array_filter([
             [
                 'name' => 'Public Provident Fund',
                 'totalAssets' => $publicProvidentFund->map(fn($fund) => [
                     'id' => $fund->id,
                     'var1' => $fund->bankName,
                     'var2' => $fund->ppfAccountNo,
-                ]),
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Provident Fund',
-                'totalAssets' => $providentFund->map(fn($fund) => [
-                    'id' => $fund->id,
-                    'var1' => $fund->employerName,
-                    'var2' => $fund->uanNumber,
-                ]),
+                'totalAssets' => $providentFund->map(fn($account) => [
+                    'id' => $account->id,
+                    'var1' => $account->employerName,
+                    'var2' => $account->uanNumber,
+                ])->filter()->values(),
             ],
             [
                 'name' => 'NPS',
-                'totalAssets' => $nps->map(fn($fund) => [
-                    'id' => $fund->id,
-                    'var1' => $fund->PRAN,
-                    'var2' => $fund->natureOfHolding,
-                ]),
+                'totalAssets' => $nps->map(fn($locker) => [
+                    'id' => $locker->id,
+                    'var1' => $locker->PRAN,
+                    'var2' => $locker->natureOfHolding,
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Gratuity',
-                'totalAssets' => $gratuity->map(fn($fund) => [
-                    'id' => $fund->id,
-                    'var1' => $fund->employerName,
-                    'var2' => $fund->employerId,
-                ]),
+                'totalAssets' => $gratuity->map(fn($account) => [
+                    'id' => $account->id,
+                    'var1' => $account->employerName,
+                    'var2' => $account->employerId,
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Super Annuation',
-                'totalAssets' => $superAnnuation->map(fn($fund) => [
-                    'id' => $fund->id,
-                    'var1' => $fund->companyName,
-                    'var2' => $fund->masterPolicyNumber,
-                ]),
+                'totalAssets' => $superAnnuation->map(fn($account) => [
+                    'id' => $account->id,
+                    'var1' => $account->companyName,
+                    'var2' => $account->masterPolicyNumber,
+                ])->filter()->values(),
             ],
-        ],
+        ], fn($category) => !$category['totalAssets']->isEmpty()),
     ],
     [
         'assetName' => 'Immovable Assets',
-        'assets' => [
+        'assets' => array_filter([
             [
                 'name' => 'Land',
                 'totalAssets' => $land->map(fn($property) => [
                     'id' => $property->id,
                     'var1' => $property->propertyType,
                     'var2' => $property->surveyNumber,
-                ]),
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Commercial Property',
@@ -419,7 +419,7 @@ $data = [
                     'id' => $property->id,
                     'var1' => $property->propertyType,
                     'var2' => $property->houseNumber,
-                ]),
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Residential Property',
@@ -427,108 +427,109 @@ $data = [
                     'id' => $property->id,
                     'var1' => $property->propertyType,
                     'var2' => $property->houseNumber,
-                ]),
+                ])->filter()->values(),
             ],
-        ],
+        ], fn($category) => !$category['totalAssets']->isEmpty()),
     ],
     [
         'assetName' => 'Financial Assets',
-        'assets' => [
+        'assets' => array_filter([
             [
                 'name' => 'Shares',
-                'totalAssets' => $shareDetail->map(fn($item) => [
-                    'id' => $item->id,
-                    'var1' => $item->companyName,
-                    'var2' => $item->folioNumber,
-                ]),
+                'totalAssets' => $shareDetail->map(fn($investment) => [
+                    'id' => $investment->id,
+                    'var1' => $investment->companyName,
+                    'var2' => $investment->folioNumber,
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Mutual Funds',
-                'totalAssets' => $mutualFund->map(fn($item) => [
-                    'id' => $item->id,
-                    'var1' => $item->fundName,
-                    'var2' => $item->folioNumber,
-                ]),
+                'totalAssets' => $mutualFund->map(fn($investment) => [
+                    'id' => $investment->id,
+                    'var1' => $investment->fundName,
+                    'var2' => $investment->folioNumber,
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Debentures',
-                'totalAssets' => $debenture->map(fn($item) => [
-                    'id' => $item->id,
-                    'var1' => $item->bankServiceProvider,
-                    'var2' => $item->companyName,
-                ]),
+                'totalAssets' => $debenture->map(fn($investment) => [
+                    'id' => $investment->id,
+                    'var1' => $investment->bankServiceProvider,
+                    'var2' => $investment->companyName,
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Bonds',
-                'totalAssets' => $bond->map(fn($item) => [
-                    'id' => $item->id,
-                    'var1' => $item->bankServiceProvider,
-                    'var2' => $item->companyName,
-                ]),
+                'totalAssets' => $bond->map(fn($investment) => [
+                    'id' => $investment->id,
+                    'var1' => $investment->bankServiceProvider,
+                    'var2' => $investment->companyName,
+                ])->filter()->values(),
             ],
             [
                 'name' => 'ESOP',
-                'totalAssets' => $esop->map(fn($item) => [
-                    'id' => $item->id,
-                    'var1' => $item->companyName,
-                    'var2' => $item->unitsGranted,
-                ]),
+                'totalAssets' => $esop->map(fn($investment) => [
+                    'id' => $investment->id,
+                    'var1' => $investment->companyName,
+                    'var2' => $investment->unitsGranted,
+                ])->filter()->values(),
             ],
             [
-                'name' => 'Demat Account',
-                'totalAssets' => $dematAccount->map(fn($item) => [
-                    'id' => $item->id,
-                    'var1' => $item->depositoryName,
-                    'var2' => $item->depositoryId,
-                ]),
+                'name' => 'Demant Account',
+                'totalAssets' => $dematAccount->map(fn($investment) => [
+                    'id' => $investment->id,
+                    'var1' => $investment->depositoryName,
+                    'var2' => $investment->depositoryId,
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Wealth Management Account',
-                'totalAssets' => $wealthManagementAccount->map(fn($item) => [
-                    'id' => $item->id,
-                    'var1' => $item->wealthManagerName,
-                    'var2' => $item->accountNumber,
-                ]),
+                'totalAssets' => $wealthManagementAccount->map(fn($investment) => [
+                    'id' => $investment->id,
+                    'var1' => $investment->wealthManagerName,
+                    'var2' => $investment->accountNumber,
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Broking Account',
-                'totalAssets' => $brokingAccount->map(fn($item) => [
-                    'id' => $item->id,
-                    'var1' => $item->brokerName,
-                    'var2' => $item->brokingAccountNumber,
-                ]),
+                'totalAssets' => $brokingAccount->map(fn($investment) => [
+                    'id' => $investment->id,
+                    'var1' => $investment->brokerName,
+                    'var2' => $investment->brokingAccountNumber,
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Alternate Investment Fund',
-                'totalAssets' => $alternateInvestmentFund->map(fn($item) => [
-                    'id' => $item->id,
-                    'var1' => $item->fundName,
-                    'var2' => $item->folioNumber,
-                ]),
+                'totalAssets' => $alternateInvestmentFund->map(fn($investment) => [
+                    'id' => $investment->id,
+                    'var1' => $investment->fundName,
+                    'var2' => $investment->folioNumber,
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Portfolio Management Services',
-                'totalAssets' => $portfolioManagement->map(fn($item) => [
-                    'id' => $item->id,
-                    'var1' => $item->fundName,
-                    'var2' => $item->folioNumber,
-                ]),
+                'totalAssets' => $portfolioManagement->map(fn($investment) => [
+                    'id' => $investment->id,
+                    'var1' => $investment->fundName,
+                    'var2' => $investment->folioNumber,
+                ])->filter()->values(),
             ],
             [
                 'name' => 'Other Financial Assets',
-                'totalAssets' => $otherFinancialAsset->map(fn($item) => [
-                    'id' => $item->id,
-                    'var1' => $item->bankServiceProvider,
-                    'var2' => $item->folioNumber,
-                ]),
+                'totalAssets' => $otherFinancialAsset->map(fn($investment) => [
+                    'id' => $investment->id,
+                    'var1' => $investment->bankServiceProvider,
+                    'var2' => $investment->folioNumber,
+                ])->filter()->values(),
             ],
-        ],
+        ], fn($category) => !$category['totalAssets']->isEmpty()),
     ],
 ];
 
-// Return the data in JSON format
-return response()->json($data);
+$response = [
+    'data' => array_values(array_filter($data, fn($category) => !empty($category['assets']))),
+];
 
-        // return $this->sendResponse($data, "Assets retrieved successfully");
-    }
+return response()->json($response);
+}
 }
