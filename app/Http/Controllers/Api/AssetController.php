@@ -91,7 +91,7 @@ $data = [
         'assetName' => 'Insurance',
         'assets' => [
             [
-                'name' => 'Motor',
+                'name' => 'Motor Insurance',
                 'totalAssets' => $motorInsurance->map(fn($insurance) => [
                     'id' => $insurance->id,
                     'var1' => $insurance->companyName,
@@ -99,7 +99,7 @@ $data = [
                 ]),
             ],
             [
-                'name' => 'Health',
+                'name' => 'Health Insurance',
                 'totalAssets' => $healthInsurance->map(fn($insurance) => [
                     'id' => $insurance->id,
                     'var1' => $insurance->companyName,
@@ -107,7 +107,7 @@ $data = [
                 ]),
             ],
             [
-                'name' => 'Life',
+                'name' => 'Life Insurance',
                 'totalAssets' => $lifeInsurance->map(fn($insurance) => [
                     'id' => $insurance->id,
                     'var1' => $insurance->companyName,
@@ -115,7 +115,7 @@ $data = [
                 ]),
             ],
             [
-                'name' => 'General',
+                'name' => 'General Insurance',
                 'totalAssets' => $generalInsurance->map(fn($insurance) => [
                     'id' => $insurance->id,
                     'var1' => $insurance->companyName,
@@ -123,7 +123,7 @@ $data = [
                 ]),
             ],
             [
-                'name' => 'Other',
+                'name' => 'Other Insurance',
                 'totalAssets' => $otherInsurance->map(fn($insurance) => [
                     'id' => $insurance->id,
                     'var1' => $insurance->companyName,
@@ -520,7 +520,6 @@ $data = [
 
 // Return the data in JSON format
 return response()->json($data);
-
 
         // return $this->sendResponse($data, "Assets retrieved successfully");
     }
