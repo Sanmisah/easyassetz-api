@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Profile;
+use App\Models\AssetModel;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-// use App\Models\AssetModel;
-// use App\Http\Resources\AssetResource; // If using resources
-// use App\Http\Controllers\Api\BaseController; // If BaseController is defined
+use App\Http\Resources\AssetResource; // If using resources
+use App\Http\Controllers\Api\BaseController; // If BaseController is defined
 
 class AssetController extends BaseController
 {
@@ -80,81 +81,447 @@ class AssetController extends BaseController
         $dematAccount = $profile->dematAccount()->select(['id', 'depository_name AS depositoryName', 'depository_id AS depositoryId'])->get();
         $wealthManagementAccount = $profile->wealthManagementAccount()->select(['id', 'wealth_manager_name AS wealthManagerName', 'account_number AS accountNumber'])->get();
         $brokingAccount = $profile->brokingAccount()->select(['id', 'broker_name AS brokerName', 'broking_account_number AS brokingAccountNumber'])->get();
-        $alternateInvestmentFund = $profile->alternateInvestmentFund()->select(['id', 'fund_name AS fundName', 'folio_number AS folioNumber'])->get();
+        $alternateInvestmentFund = $profile->investmentFund()->select(['id', 'fund_name AS fundName', 'folio_number AS folioNumber'])->get();
         $portfolioManagement = $profile->portfolioManagement()->select(['id', 'fund_name AS fundName', 'folio_number AS folioNumber'])->get();
         $otherFinancialAsset = $profile->otherFinancialAsset()->select(['id', 'bank_service_provider AS bankServiceProvider', 'folio_number AS folioNumber'])->get();
 
-        $data = [
-            'insurance' => [
-                'motor' => $motorInsurance,
-                'health' => $healthInsurance,
-                'life' => $lifeInsurance,
-                'general' => $generalInsurance,
-                'other' => $otherInsurance,
+       // Reorganize data into the desired format
+$data = [
+    [
+        'assetName' => 'Insurance',
+        'assets' => [
+            [
+                'name' => 'Motor',
+                'totalAssets' => $motorInsurance->map(fn($insurance) => [
+                    'id' => $insurance->id,
+                    'var1' => $insurance->companyName,
+                    'var2' => $insurance->policyNumber,
+                ]),
             ],
-            'bullion' => $bullion,
-            'businessAsset' => [
-                'propritorship' => $propritorship,
-                'partnershipFirm' => $partnershipFirm,
-                'company' => $company,
-                'intellectualProperty' => $intellectualProperty,
+            [
+                'name' => 'Health',
+                'totalAssets' => $healthInsurance->map(fn($insurance) => [
+                    'id' => $insurance->id,
+                    'var1' => $insurance->companyName,
+                    'var2' => $insurance->policyNumber,
+                ]),
             ],
-            'membership' => $membership,
-            'otherAsset' => [
-                'vehicle' => $vehicle,
-                'huf' => $huf,
-                'jewellery' => $jewellery,
-                'watch' => $watch,
-                'artifact' => $artifact,
-                'otherAsset' => $otherAsset,
-                'recoverable' => $recoverable,
+            [
+                'name' => 'Life',
+                'totalAssets' => $lifeInsurance->map(fn($insurance) => [
+                    'id' => $insurance->id,
+                    'var1' => $insurance->companyName,
+                    'var2' => $insurance->policyNumber,
+                ]),
             ],
-            'digitalAsset' => [
-                'crypto' => $crypto,
-                'digitalAsset' => $digitalAsset,
+            [
+                'name' => 'General',
+                'totalAssets' => $generalInsurance->map(fn($insurance) => [
+                    'id' => $insurance->id,
+                    'var1' => $insurance->companyName,
+                    'var2' => $insurance->policyNumber,
+                ]),
             ],
-            'loan' => [
-                'homeLoan' => $homeLoan,
-                'personalLoan' => $personalLoan,
-                'vehicleLoan' => $vehicleLoan,
-                'otherLoan' => $otherLoan,
-                'litigation' => $litigation,
+            [
+                'name' => 'Other',
+                'totalAssets' => $otherInsurance->map(fn($insurance) => [
+                    'id' => $insurance->id,
+                    'var1' => $insurance->companyName,
+                    'var2' => $insurance->policyNumber,
+                ]),
             ],
-            'bank' => [
-                'bankAccount' => $bankAccount,
-                'fixDeposite' => $fixDeposite,
-                'bankLocker' => $bankLocker,
-                'postalSavingAccount' => $postalSavingAccount,
-                'postSavingScheme' => $postSavingScheme,
-                'otherDeposite' => $otherDeposite,
+        ],
+    ],
+    [
+        'assetName' => 'Bullion',
+        'assets' => $bullion->map(fn($item) => [
+            'id' => $item->id,
+            'var1' => $item->metalType,
+            'var2' => $item->articleDetails,
+        ]),
+    ],
+    [
+        'assetName' => 'Business Assets',
+        'assets' => [
+            [
+                'name' => 'Propritorship',
+                'totalAssets' => $propritorship->map(fn($asset) => [
+                    'id' => $asset->id,
+                    'var1' => $asset->firmName,
+                    'var2' => $asset->registeredAddress,
+                ]),
             ],
-            'providentFund' => [
-                'publicProvidentFund' => $publicProvidentFund,
-                'providentFund' => $providentFund,
-                'nps' => $nps,
-                'gratuity' => $gratuity,
-                'superAnnuation' => $superAnnuation,
+            [
+                'name' => 'Partnership Firm',
+                'totalAssets' => $partnershipFirm->map(fn($asset) => [
+                    'id' => $asset->id,
+                    'var1' => $asset->firmName,
+                    'var2' => $asset->registeredAddress,
+                ]),
             ],
-            'realEstate' => [
-                'land' => $land,
-                'commercialProperty' => $commercialProperty,
-                'residentialProperty' => $residentialProperty,
+            [
+                'name' => 'Company',
+                'totalAssets' => $company->map(fn($asset) => [
+                    'id' => $asset->id,
+                    'var1' => $asset->companyName,
+                    'var2' => $asset->companyAddress,
+                ]),
             ],
-            'financial' => [
-                'shareDetail' => $shareDetail,
-                'mutualFund' => $mutualFund,
-                'debenture' => $debenture,
-                'bond' => $bond,
-                'esop' => $esop,
-                'dematAccount' => $dematAccount,
-                'wealthManagementAccount' => $wealthManagementAccount,
-                'brokingAccount' => $brokingAccount,
-                'alternateInvestmentFund' => $alternateInvestmentFund,
-                'portfolioManagement' => $portfolioManagement,
-                'otherFinancialAsset' => $otherFinancialAsset,
+            [
+                'name' => 'Intellectual Property',
+                'totalAssets' => $intellectualProperty->map(fn($asset) => [
+                    'id' => $asset->id,
+                    'var1' => $asset->typeOfIp,
+                    'var2' => $asset->expiryDate,
+                ]),
             ],
-        ];
+        ],
+    ],
+    [
+        'assetName' => 'Membership',
+        'assets' => $membership->map(fn($item) => [
+            'id' => $item->id,
+            'var1' => $item->organizationName,
+            'var2' => $item->membershipId,
+        ]),
+    ],
+    [
+        'assetName' => 'Other Assets',
+        'assets' => [
+            [
+                'name' => 'Vehicles',
+                'totalAssets' => $vehicle->map(fn($asset) => [
+                    'id' => $asset->id,
+                    'var1' => $asset->vehicleType,
+                    'var2' => $asset->company,
+                ]),
+            ],
+            [
+                'name' => 'Jewellery',
+                'totalAssets' => $jewellery->map(fn($item) => [
+                    'id' => $item->id,
+                    'var1' => $item->jewelleryType,
+                    'var2' => $item->weightPerJewellery,
+                ]),
+            ],
+            [
+                'name' => 'Watches',
+                'totalAssets' => $watch->map(fn($item) => [
+                    'id' => $item->id,
+                    'var1' => $item->company,
+                    'var2' => $item->panNumber,
+                ]),
+            ],
+            [
+                'name' => 'HUF',
+                'totalAssets' => $huf->map(fn($item) => [
+                    'id' => $item->id,
+                    'var1' => $item->hufName,
+                    'var2' => $item->panNumber,
+                ]),
+            ],
+            [
+                'name' => 'Recoverable',
+                'totalAssets' => $recoverable->map(fn($item) => [
+                    'id' => $item->id,
+                    'var1' => $item->nameOfBorrower,
+                    'var2' => $item->address,
+                ]),
+            ],
+            [
+                'name' => 'Other Assets',
+                'totalAssets' => $otherAsset->map(fn($item) => [
+                    'id' => $item->id,
+                    'var1' => $item->nameOfAsset,
+                    'var2' => $item->assetDescription,
+                ]),
+            ],
+        ],
+    ],
+    [
+        'assetName' => 'Digital Assets',
+        'assets' => [
+            [
+                'name' => 'Crypto',
+                'totalAssets' => $crypto->map(fn($item) => [
+                    'id' => $item->id,
+                    'var1' => $item->cryptoWalletType,
+                    'var2' => $item->cryptoWalletAddress,
+                ]),
+            ],
+            [
+                'name' => 'Digital Assets',
+                'totalAssets' => $digitalAsset->map(fn($item) => [
+                    'id' => $item->id,
+                    'var1' => $item->digitalAsset,
+                    'var2' => $item->account,
+                ]),
+            ],
+        ],
+    ],
+    [
+        'assetName' => 'Loans',
+        'assets' => [
+            [
+                'name' => 'Home Loan',
+                'totalAssets' => $homeLoan->map(fn($loan) => [
+                    'id' => $loan->id,
+                    'var1' => $loan->bankName,
+                    'var2' => $loan->loanAccountNo,
+                ]),
+            ],
+            [
+                'name' => 'Personal Loan',
+                'totalAssets' => $personalLoan->map(fn($loan) => [
+                    'id' => $loan->id,
+                    'var1' => $loan->bankName,
+                    'var2' => $loan->loanAccountNo,
+                ]),
+            ],
+            [
+                'name' => 'Vehicle Loan',
+                'totalAssets' => $vehicleLoan->map(fn($loan) => [
+                    'id' => $loan->id,
+                    'var1' => $loan->bankName,
+                    'var2' => $loan->loanAccountNo,
+                ]),
+            ],
+            [
+                'name' => 'Other Loan',
+                'totalAssets' => $otherLoan->map(fn($loan) => [
+                    'id' => $loan->id,
+                    'var1' => $loan->bankName,
+                    'var2' => $loan->loanAccountNo,
+                ]),
+            ],
+            [
+                'name' => 'Litigation',
+                'totalAssets' => $litigation->map(fn($item) => [
+                    'id' => $item->id,
+                    'var1' => $item->litigationType,
+                    'var2' => $item->courtName,
+                ]),
+            ],
+        ],
+    ],
+    [
+        'assetName' => 'Bank',
+        'assets' => [
+            [
+                'name' => 'Bank Account',
+                'totalAssets' => $bankAccount->map(fn($account) => [
+                    'id' => $account->id,
+                    'var1' => $account->bankName,
+                    'var2' => $account->accountType,
+                ]),
+            ],
+            [
+                'name' => 'Fix Deposit',
+                'totalAssets' => $fixDeposite->map(fn($item) => [
+                    'id' => $item->id,
+                    'var1' => $item->fixDepositeNumber,
+                    'var2' => $item->bankName,
+                ]),
+            ],
+            [
+                'name' => 'Bank Locker',
+                'totalAssets' => $bankLocker->map(fn($item) => [
+                    'id' => $item->id,
+                    'var1' => $item->bankName,
+                    'var2' => $item->branch,
+                ]),
+            ],
+            [
+                'name' => 'Postal Saving Account',
+                'totalAssets' => $postalSavingAccount->map(fn($item) => [
+                    'id' => $item->id,
+                    'var1' => $item->accountNumber,
+                    'var2' => $item->postOfficeBranch,
+                ]),
+            ],
+            [
+                'name' => 'Other Deposit',
+                'totalAssets' => $otherDeposite->map(fn($item) => [
+                    'id' => $item->id,
+                    'var1' => $item->fdNumber,
+                    'var2' => $item->company,
+                ]),
+            ],
+        ],
+    ],
+    [
+        'assetName' => 'Retirement Funds',
+        'assets' => [
+            [
+                'name' => 'Public Provident Fund',
+                'totalAssets' => $publicProvidentFund->map(fn($fund) => [
+                    'id' => $fund->id,
+                    'var1' => $fund->bankName,
+                    'var2' => $fund->ppfAccountNo,
+                ]),
+            ],
+            [
+                'name' => 'Provident Fund',
+                'totalAssets' => $providentFund->map(fn($fund) => [
+                    'id' => $fund->id,
+                    'var1' => $fund->employerName,
+                    'var2' => $fund->uanNumber,
+                ]),
+            ],
+            [
+                'name' => 'NPS',
+                'totalAssets' => $nps->map(fn($fund) => [
+                    'id' => $fund->id,
+                    'var1' => $fund->PRAN,
+                    'var2' => $fund->natureOfHolding,
+                ]),
+            ],
+            [
+                'name' => 'Gratuity',
+                'totalAssets' => $gratuity->map(fn($fund) => [
+                    'id' => $fund->id,
+                    'var1' => $fund->employerName,
+                    'var2' => $fund->employerId,
+                ]),
+            ],
+            [
+                'name' => 'Super Annuation',
+                'totalAssets' => $superAnnuation->map(fn($fund) => [
+                    'id' => $fund->id,
+                    'var1' => $fund->companyName,
+                    'var2' => $fund->masterPolicyNumber,
+                ]),
+            ],
+        ],
+    ],
+    [
+        'assetName' => 'Real Estate',
+        'assets' => [
+            [
+                'name' => 'Land',
+                'totalAssets' => $land->map(fn($property) => [
+                    'id' => $property->id,
+                    'var1' => $property->propertyType,
+                    'var2' => $property->surveyNumber,
+                ]),
+            ],
+            [
+                'name' => 'Commercial Property',
+                'totalAssets' => $commercialProperty->map(fn($property) => [
+                    'id' => $property->id,
+                    'var1' => $property->propertyType,
+                    'var2' => $property->houseNumber,
+                ]),
+            ],
+            [
+                'name' => 'Residential Property',
+                'totalAssets' => $residentialProperty->map(fn($property) => [
+                    'id' => $property->id,
+                    'var1' => $property->propertyType,
+                    'var2' => $property->houseNumber,
+                ]),
+            ],
+        ],
+    ],
+    [
+        'assetName' => 'Financial Assets',
+        'assets' => [
+            [
+                'name' => 'Shares',
+                'totalAssets' => $shareDetail->map(fn($item) => [
+                    'id' => $item->id,
+                    'var1' => $item->companyName,
+                    'var2' => $item->folioNumber,
+                ]),
+            ],
+            [
+                'name' => 'Mutual Funds',
+                'totalAssets' => $mutualFund->map(fn($item) => [
+                    'id' => $item->id,
+                    'var1' => $item->fundName,
+                    'var2' => $item->folioNumber,
+                ]),
+            ],
+            [
+                'name' => 'Debentures',
+                'totalAssets' => $debenture->map(fn($item) => [
+                    'id' => $item->id,
+                    'var1' => $item->bankServiceProvider,
+                    'var2' => $item->companyName,
+                ]),
+            ],
+            [
+                'name' => 'Bonds',
+                'totalAssets' => $bond->map(fn($item) => [
+                    'id' => $item->id,
+                    'var1' => $item->bankServiceProvider,
+                    'var2' => $item->companyName,
+                ]),
+            ],
+            [
+                'name' => 'ESOP',
+                'totalAssets' => $esop->map(fn($item) => [
+                    'id' => $item->id,
+                    'var1' => $item->companyName,
+                    'var2' => $item->unitsGranted,
+                ]),
+            ],
+            [
+                'name' => 'Demat Account',
+                'totalAssets' => $dematAccount->map(fn($item) => [
+                    'id' => $item->id,
+                    'var1' => $item->depositoryName,
+                    'var2' => $item->depositoryId,
+                ]),
+            ],
+            [
+                'name' => 'Wealth Management Account',
+                'totalAssets' => $wealthManagementAccount->map(fn($item) => [
+                    'id' => $item->id,
+                    'var1' => $item->wealthManagerName,
+                    'var2' => $item->accountNumber,
+                ]),
+            ],
+            [
+                'name' => 'Broking Account',
+                'totalAssets' => $brokingAccount->map(fn($item) => [
+                    'id' => $item->id,
+                    'var1' => $item->brokerName,
+                    'var2' => $item->brokingAccountNumber,
+                ]),
+            ],
+            [
+                'name' => 'Alternate Investment Fund',
+                'totalAssets' => $alternateInvestmentFund->map(fn($item) => [
+                    'id' => $item->id,
+                    'var1' => $item->fundName,
+                    'var2' => $item->folioNumber,
+                ]),
+            ],
+            [
+                'name' => 'Portfolio Management',
+                'totalAssets' => $portfolioManagement->map(fn($item) => [
+                    'id' => $item->id,
+                    'var1' => $item->fundName,
+                    'var2' => $item->folioNumber,
+                ]),
+            ],
+            [
+                'name' => 'Other Financial Assets',
+                'totalAssets' => $otherFinancialAsset->map(fn($item) => [
+                    'id' => $item->id,
+                    'var1' => $item->bankServiceProvider,
+                    'var2' => $item->folioNumber,
+                ]),
+            ],
+        ],
+    ],
+];
 
-        return $this->sendResponse($data, "Assets retrieved successfully");
+// Return the data in JSON format
+return response()->json($data);
+
+
+        // return $this->sendResponse($data, "Assets retrieved successfully");
     }
 }

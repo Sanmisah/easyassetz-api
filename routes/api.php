@@ -112,14 +112,9 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('alternate-investment-funds', AlternateInvestmentFundController::class);
     Route::resource('portfolio-managements', PortfolioManagementController::class);
     Route::resource('other-financial-assets', OtherFinancialAssetController::class);
-<<<<<<< HEAD
     Route::resource('assets', AssetController::class);
-    
-=======
     Route::post('/will/allocate',[AssetAllocationController::class, 'storeMultipleAssets']);
     Route::get('/will/allocate/{asset_id}/{asset_type}/{level}',[AssetAllocationController::class, 'getMultipleRecords']);
-
->>>>>>> bed3477af29b09ff5b2156e51282b1c34f465601
 });
 
 Route::get('/generate-pdf', [PdfController::class,'generatePDF']);
