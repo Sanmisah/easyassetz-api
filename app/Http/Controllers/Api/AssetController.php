@@ -332,11 +332,19 @@ $data = [
                 ]),
             ],
             [
-                'name' => 'Postal Saving Account',
+                'name' => 'Postal Saving Account Details',
                 'totalAssets' => $postalSavingAccount->map(fn($item) => [
                     'id' => $item->id,
                     'var1' => $item->accountNumber,
                     'var2' => $item->postOfficeBranch,
+                ]),
+            ],
+            [
+                'name' => 'Post Saving Scheme',
+                'totalAssets' => $postSavingScheme->map(fn($item) => [
+                    'id' => $item->id,
+                    'var1' => $item->type,
+                    'var2' => $item->certificateNumber,
                 ]),
             ],
             [
@@ -395,7 +403,7 @@ $data = [
         ],
     ],
     [
-        'assetName' => 'Real Estate',
+        'assetName' => 'Immovable Assets',
         'assets' => [
             [
                 'name' => 'Land',
@@ -499,7 +507,7 @@ $data = [
                 ]),
             ],
             [
-                'name' => 'Portfolio Management',
+                'name' => 'Portfolio Management Services',
                 'totalAssets' => $portfolioManagement->map(fn($item) => [
                     'id' => $item->id,
                     'var1' => $item->fundName,
