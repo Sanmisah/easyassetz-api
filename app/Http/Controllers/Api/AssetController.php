@@ -134,12 +134,18 @@ $data = [
     ],
     [
         'assetName' => 'Bullion',
-        'assets' => $bullion->map(fn($item) => [
+        'assets' => array_filter([
+         [
+        'name' => 'Bullion',
+        'totalAssets' => $bullion->map(fn($item) => [
             'id' => $item->id,
             'var1' => $item->metalType,
             'var2' => $item->articleDetails,
         ])->filter()->values(),
-    ],
+         ],
+    ], fn($category) => !$category['totalAssets']->isEmpty()),
+],
+
     [
         'assetName' => 'Business Assets',
         'assets' => array_filter([
@@ -179,11 +185,16 @@ $data = [
     ],
     [
         'assetName' => 'Membership',
-        'assets' => $membership->map(fn($item) => [
+        'assets' => array_filter([
+          [
+        'name' => 'Membership',
+        'totalAssets' => $membership->map(fn($item) => [
             'id' => $item->id,
             'var1' => $item->organizationName,
             'var2' => $item->membershipId,
         ])->filter()->values(),
+          ],
+      ], fn($category) => !$category['totalAssets']->isEmpty()),
     ],
     [
         'assetName' => 'Other Assets',
