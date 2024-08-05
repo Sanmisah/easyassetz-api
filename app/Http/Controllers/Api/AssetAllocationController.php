@@ -14,13 +14,13 @@ class AssetAllocationController extends BaseController
 {
     public function storeMultipleAssets(Request $request): JsonResponse
     {
-     //    $data = $request->json()->all();
-     $data = [
-        'assets' => [
-            ['beneficiary_id' => 10, 'level' => 'Primary', 'asset_id' => 123, 'asset_type' => 'Stock', 'allocation' => 50.00],
-            ['beneficiary_id' =>11, 'level' => 'Primary', 'asset_id' => 456, 'asset_type' => 'Bond', 'allocation' => 25.00],
-         ]
-     ];
+        $data = $request->json()->all();
+    //  $data = [
+    //     'assets' => [
+    //         ['beneficiary_id' => 10, 'level' => 'Primary', 'asset_id' => 123, 'asset_type' => 'Stock', 'allocation' => 50.00],
+    //         ['beneficiary_id' =>11, 'level' => 'Primary', 'asset_id' => 456, 'asset_type' => 'Bond', 'allocation' => 25.00],
+    //      ]
+    //  ];
   
         $profile_id = auth()->user()->profile->id;
          $will = Will::where('profile_id', $profile_id)->first();
@@ -39,7 +39,7 @@ class AssetAllocationController extends BaseController
             //      }
             AssetAllocation::where('will_id', $will->id)->delete();
 
-                $assets = $data['assets'];  //$request->json()->all()
+                $assets = $data;  //$request->json()->all()
                 foreach ($assets as &$asset) {
                     $asset['will_id'] = $will->id; 
                 }
