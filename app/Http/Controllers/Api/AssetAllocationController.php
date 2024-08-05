@@ -39,7 +39,9 @@ class AssetAllocationController extends BaseController
             //      }
             AssetAllocation::where('will_id', $will->id)->delete();
 
-                $assets = $request->json()->all(); //$data['assets'];
+
+                $assets = $data;  //$request->json()->all()
+
                 foreach ($assets as &$asset) {
                     $asset['will_id'] = $will->id; 
                 }
