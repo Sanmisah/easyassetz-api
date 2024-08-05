@@ -89,7 +89,7 @@ class AssetController extends BaseController
 $data = [
     [
         'assetName' => 'Insurance',
-        'assets' => array_filter([
+        'assets' => array_values(array_filter([
             [
                 'name' => 'Motor Insurance',
                 'totalAssets' => $motorInsurance->map(fn($insurance) => [
@@ -130,12 +130,12 @@ $data = [
                     'var2' => $insurance->policyNumber,
                 ])->filter()->values(),
             ],
-        ], fn($category) => !$category['totalAssets']->isEmpty()),
+        ], fn($category) => !$category['totalAssets']->isEmpty())),
     ],
     [
         'assetName' => 'Bullion',
-        'assets' => array_filter([
-         [
+        'assets' => array_values(array_filter([
+            [
         'name' => 'Bullion',
         'totalAssets' => $bullion->map(fn($item) => [
             'id' => $item->id,
@@ -143,12 +143,12 @@ $data = [
             'var2' => $item->articleDetails,
         ])->filter()->values(),
          ],
-    ], fn($category) => !$category['totalAssets']->isEmpty()),
+    ], fn($category) => !$category['totalAssets']->isEmpty())),
 ],
 
     [
         'assetName' => 'Business Assets',
-        'assets' => array_filter([
+        'assets' => array_values(array_filter([
             [
                 'name' => 'Propritorship',
                 'totalAssets' => $propritorship->map(fn($asset) => [
@@ -181,12 +181,12 @@ $data = [
                     'var2' => $asset->expiryDate,
                 ])->filter()->values(),
             ],
-        ], fn($category) => !$category['totalAssets']->isEmpty()),
+        ], fn($category) => !$category['totalAssets']->isEmpty())),
     ],
     [
         'assetName' => 'Membership',
-        'assets' => array_filter([
-          [
+        'assets' => array_values(array_filter([
+            [
         'name' => 'Membership',
         'totalAssets' => $membership->map(fn($item) => [
             'id' => $item->id,
@@ -194,11 +194,11 @@ $data = [
             'var2' => $item->membershipId,
         ])->filter()->values(),
           ],
-      ], fn($category) => !$category['totalAssets']->isEmpty()),
+      ], fn($category) => !$category['totalAssets']->isEmpty())),
     ],
     [
         'assetName' => 'Other Assets',
-        'assets' => array_filter([
+        'assets' => array_values(array_filter([
             [
                 'name' => 'Vehicles',
                 'totalAssets' => $vehicle->map(fn($asset) => [
@@ -247,11 +247,11 @@ $data = [
                     'var2' => $item->assetDescription,
                 ])->filter()->values(),
             ],
-        ], fn($category) => !$category['totalAssets']->isEmpty()),
+        ], fn($category) => !$category['totalAssets']->isEmpty())),
     ],
     [
         'assetName' => 'Digital Assets',
-        'assets' => array_filter([
+        'assets' => array_values(array_filter([
             [
                 'name' => 'Crypto',
                 'totalAssets' => $crypto->map(fn($item) => [
@@ -268,11 +268,11 @@ $data = [
                     'var2' => $item->account,
                 ])->filter()->values(),
             ],
-        ], fn($category) => !$category['totalAssets']->isEmpty()),
+        ], fn($category) => !$category['totalAssets']->isEmpty())),
     ],
     [
         'assetName' => 'Loans',
-        'assets' => array_filter([
+        'assets' => array_values(array_filter([
             [
                 'name' => 'Home Loan',
                 'totalAssets' => $homeLoan->map(fn($loan) => [
@@ -313,11 +313,11 @@ $data = [
                     'var2' => $item->courtName,
                 ])->filter()->values(),
             ],
-        ], fn($category) => !$category['totalAssets']->isEmpty()),
+        ], fn($category) => !$category['totalAssets']->isEmpty())),
     ],
     [
         'assetName' => 'Bank',
-        'assets' => array_filter([
+        'assets' => array_values(array_filter([
             [
                 'name' => 'Bank Account',
                 'totalAssets' => $bankAccount->map(fn($account) => [
@@ -366,11 +366,11 @@ $data = [
                     'var2' => $account->company,
                 ])->filter()->values(),
             ],
-        ], fn($category) => !$category['totalAssets']->isEmpty()),
+        ], fn($category) => !$category['totalAssets']->isEmpty())),
     ],
     [
         'assetName' => 'Retirement Funds',
-        'assets' => array_filter([
+        'assets' => array_values(array_filter([
             [
                 'name' => 'Public Provident Fund',
                 'totalAssets' => $publicProvidentFund->map(fn($fund) => [
@@ -411,11 +411,11 @@ $data = [
                     'var2' => $account->masterPolicyNumber,
                 ])->filter()->values(),
             ],
-        ], fn($category) => !$category['totalAssets']->isEmpty()),
+        ], fn($category) => !$category['totalAssets']->isEmpty())),
     ],
     [
         'assetName' => 'Immovable Assets',
-        'assets' => array_filter([
+        'assets' => array_values(array_filter([
             [
                 'name' => 'Land',
                 'totalAssets' => $land->map(fn($property) => [
@@ -440,11 +440,11 @@ $data = [
                     'var2' => $property->houseNumber,
                 ])->filter()->values(),
             ],
-        ], fn($category) => !$category['totalAssets']->isEmpty()),
+        ], fn($category) => !$category['totalAssets']->isEmpty())),
     ],
     [
         'assetName' => 'Financial Assets',
-        'assets' => array_filter([
+        'assets' => array_values(array_filter([
             [
                 'name' => 'Shares',
                 'totalAssets' => $shareDetail->map(fn($investment) => [
@@ -533,7 +533,7 @@ $data = [
                     'var2' => $investment->folioNumber,
                 ])->filter()->values(),
             ],
-        ], fn($category) => !$category['totalAssets']->isEmpty()),
+        ], fn($category) => !$category['totalAssets']->isEmpty())),
     ],
 ];
 
