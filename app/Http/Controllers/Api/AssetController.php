@@ -90,136 +90,493 @@ class AssetController extends BaseController
         // new
         $data = [];
         
-        // $motorInsuranceTotalAssets = [];
-        // foreach($motorInsurance as $item){              
-        //     $motorInsuranceTotalAssets[] = [
-        //         'id' => $item->id,
-        //         'var1' => $item->companyName,
-        //         'var2' => $item->policyNumber,
-
-        //     ];"totalAssets"
-        // }
-
-        // $healthInsuranceTotalAssets = [];    
-        // foreach($motorInsurance as $item){    
-        //     $allocation = AssetAllocation::where('asset_id', $item->id)->where('type', 'health')->first();
-        //     $healthInsuranceTotalAssets[] = [
-        //         'id' => $item->id,
-        //         'var1' => $item->companyName,
-        //         'var2' => $item->policyNumber,
-        //     ];
-        // }
-         
-        // $lifeInsuranceTotalAssets = [];
-        // foreach($motorInsurance as $item){    
-        //     $allocation = AssetAllocation::where('asset_id', $item->id)->where('type', 'life')->first();
-        //     $lifeInsuranceTotalAssets[] = [
-        //         'id' => $item->id,
-        //         'var1' => $item->companyName,
-        //         'var2' => $item->policyNumber,
-        //     ];
-        // }
-
-        // $generalInsuranceTotalAssets = [];
-        // foreach($motorInsurance as $item){    
-        //     $allocation = AssetAllocation::where('asset_id', $item->id)->where('type', 'general')->first();
-        //     $generalInsuranceTotalAssets[] = [
-        //         'id' => $item->id,
-        //         'var1' => $item->companyName,
-        //         'var2' => $item->policyNumber,
-        //     ];
-        // }
-
-        // $otherInsuranceTotalAssets = [];
-        // foreach($motorInsurance as $item){    
-        //     $allocation = AssetAllocation::where('asset_id', $item->id)->where('type', 'other')->first();
-        //     $otherInsuranceTotalAssets[] = [
-        //         'id' => $item->id,
-        //         'var1' => $item->companyName,
-        //         'var2' => $item->policyNumber,
-        //     ];
-        // }
-        
-        //  function CreateAllocation($arrayloop, $arrayVariable, $type, $var1, $var2) {
-        //     foreach ($arrayloop as $item) {
-        //         // Assuming AssetAllocation is a model and the query is needed for other purposes
-        //         $allocation = AssetAllocation::where('asset_id', $item->id)->where('asset_type', $type)->first();
-                
-                  
-        //             $value1 = $item->$var1;
-        //             $value2 = $item->$var2;
-                    
-               
-        
-        //         // Debugging output to check values being added
-        //         error_log("Value1: " . print_r($value1, true));
-        //         error_log("Value2: " . print_r($value2, true));
-        
-        //          $arrayVariable[] = [
-        //             'id' => $item->id,
-        //             'var1' => $value1,
-        //             'var2' => $value2,
-        //         ];
-        //         }
-        //       return $arrayVariable;
-        
-        //   }
-        
+       
      
   
     $bullionTotalAssets = [];
-    $var1 = "metalType";
-    $var2 = "articleDetails";
  
-     
-    $AllAssets = [
+ 
+    $motorInsuranceTotalAssets = [];
+     $healthInsuranceTotalAssets = [];    
+     $lifeInsuranceTotalAssets = [];
+     $generalInsuranceTotalAssets = [];
+     $otherInsuranceTotalAssets = [];
+
+     $propritorshipTotalAssets = [];
+     $partnershipFirmTotalAssets = [];
+     $companyTotalAssets = [];
+     $intellectualPropertyTotalAssets = [];
+
+        $cryptoTotalAssets = [];
+        $digitalAssetTotalAssets = [];
+        $vehicleTotalAssets = [];
+        $jewelleryTotalAssets = [];
+        $watchTotalAssets = [];
+        $hufTotalAssets = [];
+        $recoverableTotalAssets = [];
+        $otherAssetTotalAssets = [];
+        $vehicleLoanTotalAssets = [];
+        $homeLoanTotalAssets = [];
+        $personalLoanTotalAssets = [];
+        $otherLoanTotalAssets = [];
+        $litigationTotalAssets = [];
+        $bankAccountTotalAssets = [];
+        $fixDepositeTotalAssets = [];
+        $bankLockerTotalAssets = [];
+        $postalSavingAccountTotalAssets = [];
+        $postSavingSchemeTotalAssets = [];
+        $otherDepositeTotalAssets = [];
+        $publicProvidentFundTotalAssets = [];
+        $providentFundTotalAssets = [];
+        $npsTotalAssets = [];
+        $gratuityTotalAssets = [];
+        $superAnnuationTotalAssets = [];
+        $landTotalAssets = [];
+        $commercialPropertyTotalAssets = [];
+        $residentialPropertyTotalAssets = [];
+        $shareDetailTotalAssets = [];
+        $mutualFundTotalAssets = [];
+        $debentureTotalAssets = [];
+        $bondTotalAssets = [];
+        $esopTotalAssets = [];
+        $dematAccountTotalAssets = [];
+        $wealthManagementAccountTotalAssets = [];
+        $brokingAccountTotalAssets = [];
+        $alternateInvestmentFundTotalAssets = [];
+        $portfolioManagementTotalAssets = [];
+        $otherFinancialAssetTotalAssets = [];
+        $membershipTotalAssets = [];
+
+            
+
+     $AllAssets = [
         [
-            'MainVariable' => $bullion,
-            'variable' => $bullionTotalAssets,
-            'test' => 'bullionTotalAssets',
+            ['mainVariable' => $bullion,
+            'variable' => &$bullionTotalAssets,
             'assetType' => 'bullion',
             'var1' => 'metalType',
-            'var2' => 'articleDetails',
-        ]
+            'var2' => 'articleDetails',]
+        ],
+        [
+            [
+                'mainVariable' => $motorInsurance,
+                'variable' => &$motorInsuranceTotalAssets,
+                'assetType' => 'motorInsurance',
+                'var1' => 'companyName',
+                'var2' => 'policyNumber',
+            ],
+            [
+                'mainVariable' => $healthInsurance,
+                'variable' => &$healthInsuranceTotalAssets,
+                'assetType' => 'healthInsurance',
+                'var1' => 'companyName',
+                'var2' => 'policyNumber',
+            ],
+            [
+                'mainVariable' => $lifeInsurance,
+                'variable' => &$lifeInsuranceTotalAssets,
+                'assetType' => 'lifeInsurance',
+                'var1' => 'companyName',
+                'var2' => 'policyNumber',
+            ],
+            [
+                'mainVariable' => $generalInsurance,
+                'variable' => &$generalInsuranceTotalAssets,
+                'assetType' => 'generalInsurance',
+                'var1' => 'companyName',
+                'var2' => 'policyNumber',
+            ],
+            [
+                'mainVariable' => $otherInsurance,
+                'variable' => &$otherInsuranceTotalAssets,
+                'assetType' => 'otherInsurance',
+                'var1' => 'companyName',
+                'var2' => 'policyNumber',
+            ],
+        ],
+        [
+            [
+                'mainVariable' => $propritorship,
+                'variable' => &$propritorshipTotalAssets,
+                'assetType' => 'propritorship',
+                'var1' => 'firmName',
+                'var2' => 'registeredAddress',
+            ],
+            [
+                'mainVariable' => $partnershipFirm,
+                'variable' => &$partnershipFirmTotalAssets,
+                'assetType' => 'partnershipFirm',
+                'var1' => 'firmName',
+                'var2' => 'registeredAddress',
+            ],
+            [
+                'mainVariable' => $company,
+                'variable' => &$companyTotalAssets,
+                'assetType' => 'company',
+                'var1' => 'companyName',
+                'var2' => 'companyAddress',
+            ],
+            [
+                'mainVariable' => $intellectualProperty,
+                'variable' => &$intellectualPropertyTotalAssets,
+                'assetType' => 'intellectualProperty',
+                'var1' => 'typeOfIp',
+                'var2' => 'expiryDate',
+            ],
+        ],
+        [
+            [
+                'mainVariable' => $membership,
+                'variable' => &$membershipTotalAssets,
+                'assetType' => 'membership',
+                'var1' => 'organizationName',
+                'var2' => 'membershipId',
+            ],
+
+        ],
+        [
+            [
+                'mainVariable' => $vehicleLoan,
+                'variable' => &$vehicleLoanTotalAssets,
+                'assetType' => 'vehicleLoan',
+                'var1' => 'bankName',
+                'var2' => 'loanAccountNo',
+            ],
+            [
+                'mainVariable' => $homeLoan,
+                'variable' => &$homeLoanTotalAssets,
+                'assetType' => 'homeLoan',
+                'var1' => 'bankName',
+                'var2' => 'loanAccountNo',
+            ],
+            [
+                'mainVariable' => $personalLoan,
+                'variable' => &$personalLoanTotalAssets,
+                'assetType' => 'personalLoan',
+                'var1' => 'bankName',
+                'var2' => 'loanAccountNo',
+            ],
+            [
+                'mainVariable' => $otherLoan,
+                'variable' => &$otherLoanTotalAssets,
+                'assetType' => 'otherLoan',
+                'var1' => 'bankName',
+                'var2' => 'loanAccountNo',
+            ],
+            [
+                'mainVariable' => $litigation,
+                'variable' => &$litigationTotalAssets,
+                'assetType' => 'litigation',
+                'var1' => 'litigationType',
+                'var2' => 'courtName',
+            ],
+                
+        ],
+        [
+            [
+                'mainVariable' => $portfolioManagement,
+                'variable' => &$portfolioManagementTotalAssets,
+                'assetType' => 'portfolioManagement',
+                'var1' => 'fundName',
+                'var2' => 'folioNumber',
+            ],
+            [
+                'mainVariable' => $otherFinancialAsset,
+                'variable' => &$otherFinancialAssetTotalAssets,
+                'assetType' => 'otherFinancialAsset',
+                'var1' => 'bankName',
+                'var2' => 'folioNumber',
+            ],
+            [
+                'mainVariable' => $shareDetail,
+                'variable' => &$shareDetailTotalAssets,
+                'assetType' => 'shareDetail',
+                'var1' => 'companyName',
+                'var2' => 'folioNumber',
+            ],
+            [
+                'mainVariable' => $mutualFund,
+                'variable' => &$mutualFundTotalAssets,
+                'assetType' => 'mutualFund',
+                'var1' => 'fundName',
+                'var2' => 'folioNumber',
+            ],
+            [
+                'mainVariable' => $debenture,
+                'variable' => &$debentureTotalAssets,
+                'assetType' => 'debenture',
+                'var1' => 'bankServiceProvider',
+                'var2' => 'companyName',
+            ],
+            [
+                'mainVariable' => $bond,
+                'variable' => &$bondTotalAssets,
+                'assetType' => 'bond',
+                'var1' => 'bankServiceProvider',
+                'var2' => 'companyName',
+            ],
+            [
+                'mainVariable' => $esop,
+                'variable' => &$esopTotalAssets,
+                'assetType' => 'esop',
+                'var1' => 'companyName',
+                'var2' => 'unitsGranted',
+            ],
+            [
+                'mainVariable' => $dematAccount,
+                'variable' => &$dematAccountTotalAssets,
+                'assetType' => 'dematAccount',
+                'var1' => 'depositoryName',
+                'var2' => 'depositoryId',
+            ],
+            [
+                'mainVariable' => $wealthManagementAccount,
+                'variable' => &$wealthManagementAccountTotalAssets,
+                'assetType' => 'wealthManagementAccount',
+                'var1' => 'wealthManagerName',
+                'var2' => 'accountNumber',
+            ],
+            [
+                'mainVariable' => $brokingAccount,
+                'variable' => &$brokingAccountTotalAssets,
+                'assetType' => 'brokingAccount',
+                'var1' => 'brokerName',
+                'var2' => 'brokingAccountNumber',
+            ],
+            [
+                'mainVariable' => $alternateInvestmentFund,
+                'variable' => &$alternateInvestmentFundTotalAssets,
+                'assetType' => 'alternateInvestmentFund',
+                'var1' => 'fundName',
+                'var2' => 'folioNumber',
+            ],
+        ],
+        [
+            [
+                'mainVariable' => $land,
+                'variable' => &$landTotalAssets,
+                'assetType' => 'land',
+                'var1' => 'propertyType',
+                'var2' => 'surveyNumber',
+            ],
+            [
+                'mainVariable' => $commercialProperty,
+                'variable' => &$commercialPropertyTotalAssets,
+                'assetType' => 'commercialProperty',
+                'var1' => 'propertyType',
+                'var2' => 'houseNumber',
+            ],
+            [
+                'mainVariable' => $residentialProperty,
+                'variable' => &$residentialPropertyTotalAssets,
+                'assetType' => 'residentialProperty',
+                'var1' => 'propertyType',
+                'var2' => 'houseNumber',
+            ],
+        ],
+        [
+            [
+                'mainVariable' => $crypto,
+                'variable' => &$cryptoTotalAssets,
+                'assetType' => 'crypto',
+                'var1' => 'cryptoWalletType',
+                'var2' => 'cryptoWalletAddress',
+            ],
+            [
+                'mainVariable' => $digitalAsset,
+                'variable' => &$digitalAssetTotalAssets,
+                'assetType' => 'digitalAsset',
+                'var1' => 'digitalAsset',
+                'var2' => 'account',
+            ],
+        ],
+        [
+            [
+                'mainVariable' => $vehicle,
+                'variable' => &$vehicleTotalAssets,
+                'assetType' => 'vehicle',
+                'var1' => 'vehicleType',
+                'var2' => 'company',
+            ],
+            [
+                'mainVariable' => $jewellery,
+                'variable' => &$jewelleryTotalAssets,
+                'assetType' => 'jewellery',
+                'var1' => 'jewelleryType',
+                'var2' => 'weightPerJewellery',
+            ],
+            [
+                'mainVariable' => $watch,
+                'variable' => &$watchTotalAssets,
+                'assetType' => 'watch',
+                'var1' => 'company',
+                'var2' => 'panNumber',
+            ],
+            [
+                'mainVariable' => $huf,
+                'variable' => &$hufTotalAssets,
+                'assetType' => 'huf',
+                'var1' => 'hufName',
+                'var2' => 'panNumber',
+            ],
+            [
+                'mainVariable' => $recoverable,
+                'variable' => &$recoverableTotalAssets,
+                'assetType' => 'recoverable',
+                'var1' => 'nameOfBorrower',
+                'var2' => 'address',
+            ],
+            [
+                'mainVariable' => $otherAsset,
+                'variable' => &$otherAssetTotalAssets,
+                'assetType' => 'otherAsset',
+                'var1' => 'nameOfAsset',
+                'var2' => 'assetDescription',
+            ],
+        ],
+           
+        [
+            [
+                'mainVariable' => $bankAccount,
+                'variable' => &$bankAccountTotalAssets,
+                'assetType' => 'bankAccount',
+                'var1' => 'bankName',
+                'var2' => 'accountType',
+            ],
+            [
+                'mainVariable' => $fixDeposite,
+                'variable' => &$fixDepositeTotalAssets,
+                'assetType' => 'fixDeposite',
+                'var1' => 'fixDepositType',
+                'var2' => 'bankName',
+            ],
+            [
+                'mainVariable' => $bankLocker,
+                'variable' => &$bankLockerTotalAssets,
+                'assetType' => 'bankLocker',
+                'var1' => 'bankName',
+                'var2' => 'branch',
+            ],
+            [
+                'mainVariable' => $postalSavingAccount,
+                'variable' => &$postalSavingAccountTotalAssets,
+                'assetType' => 'postalSavingAccount',
+                'var1' => 'accountNumber',
+                'var2' => 'postOfficeBranch',
+            ],  
+            [
+                'mainVariable' => $postSavingScheme,
+                'variable' => &$postSavingSchemeTotalAssets,
+                'assetType' => 'postSavingScheme',
+                'var1' => 'type',
+                'var2' => 'certificateNumber',
+            ],
+            [
+                'mainVariable' => $otherDeposite,
+                'variable' => &$otherDepositeTotalAssets,
+                'assetType' => 'otherDeposite',
+                'var1' => 'fdNumber',
+                'var2' => 'company',
+            ],
+        ],
+
+       [
+            [
+                'mainVariable' => $publicProvidentFund,
+                'variable' => &$publicProvidentFundTotalAssets,
+                'assetType' => 'publicProvidentFund',
+                'var1' => 'bankName',
+                'var2' => 'ppfAccountNo',
+            ],
+            [
+                'mainVariable' => $providentFund,
+                'variable' => &$providentFundTotalAssets,
+                'assetType' => 'providentFund',
+                'var1' => 'employerName',
+                'var2' => 'uanNumber',
+            ],
+            [
+                'mainVariable' => $nps,
+                'variable' => &$npsTotalAssets,
+                'assetType' => 'nps',
+                'var1' => 'PRAN',
+                'var2' => 'natureOfHolding',
+            ],
+            [
+                'mainVariable' => $gratuity,
+                'variable' => &$gratuityTotalAssets,
+                'assetType' => 'gratuity',
+                'var1' => 'employerName',
+                'var2' => 'employerId',
+            ],
+            [
+                'mainVariable' => $superAnnuation,
+                'variable' => &$superAnnuationTotalAssets,
+                'assetType' => 'superAnnuation',
+                'var1' => 'companyName',
+                'var2' => 'masterPolicyNumber',
+            ],
+        ],
+        
+      
     ];
-    
-    // Iterate over the $AllAssets array
- 
-    function CreateAllocation($arrayloop, &$arrayVariable, $type, $var1, $var2) {
-        foreach ($arrayloop as $item) {
-             $allocation = AssetAllocation::where('asset_id', $item->id)->where('asset_type', $type)->first();
-    
+
+    // Helper function to create the asset allocation
+    function createAllocation($arrayLoop, &$arrayVariable, $type, $var1, $var2)
+    {
+        foreach ($arrayLoop as $item) {
+            $allocation = AssetAllocation::where('asset_id', $item->id)->where('asset_type', $type)->first();
+             
             $value1 = $item->$var1;
             $value2 = $item->$var2;
-    
+            $primary = "";
+            $secondary = "";
+            $tertiary = "";
+            if (isset($allocation) && $allocation->level === "Primary") {
+                $primary = "Primary";
+            }
+            
+            if(isset($allocation) && $allocation->level === "Secondary") {
+                $secondary = "Secondary";
+            }
+            if(isset($allocation) && $allocation->level === "Tertiary") {
+                $tertiary = "Tertiary";
+            }
+          
+
             error_log("Value1: " . print_r($value1, true));
             error_log("Value2: " . print_r($value2, true));
-    
+
             $arrayVariable[] = [
                 'id' => $item->id,
                 'var1' => $value1,
                 'var2' => $value2,
+                'primary' => $primary,
+                'secondary' => $secondary,
+                'tertiary' => $tertiary,
             ];
         }
-        return $arrayVariable;
     }
-    foreach ($AllAssets as $index => &$item) { 
-        
-         $item['variable'] = CreateAllocation(
-            $item['MainVariable'],
-            $item['variable'], 
-            $item['assetType'],
-            $item['var1'],
-            $item['var2']
+
+    // Iterate over the $AllAssets array
+    foreach ($AllAssets as &$item) {
+        error_log("Value1: " . print_r($item, true));
+         foreach($item as $items)
+        createAllocation(
+            $items['mainVariable'],
+            $items['variable'],
+            $items['assetType'],
+            $items['var1'],
+            $items['var2']
         );
- 
     }
+    unset($item); // Remove reference to avoid unintended modifications
+
     
     // Remove reference to avoid unintended modifications
     unset($item);
     
-    print_r($bullionTotalAssets);
- 
+  
          
         // $bullionTotalAssets = [];
         // foreach($bullion as $item){
@@ -239,8 +596,9 @@ class AssetController extends BaseController
         //     ];
         // }
       
-        
-        $data[] = [
+        $data = [];
+        $data= [
+           [ 
             'assetName' => 'Bullion',
             'assets' => [
                 [
@@ -248,481 +606,284 @@ class AssetController extends BaseController
                     'totalAssets' => $bullionTotalAssets,
                 ],
             
-                // [
-                //     'name' => 'Health Insurance',
-                //     'totalAssets' => $healthInsuranceTotalAssets,
-                // ],
-                // [
-                //     'name' => 'Life Insurance',
-                //     'totalAssets' => $lifeInsuranceTotalAssets,
-                // ],
-                // [
-                //     'name' => 'General Insurance',
-                //     'totalAssets' => $generalInsuranceTotalAssets,
-                // ],
-                // [
-                //     'name' => 'Other Insurance',
-                //     'totalAssets' => $otherInsuranceTotalAssets,
-                // ],
+               
             ],
-            
-            
+        ],
+        [
+            'assetName' => 'Insurance',
+            'assets' => [
+                [
+                    'name' => 'Motor Insurance',
+                    'totalAssets' => $motorInsuranceTotalAssets,
+                ],
+                [
+                    'name' => 'Health Insurance',
+                    'totalAssets' => $healthInsuranceTotalAssets,
+                ],
+                [
+                    'name' => 'Life Insurance',
+                    'totalAssets' => $lifeInsuranceTotalAssets,
+                ],
+                [
+                    'name' => 'General Insurance',
+                    'totalAssets' => $generalInsuranceTotalAssets,
+                ],
+                [
+                    'name' => 'Other Insurance',
+                    'totalAssets' => $otherInsuranceTotalAssets,
+                ],
+            ],
+        ],
+         [
+            'assetName' => 'Business Assets',
+            'assets' => [
+                [
+                    'name' => 'Propritorship',
+                    'totalAssets' => $propritorshipTotalAssets,
+                ],
+                [
+                    'name' => 'Partnership Firm',
+                    'totalAssets' => $partnershipFirmTotalAssets,
+                ],
+                [
+                    'name' => 'Company',
+                    'totalAssets' => $companyTotalAssets,
+                ],
+                [
+                    'name' => 'Intellectual Property',
+                    'totalAssets' => $intellectualPropertyTotalAssets,
+                ],
+            ],
+        ],
+        [
+            'assetName' => 'Immovable Assets',
+            'assets' => [
+                [
+                    'name' => 'Land',
+                    'totalAssets' => $landTotalAssets,
+                ],
+                [
+                    'name' => 'Commercial Property',
+                    'totalAssets' => $commercialPropertyTotalAssets,
+                ],
+                [
+                    'name' => 'Residential Property',
+                    'totalAssets' => $residentialPropertyTotalAssets,
+                ],
+            ],
+        ],
+       [
+            'assetName' => 'Financial Assets',
+            'assets' => [
+                [
+                    'name' => 'Shares',
+                    'totalAssets' => $shareDetailTotalAssets,
+                ],
+                [
+                    'name' => 'Mutual Funds',
+                    'totalAssets' => $mutualFundTotalAssets,
+                ],
+                [
+                    'name' => 'Debentures',
+                    'totalAssets' => $debentureTotalAssets,
+                ],
+                [
+                    'name' => 'Bonds',
+                    'totalAssets' => $bondTotalAssets,
+                ],
+                [
+                    'name' => 'ESOP',
+                    'totalAssets' => $esopTotalAssets,
+                ],
+                [
+                    'name' => 'Demant Account',
+                    'totalAssets' => $dematAccountTotalAssets,
+                ],
+                [
+                    'name' => 'Wealth Management Account',
+                    'totalAssets' => $wealthManagementAccountTotalAssets,
+                ],
+                [
+                    'name' => 'Broking Account',
+                    'totalAssets' => $brokingAccountTotalAssets,
+                ],
+                [
+                    'name' => 'Alternate Investment Fund',
+                    'totalAssets' => $alternateInvestmentFundTotalAssets,
+                ],
+                [
+                    'name' => 'Portfolio Management Services',
+                    'totalAssets' => $portfolioManagementTotalAssets,
+                ],
+                [
+                    'name' => 'Other Financial Assets',
+                    'totalAssets' => $otherFinancialAssetTotalAssets,
+                ],
+            ],
+        ],
+       [
+                'assetName' => 'Other Assets',
+                'assets' => [
+                    [
+                        'name' => 'Vehicle',
+                        'totalAssets' => $vehicleTotalAssets,
+                    ],
+                    [
+                        'name' => 'Jewellery',
+                        'totalAssets' => $jewelleryTotalAssets,
+                    ],
+                    [
+                        'name' => 'Watch',
+                        'totalAssets' => $watchTotalAssets,
+                    ],
+                    [
+                        'name' => 'HUF',
+                        'totalAssets' => $hufTotalAssets,
+                    ],
+                    [
+                        'name' => 'Recoverable',
+                        'totalAssets' => $recoverableTotalAssets,
+                    ],
+                    [
+                        'name' => 'Other Assets',
+                        'totalAssets' => $otherAssetTotalAssets,
+                    ],
+                ],
+        ],
+        [
+            'assetName' => 'Digital Assets',
+            'assets' => [
+                [
+                    'name' => 'Crypto',
+                    'totalAssets' => $cryptoTotalAssets,
+                ],
+                [
+                    'name' => 'Digital Assets',
+                    'totalAssets' => $digitalAssetTotalAssets,
+                ],  
+                    
+
+            ],
+        ],
+        [
+            'assetName' => 'Liability',
+            'assets' => [
+                [
+                    'name' => 'Home Loan',
+                    'totalAssets' => $homeLoanTotalAssets,
+                ],
+                [
+                    'name' => 'Vehicle Loan',
+                    'totalAssets' => $vehicleLoanTotalAssets,
+                ],
+                [
+                    'name' => 'Personal Loan',
+                    'totalAssets' => $personalLoanTotalAssets,
+                ],
+                [
+                    'name' => 'Other Loan',
+                    'totalAssets' => $otherLoanTotalAssets,
+                ],
+                [
+                    'name' => 'Litigation',
+                    'totalAssets' => $litigationTotalAssets,
+                ],
+            ],
+        ],
+            [
+                'assetName' => 'Bank',
+                'assets' => [
+                    [
+                        'name' => 'Bank Account',
+                        'totalAssets' => $bankAccountTotalAssets,
+                    ],
+                    [
+                        'name' => 'Fix Deposit',
+                        'totalAssets' => $fixDepositeTotalAssets,
+                    ],
+                    [
+                        'name' => 'Bank Locker',
+                        'totalAssets' => $bankLockerTotalAssets,
+                    ],
+                    [
+                        'name' => 'Postal Saving Account Details',
+                        'totalAssets' => $postalSavingAccountTotalAssets,
+                    ],
+                    [
+                        'name' => 'Post Saving Scheme',
+                        'totalAssets' => $postSavingSchemeTotalAssets,
+                    ],
+                    [
+                        'name' => 'Other Deposit',
+                        'totalAssets' => $otherDepositeTotalAssets,
+                    ],
+                ],
+            ],
+            [
+                'assetName' => 'Retirement Funds',
+                'assets' => [
+                    [
+                        'name' => 'Public Provident Fund',
+                        'totalAssets' => $publicProvidentFundTotalAssets,
+                    ],
+                    [
+                        'name' => 'Provident Fund',
+                        'totalAssets' => $providentFundTotalAssets,
+                    ],
+                    [
+                        'name' => 'NPS',
+                        'totalAssets' => $npsTotalAssets,
+                    ],
+                    [
+                        'name' => 'Gratuity',
+                        'totalAssets' => $gratuityTotalAssets,
+                    ],
+                    [
+                        'name' => 'Super Annuation',
+                        'totalAssets' => $superAnnuationTotalAssets,
+                    ],
+                ],
+            ],
+            [
+                'assetName' => 'Membership',
+                'assets' => [
+                    [
+                        'name' => 'Membership',
+                        'totalAssets' => $membershipTotalAssets,
+                    ],
+                ],
+            ],
+            [
+                'assetName' => 'Retirement Funds',
+                'assets' => [
+                    [
+                        'name' => 'Public Provident Fund',
+                        'totalAssets' => $publicProvidentFundTotalAssets,
+                    ],
+                    [
+                        'name' => 'Provident Fund',
+                        'totalAssets' => $providentFundTotalAssets,
+                    ],
+                    [
+                        'name' => 'NPS',
+                        'totalAssets' => $npsTotalAssets,
+                    ],
+                    [
+                        'name' => 'Gratuity',
+                        'totalAssets' => $gratuityTotalAssets,
+                    ],
+                    [
+                        'name' => 'Super Annuation',
+                        'totalAssets' => $superAnnuationTotalAssets,
+                    ],
+                ],
+            ],
+           
+
+           
          ];
-        
-
-        // dd($bullionTotalAssets);
-//        // Reorganize data into the desired format
-//     data = [
-//     [
-//         'assetName' => 'Insurance',
-//         'assets' => array_values(array_filter([
-//             [
-//                 'name' => 'Motor Insurance',
-//                 'totalAssets' => $motorInsurance->map(fn($insurance) => [
-//                     'id' => $insurance->id,
-//                     'var1' => $insurance->companyName,
-//                     'var2' => $insurance->policyNumber,
-//                 ])->filter()->values(),$
-//             ],
-//             [
-//                 'name' => 'Health Insurance',
-//                 'totalAssets' => $healthInsurance->map(fn($insurance) => [
-//                     'id' => $insurance->id,
-//                     'var1' => $insurance->companyName,
-//                     'var2' => $insurance->policyNumber,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Life Insurance',
-//                 'totalAssets' => $lifeInsurance->map(fn($insurance) => [
-//                     'id' => $insurance->id,
-//                     'var1' => $insurance->companyName,
-//                     'var2' => $insurance->policyNumber,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'General Insurance',
-//                 'totalAssets' => $generalInsurance->map(fn($insurance) => [
-//                     'id' => $insurance->id,
-//                     'var1' => $insurance->companyName,
-//                     'var2' => $insurance->policyNumber,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Other Insurance',
-//                 'totalAssets' => $otherInsurance->map(fn($insurance) => [
-//                     'id' => $insurance->id,
-//                     'var1' => $insurance->companyName,
-//                     'var2' => $insurance->policyNumber,
-//                 ])->filter()->values(),
-//             ],
-//         ], fn($category) => !$category['totalAssets']->isEmpty())),
-//     ],
-//     [
-//         'assetName' => 'Bullion',
-//         'assets' => array_values(array_filter([
-//             [
-//         'name' => 'Bullion',
-//         'totalAssets' => $bullion->map(fn($item) => [
-//             'id' => $item->id,
-//             'var1' => $item->metalType,
-//             'var2' => $item->articleDetails,
-//         ])->filter()->values(),
-//          ],
-//     ], fn($category) => !$category['totalAssets']->isEmpty())),
-// ],
-
-//     [
-//         'assetName' => 'Business Assets',
-//         'assets' => array_values(array_filter([
-//             [
-//                 'name' => 'Propritorship',
-//                 'totalAssets' => $propritorship->map(fn($asset) => [
-//                     'id' => $asset->id,
-//                     'var1' => $asset->firmName,
-//                     'var2' => $asset->registeredAddress,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Partnership Firm',
-//                 'totalAssets' => $partnershipFirm->map(fn($asset) => [
-//                     'id' => $asset->id,
-//                     'var1' => $asset->firmName,
-//                     'var2' => $asset->registeredAddress,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Company',
-//                 'totalAssets' => $company->map(fn($asset) => [
-//                     'id' => $asset->id,
-//                     'var1' => $asset->companyName,
-//                     'var2' => $asset->companyAddress,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Intellectual Property',
-//                 'totalAssets' => $intellectualProperty->map(fn($asset) => [
-//                     'id' => $asset->id,
-//                     'var1' => $asset->typeOfIp,
-//                     'var2' => $asset->expiryDate,
-//                 ])->filter()->values(),
-//             ],
-//         ], fn($category) => !$category['totalAssets']->isEmpty())),
-//     ],
-//     [
-//         'assetName' => 'Membership',
-//         'assets' => array_values(array_filter([
-//             [
-//         'name' => 'Membership',
-//         'totalAssets' => $membership->map(fn($item) => [
-//             'id' => $item->id,
-//             'var1' => $item->organizationName,
-//             'var2' => $item->membershipId,
-//         ])->filter()->values(),
-//           ],
-//       ], fn($category) => !$category['totalAssets']->isEmpty())),
-//     ],
-//     [
-//         'assetName' => 'Other Assets',
-//         'assets' => array_values(array_filter([
-//             [
-//                 'name' => 'Vehicles',
-//                 'totalAssets' => $vehicle->map(fn($asset) => [
-//                     'id' => $asset->id,
-//                     'var1' => $asset->vehicleType,
-//                     'var2' => $asset->company,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Jewellery',
-//                 'totalAssets' => $jewellery->map(fn($item) => [
-//                     'id' => $item->id,
-//                     'var1' => $item->jewelleryType,
-//                     'var2' => $item->weightPerJewellery,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Watches',
-//                 'totalAssets' => $watch->map(fn($item) => [
-//                     'id' => $item->id,
-//                     'var1' => $item->company,
-//                     'var2' => $item->panNumber,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'HUF',
-//                 'totalAssets' => $huf->map(fn($item) => [
-//                     'id' => $item->id,
-//                     'var1' => $item->hufName,
-//                     'var2' => $item->panNumber,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Recoverable',
-//                 'totalAssets' => $recoverable->map(fn($item) => [
-//                     'id' => $item->id,
-//                     'var1' => $item->nameOfBorrower,
-//                     'var2' => $item->address,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Other Assets',
-//                 'totalAssets' => $otherAsset->map(fn($item) => [
-//                     'id' => $item->id,
-//                     'var1' => $item->nameOfAsset,
-//                     'var2' => $item->assetDescription,
-//                 ])->filter()->values(),
-//             ],
-//         ], fn($category) => !$category['totalAssets']->isEmpty())),
-//     ],
-//     [
-//         'assetName' => 'Digital Assets',
-//         'assets' => array_values(array_filter([
-//             [
-//                 'name' => 'Crypto',
-//                 'totalAssets' => $crypto->map(fn($item) => [
-//                     'id' => $item->id,
-//                     'var1' => $item->cryptoWalletType,
-//                     'var2' => $item->cryptoWalletAddress,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Digital Assets',
-//                 'totalAssets' => $digitalAsset->map(fn($item) => [
-//                     'id' => $item->id,
-//                     'var1' => $item->digitalAsset,
-//                     'var2' => $item->account,
-//                 ])->filter()->values(),
-//             ],
-//         ], fn($category) => !$category['totalAssets']->isEmpty())),
-//     ],
-//     [
-//         'assetName' => 'Loans',
-//         'assets' => array_values(array_filter([
-//             [
-//                 'name' => 'Home Loan',
-//                 'totalAssets' => $homeLoan->map(fn($loan) => [
-//                     'id' => $loan->id,
-//                     'var1' => $loan->bankName,
-//                     'var2' => $loan->loanAccountNo,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Personal Loan',
-//                 'totalAssets' => $personalLoan->map(fn($loan) => [
-//                     'id' => $loan->id,
-//                     'var1' => $loan->bankName,
-//                     'var2' => $loan->loanAccountNo,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Vehicle Loan',
-//                 'totalAssets' => $vehicleLoan->map(fn($loan) => [
-//                     'id' => $loan->id,
-//                     'var1' => $loan->bankName,
-//                     'var2' => $loan->loanAccountNo,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Other Loan',
-//                 'totalAssets' => $otherLoan->map(fn($loan) => [
-//                     'id' => $loan->id,
-//                     'var1' => $loan->bankName,
-//                     'var2' => $loan->loanAccountNo,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Litigation',
-//                 'totalAssets' => $litigation->map(fn($item) => [
-//                     'id' => $item->id,
-//                     'var1' => $item->litigationType,
-//                     'var2' => $item->courtName,
-//                 ])->filter()->values(),
-//             ],
-//         ], fn($category) => !$category['totalAssets']->isEmpty())),
-//     ],
-//     [
-//         'assetName' => 'Bank',
-//         'assets' => array_values(array_filter([
-//             [
-//                 'name' => 'Bank Account',
-//                 'totalAssets' => $bankAccount->map(fn($account) => [
-//                     'id' => $account->id,
-//                     'var1' => $account->bankName,
-//                     'var2' => $account->accountType,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Fix Deposit',
-//                 'totalAssets' => $fixDeposite->map(fn($account) => [
-//                     'id' => $account->id,
-//                     'var1' => $account->fixDepositType,
-//                     'var2' => $account->bankName,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Bank Locker',
-//                 'totalAssets' => $bankLocker->map(fn($locker) => [
-//                     'id' => $locker->id,
-//                     'var1' => $locker->bankName,
-//                     'var2' => $locker->branch,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Postal Saving Account Details',
-//                 'totalAssets' => $postalSavingAccount->map(fn($account) => [
-//                     'id' => $account->id,
-//                     'var1' => $account->accountNumber,
-//                     'var2' => $account->postOfficeBranch,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Post Saving Scheme',
-//                 'totalAssets' => $postSavingScheme->map(fn($account) => [
-//                     'id' => $account->id,
-//                     'var1' => $account->type,
-//                     'var2' => $account->certificateNumber,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Other Deposit',
-//                 'totalAssets' => $otherDeposite->map(fn($account) => [
-//                     'id' => $account->id,
-//                     'var1' => $account->fdNumber,
-//                     'var2' => $account->company,
-//                 ])->filter()->values(),
-//             ],
-//         ], fn($category) => !$category['totalAssets']->isEmpty())),
-//     ],
-//     [
-//         'assetName' => 'Retirement Funds',
-//         'assets' => array_values(array_filter([
-//             [
-//                 'name' => 'Public Provident Fund',
-//                 'totalAssets' => $publicProvidentFund->map(fn($fund) => [
-//                     'id' => $fund->id,
-//                     'var1' => $fund->bankName,
-//                     'var2' => $fund->ppfAccountNo,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Provident Fund',
-//                 'totalAssets' => $providentFund->map(fn($account) => [
-//                     'id' => $account->id,
-//                     'var1' => $account->employerName,
-//                     'var2' => $account->uanNumber,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'NPS',
-//                 'totalAssets' => $nps->map(fn($locker) => [
-//                     'id' => $locker->id,
-//                     'var1' => $locker->PRAN,
-//                     'var2' => $locker->natureOfHolding,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Gratuity',
-//                 'totalAssets' => $gratuity->map(fn($account) => [
-//                     'id' => $account->id,
-//                     'var1' => $account->employerName,
-//                     'var2' => $account->employerId,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Super Annuation',
-//                 'totalAssets' => $superAnnuation->map(fn($account) => [
-//                     'id' => $account->id,
-//                     'var1' => $account->companyName,
-//                     'var2' => $account->masterPolicyNumber,
-//                 ])->filter()->values(),
-//             ],
-//         ], fn($category) => !$category['totalAssets']->isEmpty())),
-//     ],
-//     [
-//         'assetName' => 'Immovable Assets',
-//         'assets' => array_values(array_filter([
-//             [
-//                 'name' => 'Land',
-//                 'totalAssets' => $land->map(fn($property) => [
-//                     'id' => $property->id,
-//                     'var1' => $property->propertyType,
-//                     'var2' => $property->surveyNumber,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Commercial Property',
-//                 'totalAssets' => $commercialProperty->map(fn($property) => [
-//                     'id' => $property->id,
-//                     'var1' => $property->propertyType,
-//                     'var2' => $property->houseNumber,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Residential Property',
-//                 'totalAssets' => $residentialProperty->map(fn($property) => [
-//                     'id' => $property->id,
-//                     'var1' => $property->propertyType,
-//                     'var2' => $property->houseNumber,
-//                 ])->filter()->values(),
-//             ],
-//         ], fn($category) => !$category['totalAssets']->isEmpty())),
-//     ],
-//     [
-//         'assetName' => 'Financial Assets',
-//         'assets' => array_values(array_filter([
-//             [
-//                 'name' => 'Shares',
-//                 'totalAssets' => $shareDetail->map(fn($investment) => [
-//                     'id' => $investment->id,
-//                     'var1' => $investment->companyName,
-//                     'var2' => $investment->folioNumber,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Mutual Funds',
-//                 'totalAssets' => $mutualFund->map(fn($investment) => [
-//                     'id' => $investment->id,
-//                     'var1' => $investment->fundName,
-//                     'var2' => $investment->folioNumber,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Debentures',
-//                 'totalAssets' => $debenture->map(fn($investment) => [
-//                     'id' => $investment->id,
-//                     'var1' => $investment->bankServiceProvider,
-//                     'var2' => $investment->companyName,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Bonds',
-//                 'totalAssets' => $bond->map(fn($investment) => [
-//                     'id' => $investment->id,
-//                     'var1' => $investment->bankServiceProvider,
-//                     'var2' => $investment->companyName,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'ESOP',
-//                 'totalAssets' => $esop->map(fn($investment) => [
-//                     'id' => $investment->id,
-//                     'var1' => $investment->companyName,
-//                     'var2' => $investment->unitsGranted,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Demant Account',
-//                 'totalAssets' => $dematAccount->map(fn($investment) => [
-//                     'id' => $investment->id,
-//                     'var1' => $investment->depositoryName,
-//                     'var2' => $investment->depositoryId,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Wealth Management Account',
-//                 'totalAssets' => $wealthManagementAccount->map(fn($investment) => [
-//                     'id' => $investment->id,
-//                     'var1' => $investment->wealthManagerName,
-//                     'var2' => $investment->accountNumber,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Broking Account',
-//                 'totalAssets' => $brokingAccount->map(fn($investment) => [
-//                     'id' => $investment->id,
-//                     'var1' => $investment->brokerName,
-//                     'var2' => $investment->brokingAccountNumber,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Alternate Investment Fund',
-//                 'totalAssets' => $alternateInvestmentFund->map(fn($investment) => [
-//                     'id' => $investment->id,
-//                     'var1' => $investment->fundName,
-//                     'var2' => $investment->folioNumber,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Portfolio Management Services',
-//                 'totalAssets' => $portfolioManagement->map(fn($investment) => [
-//                     'id' => $investment->id,
-//                     'var1' => $investment->fundName,
-//                     'var2' => $investment->folioNumber,
-//                 ])->filter()->values(),
-//             ],
-//             [
-//                 'name' => 'Other Financial Assets',
-//                 'totalAssets' => $otherFinancialAsset->map(fn($investment) => [
-//                     'id' => $investment->id,
-//                     'var1' => $investment->bankServiceProvider,
-//                     'var2' => $investment->folioNumber,
-//                 ])->filter()->values(),
-//             ],
-//         ], fn($category) => !$category['totalAssets']->isEmpty())),
-//     ],
-// ];
-
+    
+ 
 $response = [
     'data' => array_values(array_filter($data, fn($category) => !empty($category['assets']))),
 ];
