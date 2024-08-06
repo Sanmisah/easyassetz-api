@@ -529,18 +529,18 @@ class AssetController extends BaseController
              
             $value1 = $item->$var1;
             $value2 = $item->$var2;
-            $primary = "";
-            $secondary = "";
-            $tertiary = "";
+            $primary = false;
+            $secondary = false;
+            $tertiary = false;
             if (isset($allocation) && $allocation->level === "Primary") {
-                $primary = "Primary";
+                $primary = true;
             }
             
             if(isset($allocation) && $allocation->level === "Secondary") {
-                $secondary = "Secondary";
+                $secondary = true;
             }
             if(isset($allocation) && $allocation->level === "Tertiary") {
-                $tertiary = "Tertiary";
+                $tertiary = true;
             }
           
 
@@ -857,23 +857,6 @@ class AssetController extends BaseController
             ],
         ];
 
-        foreach($data as $i => $ele) {
-            foreach($ele['assets'] as $x => $innerEle) {
-                if(empty($ele['assets'][$x]['totalAssets'])) {
-                    unset($data[$i]['assets'][$x]);
-                }
-            }
-        }
-        foreach($data as $i => $ele) {
-            if(empty($ele['assets'])) {
-                unset($data[$i]);
-            }
-        }
- 
- $response = [
-    'data' => array_values(array_filter($data, fn($category) => !empty($category['assets']['totalAssets']))),
-];
-
-return response()->json($data);
-}
+        return response()->json($data);
+    }
 }
