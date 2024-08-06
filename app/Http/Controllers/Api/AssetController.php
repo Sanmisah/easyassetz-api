@@ -90,7 +90,6 @@ class AssetController extends BaseController
         // new
         $data = [];
         
-<<<<<<< HEAD
        
      
   
@@ -149,7 +148,7 @@ class AssetController extends BaseController
         $membershipTotalAssets = [];
 
             
-
+//asasdasddsa
      $AllAssets = [
         [
             ['mainVariable' => $bullion,
@@ -578,95 +577,13 @@ class AssetController extends BaseController
         $data= [
         [ 
             'assetName' => 'Bullion',
-=======
-        $motorInsuranceTotalAssets = [];
-        foreach($motorInsurance as $item){              
-            $motorInsuranceTotalAssets[] = [
-                'id' => $item->id,
-                'var1' => $item->companyName,
-                'var2' => $item->policyNumber,
-
-            ];
-        }
-
-        $healthInsuranceTotalAssets = [];    
-        foreach($motorInsurance as $item){    
-            $allocation = AssetAllocation::where('asset_id', $item->id)->where('type', 'health')->first();
-            $healthInsuranceTotalAssets[] = [
-                'id' => $item->id,
-                'var1' => $item->companyName,
-                'var2' => $item->policyNumber,
-            ];
-        }
-         
-        $lifeInsuranceTotalAssets = [];
-        foreach($motorInsurance as $item){    
-            $allocation = AssetAllocation::where('asset_id', $item->id)->where('type', 'life')->first();
-            $lifeInsuranceTotalAssets[] = [
-                'id' => $item->id,
-                'var1' => $item->companyName,
-                'var2' => $item->policyNumber,
-            ];
-        }
-
-        $generalInsuranceTotalAssets = [];
-        foreach($motorInsurance as $item){    
-            $allocation = AssetAllocation::where('asset_id', $item->id)->where('type', 'general')->first();
-            $generalInsuranceTotalAssets[] = [
-                'id' => $item->id,
-                'var1' => $item->companyName,
-                'var2' => $item->policyNumber,
-            ];
-        }
-        $otherInsuranceTotalAssets = [];
-        foreach($motorInsurance as $item){    
-            $allocation = AssetAllocation::where('asset_id', $item->id)->where('type', 'other')->first();
-            $otherInsuranceTotalAssets[] = [
-                'id' => $item->id,
-                'var1' => $item->companyName,
-                'var2' => $item->policyNumber,
-            ];
-        }
-        $bullionTotalAssets = [];
-        foreach($bullion as $item){
-            $allocation = AssetAllocation::where('asset_id', $item->id)->where('asset_type', 'bullion')->first();
-            $bullionTotalAssets[] = [
-                'id' => $item->id,
-                'var1' => $item->metalType,
-                'var2' => $item->articleDetails,
-                'a'
-            ];
-        }
-        
-        $data[] = [
-            'assetName' => 'Motor Insurance',
->>>>>>> c80924d (vvv)
             'assets' => [
                 [
-                    'name' => 'Motor Insurance',
-                    'totalAssets' => $motorInsuranceTotalAssets,
+                    'name' => 'Bullion',
+                    'totalAssets' => $bullionTotalAssets,
                 ],
-                [
-                    'name' => 'Health Insurance',
-                    'totalAssets' => $healthInsuranceTotalAssets,
-                ],
-                [
-                    'name' => 'Life Insurance',
-                    'totalAssets' => $lifeInsuranceTotalAssets,
-                ],
-                [
-                    'name' => 'General Insurance',
-                    'totalAssets' => $generalInsuranceTotalAssets,
-                ],
-                [
-                    'name' => 'Other Insurance',
-                    'totalAssets' => $otherInsuranceTotalAssets,
-                ],
-<<<<<<< HEAD
             
                
-=======
->>>>>>> c80924d (vvv)
             ],
         ],
         [
