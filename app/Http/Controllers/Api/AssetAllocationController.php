@@ -28,20 +28,21 @@ class AssetAllocationController extends BaseController
             // $assets = $data['assets'];   
             // $firstRecord = !empty($data) ? $assets[0] : null;
 
-            //     if ($firstRecord) {
-            //         $assetId = $firstRecord['asset_id'] ?? null;
-            //         $assetType = $firstRecord['asset_type'] ?? null;
-            //         $level = $firstRecord['level'] ?? null;
-                    
-            //     $assetAllocation = AssetAllocation::where('will_id', $will->id)->where('asset_id', $assetId)->where('asset_type', $assetType)->where('level', $level)->get();
-            //      foreach($assetAllocation as $a){
-            //         $a->delete(); 
-            //      }
-            AssetAllocation::where('will_id', $will->id)->delete();
+            foreach($data as $dta){
+                if ($dta) {
+                    $assetId = $dta['asset_id'] ?? null;
+                    $assetType = $dta['asset_type'] ?? null;
+                    $level = $dta['level'] ?? null;
+                
+                $assetAllocation = AssetAllocation::where('will_id', $will->id)->where('asset_id', $assetId)->where('asset_type', $assetType)->where('level', $level)->get();
+                 foreach($assetAllocation as $a){
+                    $a->delete(); 
+                 }
+            }
+        }
+            // AssetAllocation::where('will_id', $will->id)->delete();
 
-
-                $assets = $data;  //$request->json()->all()
-
+                $assets = $data; //$data['assets'];
                 foreach ($assets as &$asset) {
                     $asset['will_id'] = $will->id; 
                 }
@@ -210,3 +211,21 @@ class AssetAllocationController extends BaseController
 //     // Step 4: Return a success response
 //     return response()->json(['message' => 'Assets stored or updated successfully.'], 201);
 // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

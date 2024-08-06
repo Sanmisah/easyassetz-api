@@ -570,35 +570,12 @@ class AssetController extends BaseController
             $items['var2']
         );
     }
-    unset($item); // Remove reference to avoid unintended modifications
+    unset($item); 
 
     
-    // Remove reference to avoid unintended modifications
-    unset($item);
-    
-  
-         
-        // $bullionTotalAssets = [];
-        // foreach($bullion as $item){
-        //     $allocation = AssetAllocation::where('asset_id', $item->id)->where('asset_type', 'bullion')->first();
-        //     $primary =  $allocation->level;
-        //     $secondary = $allocation->secondary;
-        //     $tertiary = $allocation->tertiary;
-           
-            
-        //     $bullionTotalAssets[] = [
-        //         'id' => $item->id,
-        //         'var1' => $item->metalType,
-        //         'var2' => $item->articleDetails,
-        //         'primary' => $primary,
-        //         'secondary' => $secondary,
-        //         'tertiary' => $tertiary,
-        //     ];
-        // }
-      
         $data = [];
         $data= [
-           [ 
+        [ 
             'assetName' => 'Bullion',
             'assets' => [
                 [
@@ -878,16 +855,25 @@ class AssetController extends BaseController
                     ],
                 ],
             ],
-           
+        ];
 
-           
-         ];
-    
+        foreach($data as $i => $ele) {
+            foreach($ele['assets'] as $x => $innerEle) {
+                if(empty($ele['assets'][$x]['totalAssets'])) {
+                    unset($data[$i]['assets'][$x]);
+                }
+            }
+        }
+        foreach($data as $i => $ele) {
+            if(empty($ele['assets'])) {
+                unset($data[$i]);
+            }
+        }
  
-$response = [
-    'data' => array_values(array_filter($data, fn($category) => !empty($category['assets']))),
+ $response = [
+    'data' => array_values(array_filter($data, fn($category) => !empty($category['assets']['totalAssets']))),
 ];
 
-return response()->json($response);
+return response()->json($data);
 }
 }
