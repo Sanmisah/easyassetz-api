@@ -525,8 +525,10 @@ class AssetController extends BaseController
     function createAllocation($arrayLoop, &$arrayVariable, $type, $var1, $var2)
     {
         foreach ($arrayLoop as $item) {
-            $allocation = AssetAllocation::where('asset_id', $item->id)->where('asset_type', $type)->first();
-             
+            // $allocation = AssetAllocation::where('asset_id', $item->id)->where('asset_type', $type)->first();
+      $allocations= AssetAllocation::where('asset_id', $item->id)->where('asset_type', $type)->get();
+
+             foreach($allocations as $allocation){
             $value1 = $item->$var1;
             $value2 = $item->$var2;
             $primary = false;
@@ -548,6 +550,7 @@ class AssetController extends BaseController
             error_log("Value1: " . print_r($value1, true));
             error_log("Value2: " . print_r($value2, true));
 
+        
             $arrayVariable[] = [
                 'id' => $item->id,
                 'var1' => $value1,
@@ -556,6 +559,7 @@ class AssetController extends BaseController
                 'secondary' => $secondary,
                 'tertiary' => $tertiary,
             ];
+        }
         }
     }
 
