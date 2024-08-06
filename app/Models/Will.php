@@ -10,6 +10,9 @@ class Will extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'profile_id',
+    ];
 
     public function assetAllocation(){
         return $this->hasMany(AssetAllocation::class, 'will_id');

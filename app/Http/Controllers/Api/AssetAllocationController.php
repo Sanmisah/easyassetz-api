@@ -9,75 +9,76 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Api\BaseController;
+use App\Http\Resources\AssetAllocationResource;
 
 class AssetAllocationController extends BaseController
 {
     public function storeMultipleAssets(Request $request): JsonResponse
     {
-        $data = $request->json()->all();
-    //  $data = [
-    //     'assets' => [
-    //         ['beneficiary_id' => 10, 'level' => 'Primary', 'asset_id' => 123, 'asset_type' => 'Stock', 'allocation' => 50.00],
-    //         ['beneficiary_id' =>11, 'level' => 'Primary', 'asset_id' => 456, 'asset_type' => 'Bond', 'allocation' => 25.00],
-    //      ]
-    //  ];
-  
+        // $data = $request->json()->all();
+
+      $data = [
+            ['beneficiary_id' => 1, 'level' => 'Secondary', 'asset_id' => 123, 'asset_type' => 'new Stock', 'allocation' => 50.00],
+            ['beneficiary_id' =>2, 'level' => 'Secondary', 'asset_id' => 12, 'asset_type' => 'ABC', 'allocation' => 99.00],
+      ];
+     
         $profile_id = auth()->user()->profile->id;
-         $will = Will::where('profile_id', $profile_id)->first();
-         if($will){
+         $will = Will::firstOrCreate(['profile_id' => $profile_id]);
+
             // $assets = $data['assets'];   
             // $firstRecord = !empty($data) ? $assets[0] : null;
 
             foreach($data as $dta){
-                if ($dta) {
                     $assetId = $dta['asset_id'] ?? null;
                     $assetType = $dta['asset_type'] ?? null;
                     $level = $dta['level'] ?? null;
                 
                 $assetAllocation = AssetAllocation::where('will_id', $will->id)->where('asset_id', $assetId)->where('asset_type', $assetType)->where('level', $level)->get();
-                 foreach($assetAllocation as $a){
-                    $a->delete(); 
+                 foreach($assetAllocation as $delete){
+                    $delete->delete(); 
                  }
-            }
-        }
-            // AssetAllocation::where('will_id', $will->id)->delete();
+             }
 
-                $assets = $data; //$data['assets'];
+                $assets = $data; 
                 foreach ($assets as &$asset) {
                     $asset['will_id'] = $will->id; 
                 }
 
-                AssetAllocation::insert($assets);
-            // }
-         }
-         else{
-
-            $will = new Will();
-            $will->profile_id = $profile_id;
-            $will->save();
-
-            $assets = $data['assets'];
-            foreach ($assets as &$asset) {
-                $asset['will_id'] = $will->id; 
-            }
-
-            AssetAllocation::insert($assets);
-     }
+                 AssetAllocation::insert($assets);
+        
+        
+        //     $will = new Will();
+        //     $will->profile_id = $profile_id;
+        //     $will->save();
+        //     $assets = $data; 
+        //     foreach ($assets as &$asset) {
+        //         $asset['will_id'] = $will->id; 
+        //     }
+        //    AssetAllocation::insert($assets);
     
-   return response()->json(['success'],200);
+    
+  $assetAllocation = AssetAllocation::where('will_id', $will->id)->get();
+ return $this->sendResponse(['Assets'=>AssetAllocationResource::collection($assetAllocation)], 'assets distributed succesfully');
+ 
+}
 
-  }
 
 
 
-  public function getMultipleRecords(string $asset_id, string $asset_type, string $level){
+
+
+
+
+  public function getMultipleRecords(string $asset_id, string $asset_type, string $level): JsonResponse
+  {
 
     $user = Auth::user();
     $data = $user->profile->will->assetAllocation()
     ->where('asset_id', $asset_id)
     ->where('asset_type', $asset_type) 
     ->where('level', $level)->get();
-    return response()->json(['Data'=>$data]);
+    // return response()->json(['Data'=>$data]);
+    return $this->sendResponse(['Assets' =>AssetAllocationResource::collection($data)], 'assets retrived successfully');
   }
 
 

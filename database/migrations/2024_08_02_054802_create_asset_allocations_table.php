@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('will_id')->constrained()->onDelete('cascade');
             $table->foreignId('beneficiary_id')->constrained()->onDelete('cascade');
             $table->enum('level', ['Primary', 'Secondary', 'Tertiary'])->nullable();
-            $table->integer('asset_id')->nullable();
+            $table->bigInteger('asset_id')->nullable();
             $table->string('asset_type')->nullable();
             $table->decimal('allocation',10,2)->nullable();
             $table->timestamps();
