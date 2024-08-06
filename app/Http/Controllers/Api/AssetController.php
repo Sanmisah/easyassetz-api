@@ -539,8 +539,7 @@ class AssetController extends BaseController
             if(isset($allocation) && $allocation->level === "Secondary") {
                 $secondary = true;
             }
-            print_r($allocation);
-
+ 
             if(isset($allocation) && $allocation->level === "Tertiary") {
                 $tertiary = true;
             }
