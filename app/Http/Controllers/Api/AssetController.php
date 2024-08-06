@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Will;
 use App\Models\Profile;
 use App\Models\AssetModel;
 use App\Models\AssetAllocation;
@@ -153,7 +154,7 @@ class AssetController extends BaseController
         [
             ['mainVariable' => $bullion,
             'variable' => &$bullionTotalAssets,
-            'assetType' => 'Bullion',
+            'assetType' => 'bullion',
             'var1' => 'metalType',
             'var2' => 'articleDetails',]
         ],
@@ -525,32 +526,33 @@ class AssetController extends BaseController
     function createAllocation($arrayLoop, &$arrayVariable, $type, $var1, $var2)
     {
         foreach ($arrayLoop as $item) {
-            // $allocation = AssetAllocation::where('asset_id', $item->id)->where('asset_type', $type)->first();
-      $allocations= AssetAllocation::where('asset_id', $item->id)->where('asset_type', $type)->get();
+            $profile_id = auth()->user()->id;
+            $will = Will::where('profile_id', $profile_id)->first();
 
-             foreach($allocations as $allocation){
+            $primary = AssetAllocation::where('asset_id', $item->id)
+                ->where('asset_type', $type)
+                ->where('will_id',$will->id)
+                ->where('level', 'Primary')
+                ->count();
+
+           $secondary = AssetAllocation::where('asset_id', $item->id)
+                ->where('asset_type', $type)
+                ->where('will_id',$will->id)
+                ->where('level', 'Secondary')
+                ->count();
+
+            $tertiary = AssetAllocation::where('asset_id', $item->id)
+                ->where('asset_type', $type)
+                ->where('will_id',$will->id)
+                ->where('level', 'Tertiary')
+                ->count();
+
             $value1 = $item->$var1;
             $value2 = $item->$var2;
-            $primary = false;
-            $secondary = false;
-            $tertiary = false;
-            if (isset($allocation) && $allocation->level === "Primary") {
-                $primary = true;
-            }
+            $primary = $primary?true:false;
+            $secondary = $secondary?true:false;
+            $tertiary = $tertiary?true:false;
              
-            if(isset($allocation) && $allocation->level === "Secondary") {
-                $secondary = true;
-            }
- 
-            if(isset($allocation) && $allocation->level === "Tertiary") {
-                $tertiary = true;
-            }
-          
-
-            error_log("Value1: " . print_r($value1, true));
-            error_log("Value2: " . print_r($value2, true));
-
-        
             $arrayVariable[] = [
                 'id' => $item->id,
                 'var1' => $value1,
@@ -558,8 +560,9 @@ class AssetController extends BaseController
                 'primary' => $primary,
                 'secondary' => $secondary,
                 'tertiary' => $tertiary,
+                'type' => $type
             ];
-        }
+        
         }
     }
 
