@@ -15,12 +15,12 @@ class AssetAllocationController extends BaseController
 {
     public function storeMultipleAssets(Request $request): JsonResponse
     {
-        // $data = $request->json()->all();
+        $data = $request->json()->all();
 
-      $data = [
-            ['beneficiary_id' => 1, 'level' => 'Secondary', 'asset_id' => 123, 'asset_type' => 'new Stock', 'allocation' => 50.00],
-            ['beneficiary_id' =>2, 'level' => 'Secondary', 'asset_id' => 12, 'asset_type' => 'ABC', 'allocation' => 99.00],
-      ];
+      // $data = [
+      //       ['beneficiary_id' => 1, 'level' => 'Secondary', 'asset_id' => 123, 'asset_type' => 'new Stock', 'allocation' => 50.00],
+      //       ['beneficiary_id' =>2, 'level' => 'Secondary', 'asset_id' => 12, 'asset_type' => 'ABC', 'allocation' => 99.00],
+      // ];
      
         $profile_id = auth()->user()->profile->id;
          $will = Will::firstOrCreate(['profile_id' => $profile_id]);

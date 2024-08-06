@@ -153,7 +153,7 @@ class AssetController extends BaseController
         [
             ['mainVariable' => $bullion,
             'variable' => &$bullionTotalAssets,
-            'assetType' => 'bullion',
+            'assetType' => 'Bullion',
             'var1' => 'metalType',
             'var2' => 'articleDetails',]
         ],
@@ -535,10 +535,12 @@ class AssetController extends BaseController
             if (isset($allocation) && $allocation->level === "Primary") {
                 $primary = true;
             }
-            
+             
             if(isset($allocation) && $allocation->level === "Secondary") {
                 $secondary = true;
             }
+            print_r($allocation);
+
             if(isset($allocation) && $allocation->level === "Tertiary") {
                 $tertiary = true;
             }
