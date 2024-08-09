@@ -73,7 +73,7 @@ class PersonalLoanController extends BaseController
         }
 
          $user = Auth::user();
-         if($user->profile->id !== $PersoanlLoan->profile_id){
+         if($user->profile->id !== $personalLoan->profile_id){
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to update this Persoanl Loan']);
          }
 

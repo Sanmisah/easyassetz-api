@@ -59,6 +59,8 @@ class OtherAssetResource extends JsonResource
             'email'                  => $this->email,
             'createdAt'              => $this->created_at,
             'updatedAt'              => $this->updated_at,
+            'chequeNumber'           => $this->cheque_number,
+            'chequeIssuingBank'      => $this->cheque_issuing_bank,
         ];  
     
     }
