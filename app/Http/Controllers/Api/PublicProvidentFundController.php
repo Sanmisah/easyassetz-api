@@ -58,6 +58,11 @@ class PublicProvidentFundController extends BaseController
             $pubilcProvidentFund->nominee()->attach($nominee_id);
         }
 
+        if($request->has('jointHolders')){
+            $joint_holder_id = $request->input('jointHolders');
+            $pubilcProvidentFund->jointHolder()->attach($joint_holder_id);
+        }
+
         return $this->sendResponse(['PublicProvidentFund'=> new PublicProvidentFundResource($pubilcProvidentFund)], 'Public Provident Fund details stored successfully');
 
     }
@@ -126,6 +131,13 @@ class PublicProvidentFundController extends BaseController
             $pubilcProvidentFund->nominee()->sync($nominee_ids);
         }else {
             $pubilcProvidentFund->nominee()->detach();
+        }
+
+        if($request->has('jointHolders')) {
+            $joint_holder_ids = $request->input('jointHolders');
+            $pubilcProvidentFund->jointHolder()->sync($joint_holder_ids);
+        }else {
+            $pubilcProvidentFund->jointHolder()->detach();
         }
 
          return $this->sendResponse(['PublicProvidentFund'=> new PublicProvidentFundResource($pubilcProvidentFund)], 'Public Provident Fund details updated successfully');

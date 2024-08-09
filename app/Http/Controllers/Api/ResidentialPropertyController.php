@@ -87,6 +87,7 @@ class ResidentialPropertyController extends BaseController
         $residentialProperty->first_holders_pan = $request->input('firstHoldersPan');
         $residentialProperty->joint_holders_name = $request->input('jointHoldersName');
         $residentialProperty->joint_holders_relation = $request->input('jointHoldersRelation');
+        $residentialProperty->joint_holders_aadhar = $request->input('jointHoldersAadhar');
         $residentialProperty->joint_holders_pan = $request->input('jointHoldersPan');
         $residentialProperty->any_loan_litigation = $request->input('anyLoanLitigation');
         if($request->hasFile('litigationFile')){
@@ -221,6 +222,7 @@ class ResidentialPropertyController extends BaseController
           $residentialProperty->first_holders_pan = $request->input('firstHoldersPan');
           $residentialProperty->joint_holders_name = $request->input('jointHoldersName');
           $residentialProperty->joint_holders_relation = $request->input('jointHoldersRelation');
+          $residentialProperty->joint_holders_aadhar = $request->input('jointHoldersAadhar');
           $residentialProperty->joint_holders_pan = $request->input('jointHoldersPan');
           $residentialProperty->any_loan_litigation = $request->input('anyLoanLitigation');
           if($request->hasFile('litigationFile')){

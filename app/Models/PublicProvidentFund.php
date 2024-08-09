@@ -15,4 +15,8 @@ class PublicProvidentFund extends Model
         return $this->belongsToMany(Beneficiary::class,'public_provident_fund_nominee');
      }
 
+     public function jointHolder(){
+        return $this->belongsToMany(Beneficiary::class,'public_provident_fund_jh');
+     }
+
 }

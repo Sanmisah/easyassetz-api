@@ -196,5 +196,9 @@ class Beneficiary extends Model
         return $this->belongsToMany(CommercialProperty::class, 'commercial_property_nominee');
     }
 
+    public function publicProvidentFundJointHolder(){
+        return $this->belongsToMany(PublicProvidentFund::class, 'public_provident_fund_jh');
+    }
+
 
 }

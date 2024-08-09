@@ -16,6 +16,7 @@ class PublicProvidentFundResource extends JsonResource
     public function toArray(Request $request): array
     {
         $nominees = BeneficiaryResource::collection($this->nominee);
+        $jointHolders = BeneficiaryResource::collection($this->jointHolder);
 
         return [
             'id' => $this->id,
@@ -34,6 +35,7 @@ class PublicProvidentFundResource extends JsonResource
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
             'nominees' => $nominees,
+            'jointHolders' => $jointHolders,
         ];
     
     }
