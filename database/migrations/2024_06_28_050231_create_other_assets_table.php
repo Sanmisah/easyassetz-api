@@ -47,6 +47,8 @@ return new class extends Migration
             $table->string('amount')->nullable();
             $table->date('due_date')->nullable();
             $table->string('additional_information')->nullable();
+            $table->string('cheque_number')->nullable();
+            $table->string('cheque_issuing_bank')->nullable();
             $table->string('jewellery_images')->nullable();
             $table->string('watch_images')->nullable();
             $table->string('artifact_images')->nullable();
