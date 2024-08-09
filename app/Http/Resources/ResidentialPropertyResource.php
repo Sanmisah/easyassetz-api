@@ -30,7 +30,7 @@ class ResidentialPropertyResource extends JsonResource
             'propertyStatus' => $this->property_status,
             'ownershipByVirtueOf' => $this->ownership_by_virtue_of,
             'ownershipType' => $this->ownership_type,
-            'firstHoldersNname' => $this->first_holders_name,
+            'firstHoldersName' => $this->first_holders_name,
             'firstHoldersRelation' => $this->first_holders_relation,
             'firstHoldersAadhar' => $this->first_holders_aadhar,
             'firstHoldersPan' => $this->first_holders_pan,

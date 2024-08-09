@@ -25,7 +25,7 @@ class LandResource extends JsonResource
             'taluka' => $this->taluka,
             'ownershipByVirtueOf' => $this->ownership_by_virtue_of,
             'ownershipType' => $this->ownership_type,
-            'firstHholdersName' => $this->first_holders_name,
+            'firstHoldersName' => $this->first_holders_name,
             'firstHoldersRelation' => $this->first_holders_relation,
             'firstHoldersPan' => $this->first_holders_pan,
             'firstHoldersAadhar' => $this->first_holders_aadhar,
