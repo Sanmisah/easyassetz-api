@@ -527,6 +527,10 @@ class AssetController extends BaseController
     {
         foreach ($arrayLoop as $item) {
             $profile_id = auth()->user()->id;
+            $will = new Will();
+            $will->profile_id = auth()->user()->id;
+            $will->save();
+            
             $will = Will::where('profile_id', $profile_id)->first();
             $primary = false;
             $secondary = false;
