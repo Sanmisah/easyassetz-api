@@ -528,25 +528,29 @@ class AssetController extends BaseController
         foreach ($arrayLoop as $item) {
             $profile_id = auth()->user()->id;
             $will = Will::where('profile_id', $profile_id)->first();
+            $primary = false;
+            $secondary = false;
+            $tertiary = false;
+            
+            if($will){
+                $primary = AssetAllocation::where('asset_id', $item->id)
+                    ->where('asset_type', $type)
+                    ->where('will_id',$will->id)
+                    ->where('level', 'Primary')
+                    ->count();
 
-            $primary = AssetAllocation::where('asset_id', $item->id)
-                ->where('asset_type', $type)
-                ->where('will_id',$will->id)
-                ->where('level', 'Primary')
-                ->count();
+                $secondary = AssetAllocation::where('asset_id', $item->id)
+                    ->where('asset_type', $type)
+                    ->where('will_id',$will->id)
+                    ->where('level', 'Secondary')
+                    ->count();
 
-           $secondary = AssetAllocation::where('asset_id', $item->id)
-                ->where('asset_type', $type)
-                ->where('will_id',$will->id)
-                ->where('level', 'Secondary')
-                ->count();
-
-            $tertiary = AssetAllocation::where('asset_id', $item->id)
-                ->where('asset_type', $type)
-                ->where('will_id',$will->id)
-                ->where('level', 'Tertiary')
-                ->count();
-
+                $tertiary = AssetAllocation::where('asset_id', $item->id)
+                    ->where('asset_type', $type)
+                    ->where('will_id',$will->id)
+                    ->where('level', 'Tertiary')
+                    ->count();
+            }
             $value1 = $item->$var1;
             $value2 = $item->$var2;
             $primary = $primary?true:false;
