@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use Log;
+use File;
+use Response;
 use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -136,7 +138,7 @@ class ProfileController extends BaseController
         $profile->pan_number = $request->input('panNumber');
         $profile->pan_name = $request->input('panName');
         if($request->hasFile('panFile')){
-            $profile->pan_file = $panFileNameToStore;
+            $profile->pan_file = $panPath;             //$panFileNameToStore;
         }
         $profile->passport_number = $request->input('passportNumber');
         $profile->passport_name = $request->input('passportName');
@@ -166,18 +168,60 @@ class ProfileController extends BaseController
     }
 
     public function showFiles(string $files){
-         $path = storage_path('app/'.$files);
+         $path = storage_path('app/public/profiles/aadharFile/'.$files);
 
          if(!file_exists($path)){
             abort(404);
          }
 
-         $file = \File::get($path);
+         $file = File::get($path);
          $type = \File::mimeType($path);
 
-         $response = \Response::make($file, 200);
+         $response = Response::make($file, 200);
          $response->header("Content-Type", $type);
+         $response->header('Content-Disposition', 'inline; filename="' . $files . '"');
 
+         return $response;
     }
+
+    public function showPanFiles(string $filePath){
+        // $path = storage_path('app/'.$files);
+
+        // if(!file_exists($path)){
+        //    abort(404);
+        // }
+
+        // $file = File::get($path);
+        // $type = \File::mimeType($path);
+
+        // $response = Response::make($file, 200);
+        // $response->header("Content-Type", $type);
+        // $response->header('Content-Disposition', 'inline; filename="' . $files . '"');
+
+        // return $response;
+
+        $baseDir = storage_path('app/');
+
+        // Construct the full path from the base directory and the provided file path
+        $fullPath = $baseDir . '/' . $filePath;
+
+        // Ensure the file is within the allowed base directory
+        if (strpos(realpath($fullPath), $baseDir) !== 0 || !File::exists($fullPath)) {
+            abort(404, 'File not found');
+        }
+
+        // Get the file content
+        $file = File::get($fullPath);
+
+        // Get the MIME type of the file
+        $type = File::mimeType($fullPath);
+
+        // Create a response with the file content and appropriate headers
+        $response = Response::make($file, 200);
+        $response->header('Content-Type', $type);
+        $response->header('Content-Disposition', 'inline; filename="' . basename($filePath) . '"');
+
+        return $response;
+   }
 
 }
