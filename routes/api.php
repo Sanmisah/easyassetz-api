@@ -91,7 +91,6 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('business-assets', BusinessAssetController::class);
     Route::delete('/logout', [UserController::class, 'logout']);
     Route::resource('other-assets', OtherAssetController::class);
-    Route::get('/storage/{files}', [ProfileController::class, 'showFiles']);
     Route::get('/storage/pan/{filePath}', [ProfileController::class, 'showPanFiles']);
     Route::resource('public-provident-funds', PublicProvidentFundController::class);
     Route::resource('provident-funds', ProvidentFundController::class);
@@ -117,5 +116,6 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::post('/will/allocate',[AssetAllocationController::class, 'storeMultipleAssets']);
     Route::get('/will/allocate/{asset_id}/{asset_type}/{level}',[AssetAllocationController::class, 'getMultipleRecords']);
 });
+Route::get('/storage/{files}', [ProfileController::class, 'showFiles']);
 
 Route::get('/generate-pdf', [PdfController::class,'generatePDF']);
