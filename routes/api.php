@@ -115,10 +115,12 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::resource('assets', AssetController::class);
     Route::post('/will/allocate',[AssetAllocationController::class, 'storeMultipleAssets']);
     Route::get('/will/allocate/{asset_id}/{asset_type}/{level}',[AssetAllocationController::class, 'getMultipleRecords']);
+    Route::get('/asset-allocations/primary-beneficiaries/{asset_id}/{asset_type}/{level}',[AssetAllocationController::class, 'getPrimaryBeneficiaries']);
+
 });
 Route::get('/aadhar/{files}', [ProfileController::class, 'showAadharFiles']);
 Route::get('/pan/{files}', [ProfileController::class, 'showPanFiles']);
 Route::get('/passport/{files}', [ProfileController::class, 'showPassportFiles']);
-Route::get('/driving/{files}', [ProfileController::class, 'showDrivingFiles']);
+Route::get('/driving/{files}', [ProfileController::class, 'showDrivingLicenceFiles']);
 
 Route::get('/generate-pdf', [PdfController::class,'generatePDF']);
