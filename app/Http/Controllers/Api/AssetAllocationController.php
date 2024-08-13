@@ -82,36 +82,36 @@ class AssetAllocationController extends BaseController
 
 
 
-  public function getPrimaryBeneficiaries(string $asset_id, string $asset_type, string $level): JsonResponse
-  {
+//   public function getPrimaryBeneficiaries(string $asset_id, string $asset_type, string $level): JsonResponse
+//   {
     
-     $user = Auth::user();
-     $data = $user->profile->will->assetAllocation()
-     ->where('level', 'Primary')
-     ->where('asset_id', $asset_id)
-     ->where('asset_type', $asset_type)
-     ->pluck('beneficiary_id');
+//      $user = Auth::user();
+//      $data = $user->profile->will->assetAllocation()
+//      ->where('level', 'Primary')
+//      ->where('asset_id', $asset_id)
+//      ->where('asset_type', $asset_type)
+//      ->pluck('beneficiary_id');
      
-     $beneficiary = Beneficiary::whereIn('id', $data)->select('full_legal_name')->get();
+//      $beneficiary = Beneficiary::whereIn('id', $data)->select('full_legal_name')->get();
 
-     $allocation = $user->profile->will->assetAllocation()
-     ->where('level', 'Primary')
-     ->where('asset_id', $asset_id)
-     ->where('asset_type', $asset_type)
-     ->WhereIn('beneficiary_id', $data)
-     ->select('allocation')->get();
+//      $allocation = $user->profile->will->assetAllocation()
+//      ->where('level', 'Primary')
+//      ->where('asset_id', $asset_id)
+//      ->where('asset_type', $asset_type)
+//      ->WhereIn('beneficiary_id', $data)
+//      ->select('allocation')->get();
      
-     $count = $user->profile->will->assetAllocation()
-     ->where('level', 'Primary')
-     ->where('asset_id', $asset_id)
-     ->where('asset_type', $asset_type)
-     ->count();
+//      $count = $user->profile->will->assetAllocation()
+//      ->where('level', 'Primary')
+//      ->where('asset_id', $asset_id)
+//      ->where('asset_type', $asset_type)
+//      ->count();
 
-     return $this->sendResponse(['Beneficiaries'=> $beneficiary, 'Allocation'=> $allocation, 'Count'=>$count], 'primary beneficiaries retrived successfully');
+//      return $this->sendResponse(['Beneficiaries'=> $beneficiary, 'Allocation'=> $allocation, 'Count'=>$count], 'primary beneficiaries retrived successfully');
      
-    //  return $this->sendResponse(['Assets' =>AssetAllocationResource::collection($data), 'Count'=>$count], 'primary beneficiaries retrived successfully');
+//     //  return $this->sendResponse(['Assets' =>AssetAllocationResource::collection($data), 'Count'=>$count], 'primary beneficiaries retrived successfully');
  
- }
+//  }
 
 
   

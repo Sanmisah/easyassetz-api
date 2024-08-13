@@ -527,9 +527,9 @@ class AssetController extends BaseController
     function createAllocation($arrayLoop, &$arrayVariable, $type, $var1, $var2)
     {
         foreach ($arrayLoop as $item) {
-            $profile_id = auth()->user()->id;
+            $profile_id = auth()->user()->profile->id;
             $will = new Will();
-            $will->profile_id = auth()->user()->id;
+            $will->profile_id = auth()->user()->profile->id;
             $will->save();
             
             $will = Will::where('profile_id', $profile_id)->first();
