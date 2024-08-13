@@ -184,46 +184,35 @@ class ProfileController extends BaseController
 
     //      return $response;
     // }
-//     public function showPanFiles(string $files){
-//          $path = storage_path('app/public/profiles/panFiles/'.$files);
 
-//          if(!file_exists($path)){
-//             abort(404);
-//          }
-
-//          $file = File::get($path);
-//          $type = \File::mimeType($path);
-
-//          $response = Response::make($file, 200);
-//          $response->header("Content-Type", $type);
-//          $response->header('Content-Disposition', 'inline; filename="' . $files . '"');
-
-//          return $response;
-
-//     }
-
-//     public function showDrivingLicenceFiles(string $files){
-//         $path = storage_path('app/public/profiles/drivingLicenceFiles/'.$files);
-
-//         if(!file_exists($path)){
-//            abort(404);
-//         }
-
-//         $file = File::get($path);
-//         $type = \File::mimeType($path);
-
-//         $response = Response::make($file, 200);
-//         $response->header("Content-Type", $type);
-//         $response->header('Content-Disposition', 'inline; filename="' . $files . '"');
-
-//         return $response;
-
-//    }
 
 
    public function showFiles(string $files){
 
-    $location = ['app/public/profiles/aadharFile/','app/public/profiles/panFiles/','app/public/profiles/passportFiles/','app/public/profiles/drivingLicenceFiles/'];
+    $location = ['app/public/profiles/aadharFile/',
+    'app/public/profiles/panFiles/',
+    'app/public/profiles/passportFiles/',
+    'app/public/profiles/drivingLicenceFiles/',
+    'public/OtherAsset/JewelleryImages/'.
+    'public/OtherAsset/WatchImages/',
+    'public/OtherAsset/ArtifactImages/',
+    'public/OtherAsset/OtherAssetImages/',
+    'public/BankAccount/',
+    'public/BrokingAccount/',
+    'public/ProvidentFund/',
+    'public/PublicProvidentFund/',
+    'public/PostSavingScheme/',
+    'public/PostalSavingAccount/',
+    'public/Land/',
+    'public/ResidentialProperty/',
+    'public/CommercialProperty/',
+    'public/ShareDetail/',
+    'public/ESOP/',
+    'public/DematAccount/',
+    'public/WealthManagementAccount/',
+    'public/OtherAsset/',
+    'public/SuperAnnuation/',
+];
 
     foreach($location as $loc){
         $path = storage_path($loc.$files);
@@ -231,11 +220,6 @@ class ProfileController extends BaseController
             break;
         }
     }
-    // $path = storage_path('app/public/profiles/passportFiles/'.$files);
-   
-    // if(!file_exists($path)){
-    //    abort(404);
-    // }
 
     $file = File::get($path);
     $type = \File::mimeType($path);
