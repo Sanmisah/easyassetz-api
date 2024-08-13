@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Will;
 use App\Models\Profile;
 use App\Models\AssetModel;
+use App\Models\Beneficiary;
 use App\Models\AssetAllocation;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
@@ -555,19 +556,69 @@ class AssetController extends BaseController
                     ->where('level', 'Tertiary')
                     ->count();
             }
+            
+             
+            
             $value1 = $item->$var1;
             $value2 = $item->$var2;
             $primary = $primary?true:false;
             $secondary = $secondary?true:false;
             $tertiary = $tertiary?true:false;
+
+            $primaryData = AssetAllocation::where('asset_id', $item->id)
+            ->where('asset_type', $type)
+            ->where('will_id',$will->id)
+            ->where('level', 'Primary')
+            ->get();
+            $PrimaryBeneficiaryData = [];
+
+            foreach($primaryData as $primaryItem)
+            {
+                $PrimaryBeneficiaryData[] = [
+                    "fullName" => Beneficiary::where('id', $primaryItem->beneficiary_id)->first()->full_legal_name,
+                    "Allocation" => $primaryItem->allocation,
+                 ];
+                }
+
+                // start
+                $secondaryData = AssetAllocation::where('asset_id', $item->id)
+                ->where('asset_type', $type)
+                ->where('will_id',$will->id)
+                ->where('level', 'Secondary')
+                ->get();
+
+                $SecondaryBeneficiaryData = [];
+                foreach($secondaryData as $secondaryItem)
+                {
+                    $SecondaryBeneficiaryData[] = [
+                        "fullName" => Beneficiary::where('id', $secondaryItem->beneficiary_id)->first()->full_legal_name,
+                        "Allocation" => $secondaryItem->allocation,
+                     ];
+                    }
+
+                    // 3
+                 $tertiaryData = AssetAllocation::where('asset_id', $item->id)
+                ->where('asset_type', $type)
+                ->where('will_id',$will->id)
+                ->where('level', 'Tertiary')
+                ->get();
+
+                $TertiaryBeneficiaryData = [];
+                foreach($tertiaryData as $tertiaryItem)
+                {
+                    $TertiaryBeneficiaryData[] = [
+                        "fullName" => Beneficiary::where('id', $tertiaryItem->beneficiary_id)->first()->full_legal_name,
+                        "Allocation" => $tertiaryItem->allocation,
+                     ];
+                    }
              
             $arrayVariable[] = [
                 'id' => $item->id,
                 'var1' => $value1,
                 'var2' => $value2,
-                'primary' => $primary,
-                'secondary' => $secondary,
-                'tertiary' => $tertiary,
+                'primary' => $PrimaryBeneficiaryData,
+                'secondary' => $SecondaryBeneficiaryData,
+                'tertiary' => $TertiaryBeneficiaryData,
                 'type' => $type
             ];
         

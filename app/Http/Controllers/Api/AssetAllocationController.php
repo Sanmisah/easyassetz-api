@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Will;
+use App\Models\Beneficiary;
 use Illuminate\Http\Request;
 use App\Models\AssetAllocation;
 use Illuminate\Http\JsonResponse;
@@ -65,10 +66,6 @@ class AssetAllocationController extends BaseController
 
 
 
-
-
-
-
   public function getMultipleRecords(string $asset_id, string $asset_type, string $level): JsonResponse
   {
 
@@ -82,7 +79,47 @@ class AssetAllocationController extends BaseController
   }
 
 
+
+
+
+  public function getPrimaryBeneficiaries(string $asset_id, string $asset_type, string $level): JsonResponse
+  {
+    
+     $user = Auth::user();
+     $data = $user->profile->will->assetAllocation()
+     ->where('level', 'Primary')
+     ->where('asset_id', $asset_id)
+     ->where('asset_type', $asset_type)
+     ->pluck('beneficiary_id');
+     
+     $beneficiary = Beneficiary::whereIn('id', $data)->select('full_legal_name')->get();
+
+     $allocation = $user->profile->will->assetAllocation()
+     ->where('level', 'Primary')
+     ->where('asset_id', $asset_id)
+     ->where('asset_type', $asset_type)
+     ->WhereIn('beneficiary_id', $data)
+     ->select('allocation')->get();
+     
+     $count = $user->profile->will->assetAllocation()
+     ->where('level', 'Primary')
+     ->where('asset_id', $asset_id)
+     ->where('asset_type', $asset_type)
+     ->count();
+
+     return $this->sendResponse(['Beneficiaries'=> $beneficiary, 'Allocation'=> $allocation, 'Count'=>$count], 'primary beneficiaries retrived successfully');
+     
+    //  return $this->sendResponse(['Assets' =>AssetAllocationResource::collection($data), 'Count'=>$count], 'primary beneficiaries retrived successfully');
+ 
+ }
+
+
+  
 }
+
+
+
+
 
 
 
@@ -135,14 +172,6 @@ class AssetAllocationController extends BaseController
     //     ['will_id', 'beneficiary_id', 'asset_id', 'asset_type', 'level'], 
     //     ['id']
     // );  
-
-
-
-
-
-
-
-
 
 
 
@@ -212,21 +241,3 @@ class AssetAllocationController extends BaseController
 //     // Step 4: Return a success response
 //     return response()->json(['message' => 'Assets stored or updated successfully.'], 201);
 // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

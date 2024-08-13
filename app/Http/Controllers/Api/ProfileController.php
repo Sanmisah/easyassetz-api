@@ -66,9 +66,9 @@ class ProfileController extends BaseController
         }
 
         if($request->hasFile('aadharFile')){
-            // if(!empty($profile->adhar_file) && Storage::exists('public/profiles/aadharFile/'.$profile->adhar_file)) {
-            //     Storage::delete('public/profiles/aadharFile/'.$profile->adhar_file);
-            // }
+            if(!empty($profile->adhar_file) && Storage::exists('public/profiles/aadharFile/'.$profile->adhar_file)) {
+                Storage::delete('public/profiles/aadharFile/'.$profile->adhar_file);
+            }
             $aadharfileNameWithExt = $request->file('aadharFile')->getClientOriginalName();
             $aadharfilename = pathinfo($aadharfileNameWithExt, PATHINFO_FILENAME);
             $aadharExtention = $request->file('aadharFile')->getClientOriginalExtension();
@@ -183,8 +183,6 @@ class ProfileController extends BaseController
          $response->header('Content-Disposition', 'inline; filename="' . $files . '"');
 
          return $response;
-        // return response()->json(['url'=> url('api/storage/'.$files)]);
-
     }
     public function showPanFiles(string $files){
          $path = storage_path('app/public/profiles/panFiles/'.$files);
@@ -201,9 +199,46 @@ class ProfileController extends BaseController
          $response->header('Content-Disposition', 'inline; filename="' . $files . '"');
 
          return $response;
-        // return response()->json(['url'=> url('api/storage/'.$files)]);
 
     }
+
+    public function showDrivingLicenceFiles(string $files){
+        $path = storage_path('app/public/profiles/drivingLicenceFiles/'.$files);
+
+        if(!file_exists($path)){
+           abort(404);
+        }
+
+        $file = File::get($path);
+        $type = \File::mimeType($path);
+
+        $response = Response::make($file, 200);
+        $response->header("Content-Type", $type);
+        $response->header('Content-Disposition', 'inline; filename="' . $files . '"');
+
+        return $response;
+
+   }
+
+
+   public function showPassportFiles(string $files){
+    $path = storage_path('app/public/profiles/passportFiles/'.$files);
+
+    if(!file_exists($path)){
+       abort(404);
+    }
+
+    $file = File::get($path);
+    $type = \File::mimeType($path);
+
+    $response = Response::make($file, 200);
+    $response->header("Content-Type", $type);
+    $response->header('Content-Disposition', 'inline; filename="' . $files . '"');
+
+    return $response;
+
+}
+
 
     // public function showPanFiles(string $filePath){
         // $path = storage_path('app/'.$files);
