@@ -139,7 +139,7 @@ class ProfileController extends BaseController
         $profile->pan_number = $request->input('panNumber');
         $profile->pan_name = $request->input('panName');
         if($request->hasFile('panFile')){
-            $profile->pan_file = $panPath;             //$panFileNameToStore;
+            $profile->pan_file =$panFileNameToStore;
         }
         $profile->passport_number = $request->input('passportNumber');
         $profile->passport_name = $request->input('passportName');
@@ -168,65 +168,74 @@ class ProfileController extends BaseController
         //
     }
 
-    public function showAadharFiles(string $files){
-         $path = storage_path('app/public/profiles/aadharFile/'.$files);
+    // public function showAadharFiles(string $files){
+    //      $path = storage_path('app/public/profiles/aadharFile/'.$files);
 
-         if(!file_exists($path)){
-            abort(404);
-         }
+    //      if(!file_exists($path)){
+    //         abort(404);
+    //      }
 
-         $file = File::get($path);
-         $type = \File::mimeType($path);
+    //      $file = File::get($path);
+    //      $type = \File::mimeType($path);
 
-         $response = Response::make($file, 200);
-         $response->header("Content-Type", $type);
-         $response->header('Content-Disposition', 'inline; filename="' . $files . '"');
+    //      $response = Response::make($file, 200);
+    //      $response->header("Content-Type", $type);
+    //      $response->header('Content-Disposition', 'inline; filename="' . $files . '"');
 
-         return $response;
-    }
-    public function showPanFiles(string $files){
-         $path = storage_path('app/public/profiles/panFiles/'.$files);
+    //      return $response;
+    // }
+//     public function showPanFiles(string $files){
+//          $path = storage_path('app/public/profiles/panFiles/'.$files);
 
-         if(!file_exists($path)){
-            abort(404);
-         }
+//          if(!file_exists($path)){
+//             abort(404);
+//          }
 
-         $file = File::get($path);
-         $type = \File::mimeType($path);
+//          $file = File::get($path);
+//          $type = \File::mimeType($path);
 
-         $response = Response::make($file, 200);
-         $response->header("Content-Type", $type);
-         $response->header('Content-Disposition', 'inline; filename="' . $files . '"');
+//          $response = Response::make($file, 200);
+//          $response->header("Content-Type", $type);
+//          $response->header('Content-Disposition', 'inline; filename="' . $files . '"');
 
-         return $response;
+//          return $response;
 
-    }
+//     }
 
-    public function showDrivingLicenceFiles(string $files){
-        $path = storage_path('app/public/profiles/drivingLicenceFiles/'.$files);
+//     public function showDrivingLicenceFiles(string $files){
+//         $path = storage_path('app/public/profiles/drivingLicenceFiles/'.$files);
 
-        if(!file_exists($path)){
-           abort(404);
+//         if(!file_exists($path)){
+//            abort(404);
+//         }
+
+//         $file = File::get($path);
+//         $type = \File::mimeType($path);
+
+//         $response = Response::make($file, 200);
+//         $response->header("Content-Type", $type);
+//         $response->header('Content-Disposition', 'inline; filename="' . $files . '"');
+
+//         return $response;
+
+//    }
+
+
+   public function showFiles(string $files){
+
+    $location = ['app/public/profiles/aadharFile/','app/public/profiles/panFiles/','app/public/profiles/passportFiles/','app/public/profiles/drivingLicenceFiles/'];
+
+    foreach($location as $loc){
+        $path = storage_path($loc.$files);
+        if(file_exists($path)){
+            break;
         }
-
-        $file = File::get($path);
-        $type = \File::mimeType($path);
-
-        $response = Response::make($file, 200);
-        $response->header("Content-Type", $type);
-        $response->header('Content-Disposition', 'inline; filename="' . $files . '"');
-
-        return $response;
-
-   }
-
-
-   public function showPassportFiles(string $files){
-    $path = storage_path('app/public/profiles/passportFiles/'.$files);
-
-    if(!file_exists($path)){
-       abort(404);
     }
+    // $path = storage_path('app/public/profiles/passportFiles/'.$files);
+   
+    // if(!file_exists($path)){
+    //    abort(404);
+    // }
 
     $file = File::get($path);
     $type = \File::mimeType($path);
@@ -240,45 +249,31 @@ class ProfileController extends BaseController
 }
 
 
-    // public function showPanFiles(string $filePath){
-        // $path = storage_path('app/'.$files);
+// public function showFiles(string $files){
+//     $decodedFilename = urldecode($files);
+    
+//     // Construct the full path
+//     $path = storage_path('app/' . $decodedFilename);
+    
+//     // Check if the file exists
+//     if (!File::exists($path)) {
+//         abort(404);
+//     }
+    
+//     // Get file content and MIME type
+//     $fileName = basename($path);
+//     $file = File::get($path);
+//     $type = File::mimeType($path);
+    
+//     // Create the response with headers
+//     $response = Response::make($file, 200);
+//     $response->header("Content-Type", $type);
+//     $response->header('Content-Disposition', 'inline; filename="' . $fileName . '"');
+    
+//     return $response;
+// }
 
-        // if(!file_exists($path)){
-        //    abort(404);
-        // }
 
-        // $file = File::get($path);
-        // $type = \File::mimeType($path);
-
-        // $response = Response::make($file, 200);
-        // $response->header("Content-Type", $type);
-        // $response->header('Content-Disposition', 'inline; filename="' . $files . '"');
-
-        // return $response;
-
-        // $baseDir = storage_path('app/');
-
-        // Construct the full path from the base directory and the provided file path
-        // $fullPath = $baseDir . '/' . $filePath;
-
-        // Ensure the file is within the allowed base directory
-        // if (strpos(realpath($fullPath), $baseDir) !== 0 || !File::exists($fullPath)) {
-        //     abort(404, 'File not found');
-        // }
-
-        // Get the file content
-        // $file = File::get($fullPath);
-
-        // Get the MIME type of the file
-        // $type = File::mimeType($fullPath);
-
-        // Create a response with the file content and appropriate headers
-        // $response = Response::make($file, 200);
-        // $response->header('Content-Type', $type);
-        // $response->header('Content-Disposition', 'inline; filename="' . basename($filePath) . '"');
-
-        // return $response;
-        // return response()->json(['url'=> url('api/profiles/files/'.$filePath)]);
-//    }
+  
 
 }
