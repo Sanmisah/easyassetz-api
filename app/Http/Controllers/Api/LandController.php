@@ -136,47 +136,47 @@ class LandController extends BaseController
          }
 
         if($request->hasFile('litigationFile')){
-            if (!empty($land->litigation_file) && Storage::exists('public/DigitalAsset/LitigationFiles/' . $land->litigation_file)) {
-                Storage::delete('public/DigitalAsset/LitigationFiles/' . $land->litigation_file);
+            if (!empty($land->litigation_file) && Storage::exists('public/Land/LitigationFiles/'.$land->litigation_file)) {
+                Storage::delete('public/Land/LitigationFiles/'.$land->litigation_file);
             }
             $litigationFileNameWithExtention = $request->file('litigationFile')->getClientOriginalName();
             $litigationFilename = pathinfo($litigationFileNameWithExtention, PATHINFO_FILENAME);
             $litigationExtention = $request->file('litigationFile')->getClientOriginalExtension();
             $litigationFileNameToStore = $litigationFilename.'_'.time().'.'.$litigationExtention;
-            $litigationPath = $request->file('litigationFile')->storeAs('public/DigitalAsset/LitigationFiles', $litigationFileNameToStore);
+            $litigationPath = $request->file('litigationFile')->storeAs('public/Land/LitigationFiles', $litigationFileNameToStore);
          }
 
         if($request->hasFile('leaseDocumentFile')){
-            if (!empty($land->lease_document_file) && Storage::exists('public/DigitalAsset/LeaseDocumentFiles/' . $land->lease_document_file)) {
-                Storage::delete('public/DigitalAsset/LeaseDocumentFiles/' . $land->lease_document_file);
+            if (!empty($land->lease_document_file) && Storage::exists('public/Land/LeaseDocumentFiles/'.$land->lease_document_file)) {
+                Storage::delete('public/Land/LeaseDocumentFiles/'.$land->lease_document_file);
             }
             $ldfFileNameWithExtention = $request->file('leaseDocumentFile')->getClientOriginalName();
             $ldFilename = pathinfo($ldFileNameWithExtention, PATHINFO_FILENAME);
             $ldExtention = $request->file('leaseDocumentFile')->getClientOriginalExtension();
             $ldFileNameToStore = $ldFilename.'_'.time().'.'.$ldExtention;
-            $ldPath = $request->file('leaseDocumentFile')->storeAs('public/DigitalAsset/LeaseDocumentFiles', $ldFileNameToStore);
+            $ldPath = $request->file('leaseDocumentFile')->storeAs('public/Land/LeaseDocumentFiles', $ldFileNameToStore);
          }
 
         if($request->hasFile('agreementFile')){
-            if (!empty($land->agreement_file) && Storage::exists('public/DigitalAsset/AgreementFiles/' . $land->agreement_file)) {
-                Storage::delete('public/DigitalAsset/AgreementFiles/' . $land->agreement_file);
+            if (!empty($land->agreement_file) && Storage::exists('public/Land/AgreementFiles/'.$land->agreement_file)) {
+                Storage::delete('public/Land/AgreementFiles/'.$land->agreement_file);
             }
             $agreementFileNameWithExtention = $request->file('agreementFile')->getClientOriginalName();
             $agreementFilename = pathinfo($agreementFileNameWithExtention, PATHINFO_FILENAME);
             $agreementExtention = $request->file('agreementFile')->getClientOriginalExtension();
             $agreementFileNameToStore = $agreementFilename.'_'.time().'.'.$agreementExtention;
-            $agreementPath = $request->file('agreementFile')->storeAs('public/DigitalAsset/AgreementFiles', $agreementFileNameToStore);
+            $agreementPath = $request->file('agreementFile')->storeAs('public/Land/AgreementFiles', $agreementFileNameToStore);
          }
 
          if($request->hasFile('extractFile')){
-            if (!empty($land->extract_7_12) && Storage::exists('public/DigitalAsset/Extract_7_12/' . $land->extract_7_12)) {
-                Storage::delete('public/DigitalAsset/Extract_7_12/' . $land->extract_7_12);
+            if (!empty($land->extract_7_12) && Storage::exists('public/Land/Extract_7_12/'.$land->extract_7_12)) {
+                Storage::delete('public/Land/Extract_7_12/'.$land->extract_7_12);
             }
             $extractFileNameWithExtention = $request->file('extractFile')->getClientOriginalName();
             $extractFilename = pathinfo($extractFileNameWithExtention, PATHINFO_FILENAME);
             $extractExtention = $request->file('extractFile')->getClientOriginalExtension();
             $extractFileNameToStore = $extractFilename.'_'.time().'.'.$extractExtention;
-            $extractPath = $request->file('extractFile')->storeAs('public/DigitalAsset/Extract_7_12', $extractFileNameToStore);
+            $extractPath = $request->file('extractFile')->storeAs('public/Land/Extract_7_12', $extractFileNameToStore);
          }
 
          $land->property_type = $request->input('propertyType');
@@ -231,20 +231,20 @@ class LandController extends BaseController
             return $this->sendError('Unauthorized', ['error'=>'You are not allowed to access this Land Details']);
         }
            // Check if the image exists before attempting to delete it
-        if (!empty($land->litigation_file) && Storage::exists('public/DigitalAsset/LitigationFiles/' . $land->litigation_file)) {
-            Storage::delete('public/DigitalAsset/LitigationFiles/' . $land->litigation_file);
+        if (!empty($land->litigation_file) && Storage::exists('public/Land/LitigationFiles/' . $land->litigation_file)) {
+            Storage::delete('public/DigitaLandlAsset/LitigationFiles/' . $land->litigation_file);
         }
 
-         if (!empty($land->lease_document_file) && Storage::exists('public/DigitalAsset/LeaseDocumentFiles/' . $land->lease_document_file)) {
-            Storage::delete('public/DigitalAsset/LeaseDocumentFiles/' . $land->lease_document_file);
+         if (!empty($land->lease_document_file) && Storage::exists('public/Land/LeaseDocumentFiles/' . $land->lease_document_file)) {
+            Storage::delete('public/Land/LeaseDocumentFiles/' . $land->lease_document_file);
         }
 
-         if (!empty($land->agreement_file) && Storage::exists('public/DigitalAsset/AgreementFiles/' . $land->agreement_file)) {
-            Storage::delete('public/DigitalAsset/AgreementFiles/' . $land->agreement_file);
+         if (!empty($land->agreement_file) && Storage::exists('public/Land/AgreementFiles/' . $land->agreement_file)) {
+            Storage::delete('public/Land/AgreementFiles/' . $land->agreement_file);
         }
 
-         if (!empty($land->extract_7_12) && Storage::exists('public/DigitalAsset/Extract_7_12/' . $land->extract_7_12)) {
-            Storage::delete('public/DigitalAsset/Extract_7_12/' . $land->extract_7_12);
+         if (!empty($land->extract_7_12) && Storage::exists('public/Land/Extract_7_12/' . $land->extract_7_12)) {
+            Storage::delete('public/Land/Extract_7_12/' . $land->extract_7_12);
         }
 
         $land->delete();
