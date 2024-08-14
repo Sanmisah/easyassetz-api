@@ -105,7 +105,7 @@ class BullionController extends BaseController
             $bullionFilename = pathinfo($bullionFileNameWithExtention, PATHINFO_FILENAME);
             $bullionExtention = $request->file('bullionFile')->getClientOriginalExtension();
             $bullionFileNameToStore = $bullionFilename.'_'.time().'.'.$bullionExtention;
-            $bullionPath = $request->file('bullionFile')->storeAs('public/Bullion/', $bullionFileNameToStore);
+            $bullionPath = $request->file('bullionFile')->storeAs('public/Bullion', $bullionFileNameToStore);
          }
 
          $bullion->metal_type = $request->input('metalType');

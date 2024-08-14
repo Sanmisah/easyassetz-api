@@ -34,7 +34,7 @@ class ProfileController extends BaseController
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified resource.'public/InvestmentFund/'
      */
     public function show(string $id): JsonResponse
     {
@@ -203,9 +203,6 @@ class ProfileController extends BaseController
     'public/PublicProvidentFund/',
     'public/PostSavingScheme/',
     'public/PostalSavingAccount/',
-    'public/Land/',
-    'public/ResidentialProperty/',
-    'public/CommercialProperty/',
     'public/ShareDetail/',
     'public/ESOP/',
     'public/DematAccount/',
@@ -213,6 +210,48 @@ class ProfileController extends BaseController
     'public/OtherAsset/',
     'public/SuperAnnuation/',
     'public/Bullion/',
+    'public/InvestmentFund/',
+    'public/BankLocker/',
+    'public/Bond/',
+    'public/BusinessAsset/promisoryNote/',
+    'public/BusinessAsset/loanDepositeReceipt/',
+    'public/BusinessAsset/jvAgreementFile/',
+    'public/BusinessAsset/partnershipDeedFile/',
+    'public/BusinessAsset/shareCentificateFile/',
+    'public/CommercialProperty/AgreementCopy/',
+    'public/CommercialProperty/LeaseDocumentFile/',
+    'public/CommercialProperty/RentAgreementFile/',
+    'public/CommercialProperty/ShareCertificateFile/',
+    'public/Crypto/',
+    'public/Debenture/',
+    'public/FixDeposite/',
+    'public/GeneralInsurance/',
+    'public/HealthInsurance/',
+    'public/Land/LitigationFiles/',
+    'public/Land/LeaseDocumentFiles/',
+    'public/Land/AgreementFiles/',
+    'public/Land/Extract_7_12/',
+    'public/LifeInsurance/',
+    'public/Litigation/',
+    'public/Membership/',
+    'public/MotorInsurance/',
+    'public/MutualFund/',
+    'public/NPS/',
+    'public/OtherDeposit/',
+    'public/OtherFinancialAsset/',
+    'public/OtherInsurance/',
+    'public/PortfolioManagement/',
+    'public/PostalSavingAccount/',
+    'public/ProvidentFund/',
+    'public/PublicProvidentFund/',
+    'public/ResidentialProperty/shareCertificateFile/',
+    'public/ResidentialProperty/AgreementCopy/',
+    'public/ResidentialProperty/RentAgreementFile/',
+    'public/ResidentialProperty/LeaseDocumentFile/',
+    'public/ResidentialProperty/LitigationFiles/',
+    'public/ShareDetail/',
+    'public/SuperAnnuation/',
+
 ];
 
     foreach($location as $loc){

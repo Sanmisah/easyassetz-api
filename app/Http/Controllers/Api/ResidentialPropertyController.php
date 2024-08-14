@@ -152,8 +152,8 @@ class ResidentialPropertyController extends BaseController
        }
 
         if($request->hasFile('litigationFile')){
-         if(!empty($residentialProperty->litigation_file) && Storage::exists('public/ResidentialProperty/LitigationFiles/' . $residentialProperty->litigation_file)) {
-            Storage::delete('public/ResidentialProperty/LitigationFiles/' . $residentialProperty->litigation_file);
+         if(!empty($residentialProperty->litigation_file) && Storage::exists('public/ResidentialProperty/LitigationFiles/'.$residentialProperty->litigation_file)) {
+            Storage::delete('public/ResidentialProperty/LitigationFiles/'.$residentialProperty->litigation_file);
            }
             $litigationFileNameWithExtention = $request->file('litigationFile')->getClientOriginalName();
             $litigationFilename = pathinfo($litigationFileNameWithExtention, PATHINFO_FILENAME);
