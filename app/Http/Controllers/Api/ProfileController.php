@@ -212,6 +212,7 @@ class ProfileController extends BaseController
     'public/WealthManagementAccount/',
     'public/OtherAsset/',
     'public/SuperAnnuation/',
+    'public/Bullion/',
 ];
 
     foreach($location as $loc){
