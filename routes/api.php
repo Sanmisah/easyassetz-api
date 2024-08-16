@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\ESOPController;
 use App\Http\Controllers\Api\FileController;
 use App\Http\Controllers\Api\LandController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\AssetController;
 use App\Http\Controllers\Api\CryptoController;
 use App\Http\Controllers\Api\BullionController;
 use App\Http\Controllers\Api\CharityController;
@@ -39,13 +40,13 @@ use App\Http\Controllers\Api\ForgotPasswordController;
 use App\Http\Controllers\Api\MotorInsuranceController;
 use App\Http\Controllers\Api\OtherInsuranceController;
 use App\Http\Controllers\Api\SuperAnnuationController;
+use App\Http\Controllers\Api\WillGenerationController;
 use App\Http\Controllers\Api\AssetAllocationController;
 use App\Http\Controllers\Api\HealthInsuranceController;
 use App\Http\Controllers\Api\GeneralInsuranceController;
 use App\Http\Controllers\Api\PostSavingSchemeController;
 use App\Http\Controllers\Api\CommercialPropertyController;
 use App\Http\Controllers\Api\OtherFinancialAssetController;
-use App\Http\Controllers\Api\AssetController;
 use App\Http\Controllers\Api\PortfolioManagementController;
 use App\Http\Controllers\Api\PostalSavingAccountController;
 use App\Http\Controllers\Api\PublicProvidentFundController;
@@ -116,12 +117,13 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::post('/will/allocate',[AssetAllocationController::class, 'storeMultipleAssets']);
     Route::get('/will/allocate/{asset_id}/{asset_type}/{level}',[AssetAllocationController::class, 'getMultipleRecords']);
     Route::get('/asset-allocations/primary-beneficiaries/{asset_id}/{asset_type}/{level}',[AssetAllocationController::class, 'getPrimaryBeneficiaries']);
-
+    Route::get('/file/{files}', [ProfileController::class, 'showFiles'])->where('files', '.*');
+    Route::get('/generate-will', [WillGenerationController::class,'generateWill']);
 });
-Route::get('/file/{files}', [ProfileController::class, 'showFiles'])->where('files', '.*');
+// Route::get('/file/{files}', [ProfileController::class, 'showFiles'])->where('files', '.*');
 
 // Route::get('/pan/{files}', [ProfileController::class, 'showPanFiles']);
 // Route::get('/passport/{files}', [ProfileController::class, 'showPassportFiles']);;
 // Route::get('/driving/{files}', [ProfileController::class, 'showDrivingLicenceFiles']);
 
-Route::get('/generate-pdf', [PdfController::class,'generatePDF']);
+// Route::get('/generate-pdf', [PdfController::class,'generatePDF']);
