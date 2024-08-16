@@ -190,11 +190,11 @@ class ProfileController extends BaseController
    public function showFiles(string $files){
 
     $location = ['app/public/profiles/aadharFile/',
+    'app/public/OtherAsset/JewelleryImages/',
     'app/public/Bullion/',
     'app/public/profiles/panFiles/',
     'app/public/profiles/passportFiles/',
     'app/public/profiles/drivingLicenceFiles/',
-    'app/public/OtherAsset/JewelleryImages/'.
     'app/public/OtherAsset/WatchImages/',
     'app/public/OtherAsset/ArtifactImages/',
     'app/public/OtherAsset/OtherAssetImages/',
