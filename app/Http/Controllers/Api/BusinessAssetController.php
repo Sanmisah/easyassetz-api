@@ -135,19 +135,19 @@ class BusinessAssetController extends BaseController
         $businessAsset->joint_holder_pan = $request->input('jointHolderPan');
         $businessAsset->document_availability = json_encode($request->input('documentAvailability'));
         if($request->hasFile('shareCentificateFile')){
-            $businessAsset->share_centificate_file = $sharePath;
+            $businessAsset->share_centificate_file = $shareFileNameToStore;
          } 
          if($request->hasFile('partnershipDeedFile')){
-            $businessAsset->partnership_deed_file = $partPath;
+            $businessAsset->partnership_deed_file = $partFileNameToStore;
          } 
          if($request->hasFile('jvAgreementFile')){
-            $businessAsset->jv_agreement_file = $jvPath;
+            $businessAsset->jv_agreement_file = $jvFileNameToStore;
          } 
          if($request->hasFile('loanDepositeReceipt')){
-            $businessAsset->loan_deposite_receipt = $loanPath;
+            $businessAsset->loan_deposite_receipt = $loanFileNameToStore;
          } 
          if($request->hasFile('promisoryNote')){
-            $businessAsset->promisory_note = $pnPath;
+            $businessAsset->promisory_note = $pnFileNameToStore;
          } 
          $businessAsset->type_of_ip = $request->input('typeOfIp');
          $businessAsset->expiry_date = $request->input('expiryDate');
@@ -257,19 +257,19 @@ class BusinessAssetController extends BaseController
         $businessAsset->joint_holder_pan = $request->input('jointHolderPan');
         $businessAsset->document_availability = json_encode($request->input('documentAvailability'));
         if($request->hasFile('shareCentificateFile')){
-            $businessAsset->share_centificate_file = $sharePath;
+            $businessAsset->share_centificate_file = $shareFileNameToStore;
          } 
          if($request->hasFile('partnershipDeedFile')){
-            $businessAsset->partnership_deed_file = $partPath;
+            $businessAsset->partnership_deed_file = $partFileNameToStore;
          } 
          if($request->hasFile('jvAgreementFile')){
-            $businessAsset->jv_agreement_file = $jvPath;
+            $businessAsset->jv_agreement_file = $jvFileNameToStore;
          } 
          if($request->hasFile('loanDepositeReceipt')){
-            $businessAsset->loan_deposite_receipt = $loanPath;
+            $businessAsset->loan_deposite_receipt = $loanFileNameToStore;
          } 
          if($request->hasFile('promisoryNote')){
-            $businessAsset->promisory_note = $pnPath;
+            $businessAsset->promisory_note = $pnFileNameToStore;
          } 
         $businessAsset->type_of_ip = $request->input('typeOfIp');
         $businessAsset->expiry_date = $request->input('expiryDate');

@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\NullMiddleware;
 use App\Http\Controllers\Api\NPSController;
 use App\Http\Controllers\Api\PdfController;
 use App\Http\Controllers\Api\BondController;
@@ -57,7 +58,6 @@ use App\Http\Controllers\Api\WealthManagementAccountController;
 //     return $request->user();
 // })->middleware('auth:sanctum');
 
-
 Route::group(['middleware'=>['auth.guest']], function(){
     Route::post('/register', [UserController::class, 'register']);
     Route::post('/login', [UserController::class, 'login']);
@@ -65,8 +65,8 @@ Route::group(['middleware'=>['auth.guest']], function(){
     Route::post('password/reset', [ForgotPasswordController::class, 'reset'])->name('password.reset');
 
 });
-
-Route::group(['middleware'=>['auth:sanctum']], function(){
+// 
+Route::group(['middleware'=>['auth:sanctum', 'request.null']], function(){
     Route::resource('profiles', ProfileController::class);
     Route::resource('beneficiaries', BeneficiaryController::class);
     Route::get('/logout', [UserController::class, 'logout']);
@@ -117,9 +117,10 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::post('/will/allocate',[AssetAllocationController::class, 'storeMultipleAssets']);
     Route::get('/will/allocate/{asset_id}/{asset_type}/{level}',[AssetAllocationController::class, 'getMultipleRecords']);
     Route::get('/asset-allocations/primary-beneficiaries/{asset_id}/{asset_type}/{level}',[AssetAllocationController::class, 'getPrimaryBeneficiaries']);
-    Route::get('/file/{files}', [ProfileController::class, 'showFiles'])->where('files', '.*');
     Route::get('/generate-will', [WillGenerationController::class,'generateWill']);
 });
+Route::get('/file/{files}', [ProfileController::class, 'showFiles'])->where('files', '.*');
+
 // Route::get('/file/{files}', [ProfileController::class, 'showFiles'])->where('files', '.*');
 
 // Route::get('/pan/{files}', [ProfileController::class, 'showPanFiles']);
