@@ -26,6 +26,7 @@ use App\Models\InvestmentFund;
 use App\Models\MotorInsurance;
 use App\Models\OtherInsurance;
 use App\Models\SuperAnnuation;
+use App\Models\AssetAllocation;
 use App\Models\HealthInsurance;
 use App\Models\GeneralInsurance;
 use App\Models\PostSavingScheme;
@@ -200,5 +201,10 @@ class Beneficiary extends Model
         return $this->belongsToMany(PublicProvidentFund::class, 'public_provident_fund_jh');
     }
 
+
+    // new
+    public function assets(){
+        return $this->hasMany(AssetAllocation::class, 'beneficiary_id');
+    }
 
 }

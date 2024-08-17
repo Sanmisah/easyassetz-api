@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use App\Models\Beneficiary;
+use App\Models\AssetAllocation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -72,5 +73,12 @@ class MotorInsurance extends Model
    public function nominee(){
       return $this->belongsToMany(Beneficiary::class,'motor_insurance_nominee');
    }
+
+
+
+  //new
+   public function assets(){
+    return $this->hasMany(AssetAllocation::class, 'asset_id');
+}
 
 }
