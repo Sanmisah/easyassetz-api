@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use App\Models\Membership;
 use App\Models\Beneficiary;
+use App\Models\AssetAllocation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -32,4 +33,8 @@ class Membership extends Model
     return $this->belongsToMany(Beneficiary::class,'membership_nominee');
     }
     
+
+    public function assets(){
+        return $this->hasMany(AssetAllocation::class, 'asset_id');
+    }
 }

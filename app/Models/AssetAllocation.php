@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Membership;
+use App\Models\Beneficiary;
+use App\Models\LifeInsurance;
+use App\Models\MotorInsurance;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AssetAllocation extends Model
 {
@@ -17,5 +21,24 @@ class AssetAllocation extends Model
         'level',
         'allocation',
     ];
+
+
+    public function beneficiary(){
+        return $this->belongsTo(Beneficiary::class, 'beneficiary_id');
+    }
+
+
+    public function motorInsurance(){
+        return $this->belongsTo(MotorInsurance::class, 'asset_id');
+    }
+
+    public function lifeInsurance(){
+        return $this->belongsTo(LifeInsurance::class, 'asset_id');
+    }
+
+    public function membership(){
+        return $this->belongsTo(Membership::class, 'asset_id');
+    }
+
 
 }
