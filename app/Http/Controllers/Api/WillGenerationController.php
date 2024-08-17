@@ -44,105 +44,113 @@ class WillGenerationController extends BaseController
         $asset_type = [
             'motorInsurance',
             'membership',
-            // "bullion",
-            // "healthInsurance",
-            // "lifeInsurance",
-            // "generalInsurance",
-            // "otherInsurance",
-            // "propritorship",
-            // "partnershipFirm",
-            // "company",
-            // "intellectualProperty",
-            // "land",
-            // "commercialProperty",
-            // "residentialProperty",
-            // "shareDetail",
-            // "mutualFund",
-            // "debenture",
-            // "bond",
-            // "esop",
-            // "dematAccount",
-            // "wealthManagementAccount",
-            // "brokingAccount",
-            // "alternateInvestmentFund",
-            // "portfolioManagement",
-            // "otherFinancialAsset",
-            // "crypto",
-            // "digitalAsset",
-            // "vehicle",
-            // "jewellery",
-            // "watch",
-            // "huf",
-            // "recoverable",
-            // "otherAsset",
-            // "bankAccount",
-            // "fixDeposite",
-            // "bankLocker",
-            // "postalSavingAccount",
-            // "postSavingScheme",
-            // "otherDeposite",
-            // "publicProvidentFund",
-            // "providentFund",
-            // "nps",
-            // "gratuity",
-            //  "vehicleLoan",
-            // "homeLoan",
-            // "personalLoan",
-            // "litigation",
+            "bullion",
+            "healthInsurance",
+            "lifeInsurance",
+            "generalInsurance",
+            "otherInsurance",
+            "propritorship",
+            "partnershipFirm",
+            "company",
+            "intellectualProperty",
+            "land",
+            "commercialProperty",
+            "residentialProperty",
+            "shareDetail",
+            "mutualFund",
+            "debenture",
+            "bond",
+            "esop",
+            "dematAccount",
+            "wealthManagementAccount",
+            "brokingAccount",
+            "alternateInvestmentFund",
+            "portfolioManagement",
+            "otherFinancialAsset",
+            "crypto",
+            "digitalAsset",
+            "vehicle",
+            "jewellery",
+            "watch",
+            "huf",
+            "recoverable",
+            "otherAsset",
+            "bankAccount",
+            "fixDeposite",
+            "bankLocker",
+            "postalSavingAccount",
+            "postSavingScheme",
+            "otherDeposite",
+            "publicProvidentFund",
+            "providentFund",
+            "nps",
+            "gratuity",
+             "vehicleLoan",
+            "homeLoan",
+            "personalLoan",
+            "litigation",
             
-            // "superAnnuation",
+            "superAnnuation",
            ];
            $assetAll = [];
-           foreach ($asset_type as $assetType) {
-             $assets = AssetAllocation::
-            where('will_id', auth()->user()->profile->will->id)
-            ->where('asset_type', $assetType) // Filter by asset_type
-           ->OrderBy('asset_type')
-           ->OrderBy('asset_id')
-           ->OrderBy('Level')
-            
+           $user = auth()->user();
+    $profile = $user->profile;
+
+    // Define asset types
+    $asset_type = [
+        'motorInsurance',
+        'membership',
+    ];
+
+    $assetAll = [];
+    foreach ($asset_type as $assetType) {
+        $assets = AssetAllocation::where('will_id', $profile->will->id)
+            ->where('asset_type', $assetType)
+            ->orderBy('asset_type')
+            ->orderBy('asset_id')
+            ->orderBy('level')
             ->get();
-            $assets->load('beneficiary',$assetType );
-            $assetAll[] = $assets->toArray();
-           }
-
-
-           $allocation = [];  
-        function getAssetAllocation($assets, $assetTypes) {
         
-            foreach ($assetTypes as $asset) {
-            foreach ($assets as $assetType) {
-                // Filter the assets collection by asset type
-                  $filteredAssets = array_filter($assetType, function ($assete) use ($assetTypes) {
-                     return $assete['asset_type'] === $assetTypes;
+        $assets->load('beneficiary', $assetType);
+        $assetAll = array_merge($assetAll, $assets->toArray());
+    }
+
+    // Function to get the unique allocation by asset_id
+    function getAssetAllocation($assets, $assetTypes) {
+        $uniqueCheck = [];
+        $allocation = [];
+
+        foreach ($assets as $asset) {
+            if (in_array($asset['asset_type'], $assetTypes) && !in_array($asset['asset_id'], $uniqueCheck)) {
+                $uniqueCheck[] = $asset['asset_id'];
+
+                $primaryAllocation = array_filter($assets, function($item) use ($asset) {
+                    return $item['asset_id'] === $asset['asset_id'] && $item['level'] === 'Primary';
                 });
-                       // Fetch primary, secondary, and tertiary allocations
-                     $primaryAllocation = $filteredAssets->where('level', 'Primary')->values()->all();
-                    $secondaryAllocation = $filteredAssets->where('level', 'Secondary')->values()->all();
-                    $tertiaryAllocation = $filteredAssets->where('level', 'Tertiary')->values()->all();
-                
-                    // Add allocations to the array
-                    $allocation[] = [
-                        'primaryAllocation' => $primaryAllocation,
-                        'secondaryAllocation' => $secondaryAllocation,
-                        'tertiaryAllocation' => $tertiaryAllocation,
-                    ];
-                
-                    $filteredAllocation = array_filter($allocation, function($item) {
-                        return !empty($item['primaryAllocation']) || !empty($item['secondaryAllocation']) || !empty($item['tertiaryAllocation']);
-                    });
-            }
-        
-        }
-        
-            return $filteredAllocation;
- 
-         }
-        
-             $allocation = getAssetAllocation($assetAll, $asset_type);
-    
-             
 
+                $secondaryAllocation = array_filter($assets, function($item) use ($asset) {
+                    return $item['asset_id'] === $asset['asset_id'] && $item['level'] === 'Secondary';
+                });
+
+                $tertiaryAllocation = array_filter($assets, function($item) use ($asset) {
+                    return $item['asset_id'] === $asset['asset_id'] && $item['level'] === 'Tertiary';
+                });
+
+                $allocation[$asset['asset_type']][] = [
+                    'asset_id' => $asset['asset_id'],
+                    'primaryAllocation' => $primaryAllocation,
+                    'secondaryAllocation' => $secondaryAllocation,
+                    'tertiaryAllocation' => $tertiaryAllocation,
+                ];
+            }
+        }
+
+        return $allocation;
+    }
+
+    $allocation = getAssetAllocation($assetAll, $asset_type);
+
+ 
         $data = [
             'user' => $user,
             'profile' => $profile,
@@ -151,19 +159,19 @@ class WillGenerationController extends BaseController
         ];
 
         // Render the Blade view to HTML
-        $html = view('will.will', $data)->render();
+        // $html = view('will.will', $data)->render();
 
-        // Create a new mPDF instance
-        $mpdf = new Mpdf();
+        // // Create a new mPDF instance
+        // $mpdf = new Mpdf();
 
-        // Write HTML to the PDF
-        $mpdf->WriteHTML($html);
+        // // Write HTML to the PDF
+        // $mpdf->WriteHTML($html);
 
-        // Define the file path for saving the PDF
-        $filePath = 'public/will/will' . time() . '.pdf'; // Store in 'storage/app/invoices'
+        // // Define the file path for saving the PDF
+        // $filePath = 'public/will/will' . time() . '.pdf'; // Store in 'storage/app/invoices'
 
-        // Save PDF to storage
-        Storage::put($filePath, $mpdf->Output('', 'S')); // Output as string and save to storage
+        // // Save PDF to storage
+        // Storage::put($filePath, $mpdf->Output('', 'S')); // Output as string and save to storage
 
         // Output the PDF for download
         // return $mpdf->Output('will.pdf', 'D'); // Download the PDF
