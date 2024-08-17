@@ -26,7 +26,7 @@ class StoreBusinessAssetRequest extends FormRequest
         return [
             'shareCentificateFile' => ['nullable','file', 'mimes:jpg,png,jpeg,pdf,doc', 'max:2048'],
             'partnershipDeedFile' => ['nullable','file', 'mimes:jpg,png,jpeg,pdf,doc', 'max:2048'],
-            'jvAgreementFile' => ['nullable','file', 'mimes:jpg,png,jpeg,pdf,doc', 'max:2048'],
+            'jvAgreementFile' => ['nullable', 'max:2048'],
             'loanDepositeReceipt' => ['nullable','file', 'mimes:jpg,png,jpeg,pdf,doc', 'max:2048'],
             'promisoryNote' => ['nullable','file', 'mimes:jpg,png,jpeg,pdf,doc', 'max:2048'],
         ];

@@ -68,7 +68,11 @@ class LifeInsuranceController extends BaseController
         $lifeInsurance->save();
 
         if($request->has('nominees')){
-            $nominee_id = $request->input('nominees');
+            $nominee_id = is_string($request->input('nominees')) 
+            ? explode(',', $request->input('nominees')) 
+            : $request->input('nominees');
+
+            $nominee_id = array_map('intval', $nominee_id);
             $lifeInsurance->nominee()->attach($nominee_id);
         }
 
