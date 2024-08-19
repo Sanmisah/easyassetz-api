@@ -30,95 +30,7 @@
       <p>Address: {{ $profile->permanent_address_line_1 }}</p>
 
 
-     {{-- @foreach ($assets as $asset)
-
-       if($asset->asset_type === "motorInsurance"){
-        <h2 style="text-align: center;">Motor Insurance</h2>
-         <h3 style="text-align: center;">{{$asset->motorInsurance->company_name}} - {{$asset->motorInsurance->policy_number}}</h3>
-       }
-         
-         
-         
-         @endforeach
-
-            <h4 style="text-align: center;">Primary Allocation</h4>
-
-             <table>  
-        <tbody>
-            @foreach ($assets as $asset)
-            <tr>
-                <th>{{$asset->beneficiary->full_legal_name}}</th>
-                <td>{{$asset->allocation}}</td>
-            </tr>
-            @endforeach
-          
-            <tr>
-                <th>Data 11</th>
-                <td>Data 12</td>
-            </tr>
-        </tbody>
-    </table> 
-
-  <h1>end</h1> --}}
-
-  {{-- @foreach ($motorInsuranceData as $data)
-     <h2 style="text-align: center;">Motor Insurance</h2>
-     <h3 style="text-align: center">{{ $data['primaryAllocation'][0]->motorInsurance->company_name }} - {{$data['primaryAllocation'][0]->motorInsurance->policy_number}}</h3> 
-      <h4 style="text-align: center;">Primary Allocation</h4>
-    <table>
-        <thead>
-            <tr>
-                <th>Beneficiary</th>
-                <th>Allocation</th>
-            </tr>
-        </thead>
-        <tbody>
-   @foreach ($data['primaryAllocation'] as $primary)        
-                    <tr>
-                        <td>{{$primary->beneficiary->full_legal_name}}</td>
-                        <td>{{$primary->allocation}}</td>
-                    </tr>     
-    @endforeach
-</tbody>
-</table>
-
-     <h4 style="text-align: center; margin-top: 20px;">Secondary Allocation</h4>
-    <table>
-        <thead>
-            <tr>
-                <th>Beneficiary</th>
-                <th>Allocation</th>
-            </tr>
-        </thead>
-        <tbody>
-    @foreach ($data['secondaryAllocation'] as $secondary)        
-                    <tr>
-                        <td>{{$secondary->beneficiary->full_legal_name}}</td>
-                        <td>{{$secondary->allocation}}</td>
-                    </tr>     
-    @endforeach
-    </tbody>
-    </table>
-
-     <h4 style="text-align: center; margin-top: 20px;">Tertiary Allocation</h4>
-    <table>
-        <thead>
-            <tr>
-                <th>Beneficiary</th>
-                <th>Allocation</th>
-            </tr>
-        </thead>
-        <tbody>
-    @foreach ($data['tertiaryAllocation'] as $tertiary)
-                    <tr>
-                        <td>{{$tertiary->beneficiary->full_legal_name}}</td>
-                        <td>{{$tertiary->allocation}}</td>
-                    </tr>     
-    @endforeach
-    </tbody>
-    </table>
-
-@endforeach
+      
 
    
 </body>
@@ -127,7 +39,7 @@
 
 
 
- --}}
+ 
 
 
 

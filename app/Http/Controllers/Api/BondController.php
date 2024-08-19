@@ -61,9 +61,24 @@ class BondController extends BaseController
         $bond->email = $request->input('email');
         $bond->save();
 
-        if($request->has('nominees')){
+        // if($request->has('nominees')){
+        //     $nominee_id = $request->input('nominees');
+        //     $bond->nominee()->attach($nominee_id);
+        // }
+
+
+        if ($request->has('nominees')) {
             $nominee_id = $request->input('nominees');
-            $bond->nominee()->attach($nominee_id);
+            // Check if nominee_id is a string and contains comma-separated values
+            if (is_string($nominee_id)) {
+                $nominee_id = explode(',', $nominee_id);
+            }
+    
+            // Ensure nominee_id is an array and filter out non-integer values
+            if (is_array($nominee_id)) {
+                $nominee_id = array_map('intval', $nominee_id);
+                $bond->nominee()->attach($nominee_id);
+            }
         }
 
         return $this->sendResponse(['Bond'=> new BondResource($bond)], 'Bond details stored successfully');
@@ -133,10 +148,24 @@ class BondController extends BaseController
          $bond->email = $request->input('email');
          $bond->save();
  
-         if($request->has('nominees')) {
-            $nominee_ids = $request->input('nominees');
-            $bond->nominee()->sync($nominee_ids);
-        }else {
+        //  if($request->has('nominees')) {
+        //     $nominee_ids = $request->input('nominees');
+        //     $bond->nominee()->sync($nominee_ids);
+        // }else {
+        //     $bond->nominee()->detach();
+        // }
+
+        if ($request->has('nominees')) {
+            // $nominee_ids = $request->input('nominees');
+            $nominee_id = is_string($request->input('nominees')) 
+            ? explode(',', $request->input('nominees')) 
+            : $request->input('nominees');
+
+        // Ensure nominee IDs are integers
+        $nominee_id = array_map('intval', $nominee_id);
+            $bond->nominee()->sync($nominee_id);
+        } else {
+            // If no nominees selected, detach all existing nominees
             $bond->nominee()->detach();
         }
 
