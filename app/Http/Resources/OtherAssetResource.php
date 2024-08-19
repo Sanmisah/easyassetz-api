@@ -24,6 +24,7 @@ class OtherAssetResource extends JsonResource
             'model'                  => $this->model,
             'registrationNumber'     => $this->registration_number,
             'yearOfManufacture'      => $this->year_of_manufacture,
+            'yearOfExpiry'           => $this->year_of_expiry,
             'location'               => $this->location,
             'hufName'                => $this->huf_name,
             'panNumber'              => $this->pan_number,

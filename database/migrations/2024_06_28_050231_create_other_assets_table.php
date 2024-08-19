@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('company')->nullable();
             $table->string('model')->nullable();
             $table->string('registration_number')->nullable();
-            $table->string('year_of_manufacture')->nullable();
+            $table->date('year_of_manufacture')->nullable();
+            $table->date('year_of_expiry')->nullable();
             $table->string('location')->nullable();
             $table->string('huf_name')->nullable();
             $table->string('pan_number')->nullable();

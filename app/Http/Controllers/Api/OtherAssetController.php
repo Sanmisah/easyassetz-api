@@ -82,6 +82,7 @@ class OtherAssetController extends BaseController
         $otherAsset->model = $request->input('model');
         $otherAsset->registration_number = $request->input('registrationNumber');
         $otherAsset->year_of_manufacture = $request->input('yearOfManufacture');
+        $otherAsset->year_of_expiry = $request->input('yearOfExpiry');
         $otherAsset->location = $request->input('location');
         $otherAsset->huf_name = $request->input('hufName');
         $otherAsset->pan_number = $request->input('panNumber');
@@ -214,6 +215,7 @@ class OtherAssetController extends BaseController
          $otherAsset->model = $request->input('model');
          $otherAsset->registration_number = $request->input('registrationNumber');
          $otherAsset->year_of_manufacture = $request->input('yearOfManufacture');
+         $otherAsset->year_of_expiry = $request->input('yearOfExpiry');
          $otherAsset->location = $request->input('location');
          $otherAsset->huf_name = $request->input('hufName');
          $otherAsset->pan_number = $request->input('panNumber');
