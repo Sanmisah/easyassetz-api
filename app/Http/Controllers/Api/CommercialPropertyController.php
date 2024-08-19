@@ -112,10 +112,16 @@ class CommercialPropertyController extends BaseController
         $commercialProperty->email = $request->input('email');
         $commercialProperty->save();
 
-        if($request->has('nominees')){
+         if($request->has('nominees')) {
             $nominee_id = $request->input('nominees');
-            $commercialProperty->nominee()->attach($nominee_id);
-        }
+            if(is_string($nominee_id)) {
+               $nominee_id = explode(',', $nominee_id);
+            }
+            if(is_array($nominee_id)) {
+               $nominee_id = array_map('intval', $nominee_id);
+               $commercialProperty->nominee()->attach($nominee_id);
+            }
+      }
 
         return $this->sendResponse(['CommercialProperty'=> new CommercialPropertyResource($commercialProperty)], 'Commercial Property details stored successfully');
     }
@@ -249,10 +255,13 @@ class CommercialPropertyController extends BaseController
           $commercialProperty->save();
 
           if($request->has('nominees')) {
-            $nominee_ids = $request->input('nominees');
-            $commercialProperty->nominee()->sync($nominee_ids);
-        }else {
-            $commercialProperty->nominee()->detach();
+            $nominee_id = is_string($request->input('nominees')) 
+            ? explode(',', $request->input('nominees')) 
+            : $request->input('nominees');
+            $nominee_id = array_map('intval', $nominee_id);
+            $commercialProperty->nominee()->sync($nominee_id);
+         }else {
+             $commercialProperty->nominee()->detach();
         }
        
         return $this->sendResponse(['CommercialProperty'=>new CommercialPropertyResource($commercialProperty)], 'Commercial Property details Updated successfully');

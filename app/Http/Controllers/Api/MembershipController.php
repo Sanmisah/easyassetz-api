@@ -61,20 +61,18 @@ class MembershipController extends BaseController
     //     $membership->nominee()->attach($nominee_id);
     // }
 
-    if ($request->has('nominees')) {
+    if($request->has('nominees')) {
         $nominee_id = $request->input('nominees');
-        if (is_string($nominee_id)) {
+        if(is_string($nominee_id)) {
             $nominee_id = explode(',', $nominee_id);
         }
-        if (is_array($nominee_id)) {
+        if(is_array($nominee_id)) {
             $nominee_id = array_map('intval', $nominee_id);
             $membership->nominee()->attach($nominee_id);
         }
     }
 
-
      return $this->sendResponse(['Membership'=> new MembershipResource($membership)], 'Membership details stored successfully');
-
     }
 
     /**
@@ -134,14 +132,14 @@ class MembershipController extends BaseController
          $membership->save();
          
 
-         if ($request->has('nominees')) {
+         if($request->has('nominees')) {
             $nominee_id = is_string($request->input('nominees')) 
             ? explode(',', $request->input('nominees')) 
             : $request->input('nominees');
-            $nominee_id = array_map('intval', $nominee_id);
+        $nominee_id = array_map('intval', $nominee_id);
             $membership->nominee()->sync($nominee_id);
-         } else {
-             $membership->nominee()->detach();
+        } else {
+            $membership->nominee()->detach();
         }
 
          return $this->sendResponse(['Membership' => new MembershipResource($membership)], 'Membership updated successfully');

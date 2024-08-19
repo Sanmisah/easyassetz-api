@@ -40,36 +40,6 @@ class BusinessAssetController extends BaseController
        return $this->sendResponse(['Propritership'=>BusinessAssetsResource::collection($propritership),'PartnershipFirm'=>BusinessAssetsResource::collection($partnershipFirm),'Company'=>BusinessAssetsResource::collection($company),'IntellectualProperty'=>BusinessAssetsResource::collection($intellectualProperty)], "Business Assets retrived successfully");
     }
 
-   //  public function propritership(): JsonResponse
-   //  {
-   //      $user = Auth::user();
-   //      $propritership = $user->profile->businessAsset()->where('type', 'propritorship')->get();
-   //      if(!$propritership){
-   //          $propritership =null;
-   //      }
-   //     return $this->sendResponse(['Propritership'=>BusinessAssetsResource::collection($propritership)], "Propritership retrived successfully");
-   //  }
-
-   //  public function partnershipFirm(): JsonResponse
-   //  {
-   //      $user = Auth::user();
-   //      $partnershipFirm = $user->profile->businessAsset()->where('type', 'partnershipFirm')->get();
-   //     return $this->sendResponse(['PartnershipFirm'=>BusinessAssetsResource::collection($partnershipFirm)], "Partnership Firm retrived successfully");
-   //  }
-
-   //  public function company(): JsonResponse
-   //  {
-   //      $user = Auth::user();
-   //      $company = $user->profile->businessAsset()->where('type', 'company')->get();
-   //     return $this->sendResponse(['Company'=>BusinessAssetsResource::collection($company)], "Company details retrived successfully");
-   //  }
-
-   //  public function intellectualProperty(): JsonResponse
-   //  {
-   //      $user = Auth::user();
-   //      $intellectualProperty = $user->profile->businessAsset()->where('type', 'intellectualProperty')->get();
-   //     return $this->sendResponse(['IntellectualProperty'=>BusinessAssetsResource::collection($intellectualProperty)], "Intellectual Property details retrived successfully");
-   //  }
 
     /**
      * Store a newly created resource in storage.
@@ -160,10 +130,21 @@ class BusinessAssetController extends BaseController
          $businessAsset->email = $request->input('email');
          $businessAsset->save();
         
-         if($request->has('nominees')){
-               $nominee_id = $request->input('nominees');
-               $businessAsset->nominee()->attach($nominee_id);
-         }
+         // if($request->has('nominees')){
+         //       $nominee_id = $request->input('nominees');
+         //       $businessAsset->nominee()->attach($nominee_id);
+         // }
+
+         if($request->has('nominees')) {
+            $nominee_id = $request->input('nominees');
+            if(is_string($nominee_id)) {
+                $nominee_id = explode(',', $nominee_id);
+            }
+            if(is_array($nominee_id)) {
+                $nominee_id = array_map('intval', $nominee_id);
+                $businessAsset->nominee()->attach($nominee_id);
+            }
+        }
 
         return $this->sendResponse(['BusinessAsset'=> new BusinessAssetsResource($businessAsset)], 'Business Asset details stored successfully');
 
@@ -282,12 +263,22 @@ class BusinessAssetController extends BaseController
         $businessAsset->email = $request->input('email');
         $businessAsset->save();
 
-        if($request->has('nominees')) {
-            $nominee_ids = $request->input('nominees');
-            $businessAsset->nominee()->sync($nominee_ids);
-        }else {
-            $businessAsset->nominee()->detach();
-        }
+      //   if($request->has('nominees')) {
+      //       $nominee_ids = $request->input('nominees');
+      //       $businessAsset->nominee()->sync($nominee_ids);
+      //   }else {
+      //       $businessAsset->nominee()->detach();
+      //   }
+
+      if($request->has('nominees')) {
+         $nominee_id = is_string($request->input('nominees')) 
+         ? explode(',', $request->input('nominees')) 
+         : $request->input('nominees');
+         $nominee_id = array_map('intval', $nominee_id);
+         $businessAsset->nominee()->sync($nominee_id);
+      }else {
+          $businessAsset->nominee()->detach();
+     }
 
          return $this->sendResponse(['BusinessAsset'=> new BusinessAssetsResource($businessAsset)], 'Business Asset details updated successfully');
          

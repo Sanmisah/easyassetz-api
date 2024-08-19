@@ -61,9 +61,15 @@ class CryptoController extends BaseController
         $crypto->email = $request->input('email');
         $crypto->save();
 
-        if($request->has('nominees')){
+        if($request->has('nominees')) {
             $nominee_id = $request->input('nominees');
-            $crypto->nominee()->attach($nominee_id);
+            if(is_string($nominee_id)) {
+                $nominee_id = explode(',', $nominee_id);
+            }
+            if(is_array($nominee_id)) {
+                $nominee_id = array_map('intval', $nominee_id);
+                $crypto->nominee()->attach($nominee_id);
+            }
         }
 
         return $this->sendResponse(['Crypto'=> new CryptoResource($crypto)], 'Crypto details stored successfully');
@@ -130,10 +136,13 @@ class CryptoController extends BaseController
          $crypto->save();
 
          if($request->has('nominees')) {
-            $nominee_ids = $request->input('nominees');
-            $crypto->nominee()->sync($nominee_ids);
-        }else {
-            $crypto->nominee()->detach();
+            $nominee_id = is_string($request->input('nominees')) 
+            ? explode(',', $request->input('nominees')) 
+            : $request->input('nominees');
+            $nominee_id = array_map('intval', $nominee_id);
+            $crypto->nominee()->sync($nominee_id);
+         }else {
+             $crypto->nominee()->detach();
         }
 
          return $this->sendResponse(['Crypto'=> new CryptoResource($crypto)], 'Crypto details updated successfully');

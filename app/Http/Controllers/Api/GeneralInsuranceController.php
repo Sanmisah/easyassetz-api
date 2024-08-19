@@ -62,9 +62,15 @@ class GeneralInsuranceController extends BaseController
          }
         $generalInsurance->save();
 
-        if($request->has('nominees')){
+        if($request->has('nominees')) {
             $nominee_id = $request->input('nominees');
-            $generalInsurance->nominee()->attach($nominee_id);
+            if(is_string($nominee_id)) {
+                $nominee_id = explode(',', $nominee_id);
+            }
+            if(is_array($nominee_id)) {
+                $nominee_id = array_map('intval', $nominee_id);
+                $generalInsurance->nominee()->attach($nominee_id);
+            }
         }
 
         return $this->sendResponse(['GeneralInsurance'=> new GeneralInsuranceResource($generalInsurance)],'General insurance details stored successfully');
@@ -136,9 +142,12 @@ class GeneralInsuranceController extends BaseController
          $generalInsurance->save();
 
          if($request->has('nominees')) {
-            $nominee_ids = $request->input('nominees');
-            $generalInsurance->nominee()->sync($nominee_ids);
-        }else {
+            $nominee_id = is_string($request->input('nominees')) 
+            ? explode(',', $request->input('nominees')) 
+            : $request->input('nominees');
+        $nominee_id = array_map('intval', $nominee_id);
+            $generalInsurance->nominee()->sync($nominee_id);
+        } else {
             $generalInsurance->nominee()->detach();
         }
 

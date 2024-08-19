@@ -34,16 +34,8 @@ class HomeLoanController extends BaseController
         $homeLoan->bank_name = $request->input('bankName');
         $homeLoan->loan_account_no = $request->input('loanAccountNo');
         $homeLoan->branch = $request->input('branch');
-        // $formatedDate = $request->input('emiDate');
-        // $carbonDate = Carbon::parse($formatedDate);
-        // $iso8601Date = $carbonDate->toIso8601String();
-        // $homeLoan->emi_date = $iso8601Date;
         $homeLoan->emi_date = $request->input('emiDate');
         $homeLoan->start_date = $request->input('startDate');
-        // $formatedDatestart = $request->input('startDate');
-        // $carbonDates = Carbon::parse($formatedDatestart);
-        // $iso8601Dates = $carbonDates->toIso8601String();
-        // $homeLoan->start_date = $iso8601Dates;
         $homeLoan->duration = $request->input('duration');
         $homeLoan->guarantor_name = $request->input('guarantorName');
         $homeLoan->guarantor_mobile = $request->input('guarantorMobile');

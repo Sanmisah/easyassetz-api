@@ -149,11 +149,13 @@ class LifeInsuranceController extends BaseController
          }
           $lifeInsurance->save();
 
-        if($request->has('nominees')) {
-            $nominee_ids = $request->input('nominees');
-            $lifeInsurance->nominee()->sync($nominee_ids);
-        }else {
-            // If no nominees selected, detach all existing nominees
+          if($request->has('nominees')) {
+            $nominee_id = is_string($request->input('nominees')) 
+            ? explode(',', $request->input('nominees')) 
+            : $request->input('nominees');
+             $nominee_id = array_map('intval', $nominee_id);
+            $lifeInsurance->nominee()->sync($nominee_id);
+        } else {
             $lifeInsurance->nominee()->detach();
         }
   

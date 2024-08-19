@@ -55,9 +55,15 @@ class NPSController extends BaseController
         $nps->email = $request->input('email');
         $nps->save();
 
-        if($request->has('nominees')){
+        if($request->has('nominees')) {
             $nominee_id = $request->input('nominees');
-            $nps->nominee()->attach($nominee_id);
+            if(is_string($nominee_id)) {
+                $nominee_id = explode(',', $nominee_id);
+            }
+            if(is_array($nominee_id)) {
+                $nominee_id = array_map('intval', $nominee_id);
+                $nps->nominee()->attach($nominee_id);
+            }
         }
 
         return $this->sendResponse(['NPS'=> new NPSResource($nps)], 'NPS details stored successfully');
@@ -121,9 +127,12 @@ class NPSController extends BaseController
           $nps->save();
 
           if($request->has('nominees')) {
-            $nominee_ids = $request->input('nominees');
-            $nps->nominee()->sync($nominee_ids);
-        }else {
+            $nominee_id = is_string($request->input('nominees')) 
+            ? explode(',', $request->input('nominees')) 
+            : $request->input('nominees');
+        $nominee_id = array_map('intval', $nominee_id);
+            $nps->nominee()->sync($nominee_id);
+        } else {
             $nps->nominee()->detach();
         }
 

@@ -145,9 +145,12 @@ class DebentureController extends BaseController
          $debenture->save();
  
          if($request->has('nominees')) {
-            $nominee_ids = $request->input('nominees');
-            $debenture->nominee()->sync($nominee_ids);
-        }else {
+            $nominee_id = is_string($request->input('nominees')) 
+            ? explode(',', $request->input('nominees')) 
+            : $request->input('nominees');
+        $nominee_id = array_map('intval', $nominee_id);
+            $debenture->nominee()->sync($nominee_id);
+        } else {
             $debenture->nominee()->detach();
         }
 

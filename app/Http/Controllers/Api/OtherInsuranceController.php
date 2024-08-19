@@ -64,9 +64,15 @@ class OtherInsuranceController extends BaseController
          }
         $otherInsurance->save();
 
-        if($request->has('nominees')){
+        if($request->has('nominees')) {
             $nominee_id = $request->input('nominees');
-            $otherInsurance->nominee()->attach($nominee_id);
+            if(is_string($nominee_id)) {
+                $nominee_id = explode(',', $nominee_id);
+            }
+            if(is_array($nominee_id)) {
+                $nominee_id = array_map('intval', $nominee_id);
+                $otherInsurance->nominee()->attach($nominee_id);
+            }
         }
 
         return $this->sendResponse(['OtherInsurance'=> new OtherInsuranceResource($otherInsurance)], 'other Insurance details stored successfully');
@@ -138,10 +144,12 @@ class OtherInsuranceController extends BaseController
          $otherInsurance->save();
 
          if($request->has('nominees')) {
-            $nominee_ids = $request->input('nominees');
-            $otherInsurance->nominee()->sync($nominee_ids);
-        }else {
-            // If no nominees selected, detach all existing nominees
+            $nominee_id = is_string($request->input('nominees')) 
+            ? explode(',', $request->input('nominees')) 
+            : $request->input('nominees');
+        $nominee_id = array_map('intval', $nominee_id);
+            $otherInsurance->nominee()->sync($nominee_id);
+        } else {
             $otherInsurance->nominee()->detach();
         }
   

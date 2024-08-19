@@ -62,15 +62,32 @@ class HealthInsuranceController extends BaseController
          }
         $healthInsurance->save();
 
-        if($request->has('nominees')){
+        if($request->has('nominees')) {
             $nominee_id = $request->input('nominees');
-            $healthInsurance->nominee()->attach($nominee_id);
+            if(is_string($nominee_id)) {
+                $nominee_id = explode(',', $nominee_id);
+            }
+            if(is_array($nominee_id)) {
+                $nominee_id = array_map('intval', $nominee_id);
+                $healthInsurance->nominee()->attach($nominee_id);
+            }
         }
 
-        if($request->has('familyMembers')){
+        if($request->has('familyMembers')) {
             $family_members_id = $request->input('familyMembers');
-            $healthInsurance->familyMember()->attach($family_members_id);
+            if(is_string($family_members_id)) {
+                $family_members_id = explode(',', $family_members_id);
+            }
+            if(is_array($family_members_id)) {
+                $family_members_id = array_map('intval', $family_members_id);
+                $healthInsurance->familyMember()->attach($family_members_id);
+            }
         }
+
+        // if($request->has('familyMembers')){
+        //     $family_members_id = $request->input('familyMembers');
+        //     $healthInsurance->familyMember()->attach($family_members_id);
+        // }
 
         return $this->sendResponse(['HealthInsurance'=> new HealthInsuranceResource($healthInsurance)], 'Health Insurance details stored successfully');
 
@@ -138,18 +155,32 @@ class HealthInsuranceController extends BaseController
             $healthInsurance->image = $healthFileNameToStore;
          }
          $healthInsurance->save();
-
+          
          if($request->has('nominees')) {
-            $nominee_ids = $request->input('nominees');
-            $healthInsurance->nominee()->sync($nominee_ids);
-        }else {
+            $nominee_id = is_string($request->input('nominees')) 
+            ? explode(',', $request->input('nominees')) 
+            : $request->input('nominees');
+            $nominee_id = array_map('intval', $nominee_id);
+            $healthInsurance->nominee()->sync($nominee_id);
+        } else {
             $healthInsurance->nominee()->detach();
         }
 
+
+        // if($request->has('familyMembers')) {
+        //     $family_members_id = $request->input('familyMembers');
+        //     $healthInsurance->familyMember()->sync($family_members_id);
+        // }else {
+        //     $healthInsurance->familyMember()->detach();
+        // }
+
         if($request->has('familyMembers')) {
-            $family_members_id = $request->input('familyMembers');
+            $family_members_id = is_string($request->input('familyMembers')) 
+            ? explode(',', $request->input('familyMembers')) 
+            : $request->input('familyMembers');
+            $family_members_id = array_map('intval', $family_members_id);
             $healthInsurance->familyMember()->sync($family_members_id);
-        }else {
+        } else {
             $healthInsurance->familyMember()->detach();
         }
 

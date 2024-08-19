@@ -55,9 +55,15 @@ class FixDepositeController extends BaseController
          } 
         $fixDeposit->save();
     
-        if($request->has('nominees')){
+        if($request->has('nominees')) {
             $nominee_id = $request->input('nominees');
-            $fixDeposit->nominee()->attach($nominee_id);
+            if(is_string($nominee_id)) {
+                $nominee_id = explode(',', $nominee_id);
+            }
+            if(is_array($nominee_id)) {
+                $nominee_id = array_map('intval', $nominee_id);
+                $fixDeposit->nominee()->attach($nominee_id);
+            }
         }
 
         return $this->sendResponse(['FixDeposite'=> new FixDepositeResource($fixDeposit)], 'Fix deposite details stored successfully');
@@ -121,10 +127,13 @@ class FixDepositeController extends BaseController
          $fixDeposit->save();
 
          if($request->has('nominees')) {
-            $nominee_ids = $request->input('nominees');
-            $fixDeposit->nominee()->sync($nominee_ids);
-        }else {
-            $fixDeposit->nominee()->detach();
+            $nominee_id = is_string($request->input('nominees')) 
+            ? explode(',', $request->input('nominees')) 
+            : $request->input('nominees');
+            $nominee_id = array_map('intval', $nominee_id);
+            $fixDeposit->nominee()->sync($nominee_id);
+         }else {
+             $fixDeposit->nominee()->detach();
         }
 
          return $this->sendResponse(['FixDeposite'=> new FixDepositeResource($fixDeposit)], 'Fix deposite details updated successfully');
@@ -155,4 +164,3 @@ class FixDepositeController extends BaseController
         return $this->sendResponse([], 'Fix deposite deleted successfully');
     }
 }
-

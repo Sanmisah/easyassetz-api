@@ -149,8 +149,6 @@ class MutualFundController extends BaseController
              $mutualFund->nominee()->detach();
         }
 
-
-
          return $this->sendResponse(['MutualFund'=> new MutualFundResource($mutualFund)], 'Mutual Fund details updated successfully');
 
     }

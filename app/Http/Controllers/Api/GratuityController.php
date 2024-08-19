@@ -54,9 +54,15 @@ class GratuityController extends BaseController
         $gratuity->email = $request->input('email');
         $gratuity->save();
 
-        if($request->has('nominees')){
+        if($request->has('nominees')) {
             $nominee_id = $request->input('nominees');
-            $gratuity->nominee()->attach($nominee_id);
+            if(is_string($nominee_id)) {
+                $nominee_id = explode(',', $nominee_id);
+            }
+            if(is_array($nominee_id)) {
+                $nominee_id = array_map('intval', $nominee_id);
+                $gratuity->nominee()->attach($nominee_id);
+            }
         }
 
         return $this->sendResponse(['Gratuity'=> new GratuityResource($gratuity)], 'Gratuity details stored successfully');
@@ -117,9 +123,12 @@ class GratuityController extends BaseController
           $gratuity->save();
   
           if($request->has('nominees')) {
-            $nominee_ids = $request->input('nominees');
-            $gratuity->nominee()->sync($nominee_ids);
-        }else {
+            $nominee_id = is_string($request->input('nominees')) 
+            ? explode(',', $request->input('nominees')) 
+            : $request->input('nominees');
+        $nominee_id = array_map('intval', $nominee_id);
+            $gratuity->nominee()->sync($nominee_id);
+        } else {
             $gratuity->nominee()->detach();
         }
 
