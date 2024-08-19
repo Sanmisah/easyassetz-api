@@ -13,5 +13,9 @@ class NPS extends Model
     public function nominee(){
         return $this->belongsToMany(Beneficiary::class,'n_p_s_nominee');
      }
+
+     public function jointHolder(){
+        return $this->belongsToMany(Beneficiary::class,'n_p_s_joint_holder');
+     }
      
 }

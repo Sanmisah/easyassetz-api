@@ -21,7 +21,7 @@ class NPSController extends BaseController
     public function index(): JsonResponse
     {
         $user = Auth::user();
-        $nps = $user->profile->nps()->with('nominee')->get();
+        $nps = $user->profile->nps()->with('nominee', 'jointHolder')->get();
     
         return $this->sendResponse(['NPS'=>NPSResource::collection($nps)], "NPS details retrived successfully");
     }
@@ -63,6 +63,17 @@ class NPSController extends BaseController
             if(is_array($nominee_id)) {
                 $nominee_id = array_map('intval', $nominee_id);
                 $nps->nominee()->attach($nominee_id);
+            }
+        }
+
+        if($request->has('jointHolders')) {
+            $joint_holder_id = $request->input('jointHolders');
+            if(is_string($joint_holder_id)) {
+                $joint_holder_id = explode(',', $joint_holder_id);
+            }
+            if(is_array($joint_holder_id)) {
+                $joint_holder_id = array_map('intval', $joint_holder_id);
+                $nps->jointHolder()->attach($joint_holder_id);
             }
         }
 
@@ -115,7 +126,7 @@ class NPSController extends BaseController
 
           $nps->permanent_retirement_account_no = $request->input('PRAN');
           $nps->nature_of_holding = $request->input('natureOfHolding');
-          $nps->joint_holder_name = $request->input('jointHolderName');
+          $nps->joint_holder_name = $request->input('jointHolderName');   //DELETE IT
           $nps->joint_holder_pan = $request->input('jointHolderPan');
           $nps->additional_details = $request->input('additionalDetails');
           if($request->hasFile('image')){
@@ -134,6 +145,16 @@ class NPSController extends BaseController
             $nps->nominee()->sync($nominee_id);
         } else {
             $nps->nominee()->detach();
+        }
+
+        if($request->has('jointHolders')) {
+            $joint_holder_id = is_string($request->input('jointHolders')) 
+            ? explode(',', $request->input('jointHolders')) 
+            : $request->input('jointHolders');
+        $joint_holder_id = array_map('intval', $joint_holder_id);
+            $nps->jointHolder()->sync($joint_holder_id);
+        } else {
+            $nps->jointHolder()->detach();
         }
 
          return $this->sendResponse(['NPS'=> new NPSResource($nps)], 'NPS details updated successfully');

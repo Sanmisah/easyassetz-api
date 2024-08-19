@@ -201,6 +201,10 @@ class Beneficiary extends Model
         return $this->belongsToMany(PublicProvidentFund::class, 'public_provident_fund_jh');
     }
 
+    public function npsJointHolder(){
+        return $this->belongsToMany(NPS::class, 'n_p_s_joint_holder');
+    }
+
 
     // new
     public function assets(){
