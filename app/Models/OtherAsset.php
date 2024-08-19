@@ -24,5 +24,34 @@ class OtherAsset extends Model
        }
     }    
 
+    public function setYearOfManufactureAttribute($value)
+    {
+       if($value){
+           $this->attributes['year_of_manufacture'] = Carbon::createFromFormat('m/d/Y', $value)->format('Y-m-d');
+       }
+    }
 
+    public function getYearOfManufactureAttribute($value)
+    {
+       if($value){
+           return Carbon::parse($value)->format('m/d/Y');
+       }
+    }    
+
+
+    public function setYearOfExpiryAttribute($value)
+    {
+       if($value){
+           $this->attributes['year_of_expiry'] = Carbon::createFromFormat('m/d/Y', $value)->format('Y-m-d');
+       }
+    }
+
+    public function getYearOfExpiryAttribute($value)
+    {
+       if($value){
+           return Carbon::parse($value)->format('m/d/Y');
+       }
+    }    
+
+    
 }
