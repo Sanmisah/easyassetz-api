@@ -89,6 +89,7 @@ class CommercialPropertyController extends BaseController
         $commercialProperty->first_holders_pan = $request->input('firstHoldersPan');
         $commercialProperty->joint_holders_name = $request->input('jointHoldersName');
         $commercialProperty->joint_holders_relation = $request->input('jointHoldersRelation');
+        $commercialProperty->joint_holders_aadhar = $request->input('jointHoldersAadhar');
         $commercialProperty->joint_holders_pan = $request->input('jointHoldersPan');
         $commercialProperty->any_loan_litigation = $request->input('anyLoanLitigation');
         if($request->hasFile('litigationFile')){
@@ -232,6 +233,7 @@ class CommercialPropertyController extends BaseController
           $commercialProperty->first_holders_pan = $request->input('firstHoldersPan');
           $commercialProperty->joint_holders_name = $request->input('jointHoldersName');
           $commercialProperty->joint_holders_relation = $request->input('jointHoldersRelation');
+          $commercialProperty->joint_holders_aadhar = $request->input('jointHoldersAadhar');
           $commercialProperty->joint_holders_pan = $request->input('jointHoldersPan');
           $commercialProperty->any_loan_litigation = $request->input('anyLoanLitigation');
           if($request->hasFile('litigationFile')){

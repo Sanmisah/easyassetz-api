@@ -34,6 +34,7 @@ class VehicleLoanController extends BaseController
      $vehicleLoan->profile_id = $user->profile->id;
      $vehicleLoan->bank_name = $request->input('bankName');  
      $vehicleLoan->loan_account_no = $request->input('loanAccountNo');
+     $vehicleLoan->branch = $request->input('branch');
      $vehicleLoan->emi_date = $request->input('emiDate');
      $vehicleLoan->start_date = $request->input('startDate');
      $vehicleLoan->duration = $request->input('duration');
@@ -81,6 +82,7 @@ class VehicleLoanController extends BaseController
 
          $vehicleLoan->bank_name = $request->input('bankName');
          $vehicleLoan->loan_account_no = $request->input('loanAccountNo');
+         $vehicleLoan->branch = $request->input('branch');
          $vehicleLoan->emi_date = $request->input('emiDate');
          $vehicleLoan->start_date = $request->input('startDate');
          $vehicleLoan->duration = $request->input('duration');

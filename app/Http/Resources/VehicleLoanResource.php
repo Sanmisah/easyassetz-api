@@ -18,6 +18,7 @@ class VehicleLoanResource extends JsonResource
             'id' => $this->id,
             'profileId' => $this->profile_id,
             'bankName' => $this->bank_name,
+            'branch' => $this->branch,
             'loanAccountNo' => $this->loan_account_no,
             'emiDate' => $this->emi_date,
             'startDate' => $this->start_date,

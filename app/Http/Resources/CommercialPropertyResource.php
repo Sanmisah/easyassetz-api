@@ -36,6 +36,7 @@ class CommercialPropertyResource extends JsonResource
             'firstHoldersPan' => $this->first_holders_pan,
             'jointHoldersName' => $this->joint_holders_name,
             'jointHoldersRelation' => $this->joint_holders_relation,
+            'jointHoldersAadhar' => $this->joint_holders_aadhar,
             'jointHoldersPan' => $this->joint_holders_pan,
             'anyLoanLitigation' => $this->any_loan_litigation,
             'litigationFile' => $this->litigation_file,
