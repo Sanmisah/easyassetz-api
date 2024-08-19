@@ -62,9 +62,20 @@ class DebentureController extends BaseController
         $debenture->email = $request->input('email');
         $debenture->save();
 
-        if($request->has('nominees')){
+        // if($request->has('nominees')){
+        //     $nominee_id = $request->input('nominees');
+        //     $debenture->nominee()->attach($nominee_id);
+        // }
+
+        if ($request->has('nominees')) {
             $nominee_id = $request->input('nominees');
-            $debenture->nominee()->attach($nominee_id);
+            if (is_string($nominee_id)) {
+                $nominee_id = explode(',', $nominee_id);
+            }
+            if (is_array($nominee_id)) {
+                $nominee_id = array_map('intval', $nominee_id);
+                $debenture->nominee()->attach($nominee_id);
+            }
         }
 
         return $this->sendResponse(['Debenture'=> new DebentureResource($debenture)], 'Debenture details stored successfully');

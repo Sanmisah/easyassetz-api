@@ -53,9 +53,20 @@ class WealthManagementAccountController extends BaseController
          }
         $wealthManagementAccount->save();
           
-        if($request->has('nominees')){
+        // if($request->has('nominees')){
+        //     $nominee_id = $request->input('nominees');
+        //     $wealthManagementAccount->nominee()->attach($nominee_id);
+        // }
+
+        if ($request->has('nominees')) {
             $nominee_id = $request->input('nominees');
-            $wealthManagementAccount->nominee()->attach($nominee_id);
+            if (is_string($nominee_id)) {
+                $nominee_id = explode(',', $nominee_id);
+            }
+            if (is_array($nominee_id)) {
+                $nominee_id = array_map('intval', $nominee_id);
+                $wealthManagementAccount->nominee()->attach($nominee_id);
+            }
         }
 
         return $this->sendResponse(['WealthManagementAccount'=> new WealthManagementAccountResource($wealthManagementAccount)], 'wealth management Account details stored successfully');
@@ -119,12 +130,24 @@ class WealthManagementAccountController extends BaseController
          }
           $wealthManagementAccount->save();
 
-          if($request->has('nominees')) {
-            $nominee_ids = $request->input('nominees');
-            $wealthManagementAccount->nominee()->sync($nominee_ids);
-        }else {
-            $wealthManagementAccount->nominee()->detach();
+        //   if($request->has('nominees')) {
+        //     $nominee_ids = $request->input('nominees');
+        //     $wealthManagementAccount->nominee()->sync($nominee_ids);
+        // }else {
+        //     $wealthManagementAccount->nominee()->detach();
+        // }
+
+        if ($request->has('nominees')) {
+            $nominee_id = is_string($request->input('nominees')) 
+            ? explode(',', $request->input('nominees')) 
+            : $request->input('nominees');
+            $nominee_id = array_map('intval', $nominee_id);
+            $wealthManagementAccount->nominee()->sync($nominee_id);
+         } else {
+             $wealthManagementAccount->nominee()->detach();
         }
+
+
          return $this->sendResponse(['WealthManagementAccount'=> new WealthManagementAccountResource($wealthManagementAccount)], 'Wealth Management Account details updated successfully');
 
     }

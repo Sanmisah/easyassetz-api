@@ -55,9 +55,20 @@ class BrokingAccountController extends BaseController
          } 
         $brokingAccount->save();
 
-        if($request->has('nominees')){
+        // if($request->has('nominees')){
+        //     $nominee_id = $request->input('nominees');
+        //     $brokingAccount->nominee()->attach($nominee_id);
+        // }
+
+        if ($request->has('nominees')) {
             $nominee_id = $request->input('nominees');
-            $brokingAccount->nominee()->attach($nominee_id);
+            if (is_string($nominee_id)) {
+                $nominee_id = explode(',', $nominee_id);
+            }
+            if (is_array($nominee_id)) {
+                $nominee_id = array_map('intval', $nominee_id);
+                $brokingAccount->nominee()->attach($nominee_id);
+            }
         }
 
         return $this->sendResponse(['BrokingAccount'=> new BrokingAccountResource($brokingAccount)], 'Broking Account details stored successfully');
@@ -122,11 +133,21 @@ class BrokingAccountController extends BaseController
            } 
           $brokingAccount->save();
 
-          if($request->has('nominees')) {
-            $nominee_ids = $request->input('nominees');
-            $brokingAccount->nominee()->sync($nominee_ids);
-        }else {
-            $brokingAccount->nominee()->detach();
+        //   if($request->has('nominees')) {
+        //     $nominee_ids = $request->input('nominees');
+        //     $brokingAccount->nominee()->sync($nominee_ids);
+        // }else {
+        //     $brokingAccount->nominee()->detach();
+        // }
+
+        if ($request->has('nominees')) {
+            $nominee_id = is_string($request->input('nominees')) 
+            ? explode(',', $request->input('nominees')) 
+            : $request->input('nominees');
+            $nominee_id = array_map('intval', $nominee_id);
+            $brokingAccount->nominee()->sync($nominee_id);
+         } else {
+             $brokingAccount->nominee()->detach();
         }
 
          return $this->sendResponse(['BrokingAccount'=> new BrokingAccountResource($brokingAccount)], 'Broking Account details updated successfully');

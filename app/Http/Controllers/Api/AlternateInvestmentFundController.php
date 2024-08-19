@@ -56,9 +56,20 @@ class AlternateInvestmentFundController extends BaseController
         $investmentFund->email = $request->input('email');
         $investmentFund->save();
 
-        if($request->has('nominees')){
+        // if($request->has('nominees')){
+        //     $nominee_id = $request->input('nominees');
+        //     $investmentFund->nominee()->attach($nominee_id);
+        // }
+
+        if ($request->has('nominees')) {
             $nominee_id = $request->input('nominees');
-            $investmentFund->nominee()->attach($nominee_id);
+            if (is_string($nominee_id)) {
+                $nominee_id = explode(',', $nominee_id);
+            }
+            if (is_array($nominee_id)) {
+                $nominee_id = array_map('intval', $nominee_id);
+                $investmentFund->nominee()->attach($nominee_id);
+            }
         }
 
 
@@ -124,11 +135,21 @@ class AlternateInvestmentFundController extends BaseController
          $investmentFund->email = $request->input('email');
          $investmentFund->save();
 
-         if($request->has('nominees')) {
-            $nominee_ids = $request->input('nominees');
-            $investmentFund->nominee()->sync($nominee_ids);
-        }else {
-            $investmentFund->nominee()->detach();
+        //  if($request->has('nominees')) {
+        //     $nominee_ids = $request->input('nominees');
+        //     $investmentFund->nominee()->sync($nominee_ids);
+        // }else {
+        //     $investmentFund->nominee()->detach();
+        // }
+
+        if ($request->has('nominees')) {
+            $nominee_id = is_string($request->input('nominees')) 
+            ? explode(',', $request->input('nominees')) 
+            : $request->input('nominees');
+            $nominee_id = array_map('intval', $nominee_id);
+            $investmentFund->nominee()->sync($nominee_id);
+         } else {
+             $investmentFund->nominee()->detach();
         }
 
          return $this->sendResponse(['InvestmentFund'=> new AlternateInvestmentFundResource($investmentFund)], 'alternate Investment Fund details updated successfully');

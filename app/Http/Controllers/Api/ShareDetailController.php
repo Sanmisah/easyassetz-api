@@ -58,10 +58,22 @@ class ShareDetailController extends BaseController
         $shareDetail->email = $request->input('email');
         $shareDetail->save();
 
-        if($request->has('nominees')){
+        // if($request->has('nominees')){
+        //     $nominee_id = $request->input('nominees');
+        //     $shareDetail->nominee()->attach($nominee_id);
+        // }
+
+        if ($request->has('nominees')) {
             $nominee_id = $request->input('nominees');
-            $shareDetail->nominee()->attach($nominee_id);
+            if (is_string($nominee_id)) {
+                $nominee_id = explode(',', $nominee_id);
+            }
+            if (is_array($nominee_id)) {
+                $nominee_id = array_map('intval', $nominee_id);
+                $shareDetail->nominee()->attach($nominee_id);
+            }
         }
+
         return $this->sendResponse(['ShareDetail'=> new ShareDetailResource($shareDetail)], 'Share details stored successfully');
 
     }
@@ -129,11 +141,21 @@ class ShareDetailController extends BaseController
          $shareDetail->email = $request->input('email');
          $shareDetail->save();
 
-         if($request->has('nominees')) {
-            $nominee_ids = $request->input('nominees');
-            $shareDetail->nominee()->sync($nominee_ids);
-        }else {
-            $shareDetail->nominee()->detach();
+        //  if($request->has('nominees')) {
+        //     $nominee_ids = $request->input('nominees');
+        //     $shareDetail->nominee()->sync($nominee_ids);
+        // }else {
+        //     $shareDetail->nominee()->detach();
+        // }
+
+        if ($request->has('nominees')) {
+            $nominee_id = is_string($request->input('nominees')) 
+            ? explode(',', $request->input('nominees')) 
+            : $request->input('nominees');
+            $nominee_id = array_map('intval', $nominee_id);
+            $shareDetail->nominee()->sync($nominee_id);
+         } else {
+             $shareDetail->nominee()->detach();
         }
 
          return $this->sendResponse(['ShareDetail'=> new ShareDetailResource($shareDetail)], 'Share details updated successfully');

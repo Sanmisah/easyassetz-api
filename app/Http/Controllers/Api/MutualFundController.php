@@ -56,10 +56,22 @@ class MutualFundController extends BaseController
         $mutualFund->email = $request->input('email');
         $mutualFund->save();
 
-        if($request->has('nominees')){
+        // if($request->has('nominees')){
+        //     $nominee_id = $request->input('nominees');
+        //     $mutualFund->nominee()->attach($nominee_id);
+        // }
+
+        if ($request->has('nominees')) {
             $nominee_id = $request->input('nominees');
-            $mutualFund->nominee()->attach($nominee_id);
+            if (is_string($nominee_id)) {
+                $nominee_id = explode(',', $nominee_id);
+            }
+            if (is_array($nominee_id)) {
+                $nominee_id = array_map('intval', $nominee_id);
+                $mutualFund->nominee()->attach($nominee_id);
+            }
         }
+
         return $this->sendResponse(['MutualFund'=> new MutualFundResource($mutualFund)], 'Mutual Fund details stored successfully');
     }
 
@@ -120,12 +132,24 @@ class MutualFundController extends BaseController
          $mutualFund->email = $request->input('email');
          $mutualFund->save();
 
-         if($request->has('nominees')) {
-            $nominee_ids = $request->input('nominees');
-            $mutualFund->nominee()->sync($nominee_ids);
-        }else {
-            $mutualFund->nominee()->detach();
+        //  if($request->has('nominees')) {
+        //     $nominee_ids = $request->input('nominees');
+        //     $mutualFund->nominee()->sync($nominee_ids);
+        // }else {
+        //     $mutualFund->nominee()->detach();
+        // }
+
+        if ($request->has('nominees')) {
+            $nominee_id = is_string($request->input('nominees')) 
+            ? explode(',', $request->input('nominees')) 
+            : $request->input('nominees');
+            $nominee_id = array_map('intval', $nominee_id);
+            $mutualFund->nominee()->sync($nominee_id);
+         } else {
+             $mutualFund->nominee()->detach();
         }
+
+
 
          return $this->sendResponse(['MutualFund'=> new MutualFundResource($mutualFund)], 'Mutual Fund details updated successfully');
 
