@@ -57,10 +57,17 @@ class PostSavingSchemeController extends BaseController
          $postSavingScheme->email = $request->input('email');
          $postSavingScheme->save();       
 
-         if($request->has('nominees')){
+         if($request->has('nominees')) {
             $nominee_id = $request->input('nominees');
-            $postSavingScheme->nominee()->attach($nominee_id);
+            if(is_string($nominee_id)) {
+                $nominee_id = explode(',', $nominee_id);
+            }
+            if(is_array($nominee_id)) {
+                $nominee_id = array_map('intval', $nominee_id);
+                $postSavingScheme->nominee()->attach($nominee_id);
+            }
         }
+    
         return $this->sendResponse(['PostSavingScheme'=> new PostSavingSchemeResource($postSavingScheme)], 'Post Saving Scheme details stored successfully');
     }
 
@@ -124,9 +131,12 @@ class PostSavingSchemeController extends BaseController
          $postSavingScheme->save();       
 
          if($request->has('nominees')) {
-            $nominee_ids = $request->input('nominees');
-            $postSavingScheme->nominee()->sync($nominee_ids);
-        }else {
+            $nominee_id = is_string($request->input('nominees')) 
+            ? explode(',', $request->input('nominees')) 
+            : $request->input('nominees');
+        $nominee_id = array_map('intval', $nominee_id);
+            $postSavingScheme->nominee()->sync($nominee_id);
+        } else {
             $postSavingScheme->nominee()->detach();
         }
        

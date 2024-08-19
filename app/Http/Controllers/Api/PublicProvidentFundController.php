@@ -53,15 +53,33 @@ class PublicProvidentFundController extends BaseController
         $pubilcProvidentFund->email = $request->input('email');
 
         $pubilcProvidentFund->save();
-        if($request->has('nominees')){
+
+        if($request->has('nominees')) {
             $nominee_id = $request->input('nominees');
-            $pubilcProvidentFund->nominee()->attach($nominee_id);
+            if(is_string($nominee_id)) {
+                $nominee_id = explode(',', $nominee_id);
+            }
+            if(is_array($nominee_id)) {
+                $nominee_id = array_map('intval', $nominee_id);
+                $pubilcProvidentFund->nominee()->attach($nominee_id);
+            }
         }
 
-        if($request->has('jointHolders')){
+        if($request->has('jointHolders')) {
             $joint_holder_id = $request->input('jointHolders');
-            $pubilcProvidentFund->jointHolder()->attach($joint_holder_id);
+            if(is_string($joint_holder_id)) {
+                $joint_holder_id = explode(',', $joint_holder_id);
+            }
+            if(is_array($joint_holder_id)) {
+                $joint_holder_id = array_map('intval', $joint_holder_id);
+                $pubilcProvidentFund->jointHolder()->attach($joint_holder_id);
+            }
         }
+
+        // if($request->has('jointHolders')){
+        //     $joint_holder_id = $request->input('jointHolders');
+        //     $pubilcProvidentFund->jointHolder()->attach($joint_holder_id);
+        // }
 
         return $this->sendResponse(['PublicProvidentFund'=> new PublicProvidentFundResource($pubilcProvidentFund)], 'Public Provident Fund details stored successfully');
 
@@ -127,18 +145,31 @@ class PublicProvidentFundController extends BaseController
          $pubilcProvidentFund->save();
 
          if($request->has('nominees')) {
-            $nominee_ids = $request->input('nominees');
-            $pubilcProvidentFund->nominee()->sync($nominee_ids);
-        }else {
+            $nominee_id = is_string($request->input('nominees')) 
+            ? explode(',', $request->input('nominees')) 
+            : $request->input('nominees');
+        $nominee_id = array_map('intval', $nominee_id);
+            $pubilcProvidentFund->nominee()->sync($nominee_id);
+        } else {
             $pubilcProvidentFund->nominee()->detach();
         }
 
         if($request->has('jointHolders')) {
-            $joint_holder_ids = $request->input('jointHolders');
+            $joint_holder_ids = is_string($request->input('jointHolders')) 
+            ? explode(',', $request->input('jointHolders')) 
+            : $request->input('jointHolders');
+        $joint_holder_ids = array_map('intval', $joint_holder_ids);
             $pubilcProvidentFund->jointHolder()->sync($joint_holder_ids);
-        }else {
+        } else {
             $pubilcProvidentFund->jointHolder()->detach();
         }
+
+        // if($request->has('jointHolders')) {
+        //     $joint_holder_ids = $request->input('jointHolders');
+        //     $pubilcProvidentFund->jointHolder()->sync($joint_holder_ids);
+        // }else {
+        //     $pubilcProvidentFund->jointHolder()->detach();
+        // }
 
          return $this->sendResponse(['PublicProvidentFund'=> new PublicProvidentFundResource($pubilcProvidentFund)], 'Public Provident Fund details updated successfully');
 

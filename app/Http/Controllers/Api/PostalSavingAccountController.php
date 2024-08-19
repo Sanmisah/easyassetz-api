@@ -53,10 +53,18 @@ class PostalSavingAccountController extends BaseController
          } 
         $postalSavingAccount->save();
 
-        if($request->has('nominees')){
-            $nominee_id = $request->input('nominees');
+       
+    if($request->has('nominees')) {
+        $nominee_id = $request->input('nominees');
+        if(is_string($nominee_id)) {
+            $nominee_id = explode(',', $nominee_id);
+        }
+        if(is_array($nominee_id)) {
+            $nominee_id = array_map('intval', $nominee_id);
             $postalSavingAccount->nominee()->attach($nominee_id);
         }
+    }
+
         return $this->sendResponse(['PostalSavingAccount'=> new PostalSavingAccountResource($postalSavingAccount)], 'Postal Saving Account details stored successfully');
 
     }
@@ -116,9 +124,12 @@ class PostalSavingAccountController extends BaseController
          $postalSavingAccount->save();
 
          if($request->has('nominees')) {
-            $nominee_ids = $request->input('nominees');
-            $postalSavingAccount->nominee()->sync($nominee_ids);
-        }else {
+            $nominee_id = is_string($request->input('nominees')) 
+            ? explode(',', $request->input('nominees')) 
+            : $request->input('nominees');
+        $nominee_id = array_map('intval', $nominee_id);
+            $postalSavingAccount->nominee()->sync($nominee_id);
+        } else {
             $postalSavingAccount->nominee()->detach();
         }
        

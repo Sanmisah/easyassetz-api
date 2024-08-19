@@ -54,9 +54,15 @@ class ProvidentFundController extends BaseController
         $providentFund->email = $request->input('email');
         $providentFund->save();
 
-        if($request->has('nominees')){
+        if($request->has('nominees')) {
             $nominee_id = $request->input('nominees');
-            $providentFund->nominee()->attach($nominee_id);
+            if(is_string($nominee_id)) {
+                $nominee_id = explode(',', $nominee_id);
+            }
+            if(is_array($nominee_id)) {
+                $nominee_id = array_map('intval', $nominee_id);
+                $providentFund->nominee()->attach($nominee_id);
+            }
         }
 
         return $this->sendResponse(['ProvidentFund'=> new ProvidentFundResource($providentFund)], 'Provident Fund details stored successfully');
@@ -118,10 +124,14 @@ class ProvidentFundController extends BaseController
           $providentFund->email = $request->input('email');
           $providentFund->save();
 
+         
           if($request->has('nominees')) {
-            $nominee_ids = $request->input('nominees');
-            $providentFund->nominee()->sync($nominee_ids);
-        }else {
+            $nominee_id = is_string($request->input('nominees')) 
+            ? explode(',', $request->input('nominees')) 
+            : $request->input('nominees');
+        $nominee_id = array_map('intval', $nominee_id);
+            $providentFund->nominee()->sync($nominee_id);
+        } else {
             $providentFund->nominee()->detach();
         }
 
