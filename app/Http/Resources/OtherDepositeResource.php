@@ -17,7 +17,6 @@ class OtherDepositeResource extends JsonResource
     {
         $nominees = BeneficiaryResource::collection($this->nominee);
 
-
         return [
             'id' => $this->id,
             'profileId' => $this->profile_id,
@@ -27,6 +26,7 @@ class OtherDepositeResource extends JsonResource
             'maturityDate' => $this->maturity_date,
             'maturityAmount' => $this->maturity_amount,
             'holdingType' => $this->holding_type,
+            'jointHolderName' => $this->joint_holder_name,
             'jointHolderPan' => $this->joint_holder_pan,
             'additionalDetails' => $this->additional_details,
             'image' => $this->image,

@@ -9,6 +9,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-bottom: 20px;
         }
         table, th, td {
             border: 1px solid black;
@@ -29,78 +30,46 @@
     <p>Phone: {{ $user->mobile }}</p>
     <p>Address: {{ $profile->permanent_address_line_1 }}</p>
 
-    <h2 style="text-align: center;">Motor Insurance</h2>
+    @foreach ($Assets as $assetType => $allocations)
+        <h2 style="text-align: center;">{{ ucfirst($assetType) }}</h2>
 
-    <h4 style="text-align: center;">Primary Beneficiary</h4>
-    <table>
-        <thead>
-            <tr>
-                <th>Company Name</th>
-                <th>Beneficiaries</th>
-                <th>Allocation</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse ($Assets['primaryAllocation'] as $asset)
-                <tr>
-                    <td>{{ $asset->motorInsurance->company_name }}</td>
-                    <td>{{ $asset->beneficiary->full_legal_name }}</td>
-                    <td>{{ $asset->allocation }}</td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="3">No primary allocations found.</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
-
-    <h4 style="text-align: center;">Secondary Beneficiary</h4>
-    <table>
-        <thead>
-            <tr>
-                <th>Company Name</th>
-                <th>Beneficiaries</th>
-                <th>Allocation</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse ($Assets['secondaryAllocation'] as $asset)
-                <tr>
-                    <td>{{ $asset->motorInsurance->company_name }}</td>
-                    <td>{{ $asset->beneficiary->full_legal_name }}</td>
-                    <td>{{ $asset->allocation }}</td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="3">No secondary allocations found.</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
-
-    <h4 style="text-align: center;">Tertiary Beneficiary</h4>
-    <table>
-        <thead>
-            <tr>
-                <th>Company Name</th>
-                <th>Beneficiaries</th>
-                <th>Allocation</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse ($Assets['tertiaryAllocation'] as $asset)
-                <tr>
-                    <td>{{ $asset->motorInsurance->company_name }}</td>
-                    <td>{{ $asset->beneficiary->full_legal_name }}</td>
-                    <td>{{ $asset->allocation }}</td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="3">No tertiary allocations found.</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
+        @foreach (['primaryAllocation' => 'Primary', 'secondaryAllocation' => 'Secondary', 'tertiaryAllocation' => 'Tertiary'] as $key => $level)
+            <h4 style="text-align: center;">{{ $level }} Beneficiary</h4>
+            <table>
+                <thead>
+                    <tr>
+                        @if (in_array($assetType, ['motorInsurance', 'lifeInsurance', 'healthInsurance', 'generalInsurance']))
+                            <th>Company Name</th>
+                        @elseif (in_array($assetType, ['bullion']))
+                            <th>Metal Type</th>
+                        @else
+                            <th>Asset Info</th>
+                        @endif
+                        <th>Beneficiaries</th>
+                        <th>Allocation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($allocations[$key] as $asset)
+                        <tr>
+                            @if (in_array($assetType, ['motorInsurance', 'lifeInsurance', 'generalInsurance', 'healthInsurance']))
+                                <td>{{ $asset->{$assetType}->company_name ?? 'N/A' }}</td>
+                            @elseif ($assetType === 'bullion')
+                                <td>{{ $asset->{$assetType}->metal_type ?? 'N/A' }}</td>
+                            @else
+                                <td>{{ $asset->{$assetType}->info ?? 'N/A' }}</td>
+                            @endif
+                            <td>{{ $asset->beneficiary->full_legal_name ?? 'N/A' }}</td>
+                            <td>{{ $asset->allocation ?? 'N/A' }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="3">No {{ strtolower($level) }} allocations found.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        @endforeach
+    @endforeach
 </body>
 </html>

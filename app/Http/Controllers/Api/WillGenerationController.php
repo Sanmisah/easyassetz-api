@@ -41,40 +41,30 @@ class WillGenerationController extends BaseController
 
     $willId = $profile->will->id;
 
-    $assets = AssetAllocation::with('beneficiary', 'motorInsurance', 'lifeInsurance',
-    'generalInsurance','otherInsurance','healthInsurance','bullion','membership',
-    'vehicleLoan','homeLoan','personalLoan','otherLoan','litigation','crypto',
-    'shareDetail','mutualFund','debenture','bond','dematAccount','wealthManagementAccount'
-    ,'brokingAccount','investmentFund','portfolioManagement','otherFinancialAsset',
-    'bankAccount','fixDeposite','otherAsset','bankLocker','postalSavingAccount',
-    'postSavingScheme','otherDeposite','land','publicProvidentFund','providentFund',
-    'nps','gratuity','residentialProperty','superAnnuation','commercialProperty',
-    'digitalAsset','esop','vehicleLoan')
-         ->where('will_id', $willId)
+    // Load all asset types with their related models
+    $assets = AssetAllocation::with('beneficiary', 'motorInsurance', 'lifeInsurance', 'generalInsurance', 'otherInsurance', 'healthInsurance', 'bullion', 'membership', 'vehicleLoan', 'homeLoan', 'personalLoan', 'otherLoan', 'litigation', 'crypto', 'shareDetail', 'mutualFund', 'debenture', 'bond', 'dematAccount', 'wealthManagementAccount', 'brokingAccount', 'investmentFund', 'portfolioManagement', 'otherFinancialAsset', 'bankAccount', 'fixDeposite', 'otherAsset', 'bankLocker', 'postalSavingAccount', 'postSavingScheme', 'otherDeposite', 'land', 'publicProvidentFund', 'providentFund', 'nps', 'gratuity', 'residentialProperty', 'superAnnuation', 'commercialProperty', 'digitalAsset', 'esop')
+        ->where('will_id', $willId)
         ->orderBy('asset_type')
         ->orderBy('asset_id')
         ->orderBy('Level')
         ->get();
 
-    $primaryAllocation = $secondaryAllocation = $tertiaryAllocation = collect();
+    // Group assets by type and then by level
+    $groupedAssets = $assets->groupBy('asset_type');
 
-    foreach ($assets as $asset) {
-        if ($asset->asset_type === "motorInsurance") {
-            if ($asset->level === 'Primary') {
-                $primaryAllocation->push($asset);
-            } elseif ($asset->level === 'Secondary') {
-                $secondaryAllocation->push($asset);
-            } elseif ($asset->level === 'Tertiary') {
-                $tertiaryAllocation->push($asset);
-            }
-        }
+    $Data = [];
+
+    foreach ($groupedAssets as $assetType => $assetsOfType) {
+        $primaryAllocation = $assetsOfType->filter(fn($asset) => $asset->level === 'Primary');
+        $secondaryAllocation = $assetsOfType->filter(fn($asset) => $asset->level === 'Secondary');
+        $tertiaryAllocation = $assetsOfType->filter(fn($asset) => $asset->level === 'Tertiary');
+
+        $Data[$assetType] = [
+            'primaryAllocation' => $primaryAllocation,
+            'secondaryAllocation' => $secondaryAllocation,
+            'tertiaryAllocation' => $tertiaryAllocation,
+        ];
     }
-
-    $Data = [
-        'primaryAllocation' => $primaryAllocation,
-        'secondaryAllocation' => $secondaryAllocation,
-        'tertiaryAllocation' => $tertiaryAllocation,
-    ];
 
     $print = [
         'user' => $user,
@@ -99,8 +89,10 @@ class WillGenerationController extends BaseController
 
     // Output the PDF for download
     return $mpdf->Output('will.pdf', 'D'); // Download the PDF
-    // return $Data;
 }
+
+    
+
 
 
     // public function generateWill()

@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\BeneficiaryResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PostSavingSchemeResource extends JsonResource
@@ -14,6 +15,8 @@ class PostSavingSchemeResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $nominees = BeneficiaryResource::collection($this->nominee);
+
         return [
             'id' => $this->id,
             'profileId' => $this->profile_id,
@@ -22,6 +25,7 @@ class PostSavingSchemeResource extends JsonResource
             'maturityDate' => $this->maturity_date,
             'amount' => $this->amount,
             'holdingType' => $this->holding_type,
+            'jointHolderName' => $this->joint_holder_name,
             'jointHoldersPan' => $this->joint_holders_pan,
             'additionalDetails' => $this->additional_details,
             'image' => $this->image,
@@ -30,6 +34,7 @@ class PostSavingSchemeResource extends JsonResource
             'email' => $this->email,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
+            'nominees' => $nominees,
         ];
     
     }
