@@ -28,68 +28,76 @@ class WillGenerationController extends BaseController
 
 
     public function generateWill()
-{
-    $user = auth()->user();
-    if (!$user) {
-        return response()->json(['error' => 'User not authenticated'], 401);
-    }
-
-    $profile = $user->profile;
-    if (!$profile || !$profile->will) {
-        return response()->json(['error' => 'Profile or will not found'], 404);
-    }
-
-    $willId = $profile->will->id;
-
-    // Load all asset types with their related models
-    $assets = AssetAllocation::with('beneficiary', 'motorInsurance', 'lifeInsurance', 'generalInsurance', 'otherInsurance', 'healthInsurance', 'bullion', 'membership', 'vehicleLoan', 'homeLoan', 'personalLoan', 'otherLoan', 'litigation', 'crypto', 'shareDetail', 'mutualFund', 'debenture', 'bond', 'dematAccount', 'wealthManagementAccount', 'brokingAccount', 'investmentFund', 'portfolioManagement', 'otherFinancialAsset', 'bankAccount', 'fixDeposite', 'otherAsset', 'bankLocker', 'postalSavingAccount', 'postSavingScheme', 'otherDeposite', 'land', 'publicProvidentFund', 'providentFund', 'nps', 'gratuity', 'residentialProperty', 'superAnnuation', 'commercialProperty', 'digitalAsset', 'esop')
-        ->where('will_id', $willId)
-        ->orderBy('asset_type')
-        ->orderBy('asset_id')
-        ->orderBy('Level')
-        ->get();
-
-    // Group assets by type and then by level
-    $groupedAssets = $assets->groupBy('asset_type');
-
-    $Data = [];
-
-    foreach ($groupedAssets as $assetType => $assetsOfType) {
-        $primaryAllocation = $assetsOfType->filter(fn($asset) => $asset->level === 'Primary');
-        $secondaryAllocation = $assetsOfType->filter(fn($asset) => $asset->level === 'Secondary');
-        $tertiaryAllocation = $assetsOfType->filter(fn($asset) => $asset->level === 'Tertiary');
-
-        $Data[$assetType] = [
-            'primaryAllocation' => $primaryAllocation,
-            'secondaryAllocation' => $secondaryAllocation,
-            'tertiaryAllocation' => $tertiaryAllocation,
+    {
+        $user = auth()->user();
+        if (!$user) {
+            return response()->json(['error' => 'User not authenticated'], 401);
+        }
+    
+        $profile = $user->profile;
+        if (!$profile || !$profile->will) {
+            return response()->json(['error' => 'Profile or will not found'], 404);
+        }
+    
+        $willId = $profile->will->id;
+    
+        // Load all asset types with their related models
+        $assets = AssetAllocation::with('beneficiary', 'motorInsurance', 'lifeInsurance', 'generalInsurance', 'otherInsurance', 'healthInsurance', 'bullion', 'membership', 'vehicleLoan', 'homeLoan', 'personalLoan', 'otherLoan', 'litigation', 'crypto', 'shareDetail', 'mutualFund', 'debenture', 'bond', 'dematAccount', 'wealthManagementAccount', 'brokingAccount', 'investmentFund', 'portfolioManagement', 'otherFinancialAsset', 'bankAccount', 'fixDeposite', 'otherAsset', 'bankLocker', 'postalSavingAccount', 'postSavingScheme', 'otherDeposite', 'land', 'publicProvidentFund', 'providentFund', 'nps', 'gratuity', 'residentialProperty', 'superAnnuation', 'commercialProperty', 'digitalAsset', 'esop')
+            ->where('will_id', $willId)
+            ->orderBy('asset_type')
+            ->orderBy('asset_id')
+            ->orderBy('Level')
+            ->get();
+    
+        // Group assets by type
+        $groupedAssets = $assets->groupBy('asset_type');
+    
+        $Data = [];
+    
+        foreach ($groupedAssets as $assetType => $assetsOfType) {
+            // Get unique asset IDs for this asset type
+            $uniqueAssetIds = $assetsOfType->pluck('asset_id')->unique();
+    
+            foreach ($uniqueAssetIds as $assetId) {
+                $primaryAllocation = $assetsOfType->filter(fn($asset) => $asset->level === 'Primary' && $asset->asset_id === $assetId);
+                $secondaryAllocation = $assetsOfType->filter(fn($asset) => $asset->level === 'Secondary' && $asset->asset_id === $assetId);
+                $tertiaryAllocation = $assetsOfType->filter(fn($asset) => $asset->level === 'Tertiary' && $asset->asset_id === $assetId);
+    
+                // Store the allocations grouped by asset ID
+                $Data[$assetType][$assetId] = [
+                    'primaryAllocation' => $primaryAllocation,
+                    'secondaryAllocation' => $secondaryAllocation,
+                    'tertiaryAllocation' => $tertiaryAllocation,
+                ];
+            }
+        }
+    
+        $print = [
+            'user' => $user,
+            'profile' => $profile,
+            'Assets' => $Data,
         ];
+    
+        // Render the Blade view to HTML
+        $html = view('will.will', $print)->render();
+    
+        // Create a new mPDF instance
+        $mpdf = new \Mpdf\Mpdf();
+    
+        // Write HTML to the PDF
+        $mpdf->WriteHTML($html);
+    
+        // Define the file path for saving the PDF
+        $filePath = 'public/will/will' . time() . '.pdf'; // Store in 'storage/app/invoices'
+    
+        // Save PDF to storage
+        Storage::put($filePath, $mpdf->Output('', 'S')); // Output as string and save to storage
+    
+        // Output the PDF for download
+        return $mpdf->Output('will.pdf', 'D'); // Download the PDF
     }
-
-    $print = [
-        'user' => $user,
-        'profile' => $profile,
-        'Assets' => $Data,
-    ];
-
-    // Render the Blade view to HTML
-    $html = view('will.will', $print)->render();
-
-    // Create a new mPDF instance
-    $mpdf = new \Mpdf\Mpdf();
-
-    // Write HTML to the PDF
-    $mpdf->WriteHTML($html);
-
-    // Define the file path for saving the PDF
-    $filePath = 'public/will/will' . time() . '.pdf'; // Store in 'storage/app/invoices'
-
-    // Save PDF to storage
-    Storage::put($filePath, $mpdf->Output('', 'S')); // Output as string and save to storage
-
-    // Output the PDF for download
-    return $mpdf->Output('will.pdf', 'D'); // Download the PDF
-}
+    
+    
 
     
 
