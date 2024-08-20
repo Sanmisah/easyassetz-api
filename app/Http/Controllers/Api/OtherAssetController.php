@@ -237,6 +237,8 @@ class OtherAssetController extends BaseController
          $otherAsset->asset_description = $request->input('assetDescription');
          $otherAsset->name_of_borrower = $request->input('nameOfBorrower');
          $otherAsset->address = $request->input('address');
+         $otherAsset->cheque_number = $request->input('chequeNumber');
+         $otherAsset->cheque_issuing_bank = $request->input('chequeIssuingBank');
          $otherAsset->contact_number = $request->input('contactNumber');
          $otherAsset->mode_of_loan = $request->input('modeOfLoan');
          $otherAsset->amount = $request->input('amount');

@@ -45,7 +45,7 @@ class FixDepositeController extends BaseController
         $fixDeposit->bank_name = $request->input('bankName');
         $fixDeposit->branch_name = $request->input('branchName');
         $fixDeposit->maturity_date = $request->input('maturityDate');
-        $fixDeposit->maturity_ammount = $request->input('maturityAmmount');
+        $fixDeposit->maturity_ammount = $request->input('maturityAmount');
         $fixDeposit->holding_type = $request->input('holdingType');
         $fixDeposit->joint_holder_name = $request->input('jointHolderName');
         $fixDeposit->joint_holder_pan = $request->input('jointHolderPan');
@@ -116,7 +116,7 @@ class FixDepositeController extends BaseController
          $fixDeposit->bank_name = $request->input('bankName');
          $fixDeposit->branch_name = $request->input('branchName');
          $fixDeposit->maturity_date = $request->input('maturityDate');
-         $fixDeposit->maturity_ammount = $request->input('maturityAmmount');
+         $fixDeposit->maturity_ammount = $request->input('maturityAmount');
          $fixDeposit->holding_type = $request->input('holdingType');
          $fixDeposit->joint_holder_name = $request->input('jointHolderName');
          $fixDeposit->joint_holder_pan = $request->input('jointHolderPan');
