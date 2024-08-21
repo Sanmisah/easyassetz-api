@@ -6,6 +6,8 @@ use Log;
 use File;
 use Response;
 use Mpdf\Mpdf;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Barryvdh\DomPDF\PDF;
 use App\Models\Beneficiary;
 use Illuminate\Http\Request;
@@ -77,26 +79,53 @@ class WillGenerationController extends BaseController
             'profile' => $profile,
             'Assets' => $Data,
         ];
+
+           // Render the Blade view to HTML
+    $html = view('will.will', $print)->render();
+
+    // Create a new Dompdf instance
+    $options = new Options();
+    $options->set('defaultFont', 'Arial');
+    $dompdf = new Dompdf($options);
+
+    // Load HTML content into Dompdf
+    $dompdf->loadHtml($html);
+
+    // Set paper size and orientation
+    $dompdf->setPaper('A4', 'portrait');
+
+    // Render the HTML as PDF
+    $dompdf->render();
+
+    // Define the file path for saving the PDF
+    $filePath = 'public/will/will' . time() . '.pdf'; // Store in 'storage/app/will'
+
+    // Save PDF to storage
+    Storage::put($filePath, $dompdf->output()); // Save the output to storage
+
+    // Output the PDF for download
+    return $dompdf->stream('will.pdf', ['Attachment' => 1]);
     
-        // Render the Blade view to HTML
-        $html = view('will.will', $print)->render();
+    //start
+        // // Render the Blade view to HTML
+        // $html = view('will.will', $print)->render();
     
-        // Create a new mPDF instance
-        $mpdf = new \Mpdf\Mpdf();
+        // // Create a new mPDF instance
+        // $mpdf = new \Mpdf\Mpdf();
     
-        // Write HTML to the PDF
-        $mpdf->WriteHTML($html);
+        // // Write HTML to the PDF
+        // $mpdf->WriteHTML($html);
     
-        // Define the file path for saving the PDF
-        $filePath = 'public/will/will' . time() . '.pdf'; // Store in 'storage/app/invoices'
+        // // Define the file path for saving the PDF
+        // $filePath = 'public/will/will' . time() . '.pdf'; // Store in 'storage/app/invoices'
     
-        // Save PDF to storage
-        Storage::put($filePath, $mpdf->Output('', 'S')); // Output as string and save to storage
+        // // Save PDF to storage
+        // Storage::put($filePath, $mpdf->Output('', 'S')); // Output as string and save to storage
     
-        // Output the PDF for download
-        return $mpdf->Output('will.pdf', 'D'); // Download the PDF
+        // // Output the PDF for download
+        // return $mpdf->Output('will.pdf', 'D'); // Download the PDF
+        //end
     }
-    
     
 
     
