@@ -103,47 +103,95 @@ class WillGenerationController extends BaseController
     // Save PDF to storage
     Storage::put($filePath, $dompdf->output()); // Save the output to storage
 
-    if (!Storage::exists($filePath)) {
-        return response()->json(['error' => 'Failed to save PDF'], 500);
-    }
+    // if (!Storage::exists($filePath)) {
+    //     return response()->json(['error' => 'Failed to save PDF'], 500);
+    // }
 
-    // Output the PDF for download
-    return response()->stream(
-        function () use ($dompdf) {
-            echo $dompdf->output();
-        },
-        200,
-        [
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="will.pdf"',
-        ]
-    );
+    // // Output the PDF for download
+    // return response()->stream(
+    //     function () use ($dompdf) {
+    //         echo $dompdf->output();
+    //     },
+    //     200,
+    //     [
+    //         'Content-Type' => 'application/pdf',
+    //         'Content-Disposition' => 'attachment; filename="will.pdf"',
+    //     ]
+    // );
+
+
     
-    //start
-        // // Render the Blade view to HTML
-        // $html = view('will.will', $print)->render();
     
-        // // Create a new mPDF instance
-        // $mpdf = new \Mpdf\Mpdf();
+    $path = storage_path('app/' . $filePath);
+
+        
+        // Get file content and MIME type
+        $fileName = basename($path);
+
+    return response()->json(['success' => 'Will generated successfully', 'fileName'=>$fileName], 200);
     
-        // // Write HTML to the PDF
-        // $mpdf->WriteHTML($html);
-    
-        // // Define the file path for saving the PDF
-        // $filePath = 'public/will/will' . time() . '.pdf'; // Store in 'storage/app/invoices'
-    
-        // // Save PDF to storage
-        // Storage::put($filePath, $mpdf->Output('', 'S')); // Output as string and save to storage
-    
-        // // Output the PDF for download
-        // return $mpdf->Output('will.pdf', 'D'); // Download the PDF
-        //end
     }
     
 
     
 
+    
 
+
+    public function showPdf(string $files){
+            $decodedFilename = urldecode($files);
+            
+            // Construct the full path
+            $path = storage_path('app/' . $decodedFilename);
+            
+            // Check if the file exists
+            if (!File::exists($path)) {
+                abort(404);
+            }
+            
+            // Get file content and MIME type
+            $fileName = basename($path);
+            $file = File::get($path);
+            $type = File::mimeType($path);
+            
+            // Create the response with headers
+            $response = Response::make($file, 200);
+            $response->header("Content-Type", $type);
+            $response->header('Content-Disposition', 'inline; filename="' . $fileName . '"');
+            
+            return $response;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
     // public function generateWill()
     // {

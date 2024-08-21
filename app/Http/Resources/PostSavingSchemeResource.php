@@ -26,7 +26,7 @@ class PostSavingSchemeResource extends JsonResource
             'amount' => $this->amount,
             'holdingType' => $this->holding_type,
             'jointHolderName' => $this->joint_holder_name,
-            'jointHoldersPan' => $this->joint_holders_pan,
+            'jointHolderPan' => $this->joint_holder_pan,
             'additionalDetails' => $this->additional_details,
             'image' => $this->image,
             'name' => $this->name,

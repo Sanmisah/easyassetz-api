@@ -120,6 +120,7 @@ Route::group(['middleware'=>['auth:sanctum', 'request.null']], function(){
     Route::get('/generate-will', [WillGenerationController::class,'generateWill']);
 });
 Route::get('/file/{files}', [ProfileController::class, 'showFiles'])->where('files', '.*');
+// Route::get('/p/{files}', [ProfileController::class, 'showFiles'])->where('files', '.*');
 
 // Route::get('/generate-will', [WillGenerationController::class,'generateWill']);
 

@@ -251,7 +251,7 @@ class ProfileController extends BaseController
     'app/public/ResidentialProperty/LitigationFiles/',
     'app/public/ShareDetail/',
     'app/public/SuperAnnuation/',
-
+    'app/public/will/',
 ];
 
     foreach($location as $loc){
