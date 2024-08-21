@@ -60,7 +60,7 @@ use App\Http\Controllers\Api\WealthManagementAccountController;
 
 Route::group(['middleware'=>['auth.guest']], function(){
     Route::post('/register', [UserController::class, 'register']);
-    Route::post('/login', [UserController::class, 'login']);
+    Route::post('/login', [UserController::class, 'login'])->name('login');
     Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
     Route::post('password/reset', [ForgotPasswordController::class, 'reset'])->name('password.reset');
 
@@ -120,6 +120,7 @@ Route::group(['middleware'=>['auth:sanctum', 'request.null']], function(){
     Route::get('/generate-will', [WillGenerationController::class,'generateWill']);
 });
 Route::get('/file/{files}', [ProfileController::class, 'showFiles'])->where('files', '.*');
+
 // Route::get('/generate-will', [WillGenerationController::class,'generateWill']);
 
 // Route::get('/file/{files}', [ProfileController::class, 'showFiles'])->where('files', '.*');
