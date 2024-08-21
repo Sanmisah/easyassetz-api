@@ -29,6 +29,7 @@ class WillGenerationController extends BaseController
 
 
 
+
     public function generateWill()
     {
         $user = auth()->user();
@@ -138,29 +139,29 @@ class WillGenerationController extends BaseController
     
 
 
-    public function showPdf(string $files){
-            $decodedFilename = urldecode($files);
+    // public function showPdf(string $files){
+    //         $decodedFilename = urldecode($files);
             
-            // Construct the full path
-            $path = storage_path('app/' . $decodedFilename);
+    //         // Construct the full path
+    //         $path = storage_path('app/' . $decodedFilename);
             
-            // Check if the file exists
-            if (!File::exists($path)) {
-                abort(404);
-            }
+    //         // Check if the file exists
+    //         if (!File::exists($path)) {
+    //             abort(404);
+    //         }
             
-            // Get file content and MIME type
-            $fileName = basename($path);
-            $file = File::get($path);
-            $type = File::mimeType($path);
+    //         // Get file content and MIME type
+    //         $fileName = basename($path);
+    //         $file = File::get($path);
+    //         $type = File::mimeType($path);
             
-            // Create the response with headers
-            $response = Response::make($file, 200);
-            $response->header("Content-Type", $type);
-            $response->header('Content-Disposition', 'inline; filename="' . $fileName . '"');
+    //         // Create the response with headers
+    //         $response = Response::make($file, 200);
+    //         $response->header("Content-Type", $type);
+    //         $response->header('Content-Disposition', 'inline; filename="' . $fileName . '"');
             
-            return $response;
-        }
+    //         return $response;
+    //     }
 
 
 

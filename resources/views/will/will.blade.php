@@ -31,11 +31,9 @@
     <p>Address: {{ $profile->permanent_address_line_1 }}</p>
 
     @foreach ($Assets as $assetType => $allocationsById)
-        {{-- <h2 style="text-align: center;">{{ ucfirst($assetType) }}</h2> --}}
-        <h2 style="text-align: center; margin-top: 50px;">
+        <h2 style=" margin-top: 50px;">
             {{ ucwords(str_replace('_', ' ', preg_replace('/(?<!^)([A-Z])/', ' $1', $assetType))) }}
         </h2>
-        
 
         @foreach ($allocationsById as $assetId => $allocations)
             {{-- Get the asset name based on asset type --}}
@@ -160,58 +158,59 @@
                 }
             @endphp
 
-            <h3 style="text-align: center;">{{ $assetName }}</h3>
+            <h3>{{ $assetName }}</h3>
             
-            @foreach (['primaryAllocation' => 'Primary', 'secondaryAllocation' => 'Secondary', 'tertiaryAllocation' => 'Tertiary'] as $key => $level)
-                <h4 style="text-align: center;">{{ $level }} Beneficiary</h4>
-                <table>
-                    <thead>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Beneficiaries</th>
+                        <th>Allocation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{-- Primary Allocation --}}
+                    @if (count($allocations['primaryAllocation']) > 0)
                         <tr>
-                            {{-- @if (in_array($assetType, ['motorInsurance', 'lifeInsurance', 'healthInsurance', 'generalInsurance','shareDetail']))
-                                <th>Company Name</th>
-                            @elseif (in_array($assetType, ['bullion']))
-                                <th>Metal Type</th>
-                            @elseif (in_array($assetType, ['membership']))
-                                <th>Organization Name</th>
-                            @elseif (in_array($assetType, ['mutualFund']))
-                                <th>Fund Name</th>
-                            @elseif (in_array($assetType, ['debenture']))
-                                <th>bank service provider</th>
-                            @else
-                                <th>Asset Info</th>
-                            @endif --}}
-                            <th>Beneficiaries</th>
-                            <th>Allocation</th>
+                            <th colspan="2">Primary Beneficiaries</th>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($allocations[$key] as $asset)
+                        @foreach ($allocations['primaryAllocation'] as $asset)
                             <tr>
-                                {{-- @if (in_array($assetType, ['motorInsurance', 'lifeInsurance', 'generalInsurance', 'healthInsurance','shareDetail']))
-                                    <td>{{ $asset->{$assetType}->company_name ?? 'N/A' }}</td>
-                                @elseif ($assetType === 'bullion')
-                                    <td>{{ $asset->{$assetType}->metal_type ?? 'N/A' }}</td>
-                                @elseif ($assetType === 'membership')
-                                    <td>{{ $asset->{$assetType}->organization_name ?? 'N/A' }}</td>
-                                @elseif ($assetType === 'mutualFund')
-                                    <td>{{ $asset->{$assetType}->fund_name ?? 'N/A' }}</td>
-                                @elseif ($assetType === 'debenture')
-                                    <td>{{ $asset->{$assetType}->bank_service_provider ?? 'N/A' }}</td>
-                                @else
-                                    <td>{{ $asset->{$assetType}->info ?? 'N/A' }}</td>
-                                @endif --}}
                                 <td>{{ $asset->beneficiary->full_legal_name ?? 'N/A' }}</td>
-                                <td>{{ $asset->allocation ?? 'N/A' }}</td>
+                                <td>{{ $asset->allocation ?? 'N/A' }}%</td>
+
                             </tr>
-                        @empty
+                        @endforeach
+                    @endif
+
+                    {{-- Secondary Allocation --}}
+                    @if (count($allocations['secondaryAllocation']) > 0)
+                        <tr>
+                            <th colspan="2">Secondary Beneficiaries</th>
+                        </tr>
+                        @foreach ($allocations['secondaryAllocation'] as $asset)
                             <tr>
-                                <td colspan="2">No {{ strtolower($level) }} allocations found.</td>
+                                <td>{{ $asset->beneficiary->full_legal_name ?? 'N/A' }}</td>
+                                <td>{{ $asset->allocation ?? 'N/A' }}%</td>
                             </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            @endforeach
+                        @endforeach
+                    @endif
+
+                    {{-- Tertiary Allocation --}}
+                    @if (count($allocations['tertiaryAllocation']) > 0)
+                        <tr>
+                            <th colspan="2">Tertiary Beneficiaries</th>
+                        </tr>
+                        @foreach ($allocations['tertiaryAllocation'] as $asset)
+                            <tr>
+                                <td>{{ $asset->beneficiary->full_legal_name ?? 'N/A' }}</td>
+                                <td>{{ $asset->allocation ?? 'N/A' }}%</td>
+                            </tr>
+                        @endforeach
+                    @endif
+                </tbody>
+            </table>
         @endforeach
     @endforeach
+    
 </body>
 </html>
