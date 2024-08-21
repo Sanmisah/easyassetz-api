@@ -103,8 +103,21 @@ class WillGenerationController extends BaseController
     // Save PDF to storage
     Storage::put($filePath, $dompdf->output()); // Save the output to storage
 
+    if (!Storage::exists($filePath)) {
+        return response()->json(['error' => 'Failed to save PDF'], 500);
+    }
+
     // Output the PDF for download
-    return $dompdf->stream('will.pdf', ['Attachment' => 1]);
+    return response()->stream(
+        function () use ($dompdf) {
+            echo $dompdf->output();
+        },
+        200,
+        [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="will.pdf"',
+        ]
+    );
     
     //start
         // // Render the Blade view to HTML
