@@ -118,6 +118,8 @@ Route::group(['middleware'=>['auth:sanctum', 'request.null']], function(){
     Route::get('/will/allocate/{asset_id}/{asset_type}/{level}',[AssetAllocationController::class, 'getMultipleRecords']);
     Route::get('/asset-allocations/primary-beneficiaries/{asset_id}/{asset_type}/{level}',[AssetAllocationController::class, 'getPrimaryBeneficiaries']);
     Route::get('/generate-will', [WillGenerationController::class,'generateWill']);
+    Route::get('/download-will', [WillGenerationController::class,'downloadWill']);
+
 });
 Route::get('/file/{files}', [ProfileController::class, 'showFiles'])->where('files', '.*');
 // Route::get('/p/{files}', [ProfileController::class, 'showFiles'])->where('files', '.*');
