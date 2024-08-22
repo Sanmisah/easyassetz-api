@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('wills', function (Blueprint $table) {
             $table->id();
             $table->foreignId('profile_id')->constrained()->onDelete('cascade');
+            $table->timestamp('first_call_at')->nullable();
+            $table->timestamp('latest_call_at')->nullable();
+            $table->integer('call_count')->default(0);
             $table->timestamps();
         });
     }

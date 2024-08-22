@@ -10,6 +10,11 @@ class Will extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'first_call_at' => 'datetime',
+        'latest_call_at' => 'datetime',
+    ];
+
     protected $fillable = [
         'profile_id',
     ];

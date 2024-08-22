@@ -8,6 +8,7 @@ use Response;
 use Mpdf\Mpdf;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use App\Models\Will;
 use Barryvdh\DomPDF\PDF;
 use App\Models\Beneficiary;
 use Illuminate\Http\Request;
@@ -97,14 +98,105 @@ class WillGenerationController extends BaseController
 
     // Render the HTML as PDF
     $dompdf->render();
-
+     $username = $user->email;
+     $username = explode('@', $username)[0];
     // Define the file path for saving the PDF
-    $filePath = 'public/will/will' . time() . '.pdf'; // Store in 'storage/app/will'
+    $filePath = 'public/will/'. $willId . '_' . $username . '_'.'.pdf'; // Store in 'storage/app/will'
 
     // Save PDF to storage
     Storage::put($filePath, $dompdf->output()); // Save the output to storage
 
-    // if (!Storage::exists($filePath)) {
+        $path = storage_path('app/' . $filePath);
+        $fileName = basename($path);
+
+        $willData = Will::find($willId);
+        if(!$willData->first_call_at){
+            $willData->first_call_at = now()->setTimezone('Asia/Kolkata');
+        }
+        $willData->latest_call_at = now()->setTimezone('Asia/Kolkata');
+        $willData->call_count +=1;
+        $willData->save();
+        $formattedDate = now()->setTimezone('Asia/Kolkata')->format('d-m-Y');  // Example format: 21-08-2024
+        $formattedTime = now()->setTimezone('Asia/Kolkata')->format('H:i:s');
+        return response()->json(['success' => 'Will generated successfully',
+        'fileName'=>$fileName,
+        'firstCallDate'=>$willData->first_call_at->format('d-m-Y'),
+        'firstCallTime'=> $willData->first_call_at->format('H:i:s'),
+        'latestCallDate'=>  $formattedDate,
+        'latestCallTime'=>  $formattedTime,
+        'callCount' => $willData->call_count,
+      ], 200);
+    
+ }
+    
+
+    
+    public function downloadWill(string $pdfName){  
+        $decodedFilename = urldecode($pdfName);
+    
+        $path = storage_path('app/public/will/' . $decodedFilename);
+            
+            // Check if the file exists
+            if (!File::exists($path)) {
+                abort(404);
+            }
+            
+            // Get file content and MIME type
+            $fileName = basename($path);
+            $file = File::get($path);
+            $type = File::mimeType($path);
+            
+            // Create the response with headers
+            $response = Response::make($file, 200);
+            $response->header("Content-Type", $type);
+            $response->header('Content-Disposition', 'inline; filename="' . $fileName . '"');
+            
+            return $response;
+     }
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//download pdf code
+  // if (!Storage::exists($filePath)) {
     //     return response()->json(['error' => 'Failed to save PDF'], 500);
     // }
 
@@ -121,22 +213,26 @@ class WillGenerationController extends BaseController
     // );
 
 
-    
-    
-    $path = storage_path('app/' . $filePath);
 
-        
-        // Get file content and MIME type
-        $fileName = basename($path);
 
-    return response()->json(['success' => 'Will generated successfully', 'fileName'=>$fileName], 200);
-    
-    }
-    
 
-    
 
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     // public function showPdf(string $files){

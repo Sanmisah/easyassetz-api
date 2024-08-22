@@ -40,6 +40,7 @@
             @php
                 $asset = $allocations['primaryAllocation']->first() ?? $allocations['secondaryAllocation']->first() ?? $allocations['tertiaryAllocation']->first();
                 $assetName = 'Unknown';
+                $assetDescription = 'Unknown';
 
                 if ($asset) {
                     switch ($assetType) {
@@ -54,9 +55,11 @@
                             break;
                         case 'bullion':
                             $assetName = $asset->{$assetType}->metal_type ?? 'Unknown';
+                            $assetDescription = $asset->{$assetType}->article_details ?? 'Unknown';
                             break;
                         case 'membership':
                             $assetName = $asset->{$assetType}->organization_name ?? 'Unknown';
+                            $assetDescription = $asset->{$assetType}->membership_id ?? 'Unknown';
                             break;
                         case 'mutualFund':
                         case 'investmentFund':
@@ -82,18 +85,23 @@
                             break;
                         case 'watch':
                             $assetName = $asset->otherAsset->company ?? 'Unknown';
+                            $assetDescription = $asset->{$assetType}->model ?? 'Unknown';
                             break;
                         case 'huf':
                             $assetName = $asset->otherAsset->huf_name ?? 'Unknown';
+                            $assetDescription = $asset->{$assetType}->pan_number ?? 'Unknown';
                             break;
                         case 'vehicle':
                             $assetName = $asset->otherAsset->vehicle_type ?? 'Unknown';
+                            $assetDescription = $asset->{$assetType}->model ?? 'Unknown';
                             break;
                         case 'otherAsset':
                             $assetName = $asset->otherAsset->name_of_asset ?? 'Unknown';
+                            $assetDescription = $asset->{$assetType}->asset_description ?? 'Unknown';
                             break;
                         case 'recoverable':
                             $assetName = $asset->otherAsset->name_of_borrower ?? 'Unknown';
+                            $assetDescription = $asset->{$assetType}->address ?? 'Unknown';
                             break;
                         case 'propritorship':
                             $assetName = $asset->businessAsset->firm_name ?? 'Unknown';
@@ -146,6 +154,7 @@
                             break;
                         case 'crypto':
                             $assetName = $asset->{$assetType}->crypto_wallet_type ?? 'Unknown';
+                            $assetDescription = $asset->{$assetType}->crypto_wallet_type ?? 'Unknown';
                             break;
                         case 'digitalAsset':
                             $assetName = $asset->{$assetType}->digital_asset ?? 'Unknown';
