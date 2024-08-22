@@ -26,7 +26,7 @@ class UserController extends BaseController
              'name'=>'required|string|max:255',
              'email'=>['required', 'email:rfc,dns', 'unique:users'],
              'mobile'=>['required', 'unique:users'],  
-             'password'=>'required|string|min:6|confirmed',
+             'password'=>'required|string|min:8|confirmed',
              'password_confirmation'=>'required'
         ]);
 

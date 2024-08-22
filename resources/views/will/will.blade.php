@@ -45,7 +45,7 @@
         <div class="date">{{ $will->latest_call_at->format('H:i:s') }}</div>
         <div class="date">First Generated Date: {{ $will->first_call_at->format('d-m-Y') }}</div>
         <div class="date">First Generated Time: {{ $will->first_call_at->format('H:i:s') }}</div>
-        <div class="date">Will Generated {{$will->call_count}} times.</div>
+        <div class="date">Count {{$will->call_count}}</div>
     </div>
     {{-- <div class="info">
         
@@ -74,6 +74,10 @@
                         case 'lifeInsurance':
                         case 'healthInsurance':
                         case 'generalInsurance':
+                        case 'otherInsurance':
+                            $assetName = $asset->{$assetType}->company_name ?? 'Unknown';
+                            $assetDescription = $asset->{$assetType}->policy_number ?? 'Unknown';
+                            break;
                         case 'superAnnuation':
                             $assetName = $asset->{$assetType}->company_name ?? 'Unknown';
                             $assetDescription = null;
