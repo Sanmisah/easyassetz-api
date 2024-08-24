@@ -580,7 +580,7 @@ class AssetController extends BaseController
             {
                 $PrimaryBeneficiaryData[] = [
                     "id" => $primaryItem->beneficiary_id,
-                    "fullName" => Beneficiary::where('id', $primaryItem->beneficiary_id)->first()->full_legal_name,
+                    "fullLegalName" => Beneficiary::where('id', $primaryItem->beneficiary_id)->first()->full_legal_name,
                     "Allocation" => $primaryItem->allocation,
                     "relationship" => Beneficiary::where('id', $primaryItem->beneficiary_id)->first()->relationship,
                  ];
@@ -598,7 +598,7 @@ class AssetController extends BaseController
                 {
                     $SecondaryBeneficiaryData[] = [
                         "id" => $secondaryItem->beneficiary_id,
-                        "fullName" => Beneficiary::where('id', $secondaryItem->beneficiary_id)->first()->full_legal_name,
+                        "fullLegalName" => Beneficiary::where('id', $secondaryItem->beneficiary_id)->first()->full_legal_name,
                         "Allocation" => $secondaryItem->allocation,
                         "relationship" => Beneficiary::where('id', $secondaryItem->beneficiary_id)->first()->relationship,
                      ];
@@ -616,7 +616,7 @@ class AssetController extends BaseController
                 {
                     $TertiaryBeneficiaryData[] = [
                         "id" => $tertiaryItem->beneficiary_id,
-                        "fullName" => Beneficiary::where('id', $tertiaryItem->beneficiary_id)->first()->full_legal_name,
+                        "fullLegalName" => Beneficiary::where('id', $tertiaryItem->beneficiary_id)->first()->full_legal_name,
                         "Allocation" => $tertiaryItem->allocation,
                         "relationship" => Beneficiary::where('id', $tertiaryItem->beneficiary_id)->first()->relationship,
                      ];
