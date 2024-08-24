@@ -30,6 +30,8 @@ class LifeInsurance extends Model
     // {
     //     return $this->morphMany(AssetAllocation::class, 'asset');
     // }
+
+   
     
 
     public function setMaturityDateAttribute($value)

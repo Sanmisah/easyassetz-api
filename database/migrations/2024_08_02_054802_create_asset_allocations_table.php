@@ -16,12 +16,22 @@ return new class extends Migration
             $table->foreignId('will_id')->constrained()->onDelete('cascade');
             $table->foreignId('beneficiary_id')->constrained()->onDelete('cascade');
             $table->enum('level', ['Primary', 'Secondary', 'Tertiary'])->nullable();
-            $table->unsignedBigInteger('asset_id')->nullable(); // Change from bigInteger
+            $table->bigInteger('asset_id')->nullable(); // Change from bigInteger
             $table->string('asset_type')->nullable();
             $table->decimal('allocation',10,2)->nullable();
             $table->timestamps();
 
-            $table->index(['asset_id', 'asset_type']); // Index for better performance
+        
+            // $table->id();
+            // $table->foreignId('will_id')->constrained()->onDelete('cascade');
+            // $table->foreignId('beneficiary_id')->constrained()->onDelete('cascade');
+            // $table->enum('level', ['Primary', 'Secondary', 'Tertiary'])->nullable();
+            // $table->unsignedBigInteger('asset_id')->nullable(); // Change from bigInteger
+            // $table->string('asset_type')->nullable();
+            // $table->decimal('allocation',10,2)->nullable();
+            // $table->timestamps();
+    
+            // $table->index(['asset_id', 'asset_type']); // Index for better performance
         });
     }
 

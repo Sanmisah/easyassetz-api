@@ -50,7 +50,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class AssetAllocation extends Model
 {
     use HasFactory;
-
+    // App\Models\LifeInsurance
     protected $fillable = [
         'will_id',
         'beneficiary_id',
@@ -61,10 +61,13 @@ class AssetAllocation extends Model
     ];
 
 
+    //for deleting record from asset_allocations when asset is deleted.
+    //in asset_type column u have to store App\Models\LifeInsurance for this to work.
     // public function asset()
     // {
     //     return $this->morphTo();
     // }
+
     
     public function beneficiary(){
         return $this->belongsTo(Beneficiary::class, 'beneficiary_id');
