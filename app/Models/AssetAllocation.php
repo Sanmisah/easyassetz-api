@@ -61,6 +61,11 @@ class AssetAllocation extends Model
     ];
 
 
+    // public function asset()
+    // {
+    //     return $this->morphTo();
+    // }
+    
     public function beneficiary(){
         return $this->belongsTo(Beneficiary::class, 'beneficiary_id');
     }

@@ -579,8 +579,10 @@ class AssetController extends BaseController
             foreach($primaryData as $primaryItem)
             {
                 $PrimaryBeneficiaryData[] = [
+                    "id" => $primaryItem->beneficiary_id,
                     "fullName" => Beneficiary::where('id', $primaryItem->beneficiary_id)->first()->full_legal_name,
                     "Allocation" => $primaryItem->allocation,
+                    "relationship" => Beneficiary::where('id', $primaryItem->beneficiary_id)->first()->relationship,
                  ];
                 }
 
@@ -595,8 +597,10 @@ class AssetController extends BaseController
                 foreach($secondaryData as $secondaryItem)
                 {
                     $SecondaryBeneficiaryData[] = [
+                        "id" => $secondaryItem->beneficiary_id,
                         "fullName" => Beneficiary::where('id', $secondaryItem->beneficiary_id)->first()->full_legal_name,
                         "Allocation" => $secondaryItem->allocation,
+                        "relationship" => Beneficiary::where('id', $secondaryItem->beneficiary_id)->first()->relationship,
                      ];
                     }
 
@@ -611,8 +615,10 @@ class AssetController extends BaseController
                 foreach($tertiaryData as $tertiaryItem)
                 {
                     $TertiaryBeneficiaryData[] = [
+                        "id" => $tertiaryItem->beneficiary_id,
                         "fullName" => Beneficiary::where('id', $tertiaryItem->beneficiary_id)->first()->full_legal_name,
                         "Allocation" => $tertiaryItem->allocation,
+                        "relationship" => Beneficiary::where('id', $tertiaryItem->beneficiary_id)->first()->relationship,
                      ];
                     }
              

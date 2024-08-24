@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use App\Models\Beneficiary;
+use App\Models\AssetAllocation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -14,6 +15,22 @@ class LifeInsurance extends Model
     public $table = 'life_insurances';
     public $primaryKey = 'id';
 
+
+    // protected static function boot()
+    // {
+    //     parent::boot();
+
+    //     static::deleting(function ($lifeInsurance) {
+    //         // Delete related asset allocations
+    //         $lifeInsurance->assetAllocations()->delete();
+    //     });
+    // }
+    
+    // public function assetAllocations()
+    // {
+    //     return $this->morphMany(AssetAllocation::class, 'asset');
+    // }
+    
 
     public function setMaturityDateAttribute($value)
     {
