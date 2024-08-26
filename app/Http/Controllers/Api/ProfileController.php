@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Api;
 use Log;
 use File;
 use Response;
+use App\Mail\testMail;
 use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Resources\ProfileResource;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreProfileRequest;
@@ -167,23 +169,6 @@ class ProfileController extends BaseController
     {
         //
     }
-
-    // public function showAadharFiles(string $files){
-    //      $path = storage_path('app/public/profiles/aadharFile/'.$files);
-
-    //      if(!file_exists($path)){
-    //         abort(404);
-    //      }
-
-    //      $file = File::get($path);
-    //      $type = \File::mimeType($path);
-
-    //      $response = Response::make($file, 200);
-    //      $response->header("Content-Type", $type);
-    //      $response->header('Content-Disposition', 'inline; filename="' . $files . '"');
-
-    //      return $response;
-    // }
 
 
 

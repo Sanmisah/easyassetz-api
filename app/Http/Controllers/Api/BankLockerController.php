@@ -30,12 +30,12 @@ class BankLockerController extends BaseController
      */
     public function store(StoreBankLockerRequest $request): JsonResponse
     {
-        if($request->hasFile('bankLockerImage')){
-            $bankFileNameWithExtention = $request->file('bankLockerImage')->getClientOriginalName();
+        if($request->hasFile('image')){
+            $bankFileNameWithExtention = $request->file('image')->getClientOriginalName();
             $bankFilename = pathinfo($bankFileNameWithExtention, PATHINFO_FILENAME);
-            $bankExtention = $request->file('bankLockerImage')->getClientOriginalExtension();
+            $bankExtention = $request->file('image')->getClientOriginalExtension();
             $bankFileNameToStore = $bankFilename.'_'.time().'.'.$bankExtention;
-            $bankPath = $request->file('bankLockerImage')->storeAs('public/BankLocker', $bankFileNameToStore);
+            $bankPath = $request->file('image')->storeAs('public/BankLocker', $bankFileNameToStore);
          }
 
         $user = Auth::user();
@@ -50,7 +50,7 @@ class BankLockerController extends BaseController
         $bankLocker->rent_due_date = $request->input('rentDueDate');
         $bankLocker->annual_rent = $request->input('annualRent');
         $bankLocker->additional_details = $request->input('additionalDetails');
-        if($request->hasFile('bankLockerImage')){
+        if($request->hasFile('image')){
             $bankLocker->image = $bankFileNameToStore;
          } 
         $bankLocker->save();
@@ -110,17 +110,17 @@ class BankLockerController extends BaseController
            return $this->sendError('Unauthorized', ['error'=>'You are not allowed to view this Bank Locker']);
          }
          
-        if($request->hasFile('bankLockerImage')){
+        if($request->hasFile('image')){
 
             if(!empty($bankLocker->image) && Storage::exists('public/BankLocker/'.$bankLocker->image)) {
                 Storage::delete('public/BankLocker/'.$bankLocker->image);
             }
 
-            $bankFileNameWithExtention = $request->file('bankLockerImage')->getClientOriginalName();
+            $bankFileNameWithExtention = $request->file('image')->getClientOriginalName();
             $bankFilename = pathinfo($bankFileNameWithExtention, PATHINFO_FILENAME);
-            $bankExtention = $request->file('bankLockerImage')->getClientOriginalExtension();
+            $bankExtention = $request->file('image')->getClientOriginalExtension();
             $bankFileNameToStore = $bankFilename.'_'.time().'.'.$bankExtention;
-            $bankPath = $request->file('bankLockerImage')->storeAs('public/BankLocker', $bankFileNameToStore);
+            $bankPath = $request->file('image')->storeAs('public/BankLocker', $bankFileNameToStore);
          }
 
           $bankLocker->bank_name = $request->input('bankName');
@@ -132,7 +132,7 @@ class BankLockerController extends BaseController
           $bankLocker->rent_due_date = $request->input('rentDueDate');
           $bankLocker->annual_rent = $request->input('annualRent');
           $bankLocker->additional_details = $request->input('additionalDetails');
-          if($request->hasFile('bankLockerImage')){
+          if($request->hasFile('image')){
               $bankLocker->image = $bankFileNameToStore;
            } 
           $bankLocker->save();
